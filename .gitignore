@@ -2,3 +2,16 @@
 /build/
 /.cache/
 /.claude/
+
+# Large references are fetched sparsely by scripts/fetch-third-party.py.
+/third_party/impl-loader/android-bionic/
+/third_party/impl-loader/freebsd-src/
+/third_party/impl-loader/glibc/
+/third_party/impl-loader/illumos-gate/
+/third_party/impl-loader/netbsd-src/
+/third_party/impl-loader/openbsd-src/
+/third_party/impl-loader/qemu/
+/third_party/impl-linker/binutils-gdb/
+/third_party/impl-linker/go/
+/third_party/impl-linker/llvm-project/
+/third_party/impl-linker/zig/

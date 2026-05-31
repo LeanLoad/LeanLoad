@@ -21,6 +21,16 @@ Implementation repos should prefer a `THIRD_PARTY_DIR` setting or paths through
 the umbrella checkout instead of adding duplicate submodules. Keep deliberately
 different version pins local to the consuming repo until they are reconciled.
 
+Large repositories are not submodules. Fetch only the relevant paths with:
+
+```sh
+scripts/fetch-third-party.py list
+scripts/fetch-third-party.py llvm-project qemu
+scripts/fetch-third-party.py all
+```
+
+The script creates ignored sparse checkouts at the paths listed below.
+
 ## Where to look
 
 | Repo | Useful ELF / loader paths |
