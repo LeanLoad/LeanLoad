@@ -17,9 +17,8 @@ third_party/    # shared specs, references, and fixture build deps
   impl-loader/     # concrete runtime loader implementations
   impl-kernel/     # kernel ELF exec loaders and OS exec ABI support
   impl-linker/     # linker implementations and linker-capable toolchains
-  impl-tool/       # binary inspection and rewriting tools
+  impl-tool/       # binary inspection, parsing, and rewriting tools
   impl-lib/        # ELF/object libraries
-  impl-parser/     # parser-only implementation references
   lean-ref/        # Lean tooling, books, and reference libraries
   related-elf/     # related verified-loader / ELF work
   related-lean/    # related Lean verification work

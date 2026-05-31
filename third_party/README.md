@@ -9,9 +9,8 @@ abi/              ELF ABI standards and psABI references
 impl-loader/      concrete runtime loader implementations
 impl-kernel/      kernel ELF exec loaders and OS exec ABI support
 impl-linker/      linker implementations and linker-capable toolchains
-impl-tool/        binary inspection and rewriting tools
+impl-tool/        binary inspection, parsing, and rewriting tools
 impl-lib/         ELF/object libraries
-impl-parser/      parser-only implementation references
 lean-ref/         Lean tooling, books, and reference libraries
 related-elf/      related verified-loader / ELF work
 related-lean/     related Lean verification work
@@ -53,11 +52,11 @@ The script creates ignored sparse checkouts at the paths listed below.
 | `impl-linker/zig` | `src/link/Elf.zig`, `src/link/Elf/`, `src/arch/*/CodeGen.zig`, `lib/std/elf.zig`. |
 | `impl-tool/patchelf` | `src/patchelf.cc` for practical ELF rewriting. |
 | `impl-tool/pax-utils` | `scanelf.c`, `lddtree.py`, and related binary-inspection utilities. |
-| `impl-lib/elfutils` | `libelf/`, `libdwelf/`, `src/readelf.c`, `src/elflint.c`, `src/objdump.c`. |
+| `impl-tool/elfutils` | `libelf/`, `libdwelf/`, `src/readelf.c`, `src/elflint.c`, `src/objdump.c`. |
 | `impl-lib/lief` | `include/LIEF/ELF/`, `src/ELF/`, `api/python/src/ELF/`. |
 | `impl-lib/elfio` | `elfio/elfio.hpp`, `examples/`. |
 | `impl-lib/gimli-object` | `src/read/elf/`, `src/write/elf/`, `src/elf.rs`. |
-| `impl-parser/pyelftools` | `elftools/elf/`, especially `elffile.py`, `sections.py`, `segments.py`, `dynamic.py`, `relocation.py`. |
+| `impl-tool/pyelftools` | `elftools/elf/`, especially `elffile.py`, `sections.py`, `segments.py`, `dynamic.py`, `relocation.py`. |
 | `related-elf/elfsage` | Related ELF analysis/spec work. |
 | `related-elf/linksem` | Related executable/linker semantics. |
 | `related-elf/minimal-elf` | Minimal ELF examples and explanations. |

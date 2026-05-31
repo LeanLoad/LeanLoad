@@ -85,9 +85,6 @@
 [submodule "third_party/impl-tool/pax-utils"]
 	path = third_party/impl-tool/pax-utils
 	url = https://github.com/gentoo/pax-utils.git
-[submodule "third_party/impl-lib/elfutils"]
-	path = third_party/impl-lib/elfutils
-	url = https://sourceware.org/git/elfutils.git
 [submodule "third_party/impl-lib/lief"]
 	path = third_party/impl-lib/lief
 	url = https://github.com/lief-project/LIEF.git
@@ -97,9 +94,12 @@
 [submodule "third_party/impl-lib/gimli-object"]
 	path = third_party/impl-lib/gimli-object
 	url = https://github.com/gimli-rs/object.git
-[submodule "third_party/impl-parser/pyelftools"]
-	path = third_party/impl-parser/pyelftools
-	url = https://github.com/eliben/pyelftools.git
 [submodule "third_party/impl-linker/mold"]
 	path = third_party/impl-linker/mold
 	url = https://github.com/rui314/mold.git
+[submodule "third_party/impl-tool/elfutils"]
+	path = third_party/impl-tool/elfutils
+	url = https://sourceware.org/git/elfutils.git
+[submodule "third_party/impl-tool/pyelftools"]
+	path = third_party/impl-tool/pyelftools
+	url = https://github.com/eliben/pyelftools.git
