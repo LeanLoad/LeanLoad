@@ -14,10 +14,11 @@ LeanOnWasm/     # Lean-on-WebAssembly demo repo
 WhatTheElf/     # related ELF repo
 third_party/    # shared specs, references, and fixture build deps
   abi/          # gABI, GNU ABI extensions, psABI references
-  loader/       # libc / dynamic-loader / ELF tooling implementations
-  lean/         # Lean tooling, books, and reference libraries
-  formats/      # parser/schema/formal binary-format references
-  related/      # related verified-loader / ELF / systems work
+  impl/         # concrete ABI / loader / ELF tool implementations
+  lean-ref/     # Lean tooling, books, and reference libraries
+  related-elf/  # related verified-loader / ELF work
+  related-lean/ # related Lean verification work
+  related-parser/ # related parser / binary-format work
 ```
 
 ## Quick start
@@ -30,7 +31,7 @@ make run
 ```
 
 `setup.sh` installs the system C toolchain and elan, then initializes the
-top-level project submodules plus `third_party/loader/musl` for the end-to-end
+top-level project submodules plus `third_party/impl/musl` for the end-to-end
 ElfLoader fixture run. Each Lean submodule owns its own `lean-toolchain`;
 the umbrella repo intentionally does not duplicate one. Initialize all
 reference/spec submodules with:

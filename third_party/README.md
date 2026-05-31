@@ -3,11 +3,12 @@
 Shared, pinned references for the LeanLoad umbrella checkout.
 
 ```text
-abi/       ELF ABI standards and psABI references
-loader/    libc, dynamic loader, and ELF tooling implementations
-lean/      Lean tooling, books, and reference libraries
-formats/   parser/schema/formal binary-format references
-related/   related verified-loader, ELF, and systems work
+abi/              ELF ABI standards and psABI references
+impl/             concrete ABI / loader / ELF tool implementations
+lean-ref/         Lean tooling, books, and reference libraries
+related-elf/      related verified-loader / ELF work
+related-lean/     related Lean verification work
+related-parser/   related parser / binary-format work
 ```
 
 Implementation repos should prefer a `THIRD_PARTY_DIR` setting or paths through

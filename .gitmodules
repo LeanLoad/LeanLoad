@@ -25,63 +25,63 @@
 [submodule "third_party/abi/x86-64-abi"]
 	path = third_party/abi/x86-64-abi
 	url = https://gitlab.com/x86-psABIs/x86-64-ABI.git
-[submodule "third_party/loader/elfutils"]
-	path = third_party/loader/elfutils
+[submodule "third_party/impl/elfutils"]
+	path = third_party/impl/elfutils
 	url = https://sourceware.org/git/elfutils.git
-[submodule "third_party/loader/glibc"]
-	path = third_party/loader/glibc
+[submodule "third_party/impl/glibc"]
+	path = third_party/impl/glibc
 	url = https://sourceware.org/git/glibc.git
-[submodule "third_party/loader/musl"]
-	path = third_party/loader/musl
+[submodule "third_party/impl/musl"]
+	path = third_party/impl/musl
 	url = https://github.com/kraj/musl.git
-[submodule "third_party/lean/lean4-skills"]
-	path = third_party/lean/lean4-skills
+[submodule "third_party/lean-ref/lean4-skills"]
+	path = third_party/lean-ref/lean4-skills
 	url = https://github.com/cameronfreer/lean4-skills.git
-[submodule "third_party/lean/lean4lean"]
-	path = third_party/lean/lean4lean
-	url = https://github.com/digama0/lean4lean.git
-[submodule "third_party/lean/fp-lean"]
-	path = third_party/lean/fp-lean
+[submodule "third_party/lean-ref/fp-lean"]
+	path = third_party/lean-ref/fp-lean
 	url = https://github.com/leanprover/fp-lean.git
-[submodule "third_party/lean/lean4-metaprogramming-book"]
-	path = third_party/lean/lean4-metaprogramming-book
+[submodule "third_party/lean-ref/lean4-metaprogramming-book"]
+	path = third_party/lean-ref/lean4-metaprogramming-book
 	url = https://github.com/leanprover-community/lean4-metaprogramming-book.git
-[submodule "third_party/formats/daedalus"]
-	path = third_party/formats/daedalus
+[submodule "third_party/related-parser/daedalus"]
+	path = third_party/related-parser/daedalus
 	url = https://github.com/GaloisInc/daedalus.git
-[submodule "third_party/formats/everparse"]
-	path = third_party/formats/everparse
+[submodule "third_party/related-parser/everparse"]
+	path = third_party/related-parser/everparse
 	url = https://github.com/project-everest/everparse.git
-[submodule "third_party/formats/kaitai-struct-formats"]
-	path = third_party/formats/kaitai-struct-formats
+[submodule "third_party/related-parser/kaitai-struct-formats"]
+	path = third_party/related-parser/kaitai-struct-formats
 	url = https://github.com/kaitai-io/kaitai_struct_formats.git
-[submodule "third_party/formats/project-everest.github.io"]
-	path = third_party/formats/project-everest.github.io
+[submodule "third_party/related-parser/project-everest.github.io"]
+	path = third_party/related-parser/project-everest.github.io
 	url = https://github.com/project-everest/project-everest.github.io.git
-[submodule "third_party/formats/vest"]
-	path = third_party/formats/vest
+[submodule "third_party/related-parser/vest"]
+	path = third_party/related-parser/vest
 	url = https://github.com/secure-foundations/vest.git
-[submodule "third_party/related/cedar-spec"]
-	path = third_party/related/cedar-spec
-	url = https://github.com/cedar-policy/cedar-spec.git
-[submodule "third_party/related/elfsage"]
-	path = third_party/related/elfsage
+[submodule "third_party/related-elf/elfsage"]
+	path = third_party/related-elf/elfsage
 	url = https://github.com/draperlaboratory/ELFSage.git
-[submodule "third_party/related/linksem"]
-	path = third_party/related/linksem
+[submodule "third_party/related-elf/linksem"]
+	path = third_party/related-elf/linksem
 	url = https://github.com/rems-project/linksem.git
-[submodule "third_party/related/lnsym"]
-	path = third_party/related/lnsym
-	url = https://github.com/leanprover/LNSym.git
-[submodule "third_party/related/minimal-elf"]
-	path = third_party/related/minimal-elf
+[submodule "third_party/related-elf/minimal-elf"]
+	path = third_party/related-elf/minimal-elf
 	url = https://github.com/tchajed/minimal-elf
-[submodule "third_party/related/sampcert"]
-	path = third_party/related/sampcert
-	url = https://github.com/leanprover/SampCert.git
-[submodule "third_party/related/veil"]
-	path = third_party/related/veil
-	url = https://github.com/verse-lab/veil.git
-[submodule "third_party/related/veriload"]
-	path = third_party/related/veriload
+[submodule "third_party/related-elf/veriload"]
+	path = third_party/related-elf/veriload
 	url = https://github.com/ShawnZhong/VeriLoad.git
+[submodule "third_party/related-lean/cedar-spec"]
+	path = third_party/related-lean/cedar-spec
+	url = https://github.com/cedar-policy/cedar-spec.git
+[submodule "third_party/related-lean/lean4lean"]
+	path = third_party/related-lean/lean4lean
+	url = https://github.com/digama0/lean4lean.git
+[submodule "third_party/related-lean/lnsym"]
+	path = third_party/related-lean/lnsym
+	url = https://github.com/leanprover/LNSym.git
+[submodule "third_party/related-lean/sampcert"]
+	path = third_party/related-lean/sampcert
+	url = https://github.com/leanprover/SampCert.git
+[submodule "third_party/related-lean/veil"]
+	path = third_party/related-lean/veil
+	url = https://github.com/verse-lab/veil.git
