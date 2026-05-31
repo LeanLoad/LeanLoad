@@ -130,3 +130,9 @@
 [submodule "third_party/impl-loader/illumos-gate"]
 	path = third_party/impl-loader/illumos-gate
 	url = https://github.com/illumos/illumos-gate.git
+[submodule "third_party/impl-linker/zig"]
+	path = third_party/impl-linker/zig
+	url = https://github.com/ziglang/zig.git
+[submodule "third_party/impl-loader/qemu"]
+	path = third_party/impl-loader/qemu
+	url = https://gitlab.com/qemu-project/qemu.git

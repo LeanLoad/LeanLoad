@@ -34,10 +34,12 @@ different version pins local to the consuming repo until they are reconciled.
 | `impl-loader/musl` | `ldso/dynlink.c`, `crt/*`, `arch/*/reloc.h`. |
 | `impl-loader/netbsd-src` | `libexec/ld.elf_so/`, plus ELF constants in `sys/sys/exec_elf.h`. |
 | `impl-loader/openbsd-src` | `libexec/ld.so/`, plus ELF constants in `sys/sys/exec_elf.h`. |
+| `impl-loader/qemu` | `linux-user/elfload.c`, `bsd-user/elfload.c`, `hw/core/loader.c`, `include/hw/elf_ops.h`. |
 | `impl-linker/binutils-gdb` | `bfd/elf*.c`, `binutils/readelf.c`, `binutils/objdump.c`, `ld/`, `gas/`. |
 | `impl-linker/go` | `src/debug/elf/`, `src/cmd/link/internal/ld/`, `src/cmd/link/internal/loader/`. |
 | `impl-linker/llvm-project` | `llvm/include/llvm/Object/ELF*.h`, `llvm/lib/Object/ELF*.cpp`, `llvm/tools/llvm-readobj/`, `llvm/tools/llvm-objdump/`, `lld/ELF/`. |
 | `impl-linker/mold` | `elf/` for the modern ELF linker implementation. |
+| `impl-linker/zig` | `src/link/Elf.zig`, `src/link/Elf/`, `src/arch/*/CodeGen.zig`, `lib/std/elf.zig`. |
 | `impl-tool/patchelf` | `src/patchelf.cc` for practical ELF rewriting. |
 | `impl-tool/pax-utils` | `scanelf.c`, `lddtree.py`, and related binary-inspection utilities. |
 | `impl-lib/elfutils` | `libelf/`, `libdwelf/`, `src/readelf.c`, `src/elflint.c`, `src/objdump.c`. |
