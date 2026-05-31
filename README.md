@@ -15,6 +15,7 @@ WhatTheElf/     # related ELF repo
 third_party/    # shared specs, references, and fixture build deps
   abi/             # gABI, GNU ABI extensions, psABI references
   impl-loader/     # concrete runtime loader implementations
+  impl-kernel/     # kernel ELF exec loaders and OS exec ABI support
   impl-linker/     # linker implementations and linker-capable toolchains
   impl-tool/       # binary inspection and rewriting tools
   impl-lib/        # ELF/object libraries

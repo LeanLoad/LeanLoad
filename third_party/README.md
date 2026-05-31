@@ -7,6 +7,7 @@ Shared, pinned references for the LeanLoad umbrella checkout.
 ```text
 abi/              ELF ABI standards and psABI references
 impl-loader/      concrete runtime loader implementations
+impl-kernel/      kernel ELF exec loaders and OS exec ABI support
 impl-linker/      linker implementations and linker-capable toolchains
 impl-tool/        binary inspection and rewriting tools
 impl-lib/         ELF/object libraries
@@ -36,13 +37,13 @@ The script creates ignored sparse checkouts at the paths listed below.
 | `abi/gabi` | `docsrc/elf/*.rst` for generic ELF and dynamic-linking rules. |
 | `abi/x86-64-abi` | x86-64 psABI processor-specific ELF details and relocation semantics. |
 | `impl-loader/android-bionic` | `linker/`, `libdl/`, `libc/`, and Android-specific runtime linking behavior. |
-| `impl-loader/freebsd-src` | `libexec/rtld-elf/`, plus ELF constants in `sys/sys/elf*.h`. |
 | `impl-loader/glibc` | `elf/dl-load.c`, `elf/rtld.c`, `elf/dl-reloc.c`, `elf/dl-lookup.c`, `elf/dynamic-link.h`. |
-| `impl-loader/illumos-gate` | Userspace loader in `usr/src/cmd/sgs/rtld/`; linker support in `usr/src/cmd/sgs/libld/`; kernel ELF definitions in `usr/src/uts/common/sys/elf*.h`. |
 | `impl-loader/musl` | `ldso/dynlink.c`, `crt/*`, `arch/*/reloc.h`. |
-| `impl-loader/netbsd-src` | Userspace loader in `libexec/ld.elf_so/`; kernel ELF exec support and constants around `sys/sys/exec_elf.h`. |
-| `impl-loader/openbsd-src` | Userspace loader in `libexec/ld.so/`; kernel ELF exec support and constants around `sys/sys/exec_elf.h`. |
 | `impl-loader/qemu` | `linux-user/elfload.c`, `bsd-user/elfload.c`, `hw/core/loader.c`, `include/hw/elf_ops.h`. |
+| `impl-kernel/freebsd-src` | Kernel ELF exec support and constants around `sys/sys/elf*.h`; userspace rtld in `libexec/rtld-elf/`. |
+| `impl-kernel/illumos-gate` | Kernel ELF definitions in `usr/src/uts/common/sys/elf*.h`; userspace loader in `usr/src/cmd/sgs/rtld/`. |
+| `impl-kernel/netbsd-src` | Kernel ELF exec support and constants around `sys/sys/exec_elf.h`; userspace loader in `libexec/ld.elf_so/`. |
+| `impl-kernel/openbsd-src` | Kernel ELF exec support and constants around `sys/sys/exec_elf.h`; userspace loader in `libexec/ld.so/`. |
 | `impl-linker/binutils-gdb` | `bfd/elf*.c`, `binutils/readelf.c`, `binutils/objdump.c`, `ld/`, `gas/`. |
 | `impl-linker/go` | `src/debug/elf/`, `src/cmd/link/internal/ld/`, `src/cmd/link/internal/loader/`. |
 | `impl-linker/llvm-project` | `llvm/include/llvm/Object/ELF*.h`, `llvm/lib/Object/ELF*.cpp`, `llvm/tools/llvm-readobj/`, `llvm/tools/llvm-objdump/`, `lld/ELF/`. |

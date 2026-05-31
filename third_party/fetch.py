@@ -4,60 +4,50 @@
 from __future__ import annotations
 
 import subprocess
-import sys
-from dataclasses import dataclass
 from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
-@dataclass(frozen=True)
-class Source:
-    path: str
-    url: str
-    commit: str
-    sparse: tuple[str, ...]
-
-
-SOURCES: tuple[Source, ...] = (
-    Source(
+SOURCES = [
+    (
         "third_party/impl-loader/android-bionic",
         "https://android.googlesource.com/platform/bionic",
         "731631f300090436d7f5df80d50b6275c8c60a93",
         ("linker", "libdl", "libc"),
     ),
-    Source(
+    (
         "third_party/impl-linker/binutils-gdb",
         "https://sourceware.org/git/binutils-gdb.git",
         "6b7aea6e0c3a0c9fa4d9392952a5fe53f46120d2",
         ("bfd", "binutils", "gas", "include", "ld"),
     ),
-    Source(
-        "third_party/impl-loader/freebsd-src",
+    (
+        "third_party/impl-kernel/freebsd-src",
         "https://github.com/freebsd/freebsd-src.git",
         "b53eab322946e88fb95ea4e143d1147d3de18d04",
         ("libexec/rtld-elf", "sys/sys"),
     ),
-    Source(
+    (
         "third_party/impl-loader/glibc",
         "https://sourceware.org/git/glibc.git",
         "79dbb41f159a4defe75f59a8f491d136236d1f7a",
         ("elf", "sysdeps"),
     ),
-    Source(
-        "third_party/impl-loader/illumos-gate",
+    (
+        "third_party/impl-kernel/illumos-gate",
         "https://github.com/illumos/illumos-gate.git",
         "b32229105ff0363d3ca16ede5eeaa6affdba6615",
         ("usr/src/cmd/sgs/rtld", "usr/src/cmd/sgs/libld", "usr/src/uts/common/sys"),
     ),
-    Source(
+    (
         "third_party/impl-linker/go",
         "https://github.com/golang/go.git",
         "7bd807271cf4ee370b1a2499e863c4fcb6bf7301",
         ("src/debug/elf", "src/cmd/link/internal/ld", "src/cmd/link/internal/loader"),
     ),
-    Source(
+    (
         "third_party/impl-linker/llvm-project",
         "https://github.com/llvm/llvm-project.git",
         "80f6b7641ef95d435a9e641970291375e3013cbe",
@@ -70,31 +60,31 @@ SOURCES: tuple[Source, ...] = (
             "llvm/tools/llvm-readobj",
         ),
     ),
-    Source(
+    (
         "third_party/impl-loader/qemu",
         "https://gitlab.com/qemu-project/qemu.git",
         "81cc5f39aa3042e9c0b2ea772b42a2c8b1488e76",
         ("bsd-user", "hw/core", "include/hw", "linux-user"),
     ),
-    Source(
-        "third_party/impl-loader/netbsd-src",
+    (
+        "third_party/impl-kernel/netbsd-src",
         "https://github.com/NetBSD/src.git",
         "c56a2ae17f7f85c3b1d752220b58d2b54c0ed9a2",
         ("libexec/ld.elf_so", "sys/sys"),
     ),
-    Source(
-        "third_party/impl-loader/openbsd-src",
+    (
+        "third_party/impl-kernel/openbsd-src",
         "https://github.com/openbsd/src.git",
         "b67053e1736e5da02fa744e25e1077cb86bfd81c",
         ("libexec/ld.so", "sys/sys"),
     ),
-    Source(
+    (
         "third_party/impl-linker/zig",
         "https://github.com/ziglang/zig.git",
         "738d2be9d6b6ef3ff3559130c05159ef53336224",
         ("lib/std/elf.zig", "src/arch", "src/link/Elf", "src/link/Elf.zig"),
     ),
-)
+]
 
 
 def run(cmd: list[str], cwd: Path | None = None) -> None:
@@ -102,34 +92,25 @@ def run(cmd: list[str], cwd: Path | None = None) -> None:
     subprocess.run(cmd, cwd=cwd, check=True)
 
 
-def fetch(source: Source) -> None:
-    dest = ROOT / source.path
+def fetch(path: str, url: str, commit: str, sparse: tuple[str, ...]) -> None:
+    dest = ROOT / path
     if dest.exists() and not ((dest / ".git").exists()):
         if any(dest.iterdir()):
-            raise SystemExit(f"{source.path} exists but is not a git checkout")
+            raise SystemExit(f"{path} exists but is not a git checkout")
         dest.rmdir()
 
     if not dest.exists():
-        run(["git", "clone", "--filter=blob:none", "--no-checkout", source.url, str(dest)])
+        run(["git", "clone", "--filter=blob:none", "--no-checkout", url, str(dest)])
 
     run(["git", "sparse-checkout", "init", "--no-cone"], cwd=dest)
-    run(["git", "sparse-checkout", "set", *source.sparse], cwd=dest)
+    run(["git", "sparse-checkout", "set", *sparse], cwd=dest)
     try:
-        run(["git", "fetch", "--filter=blob:none", "--depth", "1", "origin", source.commit], cwd=dest)
+        run(["git", "fetch", "--filter=blob:none", "--depth", "1", "origin", commit], cwd=dest)
     except subprocess.CalledProcessError:
-        run(["git", "fetch", "--filter=blob:none", "origin", source.commit], cwd=dest)
-    run(["git", "checkout", "--detach", source.commit], cwd=dest)
-    print(source.path)
+        run(["git", "fetch", "--filter=blob:none", "origin", commit], cwd=dest)
+    run(["git", "checkout", "--detach", commit], cwd=dest)
+    print(path)
 
 
-def main() -> int:
-    if len(sys.argv) != 1:
-        raise SystemExit("usage: third_party/fetch.py")
-
-    for source in SOURCES:
-        fetch(source)
-    return 0
-
-
-if __name__ == "__main__":
-    sys.exit(main())
+for source in SOURCES:
+    fetch(*source)

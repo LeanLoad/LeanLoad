@@ -7,12 +7,12 @@ __pycache__/
 
 # Large references are fetched sparsely by third_party/fetch.py.
 /third_party/impl-loader/android-bionic/
-/third_party/impl-loader/freebsd-src/
 /third_party/impl-loader/glibc/
-/third_party/impl-loader/illumos-gate/
-/third_party/impl-loader/netbsd-src/
-/third_party/impl-loader/openbsd-src/
 /third_party/impl-loader/qemu/
+/third_party/impl-kernel/freebsd-src/
+/third_party/impl-kernel/illumos-gate/
+/third_party/impl-kernel/netbsd-src/
+/third_party/impl-kernel/openbsd-src/
 /third_party/impl-linker/binutils-gdb/
 /third_party/impl-linker/go/
 /third_party/impl-linker/llvm-project/
