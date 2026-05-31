@@ -40,8 +40,10 @@ The script creates ignored sparse checkouts at the paths listed below.
 | `impl-loader/glibc` | `elf/dl-load.c`, `elf/rtld.c`, `elf/dl-reloc.c`, `elf/dl-lookup.c`, `elf/dynamic-link.h`. |
 | `impl-loader/musl` | `ldso/dynlink.c`, `crt/*`, `arch/*/reloc.h`. |
 | `impl-loader/qemu` | `linux-user/elfload.c`, `bsd-user/elfload.c`, `hw/core/loader.c`, `include/hw/elf_ops.h`. |
+| `impl-loader/valgrind` | `coregrind/m_ume/` and `coregrind/m_debuginfo/` for Valgrind's userspace executable/object loading. |
 | `impl-kernel/freebsd-src` | Kernel ELF exec support and constants around `sys/sys/elf*.h`; userspace rtld in `libexec/rtld-elf/`. |
 | `impl-kernel/illumos-gate` | Kernel ELF definitions in `usr/src/uts/common/sys/elf*.h`; userspace loader in `usr/src/cmd/sgs/rtld/`. |
+| `impl-kernel/linux` | `fs/binfmt_elf.c`, `fs/binfmt_elf_fdpic.c`, `include/uapi/linux/elf.h`, `arch/*/include/asm/elf.h`. |
 | `impl-kernel/netbsd-src` | Kernel ELF exec support and constants around `sys/sys/exec_elf.h`; userspace loader in `libexec/ld.elf_so/`. |
 | `impl-kernel/openbsd-src` | Kernel ELF exec support and constants around `sys/sys/exec_elf.h`; userspace loader in `libexec/ld.so/`. |
 | `impl-linker/binutils-gdb` | `bfd/elf*.c`, `binutils/readelf.c`, `binutils/objdump.c`, `ld/`, `gas/`. |

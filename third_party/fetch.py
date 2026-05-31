@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import subprocess
+import sys
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -60,13 +61,26 @@ SOURCES = [
         "third_party/impl-linker/llvm-project",
         "https://github.com/llvm/llvm-project.git",
         "80f6b7641ef95d435a9e641970291375e3013cbe",
-        Source(
+        (
             "lld/ELF",
             "llvm/include/llvm/Object",
             "llvm/lib/Object",
             "llvm/tools/llvm-objcopy",
             "llvm/tools/llvm-objdump",
             "llvm/tools/llvm-readobj",
+        ),
+    ),
+    Source(
+        "third_party/impl-kernel/linux",
+        "https://github.com/torvalds/linux.git",
+        "174914ea551314c52a61713b9c4bde9e42d48073",
+        (
+            "fs/binfmt_elf.c",
+            "fs/binfmt_elf_fdpic.c",
+            "include/linux/elfcore.h",
+            "include/uapi/linux/elf.h",
+            "arch/*/include/asm/elf.h",
+            "arch/*/include/uapi/asm/elf.h",
         ),
     ),
     Source(
@@ -87,7 +101,13 @@ SOURCES = [
         "b67053e1736e5da02fa744e25e1077cb86bfd81c",
         ("libexec/ld.so", "sys/sys"),
     ),
-    (
+    Source(
+        "third_party/impl-loader/valgrind",
+        "https://sourceware.org/git/valgrind.git",
+        "a6abdae7a109100b08ba280842f3f9278b7fbebf",
+        ("coregrind/m_ume", "coregrind/m_debuginfo", "include"),
+    ),
+    Source(
         "third_party/impl-linker/zig",
         "https://github.com/ziglang/zig.git",
         "738d2be9d6b6ef3ff3559130c05159ef53336224",
@@ -121,5 +141,11 @@ def fetch(source: Source) -> None:
     print(source.path)
 
 
-for source in SOURCES:
-    fetch(source)
+def main() -> int:
+    for source in SOURCES:
+        fetch(source)
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

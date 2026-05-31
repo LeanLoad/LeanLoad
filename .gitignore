@@ -9,8 +9,10 @@ __pycache__/
 /third_party/impl-loader/android-bionic/
 /third_party/impl-loader/glibc/
 /third_party/impl-loader/qemu/
+/third_party/impl-loader/valgrind/
 /third_party/impl-kernel/freebsd-src/
 /third_party/impl-kernel/illumos-gate/
+/third_party/impl-kernel/linux/
 /third_party/impl-kernel/netbsd-src/
 /third_party/impl-kernel/openbsd-src/
 /third_party/impl-linker/binutils-gdb/
