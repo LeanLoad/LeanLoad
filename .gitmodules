@@ -25,15 +25,6 @@
 [submodule "third_party/abi/x86-64-abi"]
 	path = third_party/abi/x86-64-abi
 	url = https://gitlab.com/x86-psABIs/x86-64-ABI.git
-[submodule "third_party/impl/elfutils"]
-	path = third_party/impl/elfutils
-	url = https://sourceware.org/git/elfutils.git
-[submodule "third_party/impl/glibc"]
-	path = third_party/impl/glibc
-	url = https://sourceware.org/git/glibc.git
-[submodule "third_party/impl/musl"]
-	path = third_party/impl/musl
-	url = https://github.com/kraj/musl.git
 [submodule "third_party/lean-ref/lean4-skills"]
 	path = third_party/lean-ref/lean4-skills
 	url = https://github.com/cameronfreer/lean4-skills.git
@@ -85,27 +76,39 @@
 [submodule "third_party/related-lean/veil"]
 	path = third_party/related-lean/veil
 	url = https://github.com/verse-lab/veil.git
-[submodule "third_party/impl/lief"]
-	path = third_party/impl/lief
-	url = https://github.com/lief-project/LIEF.git
-[submodule "third_party/impl/pyelftools"]
-	path = third_party/impl/pyelftools
-	url = https://github.com/eliben/pyelftools.git
-[submodule "third_party/impl/elfio"]
-	path = third_party/impl/elfio
-	url = https://github.com/serge1/ELFIO.git
-[submodule "third_party/impl/llvm-project"]
-	path = third_party/impl/llvm-project
-	url = https://github.com/llvm/llvm-project.git
-[submodule "third_party/impl/patchelf"]
-	path = third_party/impl/patchelf
-	url = https://github.com/NixOS/patchelf.git
-[submodule "third_party/impl/pax-utils"]
-	path = third_party/impl/pax-utils
-	url = https://github.com/gentoo/pax-utils.git
-[submodule "third_party/impl/rust-object"]
-	path = third_party/impl/rust-object
-	url = https://github.com/gimli-rs/object.git
-[submodule "third_party/impl/binutils-gdb"]
-	path = third_party/impl/binutils-gdb
+[submodule "third_party/impl-loader/glibc"]
+	path = third_party/impl-loader/glibc
+	url = https://sourceware.org/git/glibc.git
+[submodule "third_party/impl-loader/musl"]
+	path = third_party/impl-loader/musl
+	url = https://github.com/kraj/musl.git
+[submodule "third_party/impl-tool/binutils-gdb"]
+	path = third_party/impl-tool/binutils-gdb
 	url = https://sourceware.org/git/binutils-gdb.git
+[submodule "third_party/impl-tool/llvm-project"]
+	path = third_party/impl-tool/llvm-project
+	url = https://github.com/llvm/llvm-project.git
+[submodule "third_party/impl-tool/patchelf"]
+	path = third_party/impl-tool/patchelf
+	url = https://github.com/NixOS/patchelf.git
+[submodule "third_party/impl-tool/pax-utils"]
+	path = third_party/impl-tool/pax-utils
+	url = https://github.com/gentoo/pax-utils.git
+[submodule "third_party/impl-tool/go"]
+	path = third_party/impl-tool/go
+	url = https://github.com/golang/go.git
+[submodule "third_party/impl-lib/elfutils"]
+	path = third_party/impl-lib/elfutils
+	url = https://sourceware.org/git/elfutils.git
+[submodule "third_party/impl-lib/lief"]
+	path = third_party/impl-lib/lief
+	url = https://github.com/lief-project/LIEF.git
+[submodule "third_party/impl-lib/elfio"]
+	path = third_party/impl-lib/elfio
+	url = https://github.com/serge1/ELFIO.git
+[submodule "third_party/impl-lib/gimli-object"]
+	path = third_party/impl-lib/gimli-object
+	url = https://github.com/gimli-rs/object.git
+[submodule "third_party/impl-parser/pyelftools"]
+	path = third_party/impl-parser/pyelftools
+	url = https://github.com/eliben/pyelftools.git
