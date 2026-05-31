@@ -2,6 +2,8 @@
 /build/
 /.cache/
 /.claude/
+__pycache__/
+*.py[cod]
 
 # Large references are fetched sparsely by scripts/fetch-third-party.py.
 /third_party/impl-loader/android-bionic/
