@@ -10,7 +10,6 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-DRY_RUN = "--dry-run" in sys.argv[1:]
 
 
 @dataclass(frozen=True)
@@ -47,6 +46,12 @@ SOURCES: tuple[Source, ...] = (
         ("elf", "sysdeps"),
     ),
     Source(
+        "third_party/impl-loader/illumos-gate",
+        "https://github.com/illumos/illumos-gate.git",
+        "b32229105ff0363d3ca16ede5eeaa6affdba6615",
+        ("usr/src/cmd/sgs/rtld", "usr/src/cmd/sgs/libld", "usr/src/uts/common/sys"),
+    ),
+    Source(
         "third_party/impl-linker/go",
         "https://github.com/golang/go.git",
         "7bd807271cf4ee370b1a2499e863c4fcb6bf7301",
@@ -72,6 +77,18 @@ SOURCES: tuple[Source, ...] = (
         ("bsd-user", "hw/core", "include/hw", "linux-user"),
     ),
     Source(
+        "third_party/impl-loader/netbsd-src",
+        "https://github.com/NetBSD/src.git",
+        "c56a2ae17f7f85c3b1d752220b58d2b54c0ed9a2",
+        ("libexec/ld.elf_so", "sys/sys"),
+    ),
+    Source(
+        "third_party/impl-loader/openbsd-src",
+        "https://github.com/openbsd/src.git",
+        "b67053e1736e5da02fa744e25e1077cb86bfd81c",
+        ("libexec/ld.so", "sys/sys"),
+    ),
+    Source(
         "third_party/impl-linker/zig",
         "https://github.com/ziglang/zig.git",
         "738d2be9d6b6ef3ff3559130c05159ef53336224",
@@ -82,8 +99,7 @@ SOURCES: tuple[Source, ...] = (
 
 def run(cmd: list[str], cwd: Path | None = None) -> None:
     print("+ " + " ".join(cmd))
-    if not DRY_RUN:
-        subprocess.run(cmd, cwd=cwd, check=True)
+    subprocess.run(cmd, cwd=cwd, check=True)
 
 
 def fetch(source: Source) -> None:
@@ -91,8 +107,7 @@ def fetch(source: Source) -> None:
     if dest.exists() and not ((dest / ".git").exists()):
         if any(dest.iterdir()):
             raise SystemExit(f"{source.path} exists but is not a git checkout")
-        if not DRY_RUN:
-            dest.rmdir()
+        dest.rmdir()
 
     if not dest.exists():
         run(["git", "clone", "--filter=blob:none", "--no-checkout", source.url, str(dest)])
@@ -108,9 +123,8 @@ def fetch(source: Source) -> None:
 
 
 def main() -> int:
-    unknown = [arg for arg in sys.argv[1:] if arg != "--dry-run"]
-    if unknown:
-        raise SystemExit("usage: third_party/fetch [--dry-run]")
+    if len(sys.argv) != 1:
+        raise SystemExit("usage: third_party/fetch.py")
 
     for source in SOURCES:
         fetch(source)
