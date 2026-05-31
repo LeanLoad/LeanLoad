@@ -8,10 +8,10 @@ as top-level submodules.
 
 ```text
 ElfLoader/      # verified ELF loader Lean package
-ELFine/         # related ELF/Lean repo
+ELFine/         # Lean ELF format modeling, including ELFine.WhatTheElf
 ElfZoo/         # related ELF corpus/tools repo
 LeanOnWasm/     # Lean-on-WebAssembly demo repo
-WhatTheElf/     # related ELF repo
+WhatTheElf/     # Python malformed-ELF generator/checker
 third_party/    # shared specs, references, and fixture build deps
   abi/             # gABI, GNU ABI extensions, psABI references
   impl-loader/     # concrete runtime loader implementations
