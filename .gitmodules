@@ -82,21 +82,12 @@
 [submodule "third_party/impl-loader/musl"]
 	path = third_party/impl-loader/musl
 	url = https://github.com/kraj/musl.git
-[submodule "third_party/impl-tool/binutils-gdb"]
-	path = third_party/impl-tool/binutils-gdb
-	url = https://sourceware.org/git/binutils-gdb.git
-[submodule "third_party/impl-tool/llvm-project"]
-	path = third_party/impl-tool/llvm-project
-	url = https://github.com/llvm/llvm-project.git
 [submodule "third_party/impl-tool/patchelf"]
 	path = third_party/impl-tool/patchelf
 	url = https://github.com/NixOS/patchelf.git
 [submodule "third_party/impl-tool/pax-utils"]
 	path = third_party/impl-tool/pax-utils
 	url = https://github.com/gentoo/pax-utils.git
-[submodule "third_party/impl-tool/go"]
-	path = third_party/impl-tool/go
-	url = https://github.com/golang/go.git
 [submodule "third_party/impl-lib/elfutils"]
 	path = third_party/impl-lib/elfutils
 	url = https://sourceware.org/git/elfutils.git
@@ -112,3 +103,30 @@
 [submodule "third_party/impl-parser/pyelftools"]
 	path = third_party/impl-parser/pyelftools
 	url = https://github.com/eliben/pyelftools.git
+[submodule "third_party/impl-linker/binutils-gdb"]
+	path = third_party/impl-linker/binutils-gdb
+	url = https://sourceware.org/git/binutils-gdb.git
+[submodule "third_party/impl-linker/go"]
+	path = third_party/impl-linker/go
+	url = https://github.com/golang/go.git
+[submodule "third_party/impl-linker/llvm-project"]
+	path = third_party/impl-linker/llvm-project
+	url = https://github.com/llvm/llvm-project.git
+[submodule "third_party/impl-linker/mold"]
+	path = third_party/impl-linker/mold
+	url = https://github.com/rui314/mold.git
+[submodule "third_party/impl-loader/android-bionic"]
+	path = third_party/impl-loader/android-bionic
+	url = https://android.googlesource.com/platform/bionic
+[submodule "third_party/impl-loader/freebsd-src"]
+	path = third_party/impl-loader/freebsd-src
+	url = https://github.com/freebsd/freebsd-src.git
+[submodule "third_party/impl-loader/netbsd-src"]
+	path = third_party/impl-loader/netbsd-src
+	url = https://github.com/NetBSD/src.git
+[submodule "third_party/impl-loader/openbsd-src"]
+	path = third_party/impl-loader/openbsd-src
+	url = https://github.com/openbsd/src.git
+[submodule "third_party/impl-loader/illumos-gate"]
+	path = third_party/impl-loader/illumos-gate
+	url = https://github.com/illumos/illumos-gate.git
