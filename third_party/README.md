@@ -24,9 +24,7 @@ different version pins local to the consuming repo until they are reconciled.
 Large repositories are not submodules. Fetch only the relevant paths with:
 
 ```sh
-scripts/fetch-third-party.py list
-scripts/fetch-third-party.py llvm-project qemu
-scripts/fetch-third-party.py all
+third_party/fetch
 ```
 
 The script creates ignored sparse checkouts at the paths listed below.
@@ -40,10 +38,7 @@ The script creates ignored sparse checkouts at the paths listed below.
 | `impl-loader/android-bionic` | `linker/`, `libdl/`, `libc/`, and Android-specific runtime linking behavior. |
 | `impl-loader/freebsd-src` | `libexec/rtld-elf/`, plus ELF constants in `sys/sys/elf*.h`. |
 | `impl-loader/glibc` | `elf/dl-load.c`, `elf/rtld.c`, `elf/dl-reloc.c`, `elf/dl-lookup.c`, `elf/dynamic-link.h`. |
-| `impl-loader/illumos-gate` | `usr/src/cmd/sgs/rtld/`, `usr/src/cmd/sgs/libld/`, `usr/src/uts/common/sys/elf*.h`. |
 | `impl-loader/musl` | `ldso/dynlink.c`, `crt/*`, `arch/*/reloc.h`. |
-| `impl-loader/netbsd-src` | `libexec/ld.elf_so/`, plus ELF constants in `sys/sys/exec_elf.h`. |
-| `impl-loader/openbsd-src` | `libexec/ld.so/`, plus ELF constants in `sys/sys/exec_elf.h`. |
 | `impl-loader/qemu` | `linux-user/elfload.c`, `bsd-user/elfload.c`, `hw/core/loader.c`, `include/hw/elf_ops.h`. |
 | `impl-linker/binutils-gdb` | `bfd/elf*.c`, `binutils/readelf.c`, `binutils/objdump.c`, `ld/`, `gas/`. |
 | `impl-linker/go` | `src/debug/elf/`, `src/cmd/link/internal/ld/`, `src/cmd/link/internal/loader/`. |

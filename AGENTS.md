@@ -13,7 +13,7 @@ organization.
 - Keep shared references in `third_party/`; consuming repos should use umbrella
   paths or a `THIRD_PARTY_DIR` setting instead of adding duplicate submodules.
 - Large references are script-managed sparse checkouts, not submodules; keep
-  `scripts/fetch-third-party.py` and `third_party/README.md` in sync.
+  `third_party/fetch` and `third_party/README.md` in sync.
 - Do not add a top-level `lean-toolchain`. Each Lean submodule owns its own
   toolchain pin.
 - Keep `.gitmodules` paths and `third_party/README.md` in sync.
