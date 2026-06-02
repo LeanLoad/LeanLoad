@@ -20,7 +20,6 @@ archive_path() {
     *.tgz) ext=tgz ;;
     *.tar.xz) ext=tar.xz ;;
     *.tar.bz2) ext=tar.bz2 ;;
-    *.crate) ext=crate ;;
   esac
   echo "$ROOT/$path.$ext"
 }
@@ -84,7 +83,7 @@ fetch "third_party/impl-lib/elfio" \
 fetch "third_party/impl-lib/gimli-object" \
   "https://github.com/gimli-rs/object/archive/5060df4d5e99b38058542a8b443eb9025b8f023c.tar.gz"
 fetch "third_party/impl-lib/goblin" \
-  "https://static.crates.io/crates/goblin/goblin-0.10.7.crate"
+  "https://github.com/m4b/goblin/archive/refs/tags/v0.10.6.tar.gz"
 fetch "third_party/impl-lib/lief" \
   "https://github.com/lief-project/LIEF/archive/0d91852ac07b92681786df502ab73fe948a45481.tar.gz"
 fetch "third_party/impl-lib/libbacktrace" \

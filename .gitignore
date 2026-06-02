@@ -6,7 +6,6 @@ __pycache__/
 *.py[cod]
 
 # Managed references are fetched by fetch.sh.
-/third_party/**/*.crate
 /third_party/**/*.tar
 /third_party/**/*.tar.bz2
 /third_party/**/*.tar.gz
