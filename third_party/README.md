@@ -41,6 +41,10 @@ useful for checking concrete loader, linker, parser, and object-tool behavior.
 `impl-loader/android-bionic` is Android's userspace runtime linker. Start with
 `linker/`, then `libdl/` and `libc/` for the surrounding dynamic-loading ABI.
 
+`impl-loader/fex` is a production user-mode emulator with custom ELF handling
+for Linux guest tooling. Start with
+`Source/Tools/CommonTools/Linux/Utils/ELFParser.*`.
+
 `impl-loader/glibc` is the main GNU/Linux runtime loader reference. The most
 useful files are `elf/dl-load.c`, `elf/rtld.c`, `elf/dl-reloc.c`,
 `elf/dl-lookup.c`, and `elf/dynamic-link.h`.
@@ -116,6 +120,14 @@ entry points are `scanelf.c` and `lddtree.py`.
 modules are under `elftools/elf/`, especially `elffile.py`, `sections.py`,
 `segments.py`, `dynamic.py`, and `relocation.py`.
 
+`impl-tool/sandboxed-api` has a small custom ELF parser used by Sandbox2
+utilities. Start with `sandboxed_api/sandbox2/util/elf_parser.*`.
+
+`impl-tool/swift` includes custom Linux ELF readers used by Swift inspection and
+backtrace tooling. Start with
+`tools/swift-inspect/Sources/SwiftInspectLinux/ElfFile.swift` and
+`stdlib/public/Backtrace/`.
+
 `impl-lib/elfio` is a C++ header-library reference. Start with
 `elfio/elfio.hpp` and `examples/`.
 
@@ -143,6 +155,9 @@ such as Binsider. Start with `src/elf_bytes.rs`, `src/elf_stream.rs`,
 These references are analysis-first, not all parser-first. Use them when
 checking how static analysis, decompilation, reverse engineering, and symbolic
 execution tools model ELF inputs.
+
+`impl-analysis/async-profiler` has a focused custom Linux ELF parser for
+symbolization in a production JVM profiler. Start with `src/symbols_linux.cpp`.
 
 `impl-analysis/radare2` has an in-tree ELF parser and binary plugin. Start with
 `libr/bin/format/elf/` and `libr/bin/p/bin_elf*`.

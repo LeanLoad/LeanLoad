@@ -49,6 +49,8 @@ fetch() {
 
 fetch "third_party/impl-analysis/angr" \
   "https://github.com/angr/angr/archive/refs/tags/v9.2.220.tar.gz"
+fetch "third_party/impl-analysis/async-profiler" \
+  "https://github.com/async-profiler/async-profiler/archive/e421f2da900dbb83be097969c30894cb6cc8ba33.tar.gz"
 fetch "third_party/impl-analysis/bap" \
   "https://github.com/BinaryAnalysisPlatform/bap/archive/refs/tags/v2.5.0.tar.gz"
 fetch "third_party/impl-analysis/breakpad" \
@@ -79,6 +81,8 @@ fetch "third_party/impl-lib/rust-elf" \
   "https://github.com/cole14/rust-elf/archive/refs/tags/v0.8.0.tar.gz"
 fetch "third_party/impl-loader/android-bionic" \
   "https://github.com/aosp-mirror/platform_bionic/archive/refs/tags/android-16.0.0_r1.tar.gz"
+fetch "third_party/impl-loader/fex" \
+  "https://github.com/FEX-Emu/FEX/archive/a5c3fc475145f269f511e9edce9afe28c188651a.tar.gz"
 fetch "third_party/impl-linker/binutils-gdb" \
   "https://ftp.gnu.org/gnu/binutils/binutils-2.46.0.tar.xz"
 fetch "third_party/impl-kernel/freebsd-src" \
@@ -101,5 +105,9 @@ fetch "third_party/impl-kernel/openbsd-src" \
   "https://github.com/openbsd/src/archive/b67053e1736e5da02fa744e25e1077cb86bfd81c.tar.gz"
 fetch "third_party/impl-loader/valgrind" \
   "https://sourceware.org/pub/valgrind/valgrind-3.27.1.tar.bz2"
+fetch "third_party/impl-tool/sandboxed-api" \
+  "https://github.com/google/sandboxed-api/archive/f0498b496b471e1a2800b5bf99d121a78638d0ab.tar.gz"
+fetch "third_party/impl-tool/swift" \
+  "https://github.com/swiftlang/swift/archive/85e5036c0699e1fcbad4d30ab41281f5be0fae35.tar.gz"
 fetch "third_party/impl-linker/zig" \
   "https://ziglang.org/download/0.15.2/zig-0.15.2.tar.xz"

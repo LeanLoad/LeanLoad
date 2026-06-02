@@ -13,6 +13,7 @@ __pycache__/
 /third_party/**/*.tar.xz
 /third_party/**/*.tgz
 /third_party/impl-analysis/angr/
+/third_party/impl-analysis/async-profiler/
 /third_party/impl-analysis/bap/
 /third_party/impl-analysis/breakpad/
 /third_party/impl-analysis/cle/
@@ -28,6 +29,7 @@ __pycache__/
 /third_party/impl-lib/libbacktrace/
 /third_party/impl-lib/rust-elf/
 /third_party/impl-loader/android-bionic/
+/third_party/impl-loader/fex/
 /third_party/impl-loader/glibc/
 /third_party/impl-loader/qemu/
 /third_party/impl-loader/valgrind/
@@ -40,3 +42,5 @@ __pycache__/
 /third_party/impl-linker/go/
 /third_party/impl-linker/llvm-project/
 /third_party/impl-linker/zig/
+/third_party/impl-tool/sandboxed-api/
+/third_party/impl-tool/swift/
