@@ -6,14 +6,4 @@ __pycache__/
 *.py[cod]
 
 # Managed references are fetched by fetch.sh.
-/third_party/**/*.tar
-/third_party/**/*.tar.bz2
-/third_party/**/*.tar.gz
-/third_party/**/*.tar.xz
-/third_party/**/*.tgz
-/third_party/impl-analysis/
-/third_party/impl-kernel/
-/third_party/impl-lib/
-/third_party/impl-linker/
-/third_party/impl-loader/
-/third_party/impl-tool/
+/third_party/impl-*/

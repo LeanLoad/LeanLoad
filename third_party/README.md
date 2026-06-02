@@ -6,12 +6,14 @@ Shared, pinned references for the LeanLoad umbrella checkout.
 
 ```text
 abi/              ELF ABI standards and psABI references
-impl-analysis/    binary analysis, decompilation, and symbolic execution tools
-impl-loader/      concrete runtime loader implementations
+impl-debug/       crash, profiling, symbolization, debugger, and instrumentation references
 impl-kernel/      kernel ELF exec loaders and OS exec ABI support
-impl-linker/      linker implementations and linker-capable toolchains
-impl-tool/        binary inspection, parsing, and rewriting tools
+impl-lang/        language runtimes and toolchains with ELF readers/producers
 impl-lib/         ELF/object libraries
+impl-linker/      linker implementations
+impl-loader/      concrete runtime loader implementations
+impl-re/          reverse engineering, decompilation, and symbolic execution tools
+impl-tool/        binary inspection, parsing, rewriting, and packaging tools
 lean-ref/         Lean tooling, books, and reference libraries
 related-elf/      related verified-loader / ELF work
 related-lean/     related Lean verification work
@@ -83,18 +85,33 @@ userspace runtime linker.
 `sys/sys/exec_elf.h` for kernel support and `libexec/ld.so/` for its userspace
 runtime linker.
 
-### Linkers and ELF producers (`impl-linker/`)
+### Language runtimes and toolchains (`impl-lang/`)
+
+`impl-lang/dart-sdk` includes Dart VM ELF writer/reader support for AOT
+snapshots. Start with `runtime/platform/elf.h` and `runtime/vm/elf.cc`.
+
+`impl-lang/go` is useful because the Go toolchain has its own ELF linker and
+parser package. Start with `src/cmd/link/internal/ld/`,
+`src/cmd/link/internal/loader/`, and `src/debug/elf/`.
+
+`impl-lang/openjdk-jdk` has HotSpot ELF readers for JVM symbolization and
+diagnostics. Start with `src/hotspot/share/utilities/elfFile.*`,
+`elfStringTable.*`, `elfSymbolTable.*`, and `dwarfFile.*`.
+
+`impl-lang/swift` includes custom Linux ELF readers used by Swift inspection and
+backtrace tooling. Start with
+`tools/swift-inspect/Sources/SwiftInspectLinux/ElfFile.swift` and
+`stdlib/public/Backtrace/`.
+
+`impl-lang/zig` is useful for Zig's self-hosted ELF linker and emitter. Look at
+`src/link/Elf.zig`, `src/link/Elf/`, `src/arch/*/CodeGen.zig`, and
+`lib/std/elf.zig`.
+
+### Linkers (`impl-linker/`)
 
 `impl-linker/binutils-gdb` is the GNU linker/toolchain reference. The important
 paths are `ld/`, `gas/`, `bfd/elf*.c`, `binutils/readelf.c`, and
 `binutils/objdump.c`.
-
-`impl-linker/dart-sdk` includes Dart VM ELF writer/reader support for AOT
-snapshots. Start with `runtime/platform/elf.h` and `runtime/vm/elf.cc`.
-
-`impl-linker/go` is useful because the Go toolchain has its own ELF linker.
-Start with `src/cmd/link/internal/ld/`, `src/cmd/link/internal/loader/`, and
-`src/debug/elf/`.
 
 `impl-linker/llvm-project` covers LLVM's object model and `lld`. Use
 `lld/ELF/`, `llvm/include/llvm/Object/ELF*.h`, `llvm/lib/Object/ELF*.cpp`,
@@ -102,10 +119,6 @@ Start with `src/cmd/link/internal/ld/`, `src/cmd/link/internal/loader/`, and
 
 `impl-linker/mold` is a modern ELF linker with a comparatively direct codebase.
 Most of the interesting implementation is under `elf/`.
-
-`impl-linker/zig` is useful for Zig's self-hosted ELF linker and emitter. Look
-at `src/link/Elf.zig`, `src/link/Elf/`, `src/arch/*/CodeGen.zig`, and
-`lib/std/elf.zig`.
 
 ### ELF tools and libraries (`impl-tool/`, `impl-lib/`)
 
@@ -126,11 +139,6 @@ modules are under `elftools/elf/`, especially `elffile.py`, `sections.py`,
 `impl-tool/sandboxed-api` has a small custom ELF parser used by Sandbox2
 utilities. Start with `sandboxed_api/sandbox2/util/elf_parser.*`.
 
-`impl-tool/swift` includes custom Linux ELF readers used by Swift inspection and
-backtrace tooling. Start with
-`tools/swift-inspect/Sources/SwiftInspectLinux/ElfFile.swift` and
-`stdlib/public/Backtrace/`.
-
 `impl-tool/upx` is a mature executable packer with custom ELF read/modify/write
 logic. Start with `src/p_elf.h`, `src/p_elf_enum.h`, and `src/p_lx_elf.*`.
 
@@ -147,79 +155,79 @@ for UNIX archive handling.
 `impl-lib/lief` is a library/API-first ELF reference. Use `include/LIEF/ELF/`,
 `src/ELF/`, and `api/python/src/ELF/`.
 
-`impl-lib/libbacktrace` is a compact C library with its own ELF and DWARF
-reader for stack traces and symbolization. Start with `elf.c`, `dwarf.c`,
-`fileline.c`, and `internal.h`.
-
 `impl-lib/rust-elf` is the Rust `elf` crate, a pure Rust parser used by tools
 such as Binsider. Start with `src/elf_bytes.rs`, `src/elf_stream.rs`,
 `src/parse.rs`, `src/file.rs`, `src/section.rs`, `src/segment.rs`,
 `src/symbol.rs`, and `src/relocation.rs`.
 
-### Binary analysis frameworks (`impl-analysis/`)
+### Debugging, profiling, and instrumentation (`impl-debug/`)
 
-These references are analysis-first, not all parser-first. Use them when
-checking how static analysis, decompilation, reverse engineering, and symbolic
-execution tools model ELF inputs.
+These references are observability-first: crash reporting, symbolization,
+profiling, debugging, unwinding, and dynamic instrumentation runtimes.
 
-`impl-analysis/async-profiler` has a focused custom Linux ELF parser for
+`impl-debug/async-profiler` has a focused custom Linux ELF parser for
 symbolization in a production JVM profiler. Start with `src/symbols_linux.cpp`.
 
-`impl-analysis/radare2` has an in-tree ELF parser and binary plugin. Start with
-`libr/bin/format/elf/` and `libr/bin/p/bin_elf*`.
-
-`impl-analysis/rizin` has an in-tree ELF parser and binary plugin. Start with
-`librz/bin/format/elf/` and `librz/bin/p/bin_elf*`.
-
-`impl-analysis/breakpad` has custom Linux ELF utilities for crash-reporting
+`impl-debug/breakpad` has custom Linux ELF utilities for crash-reporting
 symbol extraction and file IDs. Start with `src/common/linux/elfutils.*`,
 `src/common/linux/file_id.*`, and `src/common/linux/dump_symbols.cc`.
 
-`impl-analysis/crashpad` has custom ELF readers for inspecting mapped images in
+`impl-debug/crashpad` has custom ELF readers for inspecting mapped images in
 crashed processes. Start with `snapshot/elf/`, especially
 `elf_image_reader.*`, `elf_dynamic_array_reader.*`, and
 `elf_symbol_table_reader.*`.
 
-`impl-analysis/dynamorio` has a custom core ELF loader in its dynamic
+`impl-debug/dynamorio` has a custom core ELF loader in its dynamic
 instrumentation runtime. Start with `core/unix/loader.c`,
 `core/unix/elf_defines.h`, `core/unix/module.c`, and
 `core/unix/loader_linux.c`.
 
-`impl-analysis/frida-gum` has a fully custom ELF module parser for dynamic
-instrumentation. Start with `gum/gumelfmodule-priv.h`,
-`gum/gumelfmodule.c`, and `gum/backend-elf/`.
+`impl-debug/libbacktrace` is a compact C library with its own ELF and DWARF
+reader for stack traces and symbolization. Start with `elf.c`, `dwarf.c`,
+`fileline.c`, and `internal.h`.
 
-`impl-analysis/ghidra` has an in-tree Java ELF parser and loader. Start with
-`Ghidra/Features/Base/src/main/java/ghidra/app/util/bin/format/elf/`,
-`ElfLoader.java`, and `ElfProgramBuilder.java`.
-
-`impl-analysis/bap` has an in-tree OCaml ELF parser plus an ELF loader plugin.
-Start with `lib/bap_elf/` and `plugins/elf_loader/`.
-
-`impl-analysis/retdec` has in-tree ELF file-format support for its decompiler
-pipeline. Start with `src/fileformat/`, `include/retdec/fileformat/`,
-`elf_wrapper.*`, `elf_detector.*`, and `elf_heuristics.*`.
-
-`impl-analysis/dyninst` has ELF object-file support in SymtabAPI. Start with
-`symtabAPI/src/Object-elf.C`, `symtabAPI/src/Object-elf.h`, and
-`symtabAPI/src/Elf_X.*`.
-
-`impl-analysis/rr` has an in-tree ELF reader used by its record/replay debugger
+`impl-debug/rr` has an in-tree ELF reader used by its record/replay debugger
 for build IDs, symbols, dynamic sections, debug links, and interpreter data.
 Start with `src/ElfReader.*`, `src/Dwarf.*`, and `src/Monkeypatcher.*`.
 
-`impl-analysis/angr` is the analysis framework; its ELF loading path lives in
-the companion `impl-analysis/cle` checkout. `cle` has ELF loader/backend logic
+### Reverse engineering and binary analysis (`impl-re/`)
+
+These references are program-understanding-first: reverse engineering,
+decompilation, binary analysis, and symbolic execution.
+
+`impl-re/radare2` has an in-tree ELF parser and binary plugin. Start with
+`libr/bin/format/elf/` and `libr/bin/p/bin_elf*`.
+
+`impl-re/rizin` has an in-tree ELF parser and binary plugin. Start with
+`librz/bin/format/elf/` and `librz/bin/p/bin_elf*`.
+
+`impl-re/frida-gum` has a fully custom ELF module parser for dynamic
+instrumentation used heavily in reverse-engineering workflows. Start with
+`gum/gumelfmodule-priv.h`, `gum/gumelfmodule.c`, and `gum/backend-elf/`.
+
+`impl-re/ghidra` has an in-tree Java ELF parser and loader. Start with
+`Ghidra/Features/Base/src/main/java/ghidra/app/util/bin/format/elf/`,
+`ElfLoader.java`, and `ElfProgramBuilder.java`.
+
+`impl-re/bap` has an in-tree OCaml ELF parser plus an ELF loader plugin.
+Start with `lib/bap_elf/` and `plugins/elf_loader/`.
+
+`impl-re/retdec` has in-tree ELF file-format support for its decompiler
+pipeline. Start with `src/fileformat/`, `include/retdec/fileformat/`,
+`elf_wrapper.*`, `elf_detector.*`, and `elf_heuristics.*`.
+
+`impl-re/dyninst` has ELF object-file support in SymtabAPI. Start with
+`symtabAPI/src/Object-elf.C`, `symtabAPI/src/Object-elf.h`, and
+`symtabAPI/src/Elf_X.*`.
+
+`impl-re/angr` is the analysis framework; its ELF loading path lives in the
+companion `impl-re/cle` checkout. `cle` has ELF loader/backend logic
 under `cle/backends/elf/`, but it delegates low-level ELF parsing to
 `impl-tool/pyelftools`.
 
-`impl-analysis/manticore` is a symbolic-execution framework with ELF loading
+`impl-re/manticore` is a symbolic-execution framework with ELF loading
 wrappers under `manticore/binary/` and `manticore/native/`; it also delegates
 low-level parsing to `impl-tool/pyelftools`.
-
-`impl-analysis/openjdk-jdk` has HotSpot ELF readers for JVM symbolization and
-diagnostics. Start with `src/hotspot/share/utilities/elfFile.*`,
-`elfStringTable.*`, `elfSymbolTable.*`, and `dwarfFile.*`.
 
 ### Specs and related work
 
