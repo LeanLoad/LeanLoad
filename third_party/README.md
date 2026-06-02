@@ -22,12 +22,11 @@ Implementation repos should prefer a `THIRD_PARTY_DIR` setting or paths through
 the umbrella checkout instead of adding duplicate submodules. Keep deliberately
 different version pins local to the consuming repo until they are reconciled.
 
-Managed references are not submodules. `fetch.py` uses pinned source archives
-for full source trees and sparse git checkouts for larger references where only
-selected paths are needed:
+Managed references are not submodules. `fetch.sh` uses pinned source archives
+for full source trees:
 
 ```sh
-third_party/fetch.py
+./fetch.sh
 ```
 
 The script creates ignored source trees at the paths listed below.
@@ -123,8 +122,16 @@ modules are under `elftools/elf/`, especially `elffile.py`, `sections.py`,
 `impl-lib/gimli-object` is the Rust `object` crate. The relevant ELF paths are
 `src/read/elf/`, `src/write/elf/`, and `src/elf.rs`.
 
+`impl-lib/goblin` is a popular Rust binary parser with ELF support. Start with
+`src/elf/`, plus `src/lib.rs` for top-level format dispatch and `src/archive/`
+for UNIX archive handling.
+
 `impl-lib/lief` is a library/API-first ELF reference. Use `include/LIEF/ELF/`,
 `src/ELF/`, and `api/python/src/ELF/`.
+
+`impl-lib/libbacktrace` is a compact C library with its own ELF and DWARF
+reader for stack traces and symbolization. Start with `elf.c`, `dwarf.c`,
+`fileline.c`, and `internal.h`.
 
 `impl-lib/rust-elf` is the Rust `elf` crate, a pure Rust parser used by tools
 such as Binsider. Start with `src/elf_bytes.rs`, `src/elf_stream.rs`,
@@ -143,6 +150,15 @@ execution tools model ELF inputs.
 `impl-analysis/rizin` has an in-tree ELF parser and binary plugin. Start with
 `librz/bin/format/elf/` and `librz/bin/p/bin_elf*`.
 
+`impl-analysis/breakpad` has custom Linux ELF utilities for crash-reporting
+symbol extraction and file IDs. Start with `src/common/linux/elfutils.*`,
+`src/common/linux/file_id.*`, and `src/common/linux/dump_symbols.cc`.
+
+`impl-analysis/crashpad` has custom ELF readers for inspecting mapped images in
+crashed processes. Start with `snapshot/elf/`, especially
+`elf_image_reader.*`, `elf_dynamic_array_reader.*`, and
+`elf_symbol_table_reader.*`.
+
 `impl-analysis/ghidra` has an in-tree Java ELF parser and loader. Start with
 `Ghidra/Features/Base/src/main/java/ghidra/app/util/bin/format/elf/`,
 `ElfLoader.java`, and `ElfProgramBuilder.java`.
@@ -157,6 +173,10 @@ pipeline. Start with `src/fileformat/`, `include/retdec/fileformat/`,
 `impl-analysis/dyninst` has ELF object-file support in SymtabAPI. Start with
 `symtabAPI/src/Object-elf.C`, `symtabAPI/src/Object-elf.h`, and
 `symtabAPI/src/Elf_X.*`.
+
+`impl-analysis/rr` has an in-tree ELF reader used by its record/replay debugger
+for build IDs, symbols, dynamic sections, debug links, and interpreter data.
+Start with `src/ElfReader.*`, `src/Dwarf.*`, and `src/Monkeypatcher.*`.
 
 `impl-analysis/angr` is the analysis framework; its ELF loading path lives in
 the companion `impl-analysis/cle` checkout. `cle` has ELF loader/backend logic
@@ -179,6 +199,9 @@ loading references.
 
 `related-parser/daedalus`, `related-parser/everparse`, and `related-parser/vest`
 are parser DSL / verified parser framework references.
+
+`related-parser/formatfuzzer` is a binary-format fuzzing and parsing framework
+that can generate high-coverage inputs from format specifications.
 
 `related-parser/kaitai-struct-formats` contains `executable/elf.ksy`, a
 practical declarative ELF format spec.

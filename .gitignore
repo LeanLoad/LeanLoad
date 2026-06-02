@@ -5,16 +5,27 @@
 __pycache__/
 *.py[cod]
 
-# Managed references are fetched by third_party/fetch.py.
+# Managed references are fetched by fetch.sh.
+/third_party/**/*.crate
+/third_party/**/*.tar
+/third_party/**/*.tar.bz2
+/third_party/**/*.tar.gz
+/third_party/**/*.tar.xz
+/third_party/**/*.tgz
 /third_party/impl-analysis/angr/
 /third_party/impl-analysis/bap/
+/third_party/impl-analysis/breakpad/
 /third_party/impl-analysis/cle/
+/third_party/impl-analysis/crashpad/
 /third_party/impl-analysis/dyninst/
 /third_party/impl-analysis/ghidra/
 /third_party/impl-analysis/manticore/
 /third_party/impl-analysis/radare2/
 /third_party/impl-analysis/retdec/
 /third_party/impl-analysis/rizin/
+/third_party/impl-analysis/rr/
+/third_party/impl-lib/goblin/
+/third_party/impl-lib/libbacktrace/
 /third_party/impl-lib/rust-elf/
 /third_party/impl-loader/android-bionic/
 /third_party/impl-loader/glibc/
