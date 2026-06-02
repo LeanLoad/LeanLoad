@@ -89,6 +89,9 @@ runtime linker.
 paths are `ld/`, `gas/`, `bfd/elf*.c`, `binutils/readelf.c`, and
 `binutils/objdump.c`.
 
+`impl-linker/dart-sdk` includes Dart VM ELF writer/reader support for AOT
+snapshots. Start with `runtime/platform/elf.h` and `runtime/vm/elf.cc`.
+
 `impl-linker/go` is useful because the Go toolchain has its own ELF linker.
 Start with `src/cmd/link/internal/ld/`, `src/cmd/link/internal/loader/`, and
 `src/debug/elf/`.
@@ -127,6 +130,9 @@ utilities. Start with `sandboxed_api/sandbox2/util/elf_parser.*`.
 backtrace tooling. Start with
 `tools/swift-inspect/Sources/SwiftInspectLinux/ElfFile.swift` and
 `stdlib/public/Backtrace/`.
+
+`impl-tool/upx` is a mature executable packer with custom ELF read/modify/write
+logic. Start with `src/p_elf.h`, `src/p_elf_enum.h`, and `src/p_lx_elf.*`.
 
 `impl-lib/elfio` is a C++ header-library reference. Start with
 `elfio/elfio.hpp` and `examples/`.
@@ -174,6 +180,15 @@ crashed processes. Start with `snapshot/elf/`, especially
 `elf_image_reader.*`, `elf_dynamic_array_reader.*`, and
 `elf_symbol_table_reader.*`.
 
+`impl-analysis/dynamorio` has a custom core ELF loader in its dynamic
+instrumentation runtime. Start with `core/unix/loader.c`,
+`core/unix/elf_defines.h`, `core/unix/module.c`, and
+`core/unix/loader_linux.c`.
+
+`impl-analysis/frida-gum` has a fully custom ELF module parser for dynamic
+instrumentation. Start with `gum/gumelfmodule-priv.h`,
+`gum/gumelfmodule.c`, and `gum/backend-elf/`.
+
 `impl-analysis/ghidra` has an in-tree Java ELF parser and loader. Start with
 `Ghidra/Features/Base/src/main/java/ghidra/app/util/bin/format/elf/`,
 `ElfLoader.java`, and `ElfProgramBuilder.java`.
@@ -201,6 +216,10 @@ under `cle/backends/elf/`, but it delegates low-level ELF parsing to
 `impl-analysis/manticore` is a symbolic-execution framework with ELF loading
 wrappers under `manticore/binary/` and `manticore/native/`; it also delegates
 low-level parsing to `impl-tool/pyelftools`.
+
+`impl-analysis/openjdk-jdk` has HotSpot ELF readers for JVM symbolization and
+diagnostics. Start with `src/hotspot/share/utilities/elfFile.*`,
+`elfStringTable.*`, `elfSymbolTable.*`, and `dwarfFile.*`.
 
 ### Specs and related work
 
