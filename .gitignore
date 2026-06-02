@@ -5,7 +5,17 @@
 __pycache__/
 *.py[cod]
 
-# Large references are fetched sparsely by third_party/fetch.py.
+# Managed references are fetched by third_party/fetch.py.
+/third_party/impl-analysis/angr/
+/third_party/impl-analysis/bap/
+/third_party/impl-analysis/cle/
+/third_party/impl-analysis/dyninst/
+/third_party/impl-analysis/ghidra/
+/third_party/impl-analysis/manticore/
+/third_party/impl-analysis/radare2/
+/third_party/impl-analysis/retdec/
+/third_party/impl-analysis/rizin/
+/third_party/impl-lib/rust-elf/
 /third_party/impl-loader/android-bionic/
 /third_party/impl-loader/glibc/
 /third_party/impl-loader/qemu/

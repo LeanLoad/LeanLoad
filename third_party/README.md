@@ -6,6 +6,7 @@ Shared, pinned references for the LeanLoad umbrella checkout.
 
 ```text
 abi/              ELF ABI standards and psABI references
+impl-analysis/    binary analysis, decompilation, and symbolic execution tools
 impl-loader/      concrete runtime loader implementations
 impl-kernel/      kernel ELF exec loaders and OS exec ABI support
 impl-linker/      linker implementations and linker-capable toolchains
@@ -21,13 +22,15 @@ Implementation repos should prefer a `THIRD_PARTY_DIR` setting or paths through
 the umbrella checkout instead of adding duplicate submodules. Keep deliberately
 different version pins local to the consuming repo until they are reconciled.
 
-Large repositories are not submodules. Fetch only the relevant paths with:
+Managed references are not submodules. `fetch.py` uses pinned source archives
+for full source trees and sparse git checkouts for larger references where only
+selected paths are needed:
 
 ```sh
 third_party/fetch.py
 ```
 
-The script creates ignored sparse checkouts at the paths listed below.
+The script creates ignored source trees at the paths listed below.
 
 ## Where to look
 
@@ -122,6 +125,47 @@ modules are under `elftools/elf/`, especially `elffile.py`, `sections.py`,
 
 `impl-lib/lief` is a library/API-first ELF reference. Use `include/LIEF/ELF/`,
 `src/ELF/`, and `api/python/src/ELF/`.
+
+`impl-lib/rust-elf` is the Rust `elf` crate, a pure Rust parser used by tools
+such as Binsider. Start with `src/elf_bytes.rs`, `src/elf_stream.rs`,
+`src/parse.rs`, `src/file.rs`, `src/section.rs`, `src/segment.rs`,
+`src/symbol.rs`, and `src/relocation.rs`.
+
+### Binary analysis frameworks (`impl-analysis/`)
+
+These references are analysis-first, not all parser-first. Use them when
+checking how static analysis, decompilation, reverse engineering, and symbolic
+execution tools model ELF inputs.
+
+`impl-analysis/radare2` has an in-tree ELF parser and binary plugin. Start with
+`libr/bin/format/elf/` and `libr/bin/p/bin_elf*`.
+
+`impl-analysis/rizin` has an in-tree ELF parser and binary plugin. Start with
+`librz/bin/format/elf/` and `librz/bin/p/bin_elf*`.
+
+`impl-analysis/ghidra` has an in-tree Java ELF parser and loader. Start with
+`Ghidra/Features/Base/src/main/java/ghidra/app/util/bin/format/elf/`,
+`ElfLoader.java`, and `ElfProgramBuilder.java`.
+
+`impl-analysis/bap` has an in-tree OCaml ELF parser plus an ELF loader plugin.
+Start with `lib/bap_elf/` and `plugins/elf_loader/`.
+
+`impl-analysis/retdec` has in-tree ELF file-format support for its decompiler
+pipeline. Start with `src/fileformat/`, `include/retdec/fileformat/`,
+`elf_wrapper.*`, `elf_detector.*`, and `elf_heuristics.*`.
+
+`impl-analysis/dyninst` has ELF object-file support in SymtabAPI. Start with
+`symtabAPI/src/Object-elf.C`, `symtabAPI/src/Object-elf.h`, and
+`symtabAPI/src/Elf_X.*`.
+
+`impl-analysis/angr` is the analysis framework; its ELF loading path lives in
+the companion `impl-analysis/cle` checkout. `cle` has ELF loader/backend logic
+under `cle/backends/elf/`, but it delegates low-level ELF parsing to
+`impl-tool/pyelftools`.
+
+`impl-analysis/manticore` is a symbolic-execution framework with ELF loading
+wrappers under `manticore/binary/` and `manticore/native/`; it also delegates
+low-level parsing to `impl-tool/pyelftools`.
 
 ### Specs and related work
 

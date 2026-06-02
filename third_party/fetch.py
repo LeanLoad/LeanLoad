@@ -1,10 +1,16 @@
 #!/usr/bin/env python3
-"""Fetch large third_party references as sparse, blobless checkouts."""
+"""Fetch third_party references as pinned source trees."""
 
 from __future__ import annotations
 
+import argparse
+import shutil
+import shlex
 import subprocess
 import sys
+import tarfile
+import tempfile
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -17,10 +23,73 @@ class Source:
     path: str
     url: str
     commit: str
-    sparse: tuple[str, ...]
+    sparse: tuple[str, ...] = ()
+
+
+@dataclass(frozen=True)
+class RunResult:
+    output: str
+    returncode: int
+
+
+class FetchError(Exception):
+    def __init__(self, source: Source, output: str) -> None:
+        super().__init__(source.path)
+        self.source = source
+        self.output = output
 
 
 SOURCES = [
+    Source(
+        "third_party/impl-analysis/angr",
+        "https://github.com/angr/angr/archive/refs/tags/v9.2.220.tar.gz",
+        "61783949b0ee583e926b0846127a79870972f43f",
+    ),
+    Source(
+        "third_party/impl-analysis/bap",
+        "https://github.com/BinaryAnalysisPlatform/bap/archive/refs/tags/v2.5.0.tar.gz",
+        "caae08349e43ad744ca0160a17d77428f843829d",
+    ),
+    Source(
+        "third_party/impl-analysis/cle",
+        "https://github.com/angr/cle/archive/refs/tags/v9.2.220.tar.gz",
+        "dfc03032b8216dcffbf61320c6c0711310eaaeba",
+    ),
+    Source(
+        "third_party/impl-analysis/dyninst",
+        "https://github.com/dyninst/dyninst/archive/refs/tags/v13.0.0.tar.gz",
+        "268b6300b59d507317b6c342ae9588eb6fedf2ac",
+    ),
+    Source(
+        "third_party/impl-analysis/ghidra",
+        "https://github.com/NationalSecurityAgency/ghidra/archive/refs/tags/Ghidra_12.1_build.tar.gz",
+        "7e89d94e3478f0b1931c34882a0f606fdb06961f",
+    ),
+    Source(
+        "third_party/impl-analysis/manticore",
+        "https://github.com/trailofbits/manticore/archive/refs/tags/0.3.7.tar.gz",
+        "9ed66b6970b16d783a387363cadfd4841b547a04",
+    ),
+    Source(
+        "third_party/impl-analysis/radare2",
+        "https://github.com/radareorg/radare2/archive/refs/tags/6.1.4.tar.gz",
+        "4661541e40947fbc269b0c2686d1cd52ad69c1dc",
+    ),
+    Source(
+        "third_party/impl-analysis/retdec",
+        "https://github.com/avast/retdec/archive/refs/tags/v5.0.tar.gz",
+        "53e55b4b26e9b843787f0e06d867441e32b1604e",
+    ),
+    Source(
+        "third_party/impl-analysis/rizin",
+        "https://github.com/rizinorg/rizin/archive/refs/tags/v0.8.2.tar.gz",
+        "5a611eee2999d312317ff90d600e37dde0f58992",
+    ),
+    Source(
+        "third_party/impl-lib/rust-elf",
+        "https://github.com/cole14/rust-elf/archive/refs/tags/v0.8.0.tar.gz",
+        "c4d5222a34a97e113f863f80399284767d725e28",
+    ),
     Source(
         "third_party/impl-loader/android-bionic",
         "https://android.googlesource.com/platform/bionic",
@@ -116,34 +185,187 @@ SOURCES = [
 ]
 
 
-def run(cmd: list[str], cwd: Path | None = None) -> None:
-    print("+ " + " ".join(cmd))
-    subprocess.run(cmd, cwd=cwd, check=True)
+def positive_int(value: str) -> int:
+    result = int(value)
+    if result < 1:
+        raise argparse.ArgumentTypeError("must be at least 1")
+    return result
 
 
-def fetch(source: Source) -> None:
-    dest = ROOT / source.path
+def run(cmd: list[str], cwd: Path | None = None, check: bool = True) -> RunResult:
+    result = subprocess.run(
+        cmd,
+        cwd=cwd,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        text=True,
+    )
+    output = "+ " + shlex.join(cmd) + "\n" + result.stdout
+    if check and result.returncode != 0:
+        raise subprocess.CalledProcessError(result.returncode, cmd, output=output)
+    return RunResult(output, result.returncode)
+
+
+def source_marker(source: Source) -> str:
+    mode = "git-sparse" if source.sparse else "archive"
+    return f"mode={mode}\nurl={source.url}\ncommit={source.commit}\n"
+
+
+def safe_extract(archive: tarfile.TarFile, dest: Path) -> None:
+    dest = dest.resolve()
+    for member in archive.getmembers():
+        target = (dest / member.name).resolve()
+        if dest != target and dest not in target.parents:
+            raise RuntimeError(f"unsafe archive member path: {member.name}")
+        if member.issym() or member.islnk():
+            link_target = (target.parent / member.linkname).resolve()
+            if dest != link_target and dest not in link_target.parents:
+                raise RuntimeError(f"unsafe archive link target: {member.name}")
+    archive.extractall(dest)
+
+
+def replace_tree(source: Source, extracted: Path, dest: Path) -> None:
+    if dest.exists():
+        shutil.rmtree(dest)
+    shutil.move(str(extracted), dest)
+    (dest / ".leanload-source").write_text(source_marker(source), encoding="utf-8")
+
+
+def fetch_archive(source: Source, dest: Path) -> str:
+    output = [f"==> {source.path}\n"]
+    marker = dest / ".leanload-source"
+    if marker.exists() and marker.read_text(encoding="utf-8") == source_marker(source):
+        output.append(f"{source.path}\n")
+        return "".join(output)
+
+    with tempfile.TemporaryDirectory(prefix="fetch-", dir=dest.parent) as temp_name:
+        temp = Path(temp_name)
+        tarball = temp / "source.tar.gz"
+        output.append(
+            run(
+                ["curl", "-L", "--fail", "--silent", "--show-error", "-o", str(tarball), source.url]
+            ).output
+        )
+        extract_dir = temp / "extract"
+        extract_dir.mkdir()
+        with tarfile.open(tarball, "r:gz") as archive:
+            safe_extract(archive, extract_dir)
+        roots = [path for path in extract_dir.iterdir() if path.is_dir()]
+        if len(roots) != 1:
+            raise RuntimeError(f"{source.path} archive should contain exactly one root directory")
+        replace_tree(source, roots[0], dest)
+
+    output.append(f"{source.path}\n")
+    return "".join(output)
+
+
+def fetch_git_sparse(source: Source, dest: Path) -> str:
+    output = [f"==> {source.path}\n"]
     if dest.exists() and not ((dest / ".git").exists()):
         if any(dest.iterdir()):
-            raise SystemExit(f"{source.path} exists but is not a git checkout")
+            raise RuntimeError(f"{source.path} exists but is not a git checkout")
         dest.rmdir()
 
     if not dest.exists():
-        run(["git", "clone", "--filter=blob:none", "--no-checkout", source.url, str(dest)])
+        output.append(run(["git", "clone", "--filter=blob:none", "--no-checkout", source.url, str(dest)]).output)
 
-    run(["git", "sparse-checkout", "init", "--no-cone"], cwd=dest)
-    run(["git", "sparse-checkout", "set", *source.sparse], cwd=dest)
+    output.append(run(["git", "sparse-checkout", "init", "--no-cone"], cwd=dest).output)
+    output.append(run(["git", "sparse-checkout", "set", *source.sparse], cwd=dest).output)
+    shallow = run(
+        ["git", "fetch", "--filter=blob:none", "--depth", "1", "origin", source.commit],
+        cwd=dest,
+        check=False,
+    )
+    output.append(shallow.output)
+    if shallow.returncode != 0:
+        output.append(run(["git", "fetch", "--filter=blob:none", "origin", source.commit], cwd=dest).output)
+    output.append(run(["git", "checkout", "--detach", source.commit], cwd=dest).output)
+    output.append(f"{source.path}\n")
+    return "".join(output)
+
+
+def fetch(source: Source) -> str:
+    dest = ROOT / source.path
     try:
-        run(["git", "fetch", "--filter=blob:none", "--depth", "1", "origin", source.commit], cwd=dest)
-    except subprocess.CalledProcessError:
-        run(["git", "fetch", "--filter=blob:none", "origin", source.commit], cwd=dest)
-    run(["git", "checkout", "--detach", source.commit], cwd=dest)
-    print(source.path)
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        if source.sparse:
+            return fetch_git_sparse(source, dest)
+        return fetch_archive(source, dest)
+    except subprocess.CalledProcessError as error:
+        output = [f"==> {source.path}\n"]
+        if error.output:
+            output.append(str(error.output))
+        raise FetchError(source, "".join(output)) from None
+    except RuntimeError as error:
+        output = [f"==> {source.path}\n"]
+        output.append(f"{error}\n")
+        raise FetchError(source, "".join(output)) from None
 
 
-def main() -> int:
-    for source in SOURCES:
-        fetch(source)
+def parse_args(argv: list[str]) -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "-j",
+        "--jobs",
+        type=positive_int,
+        default=4,
+        help="number of repositories to fetch in parallel (default: 4)",
+    )
+    parser.add_argument(
+        "sources",
+        nargs="*",
+        help="optional source paths or path suffixes to fetch",
+    )
+    return parser.parse_args(argv)
+
+
+def selected_sources(patterns: list[str]) -> list[Source]:
+    if not patterns:
+        return SOURCES
+
+    selected = [
+        source
+        for source in SOURCES
+        if any(source.path == pattern or source.path.endswith(pattern) for pattern in patterns)
+    ]
+    matched_patterns = {
+        pattern
+        for pattern in patterns
+        if any(source.path == pattern or source.path.endswith(pattern) for source in SOURCES)
+    }
+    missing = sorted(set(patterns) - matched_patterns)
+    if missing:
+        raise SystemExit("unknown source pattern(s): " + ", ".join(missing))
+    return selected
+
+
+def main(argv: list[str] | None = None) -> int:
+    args = parse_args(sys.argv[1:] if argv is None else argv)
+    sources = selected_sources(args.sources)
+    if args.jobs == 1:
+        for source in sources:
+            try:
+                print(fetch(source), end="")
+            except FetchError as error:
+                print(error.output, end="", file=sys.stderr)
+                return 1
+        return 0
+
+    failures: list[FetchError] = []
+    with ThreadPoolExecutor(max_workers=args.jobs) as executor:
+        futures = {executor.submit(fetch, source): source for source in sources}
+        for future in as_completed(futures):
+            try:
+                print(future.result(), end="")
+            except FetchError as error:
+                print(error.output, end="", file=sys.stderr)
+                failures.append(error)
+
+    if failures:
+        print("failed sources:", file=sys.stderr)
+        for failure in failures:
+            print(f"- {failure.source.path}", file=sys.stderr)
+        return 1
     return 0
 
 
