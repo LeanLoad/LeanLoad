@@ -13,14 +13,14 @@ organization.
 - Keep shared references in `third_party/`; consuming repos should use umbrella
   paths or a `THIRD_PARTY_DIR` setting instead of adding duplicate submodules.
 - Managed references are script-fetched source trees, not submodules; keep
-  `fetch.sh` and `third_party/README.md` in sync.
+  `fetch.sh` and the top-level README reference map in sync.
 - Do not add a top-level `lean-toolchain`. Each Lean submodule owns its own
   toolchain pin.
-- Keep `.gitmodules` paths and `third_party/README.md` in sync.
+- Keep `.gitmodules` paths and the top-level README reference map in sync.
 
 ## Reference map
 
-Use `third_party/README.md` as the table of contents for vendored references,
+Use the top-level `README.md` as the table of contents for vendored references,
 including where to look inside large repositories for ELF, ABI, linker, loader,
 and parser behavior.
 
