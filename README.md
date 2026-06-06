@@ -9,6 +9,7 @@ as top-level submodules.
 ```text
 ElfLoader/      # verified ELF loader Lean package
 ELFine/         # Lean ELF format modeling, including ELFine.WhatTheElf
+ElfSpec/        # Lean ELF specification experiments
 ElfZoo/         # related ELF corpus/tools repo
 LeanOnWasm/     # Lean-on-WebAssembly demo repo
 WhatTheElf/     # Python malformed-ELF generator/checker
@@ -174,7 +175,10 @@ relevant entry points are `scanelf.c` and `lddtree.py`.
 
 `third_party/impl-tool/pyelftools` is a parser/tooling oracle for ELF and DWARF.
 The useful modules are under `elftools/elf/`, especially `elffile.py`,
-`sections.py`, `segments.py`, `dynamic.py`, and `relocation.py`.
+`sections.py`, `segments.py`, `dynamic.py`, and `relocation.py`. Downstream
+consumers that use pyelftools as their low-level ELF parser include the `cle`
+loader (which is in turn used by the `angr` analysis framework) and the
+`manticore` symbolic-execution framework.
 
 `third_party/impl-tool/sandboxed-api` has a small custom ELF parser used by
 Sandbox2 utilities. Start with `sandboxed_api/sandbox2/util/elf_parser.*`.
@@ -264,14 +268,11 @@ decompiler pipeline. Start with `src/fileformat/`,
 with `symtabAPI/src/Object-elf.C`, `symtabAPI/src/Object-elf.h`, and
 `symtabAPI/src/Elf_X.*`.
 
-`third_party/impl-re/angr` is the analysis framework; its ELF loading path lives
-in the companion `third_party/impl-re/cle` checkout. `cle` has ELF
-loader/backend logic under `cle/backends/elf/`, but it delegates low-level ELF
-parsing to `third_party/impl-tool/pyelftools`.
-
-`third_party/impl-re/manticore` is a symbolic-execution framework with ELF
-loading wrappers under `manticore/binary/` and `manticore/native/`; it also
-delegates low-level parsing to `third_party/impl-tool/pyelftools`.
+`third_party/impl-re/cle` is the ELF loader used by the `angr` analysis
+framework. Loader/backend logic lives under `cle/backends/elf/`; it adds
+loader-level semantics (relocations, TLS, GOT/PLT, eh_frame/LSDA, DWARF
+variable types, `metaelf` flags) on top of `third_party/impl-tool/pyelftools`,
+which it uses for all low-level ELF parsing.
 
 #### Specs and related work
 
