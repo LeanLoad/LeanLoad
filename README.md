@@ -26,7 +26,7 @@ make run
 ```
 
 `setup.sh` installs the system C toolchain and elan, then initializes the
-top-level project submodules plus `third_party/impl-loader/musl` for the end-to-end
+top-level project submodules plus `third_party/impl-rtld/musl` for the end-to-end
 ElfLoader fixture run. Each Lean submodule owns its own `lean-toolchain`;
 the umbrella repo intentionally does not duplicate one. Initialize all
 reference/spec submodules with:
@@ -59,12 +59,13 @@ The script creates ignored source trees at the paths listed below.
 ```text
 abi/              ELF ABI standards and psABI references
 impl-debug/       crash, profiling, symbolization, debugger, and instrumentation references
-impl-kernel/      kernel ELF exec loaders and OS exec ABI support
+impl-emu/         CPU/usermode emulators that load and run ELF guests
+impl-exec/        program (exec-time) loaders: kernel binfmt_elf, BSD image activators, gVisor
 impl-lang/        language runtimes and toolchains with ELF readers/producers
 impl-lib/         ELF/object libraries
 impl-linker/      linker implementations
-impl-loader/      concrete runtime loader implementations
 impl-re/          reverse engineering, decompilation, and symbolic execution tools
+impl-rtld/        dynamic linkers / runtime loaders (ld.so): glibc, musl, bionic, uClibc-ng
 impl-tool/        binary inspection, parsing, rewriting, and packaging tools
 lean-ref/         Lean tooling, books, and reference libraries
 related-elf/      related verified-loader / ELF work
@@ -77,51 +78,112 @@ related-parser/   related parser / binary-format work
 This map is intentionally implementation-heavy: these are the references most
 useful for checking concrete loader, linker, parser, and object-tool behavior.
 
-#### Runtime loaders (`third_party/impl-loader/`)
+##### Terminology: two loader roles
 
-`third_party/impl-loader/android-bionic` is Android's userspace runtime linker.
+ELF loading splits into two distinct roles. We abbreviate them **`exec`** and
+**`rtld`** and keep a directory for each:
+
+- **Program loader (`exec`)** — the `execve`-time loader. Runs once: parses the
+  ELF, maps the executable's and interpreter's `PT_LOAD` segments, builds the
+  initial stack + auxv, and **hands off** by jumping to the `PT_INTERP` entry.
+  It does **not** relocate. The kernel's `binfmt_elf`, the BSD image activators,
+  and gVisor's sentry play this role → `impl-exec/`.
+- **Dynamic linker (`rtld`)** — the run-time linker/loader (`ld.so`). Runs inside
+  the process: maps shared libraries, resolves symbols, **applies relocations**,
+  runs initializers, and stays live for `dlopen`/lazy binding. glibc, musl,
+  bionic, and uClibc-ng play this role → `impl-rtld/`.
+
+`rtld` is the spec/API term (cf. `RTLD_NOW`, glibc `elf/rtld.c`,
+FreeBSD `rtld-elf`); the dynamic linker is also called the *dynamic loader*.
+Note "static" is avoided here: a statically-linked executable has no
+`PT_INTERP` and needs no `rtld` at all — the `exec` loader maps it and jumps
+straight to its entry.
+
+#### Dynamic linkers — rtld (`third_party/impl-rtld/`)
+
+`third_party/impl-rtld/android-bionic` is Android's userspace runtime linker.
 Start with `linker/`, then `libdl/` and `libc/` for the surrounding
 dynamic-loading ABI.
 
-`third_party/impl-loader/fex` is a production user-mode emulator with custom ELF
-handling for Linux guest tooling. Start with
-`Source/Tools/CommonTools/Linux/Utils/ELFParser.*`.
-
-`third_party/impl-loader/glibc` is the main GNU/Linux runtime loader reference.
+`third_party/impl-rtld/glibc` is the main GNU/Linux runtime loader reference.
 The most useful files are `elf/dl-load.c`, `elf/rtld.c`, `elf/dl-reloc.c`,
 `elf/dl-lookup.c`, and `elf/dynamic-link.h`.
 
-`third_party/impl-loader/musl` is a compact libc/runtime-loader implementation.
+`third_party/impl-rtld/musl` is a compact libc/runtime-loader implementation.
 The loader is centered in `ldso/dynlink.c`, with startup and architecture
 details in `crt/*` and `arch/*/reloc.h`.
 
-`third_party/impl-loader/qemu` has concrete emulated ELF loaders. Look at
-`linux-user/elfload.c`, `bsd-user/elfload.c`, `hw/core/loader.c`, and
-`include/hw/elf_ops.h`.
+`third_party/impl-rtld/uclibc-ng` is an independent embedded-libc dynamic
+linker (a uClibc lineage, not a glibc derivative). The loader lives in
+`ldso/ldso/` (`ldso.c`, `dl-elf.c`, `dl-startup.c`, `dl-hash.c`) with `dlopen`
+support in `ldso/libdl/`.
 
-`third_party/impl-loader/valgrind` is useful for userspace executable and object
-loading in an instrumentation runtime. Start with `coregrind/m_ume/` and
-`coregrind/m_debuginfo/`.
+#### Emulators (`third_party/impl-emu/`)
 
-#### Kernel exec loaders (`third_party/impl-kernel/`)
+Every emulator here necessarily performs the `exec` role (it must parse and map
+the guest's main image). They differ in whether they *also* take on the `rtld`
+role, which is the more useful axis for this corpus:
 
-`third_party/impl-kernel/freebsd-src` covers FreeBSD's kernel ELF exec contract.
+- **`exec`-only** (blink, qemu, valgrind): map the executable + interpreter and
+  jump to `PT_INTERP`, then **defer relocation** to the guest's real `ld.so`,
+  which runs as ordinary guest code. These are program loaders standing in for
+  the kernel.
+- **`exec` + `rtld`** (box86, box64, fex): there is no guest `ld.so` to delegate
+  to (they thunk guest libraries into a different host ISA), so the emulator
+  *is* the dynamic linker too — it maps libraries and applies relocations itself.
+
+The `exec` + `rtld` emulators implement their **own** relocation engine:
+
+`third_party/impl-emu/box64` is the most complete reference: ELF parsing in
+`src/elfs/elfparser.c` (plus `elfparser32.c`) and a full relocation engine in
+`src/elfs/elfloader.c` (`RelocateElfREL`/`RelocateElfRELA`, all `R_X86_64_*`).
+
+`third_party/impl-emu/box86` is the 32-bit x86 counterpart; same structure with
+`R_386_*` relocations in `src/elfs/elfloader.c`.
+
+`third_party/impl-emu/fex` parses ELF in
+`Source/Tools/CommonTools/Linux/Utils/ELFParser.*` and applies relocations
+itself in `ELFContainer.cpp` (`ELFContainer::FixupRelocations`, `R_X86_64_*`).
+
+The `exec`-only emulators below parse + map the image but **defer relocation**
+to the guest interpreter (`PT_INTERP`, i.e. the guest `ld.so`):
+
+`third_party/impl-emu/blink` is a tiny x86-64 Linux emulator. ELF parsing is in
+`blink/elf.c` and segment mapping in `blink/loader.c`
+(`LoadElf`/`LoadElfLoadSegment`); it loads the guest `PT_INTERP` for dynamic
+linking (relocation constants in `blink/elf.h` are definitions only).
+
+`third_party/impl-emu/qemu` has concrete emulated ELF loaders. Look at
+`linux-user/elfload.c` (`load_elf_image`/`load_elf_interp`),
+`bsd-user/elfload.c`, `hw/core/loader.c`, and `include/hw/elf_ops.h`.
+
+`third_party/impl-emu/valgrind` loads userspace executables in an instrumentation
+runtime. Start with `coregrind/m_ume/elf.c` and `coregrind/m_debuginfo/`.
+
+#### Program loaders — exec (`third_party/impl-exec/`)
+
+`third_party/impl-exec/freebsd-src` covers FreeBSD's kernel ELF exec contract.
 Use `sys/sys/elf*.h` for kernel constants and `libexec/rtld-elf/` when comparing
 the userspace runtime linker paired with it.
 
-`third_party/impl-kernel/illumos-gate` covers illumos ELF exec and
+`third_party/impl-exec/gvisor` is a clean-room reimplementation of the Linux
+ELF exec path in Go, inside Google's userspace kernel. Start with
+`pkg/sentry/loader/elf.go` (header/segment loading), `interpreter.go`
+(`PT_INTERP` handling), `loader.go` (process bootstrap + auxv), and `vdso.go`.
+
+`third_party/impl-exec/illumos-gate` covers illumos ELF exec and
 runtime-linker sources. Use `usr/src/uts/common/sys/elf*.h` for kernel ELF
 definitions and `usr/src/cmd/sgs/rtld/` for userspace `ld.so.1`.
 
-`third_party/impl-kernel/linux` is the canonical Linux exec loader reference.
+`third_party/impl-exec/linux` is the canonical Linux exec loader reference.
 Start with `fs/binfmt_elf.c`, `fs/binfmt_elf_fdpic.c`,
 `include/uapi/linux/elf.h`, and `arch/*/include/asm/elf.h`.
 
-`third_party/impl-kernel/netbsd-src` covers NetBSD's kernel ELF exec path. Use
+`third_party/impl-exec/netbsd-src` covers NetBSD's kernel ELF exec path. Use
 `sys/sys/exec_elf.h` for kernel support and `libexec/ld.elf_so/` for its
 userspace runtime linker.
 
-`third_party/impl-kernel/openbsd-src` covers OpenBSD's kernel ELF exec path. Use
+`third_party/impl-exec/openbsd-src` covers OpenBSD's kernel ELF exec path. Use
 `sys/sys/exec_elf.h` for kernel support and `libexec/ld.so/` for its userspace
 runtime linker.
 
@@ -151,15 +213,29 @@ emitter. Look at `src/link/Elf.zig`, `src/link/Elf/`,
 #### Linkers (`third_party/impl-linker/`)
 
 `third_party/impl-linker/binutils-gdb` is the GNU linker/toolchain reference.
-The important paths are `ld/`, `gas/`, `bfd/elf*.c`, `binutils/readelf.c`, and
-`binutils/objdump.c`.
+The important paths are `ld/` (BFD linker), `gold/` (the gold ELF linker),
+`gas/`, `bfd/elf*.c`, `binutils/readelf.c`, and `binutils/objdump.c`.
 
 `third_party/impl-linker/llvm-project` covers LLVM's object model and `lld`. Use
 `lld/ELF/`, `llvm/include/llvm/Object/ELF*.h`, `llvm/lib/Object/ELF*.cpp`,
-`llvm/tools/llvm-readobj/`, and `llvm/tools/llvm-objdump/`.
+`llvm/tools/llvm-readobj/`, and `llvm/tools/llvm-objdump/`. The monorepo also
+contains two other notable ELF consumers: BOLT, a post-link binary rewriter
+(`bolt/lib/Rewrite/RewriteInstance.cpp`, `bolt/lib/Core/`), and the LLDB
+debugger's ELF object plugin (`lldb/source/Plugins/ObjectFile/ELF/`).
 
 `third_party/impl-linker/mold` is a modern ELF linker with a comparatively
 direct codebase. Most of the interesting implementation is under `elf/`.
+
+`third_party/impl-linker/wild` is the notable new linker — a fast, incremental
+ELF linker in Rust. The implementation is in `libwild/src/`: `elf.rs` and
+`elf_writer.rs` for output, per-arch relocation in `elf_x86_64.rs`/
+`elf_aarch64.rs`/`elf_riscv64.rs`/`elf_ppc64.rs`/`elf_loongarch64.rs`, and
+`layout.rs` for address assignment.
+
+`third_party/impl-linker/tinycc` is a compact reference for the producer side:
+a tiny C compiler with its own integrated ELF linker. Start with `tccelf.c`
+(output + relocation core) and the per-arch relocation in `x86_64-link.c`,
+`arm64-link.c`, and `riscv64-link.c`.
 
 #### ELF tools and libraries (`third_party/impl-tool/`, `third_party/impl-lib/`)
 

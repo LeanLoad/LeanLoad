@@ -115,38 +115,52 @@ fetch_async "impl-debug/libbacktrace" \
   "https://github.com/ianlancetaylor/libbacktrace/archive/549b81b43b46c0f361680561a626bf0e7b79dcbd.tar.gz"
 fetch_async "impl-lib/rust-elf" \
   "https://github.com/cole14/rust-elf/archive/refs/tags/v0.8.0.tar.gz"
-fetch_async "impl-loader/android-bionic" \
+fetch_async "impl-rtld/android-bionic" \
   "https://github.com/aosp-mirror/platform_bionic/archive/refs/tags/android-16.0.0_r1.tar.gz"
-fetch_async "impl-loader/fex" \
+fetch_async "impl-emu/blink" \
+  "https://github.com/jart/blink/archive/f006a4fc6f9b8de9272504fdff0dbbe5ce5dc580.tar.gz"
+fetch_async "impl-emu/box86" \
+  "https://github.com/ptitSeb/box86/archive/refs/tags/v0.3.8.tar.gz"
+fetch_async "impl-emu/box64" \
+  "https://github.com/ptitSeb/box64/archive/refs/tags/v0.4.3-3.tar.gz"
+fetch_async "impl-emu/fex" \
   "https://github.com/FEX-Emu/FEX/archive/a5c3fc475145f269f511e9edce9afe28c188651a.tar.gz"
+fetch_async "impl-emu/qemu" \
+  "https://download.qemu.org/qemu-11.0.1.tar.xz"
+fetch_async "impl-emu/valgrind" \
+  "https://sourceware.org/pub/valgrind/valgrind-3.27.1.tar.bz2"
 fetch_async "impl-linker/binutils-gdb" \
   "https://ftp.gnu.org/gnu/binutils/binutils-2.46.0.tar.xz"
 fetch_async "impl-lang/dart-sdk" \
   "https://github.com/dart-lang/sdk/archive/03ba5dabc275017074e0b7ed0a031dbd3c615130.tar.gz"
-fetch_async "impl-kernel/freebsd-src" \
+fetch_async "impl-exec/freebsd-src" \
   "https://github.com/freebsd/freebsd-src/archive/refs/heads/releng/15.0.tar.gz"
-fetch_async "impl-loader/glibc" \
+fetch_async "impl-rtld/glibc" \
   "https://ftp.gnu.org/gnu/glibc/glibc-2.43.tar.xz"
-fetch_async "impl-kernel/illumos-gate" \
+fetch_async "impl-exec/illumos-gate" \
   "https://github.com/illumos/illumos-gate/archive/b32229105ff0363d3ca16ede5eeaa6affdba6615.tar.gz"
 fetch_async "impl-lang/go" \
   "https://go.dev/dl/go1.25.5.src.tar.gz"
 fetch_async "impl-linker/llvm-project" \
   "https://github.com/llvm/llvm-project/archive/refs/tags/llvmorg-22.1.7.tar.gz"
-fetch_async "impl-kernel/linux" \
+fetch_async "impl-exec/gvisor" \
+  "https://github.com/google/gvisor/archive/refs/tags/release-20260601.0.tar.gz"
+fetch_async "impl-exec/linux" \
   "https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.19.tar.xz"
 fetch_async "impl-linker/mold" \
   "https://github.com/rui314/mold/archive/4f08de114789ff3c1d56d5e5b7612e32bc3b3fa0.tar.gz"
-fetch_async "impl-loader/musl" \
+fetch_async "impl-linker/tinycc" \
+  "https://github.com/TinyCC/tinycc/archive/b8f680a3b45325592c5c1270056ad6f0fb1f7e29.tar.gz"
+fetch_async "impl-linker/wild" \
+  "https://github.com/davidlattimore/wild/archive/refs/tags/0.9.0.tar.gz"
+fetch_async "impl-rtld/musl" \
   "https://github.com/kraj/musl/archive/8cb84492b0245d70b2cd0edd523e2b55c7ad67a9.tar.gz"
-fetch_async "impl-loader/qemu" \
-  "https://download.qemu.org/qemu-11.0.1.tar.xz"
-fetch_async "impl-kernel/netbsd-src" \
+fetch_async "impl-rtld/uclibc-ng" \
+  "https://github.com/wbx-github/uclibc-ng/archive/refs/tags/v1.0.57.tar.gz"
+fetch_async "impl-exec/netbsd-src" \
   "https://github.com/NetBSD/src/archive/refs/heads/netbsd-11.tar.gz"
-fetch_async "impl-kernel/openbsd-src" \
+fetch_async "impl-exec/openbsd-src" \
   "https://github.com/openbsd/src/archive/b67053e1736e5da02fa744e25e1077cb86bfd81c.tar.gz"
-fetch_async "impl-loader/valgrind" \
-  "https://sourceware.org/pub/valgrind/valgrind-3.27.1.tar.bz2"
 fetch_async "impl-tool/elfutils" \
   "https://sourceware.org/elfutils/ftp/0.194/elfutils-0.194.tar.bz2"
 fetch_async "impl-tool/patchelf" \
