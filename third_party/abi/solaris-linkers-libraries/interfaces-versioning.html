@@ -1,0 +1,116 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Interfaces and Versioning">
+      <meta name="DC.subject" content="versioning, overview, Application Binary Interface, public, global, global symbols, public interface, private, private interface">
+      <meta name="keywords" content="versioning, overview, Application Binary Interface, public, global, global symbols, public interface, private, private interface">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-29E9D90C-5FBD-42FF-A81D-90638DB0A5EB">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Interfaces and Versioning</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="mapfile-directives-predefined-segments-entrance-----------------criteria.html" title="Previous" type="text/html">
+      <link rel="next" href="interface-compatibility.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Interfaces and Versioning","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="mapfile-directives-predefined-segments-entrance-----------------criteria.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="interface-compatibility.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-29E9D90C-5FBD-42FF-A81D-90638DB0A5EB" name="GUID-29E9D90C-5FBD-42FF-A81D-90638DB0A5EB"></a>
+         
+         <h2 id="OSLLG-GUID-29E9D90C-5FBD-42FF-A81D-90638DB0A5EB" class="sect2"><span class="enumeration_chapter">11 </span>Interfaces and Versioning
+         </h2>
+         <div class="ind">
+            <div>
+               <p>ELF objects processed by the link-editor and runtime linker
+                        provide many global symbols to which other objects can bind. These symbols
+                        describe the object's application binary interface (<span>ABI</span>).
+                        During the evolution of an object, this interface can change due to the
+                        addition or deletion of global symbols. In addition, the object's evolution
+                        can involve internal implementation changes.
+               </p>
+               <p>Versioning refers to several techniques that can be applied to
+                        an object to indicate interface and implementation changes. These techniques
+                        provide for controlled evolution of the object, while maintaining backward
+                        compatibility.</p>
+               <p>This chapter describes how to define an object's <span>ABI</span>. Also
+                        covered, are how changes to this <span>ABI</span> interface can affect
+                        backward compatibility. These concepts are explored with models that convey
+                        how interface, together with implementation changes, can be incorporated
+                        into a new release of an object.
+               </p>
+               <p>The focus of this chapter is on the runtime interfaces of dynamic
+                        objects. The techniques used to describe and manage changes
+                        within these dynamic objects are presented in generic terms.</p>
+               <p>Developers of dynamic objects must be aware of the ramifications of an
+                        interface change and understand how such changes can be managed, especially
+                        in regards to maintaining backward compatibility with previously shipped
+                        objects.</p>
+               <p>The global symbols that are made available by any dynamic object
+                        represent the object's public interface. Frequently, the number of global
+                        symbols that remain in an object after a link-edit are more than you would
+                        like to make public. These global symbols stem from the symbol state that is
+                        required between the relocatable objects used to create the object. These
+                        symbols represent private interfaces within the object.</p>
+               <p>To define an object's<span>ABI</span>, you should first determine those
+                        global symbols that you want to make publicly available from the object.
+                        These public symbols can be established using the link-editor's
+<code class="codeph">-M</code> option and an associated
+<code>mapfile</code> as part of the final link-edit. This
+                        technique is introduced in <a href="reducing-symbol-scope.html#GUID-23966F33-0E78-43E1-8574-D3297C70F744">Reducing Symbol Scope</a>. This public interface establishes one or more version
+                        definitions within the object being created. These definitions form the
+                        foundation for the addition of new interfaces as the object evolves.
+               </p>
+               <p>The following sections build upon this initial public interface. First though,
+                        you should understand how various changes to an interface can be categorized
+                        so that these interfaces can be managed appropriately.</p>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

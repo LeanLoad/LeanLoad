@@ -1,0 +1,235 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Debugger Module">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-EAD48148-48E7-46AD-BD29-17A46F0029C5">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Debugger Module</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="runtime-linker-debugging-facility.html" title="Previous" type="text/html">
+      <link rel="next" href="shared-objects.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Debugger Module","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="runtime-linker-debugging-facility.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="shared-objects.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-EAD48148-48E7-46AD-BD29-17A46F0029C5" name="GUID-EAD48148-48E7-46AD-BD29-17A46F0029C5"></a>
+         
+         <h2 id="OSLLG-GUID-EAD48148-48E7-46AD-BD29-17A46F0029C5" class="sect2">Debugger Module</h2>
+         <div class="ind">
+            <div>
+               <p>The debugger module provides a set of <code class="codeph">dcmds</code> and
+	<code class="codeph">walkers</code> that can be loaded under <a href="https://docs.oracle.com/cd/E88353_01/html/E37839/mdb-1.html" target="_blank">
+                     <code class="codeph">mdb</code>(1)</a>. This module can be used to inspect
+                                various internal data structures of the runtime linker. Much of the
+                                debugging information requires familiarity with the internals of the
+                                runtime linker. These internals can change from release to release.
+                                However, some elements of these data structures reveal the basic
+                                components of a dynamically linked process and can aid general
+                                debugging.
+               </p>
+               <p>The following examples show some simple scenarios of using <a href="https://docs.oracle.com/cd/E88353_01/html/E37839/mdb-1.html" target="_blank">
+                     <code class="codeph">mdb</code>(1)</a> with the debugger module.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cat main.c</span>
+#include    &lt;dlfcn.h&gt;
+
+int main()
+{
+        void *handle;
+        void (*fptr)();
+
+        if ((handle = dlopen("foo.so.1", RTLD_LAZY)) == NULL)
+                return (1);
+
+        if ((fptr = (void (*)())dlsym(handle, "foo")) == NULL)
+                return (1);
+
+        (*fptr)();
+        return (0);
+}
+$ <span class="bold">cc -o main main.c -R.</span></pre><p>If <a href="https://docs.oracle.com/cd/E88353_01/html/E37839/mdb-1.html" target="_blank">
+                     <code class="codeph">mdb</code>(1)</a> has not automatically loaded the
+                                debugger module, <code>ld.so</code>, explicitly do so. The
+                                facilities of the debugger module can then be inspected.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">mdb main</span>
+&gt; <span class="bold">::load ld.so</span>
+&gt; <span class="bold">::dmods -l ld.so</span>
+
+ld.so
+-----------------------------------------------------------------
+  dcmd Bind                 - Display a Binding descriptor
+  dcmd Callers              - Display Rt_map CALLERS binding descriptors
+  dcmd Depends              - Display Rt_map DEPENDS binding descriptors
+  dcmd ElfDyn               - Display Elf_Dyn entry
+  dcmd ElfEhdr              - Display Elf_Ehdr entry
+  dcmd ElfPhdr              - Display Elf_Phdr entry
+  dcmd Groups               - Display Rt_map GROUPS group handles
+  dcmd GrpDesc              - Display a Group Descriptor
+  dcmd GrpHdl               - Display a Group Handle
+  dcmd Handles              - Display Rt_map HANDLES group descriptors
+  ....
+&gt; <span class="bold">::bp main</span>
+&gt; <span class="bold">:r</span></pre><p>Each dynamic object within a process is expressed as a link-map,
+<code class="codeph">Rt_map</code>, which is maintained on a link-map
+                                list. All link-maps for the process can be displayed with
+<code class="codeph">Rt_maps</code>.
+               </p><pre class="oac_no_warn" dir="ltr">&gt; <span class="bold">::Rt_maps</span>
+Link-map lists (dynlm_list): 0xff1e5258 Alist[used 2: total 2]
+----------------------------------------------
+  Lm_list: 0xff1e00c4  (LM_ID_BASE)
+  ----------------------------------------------
+    lmco        rtmap       ADDR()     NAME()
+    ----------------------------------------------
+    [0x10]      0xff1e4cc0 0x00010000 main
+    [0x10]      0xff1e55f8 0xfe8b0000 /lib/libc.so.1
+  ----------------------------------------------
+  Lm_list: 0xff1e0178  (LM_ID_LDSO)
+  ----------------------------------------------
+    [0x10]      0xff1e47b0 0xff190000 /lib/ld.so.1</pre><p>An individual link-map can be displayed with
+<code class="codeph">Rt_map</code>.
+               </p><pre class="oac_no_warn" dir="ltr">&gt; <span class="bold">0xff3f9040::Rt_map</span>
+Rt_map located at: 0xff3f9040
+----------------------------------------------
+     NAME: main
+ PATHNAME: /export/home/user/main
+     ADDR: 0x00010000         DYN: 0x00020b4c
+     NEXT: 0xff1e55f8        PREV: 0x00000000
+     LAZY:          0    TLSMODID:          0
+     INIT: 0x00000000        FINI: 0x00000000
+   GROUPS: 0x00000000     HANDLES: 0x00000000
+  DEPENDS: 0xff1e5c90     CALLERS: 0x00000000
+  DYNINFO: 0xff1e4e58     REFNAME: 
+    RLIST: 0xff1e5338       RPATH: .
+     LIST: 0xff1e00c4 [ld.so.1`lml_main]
+    FLAGS: 0x10421605
+           [ MAIN,RELOCATED,ANALYZED,INITDONE,FIXED,
+             MODESET,INITCALLED ,INITCOLLECT ]
+   FLAGS1: 0x00400682
+           [ ALTCAPCHK,DTFLAGS,NOINITFINI,USED,CRTFINI ]
+     MODE: 0x00001901
+           [ LAZY,GLOBAL,WORLD,NODELETE ]</pre><p>The object's <code class="codeph">.dynamic</code> section can be displayed with
+                                the <code class="codeph">ElfDyn</code>
+                  <code class="codeph">dcmd</code>. The following example shows the first 4
+                                entries.
+               </p><pre class="oac_no_warn" dir="ltr">&gt; <span class="bold">0x00020b4c,4::ElfDyn</span>
+Elf_Dyn located at: 0x20b4c
+    0x20b4c  NEEDED       0x00000150
+Elf_Dyn located at: 0x20b54
+    0x20b54  INIT         0x00010aa8
+Elf_Dyn located at: 0x20b5c
+    0x20b5c  FINI         0x00010ab4
+Elf_Dyn located at: 0x20b64
+    0x20b64  RUNPATH      0x00000170</pre><p>
+                  <a href="https://docs.oracle.com/cd/E88353_01/html/E37839/mdb-1.html" target="_blank">
+                     <code class="codeph">mdb</code>(1)</a> is also very useful for setting
+                                deferred break points. In this example, a break point on the
+                                function <code class="codeph">foo</code>() might be useful. However, until
+				the <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/dlopen-3c.html" target="_blank">
+                     <code class="codeph">dlopen</code>(3C)</a> of <code>foo.so.1</code>
+                                occurs, this symbol isn't known to the debugger. A deferred break
+                                point instructs the debugger to set a real breakpoint when the
+                                dynamic object is loaded.
+               </p><pre class="oac_no_warn" dir="ltr">&gt; <span class="bold">::bp foo.so.1`foo</span>
+&gt; <span class="bold">:c</span>
+&gt; mdb: You've got symbols!
+&gt; mdb: stop at foo.so.1`foo
+mdb: target stopped at:
+foo.so.1`foo:   save      %sp, -0x60, %sp
+mdb: You've got symbols!</pre><p>At this point, new objects have been loaded.</p><pre class="oac_no_warn" dir="ltr">&gt; <span class="bold">*ld.so`lml_main::Rt_maps</span>
+lmco    rtmap       ADDR()     NAME()
+----------------------------------------------
+[0x10]  0xff1e4cc0 0x00010000 main
+[0x10]  0xff1e55f8 0xfe8b0000 /lib/libc.so.1
+[0x10]  0xff1d8110 0xff160000 ./foo.so.1
+[0x10]  0xff1d8a58 0xff140000 ./bar.so.1</pre><p>The link-map for <code>foo.so.1</code> shows the handle
+	returned by <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/dlopen-3c.html" target="_blank">
+                     <code class="codeph">dlopen</code>(3C)</a>. You can expand this structure using
+<code class="codeph">Handles</code>.
+               </p><pre class="oac_no_warn" dir="ltr">&gt; <span class="bold">0xff1d8110::Handles -v</span>
+HANDLES for ./foo.so.1
+----------------------------------------------
+  HANDLE: 0xff1d8570 APlist[used 1: total 20]
+    ----------------------------------------------
+    Group Handle located at: 0xff1d8548
+    ----------------------------------------------
+        owner:               ./foo.so.1
+        flags: 0x00000101    [ PUBLIC,INITIAL ]
+       refcnt:          1    depends: 0xff1d8660 Alist[used 3: total 20]
+        ----------------------------------------------
+        Group Descriptor located at: 0xff1d8670
+           depend: 0xff1d8110    ./foo.so.1
+            flags: 0x00000007    [ DLSYMAVAIL,RELOCAVAIL,ADDEPS ]
+        ----------------------------------------------
+        Group Descriptor located at: 0xff1d8678
+           depend: 0xff1e4cc0    main
+            flags: 0x00000008    [ PARENT ]
+        ----------------------------------------------
+        Group Descriptor located at: 0xff1d8680
+           depend: 0xff1d8a58    ./bar.so.1
+            flags: 0x00000007    [ DLSYMAVAIL,RELOCAVAIL,ADDEPS ]</pre><p>The dependencies of a handle are a list of link-maps that represent
+	the objects of the handle that can satisfy a <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/dlsym-3c.html" target="_blank">
+                     <code class="codeph">dlsym</code>(3C)</a> request. In this case, the
+                                dependencies are <code>foo.so.1</code> and
+<code>bar.so.1</code>.
+               </p>
+               <div class="infoboxnote" id="GUID-EAD48148-48E7-46AD-BD29-17A46F0029C5__GUID-285A5A10-C56C-421A-8199-869272B6AC84">
+                  <p class="notep1">Note:</p>
+         The previous examples provide a basic guide to the debugger
+                                        module facilities, but the exact commands, usage, and output
+                                        can change from release to release. Refer to the usage and
+					help information from <a href="https://docs.oracle.com/cd/E88353_01/html/E37839/mdb-1.html" target="_blank">
+                     <code class="codeph">mdb</code>(1)</a> for the exact facilities
+                                        that are available on your system.
+
+               </div>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

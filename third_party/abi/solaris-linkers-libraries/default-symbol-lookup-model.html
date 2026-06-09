@@ -1,0 +1,266 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Default Symbol Lookup Model">
+      <meta name="DC.subject" content=", dlopen, effects of ordering">
+      <meta name="keywords" content=", dlopen, effects of ordering">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-D87C0F3C-8B70-4E8D-AFBE-ECEDF1A7CD4B">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Default Symbol Lookup Model</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="symbol-lookup1.html" title="Previous" type="text/html">
+      <link rel="next" href="defining-global-object.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Default Symbol Lookup Model","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="symbol-lookup1.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="defining-global-object.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-D87C0F3C-8B70-4E8D-AFBE-ECEDF1A7CD4B" name="GUID-D87C0F3C-8B70-4E8D-AFBE-ECEDF1A7CD4B"></a>
+         
+         <h2 id="OSLLG-GUID-D87C0F3C-8B70-4E8D-AFBE-ECEDF1A7CD4B" class="sect2">Default Symbol Lookup Model</h2>
+         <div class="ind">
+            <div>
+               <p>For each object added by a basic <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/dlopen-3c.html" target="_blank">
+                     <code class="codeph">dlopen</code>(3C)</a>, the runtime linker first
+                                                looks for the symbol in the executable. The
+                                                runtime linker then looks in each of the objects
+                                                provided during the initialization of the process.
+                                                If the symbol is still not found, the runtime linker
+                                                continues the search. The runtime linker next looks
+						in the object acquired through the <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/dlopen-3c.html" target="_blank">
+                     <code class="codeph">dlopen</code>(3C)</a> and in any of its
+                                                dependencies.
+               </p>
+               <p>The default symbol lookup model provides for a
+                                                transition into a lazy loading environment. If a
+                                                symbol can not be found in the currently loaded
+                                                objects, any pending lazy loaded objects are
+                                                processed in an attempt to locate the symbol. This
+                                                loading compensates for objects that have not fully
+                                                defined their dependencies. However, this
+                                                compensation can undermine the advantages of a lazy
+                                                loading.</p>
+               <p>In the following example, the executable
+<code>prog</code> and the shared object
+<code>B.so.1</code> have the following
+                                                dependencies.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">ldd prog</span>
+        A.so.1 =&gt;        ./A.so.1
+$ <span class="bold">ldd B.so.1</span>
+        C.so.1 =&gt;        ./C.so.1</pre><p>If <code>prog</code> acquires the shared
+	object <code>B.so.1</code> by <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/dlopen-3c.html" target="_blank">
+                     <code class="codeph">dlopen</code>(3C)</a>, then any symbol required
+                                                to relocate the shared objects
+<code>B.so.1</code> and
+<code>C.so.1</code> will first be looked
+                                                for in <code>prog</code>, followed by
+<code>A.so.1</code>, followed by
+<code>B.so.1</code>, and finally in
+<code>C.so.1</code>. In this simple case,
+                                                think of the shared objects acquired through the
+						<a href="https://docs.oracle.com/cd/E88353_01/html/E37843/dlopen-3c.html" target="_blank">
+                     <code class="codeph">dlopen</code>(3C)</a> as if they had been added
+                                                to the end of the original link-edit of the
+                                                application. For example, the objects referenced in
+                                                the previous listing can be expressed
+                                                diagrammatically as shown in the following
+                                                figure.
+               </p>
+               <div class="figure" id="GUID-D87C0F3C-8B70-4E8D-AFBE-ECEDF1A7CD4B__GUID-8494D8AA-EBEF-4970-AD10-5CCAC21C4E9C">
+                  <p>A Single <code class="codeph">dlopen</code>()
+                                                  Request
+                  </p><br><img height="195" width="618" src="img/sgldlopen.jpg" alt="A single dlopen() request." title="A single dlopen() request."><br></div>
+               <p>Any symbol lookup required by the objects acquired
+	from the <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/dlopen-3c.html" target="_blank">
+                     <code class="codeph">dlopen</code>(3C)</a>, that is shown as shaded
+                                                blocks, proceeds from the executable
+<code>prog</code> through to the final
+                                                shared object <code>C.so.1</code>.
+               </p>
+               <p>This symbol lookup is established by the attributes
+                                                assigned to the objects as they were loaded. Recall
+                                                that the executable and all the dependencies
+                                                loaded with the executable are assigned global
+                                                symbol visibility, and that the new objects are
+                                                assigned world symbol search scope. Therefore, the
+                                                new objects are able to look for symbols in the
+                                                original objects. The new objects also form a unique
+                                                group in which each object has local symbol
+                                                visibility. Therefore, each object within the group
+                                                can look for symbols within the other group
+                                                members.</p>
+               <p>These new objects do not affect the normal symbol
+                                                lookup required by either the application or the
+                                                applications initial dependencies. For example, if
+<code>A.so.1</code> requires a function
+relocation after the previous <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/dlopen-3c.html" target="_blank">
+                     <code class="codeph">dlopen</code>(3C)</a> has occurred, the runtime
+                                                linker normal search for the relocation symbol is to
+                                                look in <code>prog</code> and then
+<code>A.so.1</code>. The runtime linker
+                                                does not follow through and look in
+<code>B.so.1</code> or
+<code>C.so.1</code>.
+               </p>
+               <p>This symbol lookup is again a result of the attributes
+                                                assigned to the objects as they were loaded. The
+                                                world symbol search scope is assigned to the
+                                                executable and all the dependencies loaded with it.
+                                                This scope does not allow them to look for symbols
+                                                in the new objects that only offer local symbol
+                                                visibility.</p>
+               <p>These symbol search and symbol visibility attributes
+                                                maintain associations between objects. These
+                                                associations are based on their introduction into
+                                                the process address space, and on any dependency
+                                                relationship between the objects. Assigning the
+						objects associated with a given <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/dlopen-3c.html" target="_blank">
+                     <code class="codeph">dlopen</code>(3C)</a> to a unique group ensures
+						that only objects associated with the same <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/dlopen-3c.html" target="_blank">
+                     <code class="codeph">dlopen</code>(3C)</a> are allowed to look up
+                                                symbols within themselves and their related
+                                                dependencies.
+               </p>
+               <p>This concept of defining associations between objects
+                                                becomes more clear in applications that carry out
+						more than one <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/dlopen-3c.html" target="_blank">
+                     <code class="codeph">dlopen</code>(3C)</a>. For example, suppose the
+                                                shared object <code>D.so.1</code> has the
+                                                following dependency.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">ldd D.so.1</span>
+        E.so.1 =&gt;         ./E.so.1</pre><p>and the <code>prog</code> application used
+	<a href="https://docs.oracle.com/cd/E88353_01/html/E37843/dlopen-3c.html" target="_blank">
+                     <code class="codeph">dlopen</code>(3C)</a> to load this shared object
+                                                in addition to the shared object
+<code>B.so.1</code>. The following figure
+                                                illustrates the symbol lookup relationship between
+                                                the objects.
+               </p>
+               <div class="figure" id="GUID-D87C0F3C-8B70-4E8D-AFBE-ECEDF1A7CD4B__GUID-D69C741F-92ED-4AA0-9EC1-FD7565CF9CE6">
+                  <p>Multiple <code class="codeph">dlopen</code>()
+                                                  Requests
+                  </p><br><img height="471" width="618" src="img/multdlopen.jpg" alt="Multiple dlopen() requests." title="Multiple dlopen() requests."><br></div>
+               <p>Suppose that both <code>B.so.1</code> and
+<code>D.so.1</code> contain a definition
+                                                for the symbol <code class="codeph">foo</code>, and both
+<code>C.so.1</code> and
+<code>E.so.1</code> contain a relocation
+                                                that requires this symbol. Because of the
+                                                association of objects to a unique group,
+<code>C.so.1</code> is bound to the
+                                                definition in <code>B.so.1</code>, and
+<code>E.so.1</code> is bound to the
+                                                definition in <code>D.so.1</code>. This
+                                                mechanism is intended to provide the most intuitive
+                                                binding of objects that are obtained from multiple
+						calls to <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/dlopen-3c.html" target="_blank">
+                     <code class="codeph">dlopen</code>(3C)</a>.
+               </p>
+               <p>When objects are used in the scenarios
+                                                that have so far been described, the order in which
+						each <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/dlopen-3c.html" target="_blank">
+                     <code class="codeph">dlopen</code>(3C)</a> occurs has no effect on
+                                                the resulting symbol binding. However, when objects
+                                                have common dependencies, the resultant bindings can
+						be affected by the order in which the <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/dlopen-3c.html" target="_blank">
+                     <code class="codeph">dlopen</code>(3C)</a> calls are made.
+               </p>
+               <p>In the following example, the shared objects
+<code>O.so.1</code> and
+<code>P.so.1</code> have the same common
+                                                dependency.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">ldd O.so.1</span>
+        Z.so.1 =&gt;        ./Z.so.1
+$ <span class="bold">ldd P.so.1</span>
+        Z.so.1 =&gt;        ./Z.so.1</pre><p>In this example, the <code>prog</code>
+	application will <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/dlopen-3c.html" target="_blank">
+                     <code class="codeph">dlopen</code>(3C)</a> each of these shared
+                                                objects. Because the shared object
+<code>Z.so.1</code> is a common dependency
+                                                of both <code>O.so.1</code> and
+<code>P.so.1</code>,
+<code>Z.so.1</code> is assigned to both of
+the groups that are associated with the two <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/dlopen-3c.html" target="_blank">
+                     <code class="codeph">dlopen</code>(3C)</a> calls. This relationship
+                                                is shown in the following figure.
+               </p>
+               <div class="figure" id="GUID-D87C0F3C-8B70-4E8D-AFBE-ECEDF1A7CD4B__GUID-E81E0228-F5A0-4274-883D-7E2DCE2117E0">
+                  <p>Multiple <code class="codeph">dlopen</code>() Requests
+                                                  With A Common Dependency
+                  </p><br><img height="471" width="621" src="img/multdlopencodep.jpg" alt="Multiple dlopen() requests with a common dependency." title="Multiple dlopen() requests with a common dependency."><br></div>
+               <p>
+                  <code>Z.so.1</code> is available for both
+<code>O.so.1</code> and
+<code>P.so.1</code> to look up symbols.
+More importantly, as far as <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/dlopen-3c.html" target="_blank">
+                     <code class="codeph">dlopen</code>(3C)</a> ordering is concerned,
+<code>Z.so.1</code> is also be able to
+                                                look up symbols in both <code>O.so.1</code>
+                                                and <code>P.so.1</code>.
+               </p>
+               <p>Therefore, if both <code>O.so.1</code> and
+<code>P.so.1</code> contain a definition
+                                                for the symbol <code class="codeph">foo</code>, which is
+                                                required for a <code>Z.so.1</code>
+                                                relocation, the actual binding that occurs is
+                                                unpredictable because it is affected by the order of
+						the <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/dlopen-3c.html" target="_blank">
+                     <code class="codeph">dlopen</code>(3C)</a> calls. If the
+                                                functionality of symbol <code class="codeph">foo</code>
+                                                differs between the two shared objects in which it
+                                                is defined, the overall outcome of executing code
+                                                within <code>Z.so.1</code> might vary
+						depending on the application's <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/dlopen-3c.html" target="_blank">
+                     <code class="codeph">dlopen</code>(3C)</a> ordering.
+               </p>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

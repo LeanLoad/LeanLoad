@@ -1,0 +1,128 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="ANCILLARY Directive">
+      <meta name="DC.subject" content=", mapfiles, ANCILLARY">
+      <meta name="keywords" content=", mapfiles, ANCILLARY">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-B56060AA-4288-4277-85BF-36C87AB579DC">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>ANCILLARY Directive</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="mapfile-directives.html" title="Previous" type="text/html">
+      <link rel="next" href="file-path-attribute.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"ANCILLARY Directive","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="mapfile-directives.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="file-path-attribute.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-B56060AA-4288-4277-85BF-36C87AB579DC" name="GUID-B56060AA-4288-4277-85BF-36C87AB579DC"></a>
+         
+         <h2 id="OSLLG-GUID-B56060AA-4288-4277-85BF-36C87AB579DC" class="sect2">
+            <code class="codeph">ANCILLARY</code> Directive
+         </h2>
+         <div class="ind">
+            <div>
+               <p>The <code class="codeph">ANCILLARY</code> directive is used
+	        to create ancillary object files, to contain
+		the section data for non-allocable sections. Such sections
+		are not needed at runtime, and typically provide supplemental
+		information to <span>debuggers</span> and other
+		<span>observability</span> tools. See
+		<a href="ancillary-objects.html#GUID-4D707896-09E2-45BD-9745-E07878460248">Ancillary Objects</a>.
+
+               </p><pre class="oac_no_warn" dir="ltr">        ANCILARY {
+<span class="variable" translate="no">anc_name</span> {
+                        FILE_PATH  = [<span class="variable" translate="no">file_path</span>];
+                        FILE_SUFFIX  = [<span class="variable" translate="no">file_suffix</span>];
+                };
+        };</pre><p>An ancillary file is created for each entry of the
+	    <code class="codeph">ANCILLARY</code> directive. Each is identified
+	    within <code>mapfiles</code> by the unique
+	    <span class="variable" translate="no">anc_name</span>. The
+	    <code class="codeph">NULL_SEGMENT</code> directive can then be used
+	    to direct selected sections to each
+	    <span class="variable" translate="no">anc_name</span>. See
+	    <a href="assign-section-attribute-load-note-null.html#GUID-1C15EDA8-538C-480F-81CC-BED9CB9D4600">ASSIGN_SECTION Attribute (LOAD, NOTE, NULL)</a>.
+               </p>
+               <p>
+	    If no output file name is specified with the
+	    <code class="codeph">FILE_PATH</code> or <code class="codeph">FILE_SUFFIX</code>
+	    attribute, the link-editor generates a default name, based on
+	    the name specified for the primary output object file, as follows.
+	    
+               </p>
+               <ul style="list-style-type: disc;">
+                  <li>
+                     
+                     <p>For the first ancillary object, if a name was
+		    specified with the <code class="codeph">-z&nbsp;ancillary</code>
+		    command line option, the specified name is used. If
+		    a name was not specified on the command line, a
+		    name is generated by appending the suffix
+		    <code class="codeph">.anc</code> to the primary output file
+		    name.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>For the second and subsequent ancillary object,
+		    the file name is generated by appending the
+		    <span class="variable" translate="no">anc_name</span>, followed by
+		    <code class="codeph">.anc</code>, to the primary output file
+		    name.
+                     </p>
+                     
+                  </li>
+               </ul>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

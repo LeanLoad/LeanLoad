@@ -1,0 +1,148 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Support Interface Example">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-69368B00-ACF0-497D-9F62-92E573607654">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Support Interface Example</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="support-interface-functions.html" title="Previous" type="text/html">
+      <link rel="next" href="runtime-linker-auditing-interface.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Support Interface Example","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="support-interface-functions.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="runtime-linker-auditing-interface.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-69368B00-ACF0-497D-9F62-92E573607654" name="GUID-69368B00-ACF0-497D-9F62-92E573607654"></a>
+         
+         <h2 id="OSLLG-GUID-69368B00-ACF0-497D-9F62-92E573607654" class="sect2">Support Interface Example</h2>
+         <div class="ind">
+            <div>
+               <p>The following example creates a support library that prints the section name of
+                any relocatable object file processed as part of a 32-bit link-edit.</p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cat support.c</span>
+#include    &lt;link.h&gt;
+#include    &lt;stdio.h&gt;
+
+static int indent = 0;
+
+void
+ld_start(const char *name, const Elf32_Half type, const char *caller)
+{
+        (void) printf("output image: %s\n", name);
+}
+
+void
+ld_file(const char *name, const Elf_Kind kind, int flags, Elf *elf)
+{
+        if (flags &amp; LD_SUP_EXTRACTED)
+                indent = 4;
+        else
+                indent = 2;
+
+        (void) printf("%*sfile: %s\n", indent, "", name);
+}
+
+void
+ld_section(const char *name, Elf32_Shdr *shdr, Elf32_Word sndx,
+    Elf_Data *data, Elf *elf)
+{
+        Elf32_Ehdr *ehdr = elf32_getehdr(elf);
+
+        if (ehdr-&gt;e_type == ET_REL)
+                (void) printf("%*s   section [%ld]: %s\n", indent,
+                    "", (long)sndx, name);
+}</pre><p>This support library is dependent upon <code>libelf</code> to provide the
+	<span>ELF</span> access function <a href="https://docs.oracle.com/cd/E88353_01/html/E37845/elf32-getehdr-3elf.html" target="_blank">
+                     <code class="codeph">elf32_getehdr</code>(3ELF)</a> that is used to determine the input file type. The
+                support library is built using the following.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cc -o support.so.1 -G -K pic support.c -lelf -lc</span></pre><p>The following example shows the section diagnostics resulting from the
+                construction of a trivial application from a relocatable object and a local archive
+                library. The invocation of the support library, in addition to default debugging
+                information processing, is brought about by the <code class="codeph">-S</code> option
+                usage.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">LD_OPTIONS=-S./support.so.1 cc -o prog main.c -L. -lfoo</span>
+
+output image: prog
+  file: /opt/COMPILER/crti.o
+    section [1]: .shstrtab
+    section [2]: .text
+    ....
+  file: /opt/COMPILER/crt1.o
+    section [1]: .shstrtab
+    section [2]: .text
+    ....
+  file: /opt/COMPILER/values-xt.o
+    section [1]: .shstrtab
+    section [2]: .text
+    ....
+  file: main.o
+    section [1]: .shstrtab
+    section [2]: .text
+    ....
+  file: ./libfoo.a
+    file: ./libfoo.a(foo.o)
+      section [1]: .shstrtab
+      section [2]: .text
+      ....
+  file: /lib/libc.so
+  file: /opt/COMPILER/crtn.o
+    section [1]: .shstrtab
+    section [2]: .text
+    ....</pre><div class="infoboxnote" id="GUID-69368B00-ACF0-497D-9F62-92E573607654__GUID-3B92129B-6564-41D8-AF8B-DEE1655C84E4">
+                  <p class="notep1">Note:</p>
+         The number of sections that are displayed in this example have been reduced to
+                    simplify the output. Also, the files included by the compiler driver can
+                    vary.
+
+               </div>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

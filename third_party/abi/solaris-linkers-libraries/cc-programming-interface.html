@@ -1,0 +1,193 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="C/C++ Programming Interface">
+      <meta name="DC.subject" content=", __thread">
+      <meta name="keywords" content=", __thread">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-1D9D0AA7-ACBB-4CB1-AEA6-0F61D20A4C68">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>C/C++ Programming Interface</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="thread-local-storage.html" title="Previous" type="text/html">
+      <link rel="next" href="thread-local-storage-section.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"C/C++ Programming Interface","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="thread-local-storage.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="thread-local-storage-section.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-1D9D0AA7-ACBB-4CB1-AEA6-0F61D20A4C68" name="GUID-1D9D0AA7-ACBB-4CB1-AEA6-0F61D20A4C68"></a>
+         
+         <h2 id="OSLLG-GUID-1D9D0AA7-ACBB-4CB1-AEA6-0F61D20A4C68" class="sect2">C/C++ Programming Interface</h2>
+         <div class="ind">
+            <div>
+               <p>Variables are declared thread-local using the <code class="codeph">__thread</code> keyword, as in the following examples.
+               </p><pre class="oac_no_warn" dir="ltr">__thread int i;
+__thread char *p;
+__thread struct state s;</pre><p>During loop optimizations, the compiler can choose to create thread-local
+                        temporaries as needed.</p>
+               <dl>
+                  <dt class="dlterm"><a name="GUID-1D9D0AA7-ACBB-4CB1-AEA6-0F61D20A4C68__GUID-6D2CCB15-2BAF-40CD-88E2-734EEB34C370">
+                        <!-- --></a>
+                     <span class="italic">Applicability</span>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>The <code class="codeph">__thread</code> keyword can be applied
+                                                to any global, file-scoped static, or
+                                                function-scoped static variable. It has no effect on
+                                                automatic variables, which are always
+                                                thread-local.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-1D9D0AA7-ACBB-4CB1-AEA6-0F61D20A4C68__GUID-1A3CA147-FC07-486E-909B-A877FD341C63">
+                        <!-- --></a>
+                     <span class="italic">Initialization</span>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>In C++, a thread-local variable can not be initialized
+                                                if the initialization requires a static constructor.
+                                                Otherwise, a thread-local variable can be
+                                                initialized to any value that would be legal for an
+                                                ordinary static variable.</p>
+                     
+                     <p>No variable, thread-local or otherwise, can be
+                                                statically initialized to the address of a
+                                                thread-local variable.</p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-1D9D0AA7-ACBB-4CB1-AEA6-0F61D20A4C68__GUID-3F9F2E57-E536-4BAE-AAC9-B2D6D53D0152">
+                        <!-- --></a>
+                     <span class="italic">Binding</span>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Thread-local variables can be declared externally and
+                                                referenced externally. Thread-local variables are
+                                                subject to the same interposition rules as normal
+                                                symbols.</p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-1D9D0AA7-ACBB-4CB1-AEA6-0F61D20A4C68__GUID-AE1A5BEB-A4CD-4893-8CB2-A79F0F669333">
+                        <!-- --></a>
+                     <span class="italic">Dynamic loading restrictions</span>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Various <span>TLS</span> access models are
+                                                available. See <a href="thread-local-storage-access-models.html#GUID-161A1690-4A4C-444A-A4F3-BAA5D9C5E7FB">Thread-Local Storage Access Models</a>.
+                                                Shared object developers should be aware of the
+                                                restrictions imposed by some of these access models
+                                                in relation to object loading. A shared object can
+                                                be dynamically loaded during process startup, or
+                                                after process startup by means of lazy loading,
+						filters, or <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/dlopen-3c.html" target="_blank">
+                           <code class="codeph">dlopen</code>(3C)</a>. At the completion of
+                                                process startup, the thread pointer for the main
+                                                thread is established. All static
+<span>TLS</span> storage requirements are
+                                                calculated before the thread pointer is
+                                                established.
+                     </p>
+                     
+                     <p>Shared objects that reference thread-local variables,
+                                                should insure that every translation unit containing
+                                                the reference is compiled with a dynamic
+<span>TLS</span> model. This model of access
+                                                provides the greatest flexibility for loading shared
+                                                objects. However, static <span>TLS</span>
+                                                models can generate faster code. Shared objects that
+                                                use a static <span>TLS</span> model can be
+                                                loaded as part of process initialization. However,
+                                                after process initialization, shared objects that
+                                                use a static <span>TLS</span> model can only
+                                                be loaded if sufficient backup
+<span>TLS</span> storage is available. See
+<a href="program-startup.html#GUID-8C4DD82E-3057-4141-B35C-0E6BE60A1A18">Program Startup</a>.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-1D9D0AA7-ACBB-4CB1-AEA6-0F61D20A4C68__GUID-3E965DAB-C008-4BF6-A732-205A63F42CB0">
+                        <!-- --></a>
+                     <span class="italic">Address-of operator</span>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>The address-of operator, <code class="codeph">&amp;</code>, can
+                                                be applied to a thread-local variable. This operator
+                                                is evaluated at runtime, and returns the address of
+                                                the variable within the current thread. The address
+                                                obtained by this operator can be used freely by any
+                                                thread in the process as long as the thread that
+                                                evaluated the address remains in existence. When a
+                                                thread terminates, any pointers to thread-local
+                                                variables in that thread become invalid.
+                     </p>
+                     
+                     <p>When <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/dlsym-3c.html" target="_blank">
+                           <code class="codeph">dlsym</code>(3C)</a> is used to obtain the
+                                                address of a thread-local variable, the address that
+                                                is returned is the address of the instance of that
+                                                variable in the thread that called
+<code class="codeph">dlsym</code>().
+                     </p>
+                     
+                  </dd>
+               </dl>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

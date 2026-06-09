@@ -1,0 +1,110 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Using the NODIRECT mapfile Keyword">
+      <meta name="DC.subject" content=", mapfiles, NODIRECT">
+      <meta name="keywords" content=", mapfiles, NODIRECT">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-CD4719BF-9703-40DB-A38D-DF1301D753EA">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Using the NODIRECT mapfile Keyword</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="using--b-nodirect-option.html" title="Previous" type="text/html">
+      <link rel="next" href="capability-processing.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Using the NODIRECT mapfile Keyword","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="using--b-nodirect-option.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="capability-processing.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-CD4719BF-9703-40DB-A38D-DF1301D753EA" name="GUID-CD4719BF-9703-40DB-A38D-DF1301D753EA"></a>
+         
+         <h2 id="OSLLG-GUID-CD4719BF-9703-40DB-A38D-DF1301D753EA" class="sect2">Using the <code class="codeph">NODIRECT</code>
+            <code>mapfile</code> Keyword
+         </h2>
+         <div class="ind">
+            <div>
+               <p>The <code class="codeph">NODIRECT</code>
+                  <code>mapfile</code> keyword provides a means of preventing a direct binding to individual symbols. This keyword allows for more fine grained control over preventing direct binding than the <code class="codeph">-B&nbsp;nodirect</code> option.
+               </p>
+               <p>From the components used in the previous example, <code>O.so.2</code> can be built to prevent direct binding to the function <code class="codeph">o</code>().
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cat mapfile</span>
+$mapfile_version 2
+SYMBOL_SCOPE {
+        global:
+                o       { FLAGS = NODIRECT };
+};
+$ <span class="bold">cc -o O.so.2 -G -Kpic o.c -M mapfile -z direct -R. X.so.1</span>
+$ <span class="bold">cc -o A.so.2 -G -Kpic a.c -B direct -R. O.so.2 X.so.1</span></pre><p>The symbol information for <code>A.so.2</code> and <code>O.so.2</code> can be viewed with <a href="https://docs.oracle.com/cd/E88353_01/html/E37839/elfdump-1.html" target="_blank">
+                     <code class="codeph">elfdump</code>(1)</a>.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">elfdump -y A.so.2</span>
+     [1]  [ DEPEND LAZY DIRECT ]     [3] X.so.1            x
+     [5]  [ DEPEND LAZY DIRECT ]     [3] X.so.1            y
+     [6]  [ DEPEND LAZY ]            [1] O.so.1            o
+     [9]  [ DEPEND LAZY DIRECT ]     [1] O.so.1            p
+$ <span class="bold">elfdump -y O.so.1</span>
+     [3]  [ DEPEND DIRECT ]          [0] X.so.1            x
+     [4]  [ DEPEND DIRECT ]          [0] X.so.1            y
+     [6]  [ NODIRECT ]                                     o
+     [7]  [ DEPEND ]                     &lt;self&gt;            p</pre><p>
+                  <code>O.so.1</code> only declares that the function <code class="codeph">o</code>() can not be directly bound to. Therefore, <code>A.so.2</code> is able to directly bind to the function <code class="codeph">p</code>() in <code>O.so.1</code>.
+               </p>
+               <p>Several individual interfaces within the Oracle Solaris libraries have been defined to not allow direct binding. One example is the data item <code class="codeph">errno</code>. This data item is defined in <code>libc.so.1</code>. This data item can be referenced by including the header file <code>stdio.h</code>. However, many applications were commonly taught to defined their own <code class="codeph">errno</code>. These applications would be compromised if a family of system libraries were delivered which directly bound to the <code class="codeph">errno</code> that is defined in <code>libc.so.1</code>.
+               </p>
+               <p>Another family of interfaces that have been defined to prevent direct binding to, are the <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/malloc-3c.html" target="_blank">
+                     <code class="codeph">malloc</code>(3C)</a> family. The <code class="codeph">malloc</code>() family are another set of interfaces that are frequently implemented within user applications. These user implementations are intended to interpose upon any system definitions.
+               </p>
+               <div class="infoboxnote" id="GUID-CD4719BF-9703-40DB-A38D-DF1301D753EA__GUID-84407689-ABC0-4080-B20B-F13DD58336D3">
+                  <p class="notep1">Note:</p>
+         Various system interposing libraries are provided with the Oracle Solaris OS that provide alternative <code class="codeph">malloc</code>() implementations. In addition, each implementation expects to be the only implementation used within a process. All of the <code class="codeph">malloc</code>() interposing libraries have been built with the <code class="codeph">-z&nbsp;interpose</code> option. This option is not really necessary as the <code class="codeph">malloc</code>() family within <code>libc.so.1</code> have been labelled to prevent any direct binding.
+         However, the interposing libraries have been built with <code class="codeph">-z&nbsp;interpose</code> to set a precedent for building interposers. This explicit interposition has no adverse interaction with the direct binding prevention definitions established within <code>libc.so.1</code>.
+
+               </div>
+               <p>Symbols that are assigned the <code class="codeph">STV_SINGLETON</code> visibility can not be directly bound to. See <span>ELF Symbol Visibility</span>. These symbols can be assigned by the compilation system to an implementation that might become multiply instantiated in a number of objects within a process. All references to a <code class="codeph">singleton</code> symbol are bound to the first occurrence of a <code class="codeph">singleton</code> symbol within a process.
+               </p>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

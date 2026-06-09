@@ -1,0 +1,273 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Register Symbols">
+      <meta name="DC.subject" content="symbols, registers">
+      <meta name="keywords" content="symbols, registers">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-61F73C58-687E-46D1-97F5-C6EB366E81EF">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Register Symbols</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="name-symbol-sort-sections.html" title="Previous" type="text/html">
+      <link rel="next" href="syminfo-table-section.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Register Symbols","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="name-symbol-sort-sections.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="syminfo-table-section.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-61F73C58-687E-46D1-97F5-C6EB366E81EF" name="GUID-61F73C58-687E-46D1-97F5-C6EB366E81EF"></a>
+         
+         <h2 id="OSLLG-GUID-61F73C58-687E-46D1-97F5-C6EB366E81EF" class="sect2">Register Symbols</h2>
+         <div class="ind">
+            <div>
+               <p>The SPARC architecture supports register symbols,
+	which are symbols that document, and optionally initialize,
+	global registers. A symbol table entry for a register symbol
+	contains the entries that are listed in the following table.</p>
+               <div class="tblformal" id="GUID-61F73C58-687E-46D1-97F5-C6EB366E81EF__CHAPTER6-TBL-23A">
+                  <p class="titleintable">Table 14-25 SPARC: <span>ELF</span> Symbol Table Entry: Register Symbol
+                  </p>
+                  <table cellpadding="4" cellspacing="0" class="Formal" title="SPARC: ELF Symbol Table Entry: Register Symbol" summary="&#xA;            Table defining ELF SPARC register symbol table entry.&#xA;" frame="hsides" border="1" rules="rows">
+                     <thead>
+                        <tr align="left" valign="top">
+                           <th align="left" valign="bottom" width="20%" id="d86086e39">
+Field
+</th>
+                           <th align="left" valign="bottom" width="20%" id="d86086e44">
+Meaning
+</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d86086e51" headers="d86086e39 ">
+                              
+                              <p>
+                                 <code class="codeph">st_name</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d86086e51 d86086e44 ">
+                              
+                              <p>Index into the string table for the name of the symbol, or the value
+<code class="codeph">0</code> for a scratch register.
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d86086e68" headers="d86086e39 ">
+                              
+                              <p>
+                                 <code class="codeph">st_value</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d86086e68 d86086e44 ">
+                              
+                              <p>Register number. See the <span>ABI</span> manual for integer register
+                  assignments.
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d86086e85" headers="d86086e39 ">
+                              
+                              <p>
+                                 <code class="codeph">st_size</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d86086e85 d86086e44 ">
+                              
+                              <p>Unused (<code class="codeph">0</code>).
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d86086e102" headers="d86086e39 ">
+                              
+                              <p>
+                                 <code class="codeph">st_info</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d86086e102 d86086e44 ">
+                              
+                              <p>Bind is typically <code class="codeph">STB_GLOBAL</code>, type must be
+<code class="codeph">STT_SPARC_REGISTER</code>.
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d86086e122" headers="d86086e39 ">
+                              
+                              <p>
+                                 <code class="codeph">st_other</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d86086e122 d86086e44 ">
+                              
+                              <p>Unused (<code class="codeph">0</code>).
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d86086e139" headers="d86086e39 ">
+                              
+                              <p>
+                                 <code class="codeph">st_shndx</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d86086e139 d86086e44 ">
+                              
+                              <p>
+                                 <code class="codeph">SHN_ABS</code> if this object initializes this register
+                    symbol,<code class="codeph">SHN_UNDEF</code> otherwise.
+                              </p>
+                              
+                           </td>
+                        </tr>
+                     </tbody>
+                  </table>
+               </div>
+               <p>The register values that are defined for SPARC are listed in the following
+        table.</p>
+               <div class="tblformal" id="GUID-61F73C58-687E-46D1-97F5-C6EB366E81EF__CHAPTER7-TBL-26">
+                  <p class="titleintable">Table 14-26 SPARC: <span>ELF</span> Register Numbers
+                  </p>
+                  <table cellpadding="4" cellspacing="0" class="Formal" title="SPARC: ELF Register Numbers" summary="&#xA;            Table defining ELF SPARC register numbers.&#xA;" frame="hsides" border="1" rules="rows">
+                     <thead>
+                        <tr align="left" valign="top">
+                           <th align="left" valign="bottom" width="20%" id="d86086e174">
+Name
+</th>
+                           <th align="left" valign="bottom" width="20%" id="d86086e179">
+Value
+</th>
+                           <th align="left" valign="bottom" width="20%" id="d86086e184">
+Meaning
+</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d86086e191" headers="d86086e174 ">
+                              
+                              <p>
+                                 <code class="codeph">STO_SPARC_REGISTER_G2</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d86086e191 d86086e179 ">
+                              
+                              <p>
+                                 <code class="codeph">0x2</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d86086e191 d86086e184 ">
+                              
+                              <p>
+                                 <code class="codeph">%g2</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d86086e216" headers="d86086e174 ">
+                              
+                              <p>
+                                 <code class="codeph">STO_SPARC_REGISTER_G3</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d86086e216 d86086e179 ">
+                              
+                              <p>
+                                 <code class="codeph">0x3</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d86086e216 d86086e184 ">
+                              
+                              <p>
+                                 <code class="codeph">%g3</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                     </tbody>
+                  </table>
+               </div>
+               <p>Absence of an entry for a particular global register means that the particular global
+        register is not used at all by the object.</p>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

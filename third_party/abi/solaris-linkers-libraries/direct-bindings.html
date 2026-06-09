@@ -1,0 +1,83 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Direct Bindings">
+      <meta name="DC.subject" content="direct binding, conversion to">
+      <meta name="keywords" content="direct binding, conversion to">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-171688D0-F924-432D-8260-AC03C83317B9">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Direct Bindings</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="linker-libraries-advanced-topics.html" title="Previous" type="text/html">
+      <link rel="next" href="observing-symbol-bindings.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Direct Bindings","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="linker-libraries-advanced-topics.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="observing-symbol-bindings.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-171688D0-F924-432D-8260-AC03C83317B9" name="GUID-171688D0-F924-432D-8260-AC03C83317B9"></a>
+         
+         <h2 id="OSLLG-GUID-171688D0-F924-432D-8260-AC03C83317B9" class="sect2"><span class="enumeration_chapter">7 </span>Direct Bindings
+         </h2>
+         <div class="ind">
+            <div>
+               <p>As part of constructing a process from an executable and a number of dependencies, the runtime linker must bind symbol references to symbol definitions. By default, symbol definitions are discovered using a simple search model. Typically, each object is searched, starting with the executable, and progressing through each dependency in the same order in which the objects are loaded. This model has been in effect since dynamic linking was first introduced. This simple model typically results in all symbol references being bound to one definition. The bound definition is the first definition that is found in the series of dependencies that have been loaded.</p>
+               <p>Dynamic objects have evolved into far more complex processes than those that were developed when dynamic linking was in its infancy. The number of dependencies has grown from tens to hundreds. The number of symbolic interfaces that are referenced between dynamic objects has also grown substantially. The size of symbol names has increased considerably with techniques such as the name mangling used to support languages such as C++. These factors have contributed to an increase in startup time for many applications, as symbol references are bound to symbol definitions.</p>
+               <p>The increase in the number of symbols within a process has also led to an increase in name space pollution. Multiple instances of symbols of the same name are becoming more common. Unanticipated, and erroneous bindings that result from multiple instances of the same symbol frequently result in hard to diagnose process failures.</p>
+               <p>In addition, processes now exist where individual objects of the process need to bind to different instances of multiply defined symbols of the same name.</p>
+               <p>To address the overhead of the default search model while providing greater symbol binding flexibility, an alternative symbol search model has been created. This model is referred to as <span class="italic">direct binding</span>.
+               </p>
+               <p>Direct binding allows for precise binding relationships to be established between the objects of a process. Direct binding relationships can help avoid any accidental name space clashes, by isolating the associated objects from unintentional bindings. This protection adds to the robustness of the objects within a process, which can help avoid unexpected, hard to diagnose, binding situations.</p>
+               <p>Direct bindings can affect interposition. Unintentional interposition can be avoided by employing direct bindings. However, intentional interposition can be circumvented by direct bindings.</p>
+               <p>This chapter describes the direct binding model together with discussing interposition issues that should be considered when converting objects to use this model.</p>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

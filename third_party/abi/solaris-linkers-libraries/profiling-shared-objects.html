@@ -1,0 +1,168 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Profiling Shared Objects">
+      <meta name="DC.subject" content="performance, relocations, improving locality of references, .plt, LD_PROFILE, crle, -e, LD_PROFILE_OUTPUT, profil, -xpg">
+      <meta name="keywords" content="performance, relocations, improving locality of references, .plt, LD_PROFILE, crle, -e, LD_PROFILE_OUTPUT, profil, -xpg">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-CF233E6B-F254-4751-B5A3-D9EBB7B2C447">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Profiling Shared Objects</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="using--b-symbolic-option.html" title="Previous" type="text/html">
+      <link rel="next" href="mapfiles-link-editor.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Profiling Shared Objects","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="using--b-symbolic-option.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="mapfiles-link-editor.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-CF233E6B-F254-4751-B5A3-D9EBB7B2C447" name="GUID-CF233E6B-F254-4751-B5A3-D9EBB7B2C447"></a>
+         
+         <h2 id="OSLLG-GUID-CF233E6B-F254-4751-B5A3-D9EBB7B2C447" class="sect2">Profiling Shared Objects</h2>
+         <div class="ind">
+            <div>
+               <p>The runtime linker can generate profiling information for any shared objects
+            that are processed during the running of an application. The runtime linker is
+            responsible for binding shared objects to an application and is therefore able to
+            intercept any <span class="italic">global</span> function bindings. These bindings take place
+            through <code class="codeph">.plt</code> entries. See <a href="when-relocations-are-performed.html#GUID-A8FD6F1A-49D9-41A7-A480-1CAB9D0077C5">When Relocations are Performed</a> for details of this mechanism.
+               </p>
+               <p>The <code class="codeph">LD_PROFILE</code> environment variable specifies the name of a
+            shared object to profile. You can analyze a single shared object using this environment
+            variable. The setting of the environment variable can be used to analyze the use of the
+            shared object by one or more applications. In the following example, the use of
+	    <code>libc</code> by the single invocation of the command <a href="https://docs.oracle.com/cd/E88353_01/html/E37839/ls-1.html" target="_blank">
+                     <code class="codeph">ls</code>(1)</a> is analyzed.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">LD_PROFILE=libc.so.1  ls -l</span></pre><p>In the following example, the environment variable setting is recorded in a
+            configuration file. This setting causes any application's use of
+<code>libc</code> to accumulate the analyzed information.
+               </p><pre class="oac_no_warn" dir="ltr"># <span class="bold">crle -e LD_PROFILE=libc.so.1</span>
+$ <span class="bold">ls -l</span>
+$ <span class="bold">make</span>
+$ <span class="bold">....</span></pre><p>When profiling is enabled, a profile data file is created, if it does not
+            already exist. The file is mapped by the runtime linker. In the previous examples, this
+            data file is <code>/var/tmp/libc.so.1.profile</code>. 64-bit libraries
+            require an extended profile format and are written using the
+<code>.profilex</code> suffix. You can also specify an alternative directory
+            to store the profile data using the <code class="codeph">LD_PROFILE_OUTPUT</code> environment
+            variable.
+               </p>
+               <p>This profile data file is used to deposit <a href="https://docs.oracle.com/cd/E88353_01/html/E37841/profil-2.html" target="_blank">
+                     <code class="codeph">profil</code>(2)</a> data and call count information related to the use of the specified shared object. This profiled data can be directly examined with <a href="https://docs.oracle.com/cd/E88353_01/html/E37839/gprof-1.html" target="_blank">
+                     <code class="codeph">gprof</code>(1)</a>.
+               </p>
+               <div class="infoboxnote" id="GUID-CF233E6B-F254-4751-B5A3-D9EBB7B2C447__GUID-7CF2A819-4EEC-425B-B1A6-E69D4042C6D3">
+                  <p class="notep1">Note:</p>
+                  <a href="https://docs.oracle.com/cd/E88353_01/html/E37839/gprof-1.html" target="_blank">
+                     <code class="codeph">gprof</code>(1)</a> is most commonly used to analyze the
+<code>gmon.out</code> profile data created by an executable that has
+                been compiled with the <code class="codeph">-xpg</code> option of <code class="codeph">cc</code>(1). The runtime linker profile analysis does not require any code to be
+                compiled with this option. Applications whose dependent shared objects are being
+		profiled should not make calls to <a href="https://docs.oracle.com/cd/E88353_01/html/E37841/profil-2.html" target="_blank">
+                     <code class="codeph">profil</code>(2)</a>, because this system call does not provide for multiple
+                invocations within the same process. For the same reason, these applications must
+                not be compiled with the <code class="codeph">-xpg</code> option of <code class="codeph">cc</code>(1). This compiler-generated mechanism of profiling is also built on top
+		of <a href="https://docs.oracle.com/cd/E88353_01/html/E37841/profil-2.html" target="_blank">
+                     <code class="codeph">profil</code>(2)</a>.
+
+               </div>
+               <p>One of the most powerful features of this profiling mechanism is to enable the
+            analysis of a shared object as used by multiple applications. Frequently, profiling
+            analysis is carried out using one or two applications. However, a shared object, by its
+            very nature, can be used by a multitude of applications. Analyzing how these
+            applications use the shared object can offer insights into where energy might be spent
+            to improvement the overall performance of the shared object.</p>
+               <p>The following example shows a performance analysis of <code>libc</code> over a
+            creation of several applications within a source hierarchy.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">LD_PROFILE=libc.so.1 ; export LD_PROFILE</span>
+$ <span class="bold">make</span>
+$ <span class="bold">gprof -b /lib/libc.so.1 /var/tmp/libc.so.1.profile</span>
+....
+
+granularity: each sample hit covers 4 byte(s) ....
+
+                                  called/total     parents
+index  %time    self descendents  called+self    name      index
+                                  called/total     children
+....
+-----------------------------------------------
+                0.33        0.00      52/29381     _gettxt [96]
+                1.12        0.00     174/29381     _tzload [54]
+               10.50        0.00    1634/29381     &lt;external&gt;
+               16.14        0.00    2512/29381     _opendir [15]
+              160.65        0.00   25009/29381     _endopen [3]
+[2]     35.0  188.74        0.00   29381         _open [2]
+-----------------------------------------------
+....
+granularity: each sample hit covers 4 byte(s) ....
+
+   %  cumulative    self              self    total
+ time   seconds   seconds    calls  ms/call  ms/call  name
+ 35.0     188.74   188.74    29381     6.42     6.42  _open [2]
+ 13.0     258.80    70.06    12094     5.79     5.79  _write [4]
+  9.9     312.32    53.52    34303     1.56     1.56  _read [6]
+  7.1     350.53    38.21     1177    32.46    32.46  _fork [9]
+ ....</pre><p>The special name <span class="italic">&lt;external&gt;</span> indicates a reference from
+            outside of the address range of the shared object being profiled. Thus, in the previous
+	    example, 1634 calls to the function <a href="https://docs.oracle.com/cd/E88353_01/html/E37841/open-2.html" target="_blank">
+                     <code class="codeph">open</code>(2)</a> within <code>libc</code> occurred from the dynamic
+            objects, bound with <code>libc</code> while
+            the profiling analysis was in progress.
+               </p>
+               <div class="infoboxnote" id="GUID-CF233E6B-F254-4751-B5A3-D9EBB7B2C447__GUID-19B990D0-C166-4701-9796-DC2C9A0B62E1">
+                  <p class="notep1">Note:</p>
+         The profiling of shared objects is multithread safe, except in the case where one thread calls <a href="https://docs.oracle.com/cd/E88353_01/html/E37841/fork-2.html" target="_blank">
+                     <code class="codeph">fork</code>(2)</a> while another thread is updating the profile data information. The use of <a href="https://docs.oracle.com/cd/E88353_01/html/E37841/fork-2.html" target="_blank">
+                     <code class="codeph">fork</code>(2)</a> removes this restriction.
+
+               </div>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

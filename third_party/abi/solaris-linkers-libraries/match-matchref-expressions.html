@@ -1,0 +1,177 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="MATCH and MATCHREF Expressions">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-BB1E70A4-CEED-4DF2-8E60-C9746B367DA8">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>MATCH and MATCHREF Expressions</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="directive-syntax.html" title="Previous" type="text/html">
+      <link rel="next" href="example-redirecting-sections.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"MATCH and MATCHREF Expressions","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="directive-syntax.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="example-redirecting-sections.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-BB1E70A4-CEED-4DF2-8E60-C9746B367DA8" name="GUID-BB1E70A4-CEED-4DF2-8E60-C9746B367DA8"></a>
+         
+         <h2 id="OSLLG-GUID-BB1E70A4-CEED-4DF2-8E60-C9746B367DA8" class="sect2">
+            <code class="codeph">MATCH</code> and <code class="codeph">MATCHREF</code> Expressions
+         </h2>
+         <div class="ind">
+            <div>
+               <p>
+                  <code class="codeph">MATCH</code> and <code class="codeph">MATCHREF</code> expressions provide the
+                ability to match strings against a pattern, and to generate new strings that
+                incorporate substrings from the original string. Their specific use is described by
+                the documentation for each <code>mapfile</code> directive that supports these
+                expressions, in the sections that follow.
+               </p>
+               <p>A <code class="codeph">MATCH</code> expression allows strings to be matched against a
+                pattern, delimited by slash (/) characters.
+               </p><pre class="oac_no_warn" dir="ltr">        MATCH(g/<span class="variable" translate="no">match-pattern</span>/[i])
+        MATCH(r/<span class="variable" translate="no">match-pattern</span>/[i])
+        MATCH(t/<span class="variable" translate="no">match-pattern</span>/[i])</pre><p>The type of matching to be done is specified by a single character code that
+                precedes the pattern. The type of matching to be done defines the syntax of the
+<span class="variable" translate="no">match-pattern</span>.
+               </p>
+               <dl>
+                  <dt class="dlterm"><a name="GUID-BB1E70A4-CEED-4DF2-8E60-C9746B367DA8__GUID-ADED02C4-D57D-4928-AB45-19C9D92B5909">
+                        <!-- --></a>
+                     <code class="codeph">g</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Glob pattern matching. The <code class="codeph">match-pattern</code> is specified using the glob syntax described by <a href="https://docs.oracle.com/cd/E88353_01/html/E37853/fnmatch-7.html" target="_blank">
+                           <code class="codeph">fnmatch</code>(7)</a>.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-BB1E70A4-CEED-4DF2-8E60-C9746B367DA8__GUID-AD25C6EE-3CD5-4B3E-A22B-FFD61A4B718E">
+                        <!-- --></a>
+                     <code class="codeph">r</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Regular Expression matching. The <code class="codeph">match-pattern</code> is specified using the extended regular expression (<span>ERE</span>) syntax described by <a href="https://docs.oracle.com/cd/E88353_01/html/E37853/regex-7.html" target="_blank">
+                           <code class="codeph">regex</code>(7)</a>.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-BB1E70A4-CEED-4DF2-8E60-C9746B367DA8__GUID-FD607106-1843-4D9C-8F7F-E1DB5411999E">
+                        <!-- --></a>
+                     <code class="codeph">t</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Plain text matching. The <code class="codeph">match-pattern</code> follows the standard <code>mapfile</code> syntax for double quoted strings, where the slash (/) character is used in place of the usual (") quote character. The rules for double quoted strings are described in <a href="mapfile-structure-syntax.html#GUID-232D2905-ADB7-4EC2-939E-CA49BE72834D">Mapfile Structure and Syntax</a>.
+                     </p>
+                     
+                  </dd>
+               </dl>
+               <p>By default, case sensitive pattern matching is employed. Case insensitive matching
+                can be specified by specifying the character '<code class="codeph">i</code>' immediately
+                following the closing slash (/) character.
+               </p>
+               <p>The <code class="codeph">MATCHREF</code> expression is used to generate a new string, based
+                on a template string, which can incorporate substrings matched by a previous
+<code class="codeph">MATCH</code>. <code class="codeph">MATCHREF</code>, particularly in
+                conjunction with a regular expression <code class="codeph">MATCH</code>, provides a flexible
+                mechanism for renaming.
+               </p><pre class="oac_no_warn" dir="ltr">        MATCHREF(/<span class="variable" translate="no">template-string</span>/)</pre><p>The <span class="variable" translate="no">template-string</span> follows the standard
+<code>mapfile</code> syntax for double quoted strings, where the slash (/)
+                character is used in place of the usual quote (") character. The rules for double
+                quoted strings are described in <a href="mapfile-structure-syntax.html#GUID-232D2905-ADB7-4EC2-939E-CA49BE72834D">Mapfile Structure and Syntax</a>.
+               </p>
+               <p>Within <span class="variable" translate="no">template-string</span>, substrings to be copied from
+                the related <code class="codeph">MATCH</code> expression are indicated by tokens of the form
+<code class="codeph">${<span class="variable" translate="no">c</span>
+                     <span class="variable" translate="no">N</span>}</code>,
+                where <span class="variable" translate="no">c</span> is a single character that identifies a
+<code class="codeph">MATCH</code> directive, and <span class="variable" translate="no">N</span> is an
+                integer that identifies a substring within that <code class="codeph">MATCH</code>. The
+                identifier characters allowed with <code class="codeph">MATCHREF</code> depend on the
+<code>mapfile</code> directive that employs the <code class="codeph">MATCHREF</code>.
+                The documentation for each <code>mapfile</code> directive that supports the use
+                of <code class="codeph">MATCH</code> and <code class="codeph">MATCHREF</code> defines the set of
+<code class="codeph">MATCHREF</code> identifier characters that are allowed by that
+                directive.
+               </p>
+               <p>The string that results from a <code class="codeph">MATCHREF</code> expression consists of
+                the <span class="variable" translate="no">template-string</span>, with all
+<code class="codeph">${<span class="variable" translate="no">c</span>
+                     <span class="variable" translate="no">N</span>}</code>
+                tokens replaced by the <code class="codeph">MATCH</code> substrings that they refer to. The
+                zeroth token, <code class="codeph">${<span class="variable" translate="no">c</span>0}</code>, represents the
+                full string matched by the <code class="codeph">MATCH</code> expression, and is supported
+                with all <code class="codeph">MATCH</code> expressions. Tokens specifying a value of
+<span class="variable" translate="no">n</span> larger than 0 are only supported with regular
+                expression <code class="codeph">MATCH</code> expressions. When used with a regular
+                expression, a value of <span class="variable" translate="no">n</span> larger than 0 corresponds to the
+<span>
+                     <span class="variable" translate="no">n</span>th</span> open parenthesis found in
+                the <code class="codeph">MATCH</code> pattern, and represents the substring matched by that
+                subpart of the regular expression.
+               </p>
+               <p>If a given
+<code class="codeph">${<span class="variable" translate="no">c</span>
+                     <span class="variable" translate="no">N</span>}</code>
+                does not correspond to any <code class="codeph">MATCH</code> substring, an empty ("") string
+                is substituted. This occurs for any non-zero value of <span class="variable" translate="no">n</span>
+                with glob or text matching, or for a value of <span class="variable" translate="no">n</span> greater
+                than the number of parenthesis within a regular expression pattern.
+               </p>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

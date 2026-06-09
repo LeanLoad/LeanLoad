@@ -1,0 +1,127 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Defining Explicit Interposition">
+      <meta name="DC.subject" content="interposition, explicit definition, mapfiles, INTERPOSE, singleton, LD_PRELOAD, -z&nbsp;interpose, dlsym, RTLD_NEXT">
+      <meta name="keywords" content="interposition, explicit definition, mapfiles, INTERPOSE, singleton, LD_PRELOAD, -z&nbsp;interpose, dlsym, RTLD_NEXT">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-C5C67B5E-A568-40A8-ADA8-7902E2EF3F63">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Defining Explicit Interposition</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="removing-multiply-defined-symbols-same-name.html" title="Previous" type="text/html">
+      <link rel="next" href="preventing-symbol-from-being-directly-bound.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Defining Explicit Interposition","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="removing-multiply-defined-symbols-same-name.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="preventing-symbol-from-being-directly-bound.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-C5C67B5E-A568-40A8-ADA8-7902E2EF3F63" name="GUID-C5C67B5E-A568-40A8-ADA8-7902E2EF3F63"></a>
+         
+         <h2 id="OSLLG-GUID-C5C67B5E-A568-40A8-ADA8-7902E2EF3F63" class="sect2">Defining Explicit Interposition</h2>
+         <div class="ind">
+            <div>
+               <p>The default search model can result in instances of the same named symbol interposing on later instances of the same name. Even without any explicit labelling, interposition still occurs, so that one symbol definition is bound to from all references. This <span class="italic">implicit</span> interposition occurs as a consequence of the symbol search, not because of any explicit instruction the runtime linker has been given. This implicit interposition can be circumvented by direct bindings.
+               </p>
+               <p>Although direct bindings work to resolve a symbol reference directly to an associated symbol definition, <span class="italic">explicit</span> interposition is processed prior to any direct binding search. Therefore, even within a direct binding environment, interposers can be designed, and be expected to interpose on any direct binding associations. Interposers can be explicitly defined using the following techniques.
+               </p>
+               <ul style="list-style-type: disc;">
+                  <li>
+                     
+                     <p>With the <code class="codeph">LD_PRELOAD</code> environment variable.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>With the link-editors <code class="codeph">-z&nbsp;interpose</code> option.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>With the <code class="codeph">INTERPOSE</code>
+                        <code>mapfile</code> keyword.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>As a consequence of a <code class="codeph">singleton</code> symbol definition.
+                     </p>
+                     
+                  </li>
+               </ul>
+               <p>The interposition facilities of the <code class="codeph">LD_PRELOAD</code> environment variable, and the <code class="codeph">-z&nbsp;interpose</code> option, have been available for some time. See <a href="runtime-interposition.html#GUID-FC4F59AB-5398-450E-A64F-72924EA6ACA3">Runtime Interposition</a>. As these objects are explicitly defined to be interposers, the runtime linker inspects these objects before processing any direct binding.
+               </p>
+               <p>Interposition that is established for a shared object applies to all the interfaces of that dynamic object. This object interposition is established when a object is loaded using the <code class="codeph">LD_PRELOAD</code> environment variable. Object interposition is also established when an object that has been built with the <code class="codeph">-z&nbsp;interpose</code> option, is loaded. This object model is important when techniques such as <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/dlsym-3c.html" target="_blank">
+                     <code class="codeph">dlsym</code>(3C)</a> with the special handle <code class="codeph">RTLD_NEXT</code> are used. An interposing object should always have a consistent view of the <span class="italic">next</span> object.
+               </p>
+               <p>An executable has additional flexibility, in that the executable can define individual interposing symbols using the <code class="codeph">INTERPOSE</code>
+                  <code>mapfile</code> keyword. Because an executable is the first object loaded in a process, the executables view of the next object is always consistent.
+               </p>
+               <p>The following example shows an application that explicitly wants to interpose on the <code class="codeph">exit</code>() function.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cat mapfile</span>
+$mapfile_version 2
+SYMBOL_SCOPE {
+        global:
+                exit    { FLAGS = INTERPOSE };
+};
+$ <span class="bold">cc -o prog -M mapfile exit.c a.c b.c ....</span>
+$ <span class="bold">elfdump -y prog | fgrep exit</span>
+[6]  [ DEPEND INTERPOSE ]          &lt;self&gt;         exit</pre><p>"<code class="codeph">INTERPOSE</code>" indicates the interposing nature of this symbol. Presumably, the implementation of this <code class="codeph">exit</code>() function directly references the system function <code class="codeph">_exit</code>(), or calls through to the system function <code class="codeph">exit</code>() using <code class="codeph">dlsym</code>() with the <code class="codeph">RTLD_NEXT</code> handle.
+               </p>
+               <p>At first, you might consider identifying this object using the <code class="codeph">-z&nbsp;interpose</code> option. However, this technique is rather heavy weight, because all of the interfaces exported by the application would act as interposers. A better alternative would be to localize all of the symbols provided by the application except for the interposer, together with using the <code class="codeph">-z&nbsp;interpose</code> option.
+               </p>
+               <p>However, use of the <code class="codeph">INTERPOSE</code>
+                  <code>mapfile</code> keyword provides greater flexibility. The use of this keyword allows an application to export several interfaces while selecting those interfaces that should act as interposers.
+               </p>
+               <p>Symbols that are assigned the <code class="codeph">STV_SINGLETON</code> visibility effectively provide a form of interposition. See <span>ELF Symbol Visibility</span>. These symbols can be assigned by the compilation system to an implementation that might become multiply instantiated in a number of objects within a process. All references to a <code class="codeph">singleton</code> symbol are bound to the first occurrence of a <code class="codeph">singleton</code> symbol within a process.
+               </p>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

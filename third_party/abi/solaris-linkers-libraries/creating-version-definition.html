@@ -1,0 +1,231 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Creating a Version Definition">
+      <meta name="DC.subject" content="versioning, defining a public interface, -M, defining versions, auto-reduction, base version definition, pvs, -z&nbsp;noversion">
+      <meta name="keywords" content="versioning, defining a public interface, -M, defining versions, auto-reduction, base version definition, pvs, -z&nbsp;noversion">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-BD398974-5605-49C4-9118-35861F19760B">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Creating a Version Definition</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="internal-versioning.html" title="Previous" type="text/html">
+      <link rel="next" href="creating-weak-version-definition.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Creating a Version Definition","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="internal-versioning.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="creating-weak-version-definition.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-BD398974-5605-49C4-9118-35861F19760B" name="GUID-BD398974-5605-49C4-9118-35861F19760B"></a>
+         
+         <h2 id="OSLLG-GUID-BD398974-5605-49C4-9118-35861F19760B" class="sect2">Creating a Version Definition</h2>
+         <div class="ind">
+            <div>
+               <p>Version definitions commonly consist of an association
+                                of symbol names to a unique version name. These associations are
+                                established within a <code>mapfile</code> and supplied to
+                                the final link-edit of an object using the link-editor's
+<code class="codeph">-M</code> option. This technique is introduced in
+                                the section <a href="reducing-symbol-scope.html#GUID-23966F33-0E78-43E1-8574-D3297C70F744">Reducing Symbol Scope</a>.
+               </p>
+               <p>A version definition is established whenever a version name is
+                                specified as part of the <code>mapfile</code> directive. In
+                                the following example, two source files are combined, together with
+<code>mapfile</code> directives, to produce an
+                                object with a defined public interface.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cat foo.c</span>
+#include    &lt;stdio.h&gt;
+
+extern const char *_foo1;
+
+void foo1()
+{
+        (void) printf(_foo1);
+}
+$ <span class="bold">cat data.c</span>
+const char *_foo1 = "string used by foo1()\n";
+$ <span class="bold">cat mapfile</span>
+$mapfile_version 2
+SYMBOL_VERSION SUNW_1.1 {                  # Release X
+        global:
+                foo1;
+        local:
+                *;
+};
+$ <span class="bold">cc -c -Kpic foo.c data.c</span>
+$ <span class="bold">cc -o libfoo.so.1 -M mapfile -G foo.o data.o</span>
+$ <span class="bold">elfdump -sN.symtab libfoo.so.1 | grep 'foo.$'</span>
+    [32]   0x1074c    0x4  OBJT LOCL  H    0 .data      _foo1
+    [53]     0x560   0x38  FUNC GLOB  D    0 .text      foo1</pre><p>The symbol <code class="codeph">foo1</code> is the only global
+                                symbol that is defined to provide the shared object's public
+                                interface. The special auto-reduction directive "*"
+                                causes the reduction of all other global symbols to have local
+                                binding within the object being generated. The auto-reduction
+                                directive is described in <a href="symbol-scope-symbol-version-directives.html#GUID-38914CB2-D471-4CA3-8BC2-78323D4CD6B9">SYMBOL_SCOPE and SYMBOL_VERSION Directives</a>. The associated
+                                version name, <code class="codeph">SUNW_1.1</code>, causes the generation of
+                                a version definition. Thus, the shared object's public interface
+                                consists of the global symbol <code class="codeph">foo1</code> associated to
+                                the internal version definition <code class="codeph">SUNW_1.1</code>.
+               </p>
+               <p>Whenever a version definition, or the auto-reduction directive, are used to generate an object, a base version definition is also created. This base version is defined using the name of the object being built. This base version is used to associate any reserved symbols generated by the link-editor. See <a href="generating-output-file.html#GUID-D015F193-CD54-41FE-BEE6-8AE4B174B8A7">Generating the Output File</a> for a list of reserved symbols.
+               </p>
+               <p>The version definitions that are contained within an object can be displayed using <a href="https://docs.oracle.com/cd/E88353_01/html/E37839/pvs-1.html" target="_blank">
+                     <code class="codeph">pvs</code>(1)</a> with the <code class="codeph">-d</code> option.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">pvs -d libfoo.so.1</span>
+        libfoo.so.1;
+        SUNW_1.1;</pre><p>The object <code>libfoo.so.1</code> has an internal version
+                                definition named <code class="codeph">SUNW_1.1</code>, together with a base
+                                version definition <code>libfoo.so.1</code>.
+               </p>
+               <div class="infoboxnote" id="GUID-BD398974-5605-49C4-9118-35861F19760B__GUID-7AF124BD-169B-4E40-8E60-4056C724A8E6">
+                  <p class="notep1">Note:</p>
+         The link-editor's
+<code class="codeph">-z&nbsp;noversion</code> option allows
+                                        symbol reduction to be directed by a
+<code>mapfile</code> but suppresses the
+                                        creation of version definitions.
+
+               </div>
+               <p>From this initial version definition, the object can evolve by adding
+                                new interfaces together with updated functionality. For example, a
+                                new function, <code class="codeph">foo2</code>, together with its supporting
+                                data structures, can be added to the object by updating the source
+                                files <code>foo.c</code> and
+<code>data.c</code>.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cat foo.c</span>
+#include    &lt;stdio.h&gt;
+
+extern const char *_foo1, *_foo2;
+
+void foo1()
+{
+        (void) printf(_foo1);
+}
+
+void foo2()
+{
+        (void) printf(_foo2);
+}
+$ <span class="bold">cat data.c</span>
+const char *_foo1 = "string used by foo1()\n";
+const char *_foo2 = "string used by foo2()\n";</pre><p>A new version definition, <code class="codeph">SUNW_1.2</code>, can be created
+                                to define a new interface representing the symbol
+<code class="codeph">foo2</code>. In addition, this new interface can
+                                be defined to inherit the original version definition
+<code class="codeph">SUNW_1.1</code>.
+               </p>
+               <p>The creation of this new interface is important, as the interface
+                                describes the evolution of the object. These interfaces enable users
+                                to verify and select the interfaces to bind with. These concepts are
+                                covered in more detail in <a href="binding-version-definition.html#GUID-D6F619B2-5286-4764-9DD9-7F43483D03BC">Binding to a Version Definition</a> and in <a href="specifying-version-binding.html#GUID-1A2CC2FA-8565-4685-8544-34BAFF74EA63">Specifying a Version Binding</a>.
+               </p>
+               <p>The following example shows the <code>mapfile</code>
+                                directives that create these two interfaces.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cat mapfile</span>
+$mapfile_version 2
+SYMBOL_VERSION SUNW_1.1 {                   # Release X
+        global:
+                foo1;
+        local:
+                *;
+};
+
+SYMBOL_VERSION SUNW_1.2 {                   # Release X+1
+        global:
+                foo2;
+} SUNW_1.1;
+
+$ <span class="bold">cc -o libfoo.so.1 -M mapfile -G foo.o data.o</span>
+$ <span class="bold">elfdump -sN.symtab libfoo.so.1 | grep 'foo.$'</span>
+    [28]   0x107a4    0x4  OBJT LOCL  H    0 .data      _foo1
+    [29]   0x107a8    0x4  OBJT LOCL  H    0 .data      _foo2
+    [48]     0x5e8   0x20  FUNC GLOB  D    0 .text      foo1
+    [51]     0x618   0x20  FUNC GLOB  D    0 .text      foo2</pre><p>The symbols <code class="codeph">foo1</code> and <code class="codeph">foo2</code> are
+                                both defined to be part of the shared object's public interface.
+                                However, each of these symbols is assigned to a different version
+                                definition. <code class="codeph">foo1</code> is assigned to version
+<code class="codeph">SUNW_1.1</code>. <code class="codeph">foo2</code> is
+                                assigned to version <code class="codeph">SUNW_1.2</code>.
+               </p>
+               <p>These version definitions, their inheritance, and their
+symbol association can be displayed using <a href="https://docs.oracle.com/cd/E88353_01/html/E37839/pvs-1.html" target="_blank">
+                     <code class="codeph">pvs</code>(1)</a> together with the
+<code class="codeph">-d</code>, <code class="codeph">-v</code> and <code class="codeph">-s</code>
+                                options.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">pvs -dsv libfoo.so.1</span>
+        libfoo.so.1:
+                _end;
+                _GLOBAL_OFFSET_TABLE_;
+                _DYNAMIC;
+                _edata;
+                _PROCEDURE_LINKAGE_TABLE_;
+                _etext;
+        SUNW_1.1:
+                foo1;
+                SUNW_1.1;
+        SUNW_1.2:               {SUNW_1.1}:
+                foo2;
+                SUNW_1.2</pre><p>The version definition <code class="codeph">SUNW_1.2</code> has a dependency on
+                                the version definition <code class="codeph">SUNW_1.1</code>.
+               </p>
+               <p>The inheritance of one version definition by another version
+                                definition is a useful technique. This inheritance reduces the
+                                version information that is eventually recorded by any object that
+                                binds to a version dependency. Version inheritance is covered in
+                                more detail in the section <a href="binding-version-definition.html#GUID-D6F619B2-5286-4764-9DD9-7F43483D03BC">Binding to a Version Definition</a>.
+               </p>
+               <p>A version definition symbol is created and associated with a version
+	definition. As shown in the previous <a href="https://docs.oracle.com/cd/E88353_01/html/E37839/pvs-1.html" target="_blank">
+                     <code class="codeph">pvs</code>(1)</a> example, these symbols are displayed
+                                when using the <code class="codeph">-v</code> option.
+               </p>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

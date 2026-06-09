@@ -1,0 +1,137 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Deferred Symbol References">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-F0C7E22B-3831-4402-86CC-4E5B8128327A">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Deferred Symbol References</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="providing-alternative-dlopen.html" title="Previous" type="text/html">
+      <link rel="next" href="deferred-dependencies.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Deferred Symbol References","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="providing-alternative-dlopen.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="deferred-dependencies.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-F0C7E22B-3831-4402-86CC-4E5B8128327A" name="GUID-F0C7E22B-3831-4402-86CC-4E5B8128327A"></a>
+         
+         <h2 id="OSLLG-GUID-F0C7E22B-3831-4402-86CC-4E5B8128327A" class="sect2">Deferred Symbol References</h2>
+         <div class="ind">
+            <div>
+               <p>Deferred symbol references are established from
+<code>mapfile</code> definitions. The
+                                        following <code>mapfile</code> identifies a family
+                                        of <code class="codeph">bar</code>() functions as deferred references
+                                        that should be resolved to
+<code>libbar.so.1</code>.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cat mapfile</span>
+$mapfile_version 2
+
+SYMBOL_SCOPE {
+        global:
+                bar1 { DEFERRED = libbar.so.1 };
+                bar2 { DEFERRED = libbar.so.1 };
+                ....
+};</pre><p>The deferred nature of these references can be observed from
+                                        the symbol information and dynamic information defined
+                                        within the referring object.</p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cc -G -o libdef.so.1 def.c -Kpic -M mapfile -lc</span>
+$ <span class="bold">elfdump -y libdef.so.1 | fgrep DEFERRED</span>
+    [9]  [ DEPEND DEFERRED ]    [2] libbar.so.1   bar1
+   [15]  [ DEPEND DEFERRED ]    [2] libbar.so.1   bar2
+   ....
+$ <span class="bold">elfdump -d libdef.so.1 | fgrep DEFERRED</span>
+    [2]  SUNW_DEFERRED   0x176      libbar.so.1</pre><p>At runtime, a <code>dlsym(RTLD_PROBE)</code> against one
+                                        of the <code class="codeph">bar</code>() symbols can be used to
+                                        determine whether the family of symbols are available. On
+                                        success, the members of the family can be called as direct
+                                        function calls. These calls are much more legible and easier
+                                        to write, and allow the compiler to catch errors in their
+                                        calling sequences.
+               </p><pre class="oac_no_warn" dir="ltr">void dep()
+{
+        if (dlsym(RTLD_PROBE, "bar1")) {
+                bar1(arg1);
+                bar2(arg2);
+                ....
+        }
+}</pre><p>There are a couple scenarios that can be useful for this
+                                        technique. The first is to test for new functionality in an
+                                        existing dependency, and the other is to test whether a
+                                        dependency exists.</p>
+               <p>Applications can be built so that they execute on a series of
+<span>OS</span> releases. The core
+                                        functionality of the application must execute on the oldest
+                                        version of the <span>OS</span> the application is
+                                        targeted to. However, newer <span>OS</span> releases
+                                        can provide new, or more optimal features. By establishing
+                                        deferred references to these features, an application can
+                                        test for the features existence before calling the
+                                        associated functionality.
+               </p>
+               <p>Deferred references can also be used to test that a dependency
+                                        exists. This capability is essentially equivalent to
+                                        establishing a deferred dependency with the <code class="codeph">-z
+                                                deferred</code> option. See the following section
+<a href="deferred-dependencies.html#GUID-83A3222B-0E4D-475F-B94D-A467440516B9">Deferred Dependencies</a>.
+               </p>
+               <p>In both scenarios, the <code>dlsym(RTLD_PROBE)</code>
+                                        test ensures at runtime that a dependency defining the
+                                        required symbol exists. The dependency can be one that is
+                                        already in use by the caller to provide other symbol
+                                        definitions. Or, the dependency may be loaded explicitly to
+                                        satisfy the <code class="codeph">dlsym</code>() request. In either
+                                        case, once the existence of the dependency is confirmed, the
+                                        associated symbol, or others that are known to exist with
+                                        the associated symbol, can be called freely.
+               </p>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

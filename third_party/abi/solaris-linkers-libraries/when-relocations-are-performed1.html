@@ -1,0 +1,162 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="When Relocations Are Performed">
+      <meta name="DC.subject" content="relocation, immediate, lazy, lazy reference, .plt, deferred, symbol lookup, lazy binding, LD_BIND_NOW, -z&nbsp;now, RTLD_NOW, dlopen">
+      <meta name="keywords" content="relocation, immediate, lazy, lazy reference, .plt, deferred, symbol lookup, lazy binding, LD_BIND_NOW, -z&nbsp;now, RTLD_NOW, dlopen">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-AD323A98-334D-436C-BCBC-D5CA87DCABCF">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>When Relocations Are Performed</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="runtime-interposition.html" title="Previous" type="text/html">
+      <link rel="next" href="relocation-errors.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"When Relocations Are Performed","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="runtime-interposition.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="relocation-errors.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-AD323A98-334D-436C-BCBC-D5CA87DCABCF" name="GUID-AD323A98-334D-436C-BCBC-D5CA87DCABCF"></a>
+         
+         <h2 id="OSLLG-GUID-AD323A98-334D-436C-BCBC-D5CA87DCABCF" class="sect2">When Relocations Are Performed</h2>
+         <div class="ind">
+            <div>
+               <p>Relocations can be separated into two types dependent upon when the
+                                relocation is performed. This distinction arises due to the type of
+<span class="italic">reference</span> being made to the relocated
+                                offset.
+               </p>
+               <ul style="list-style-type: disc;">
+                  <li>
+                     
+                     <p>An immediate reference</p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>A lazy reference</p>
+                     
+                  </li>
+               </ul>
+               <p>An <span class="italic">immediate reference</span> refers to a relocation
+                                that must be determined immediately when an object is loaded. These
+                                references are typically to data items used by the object code,
+                                pointers to functions, and even calls to functions made from
+                                position-dependent shared objects. These relocations cannot provide
+                                the runtime linker with knowledge of when the relocated item is
+                                referenced. Therefore, all immediate relocations must be carried out
+                                when an object is loaded, and before the application gains, or
+                                regains, control.
+               </p>
+               <p>A <span class="italic">lazy reference</span> refers to a
+                                relocation that can be determined as an object executes. These
+                                references are typically calls to global functions made from
+                                position-independent shared objects and
+				position-independent executables, or calls to external functions
+                                made from a dynamic executable. During the compilation and
+                                link-editing of any dynamic module that provide these references,
+                                the associated function calls become calls to a procedure linkage
+                                table entry. These entries make up the <code class="codeph">.plt</code>
+                                section. Each procedure linkage table entry becomes a lazy reference
+                                with an associated relocation.
+               </p>
+               <p>As part of the first call to a procedure linkage table
+                                entry, control is passed to the runtime linker. The runtime linker
+                                looks up the required symbol and rewrites the entry information in
+                                the associated object. Future calls to this procedure linkage table
+                                entry go directly to the function. This mechanism enables
+                                relocations of this type to be deferred until the first instance of
+                                a function is called. This process is sometimes referred to as
+<span class="italic">lazy</span> binding.
+               </p>
+               <p>The runtime linker default mode is to perform lazy
+                                binding whenever procedure linkage table relocations are provided.
+                                This default can be overridden by setting the environment variable
+<code class="codeph">LD_BIND_NOW</code> to any non-null value. This
+                                environment variable setting causes the runtime linker to perform
+                                both immediate reference and lazy reference relocations when an
+                                object is loaded. These relocations are performed before the
+                                application gains, or regains, control. For example, all relocations
+                                within the file <code>prog</code> together within its
+                                dependencies are processed under the following environment variable.
+                                These relocations are processed before control is transferred to the
+                                application.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">LD_BIND_NOW=1  prog</span></pre><p>Objects can also be accessed with <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/dlopen-3c.html" target="_blank">
+                     <code class="codeph">dlopen</code>(3C)</a> with the mode defined as
+<code class="codeph">RTLD_NOW</code>. Objects can also be built using
+                                the link-editor's <code class="codeph">-z&nbsp;now</code> option to indicate
+                                that the object requires complete relocation processing at the time
+                                the object is loaded. This relocation requirement is also propagated
+                                to any dependencies of the marked object at runtime.
+               </p>
+               <div class="infoboxnote" id="GUID-AD323A98-334D-436C-BCBC-D5CA87DCABCF__GUID-DE77907C-02EB-4D4E-B4BF-BF41142F0439">
+                  <p class="notep1">Note:</p>
+         The preceding examples of immediate references and lazy
+                                        references are typical. However, the creation of procedure
+                                        linkage table entries is ultimately controlled by the
+                                        relocation information provided by the relocatable object
+                                        files used as input to a link-edit. Relocation records such
+                                        as <code class="codeph">R_SPARC_WPLT30</code> and
+<code class="codeph">R_386_PLT32</code> instruct the
+                                        link-editor to create a procedure linkage table entry. These
+                                        relocations are common for position-independent code.
+         However, a dynamic executable is typically created from
+                                        position dependent code, which might not indicate that a
+                                        procedure linkage table entry is required. Because a dynamic
+                                        executable has a fixed location, the link-editor can create
+                                        a procedure linkage table entry when a reference is bound to
+                                        an external function definition. This procedure linkage
+                                        table entry creation occurs regardless of the original
+                                        relocation records.
+
+               </div>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

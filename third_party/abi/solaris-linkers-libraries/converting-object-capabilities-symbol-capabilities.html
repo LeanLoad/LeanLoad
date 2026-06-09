@@ -1,0 +1,122 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Converting Object Capabilities to Symbol Capabilities">
+      <meta name="DC.subject" content="capabilities, converting object capabilities to symbol capabilities">
+      <meta name="keywords" content="capabilities, converting object capabilities to symbol capabilities">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-7A57EE70-F156-4CA8-A95C-434500466389">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Converting Object Capabilities to Symbol Capabilities</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="creating-family-symbol-capabilities-data-items.html" title="Previous" type="text/html">
+      <link rel="next" href="archive-considerations.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Converting Object Capabilities to Symbol Capabilities","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="creating-family-symbol-capabilities-data-items.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="archive-considerations.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-7A57EE70-F156-4CA8-A95C-434500466389" name="GUID-7A57EE70-F156-4CA8-A95C-434500466389"></a>
+         
+         <h2 id="OSLLG-GUID-7A57EE70-F156-4CA8-A95C-434500466389" class="sect2">Converting Object Capabilities to Symbol Capabilities</h2>
+         <div class="ind">
+            <div>
+               <p>Ideally, the compiler can generate objects that are identified with symbol capabilities. If the compiler can not create symbol capabilities, the link-editor offers a solution.</p>
+               <p>A relocatable object that defines object capabilities can be transformed into a relocatable object that defines symbol capabilities using the link-editor. Using the link-editor <code class="codeph">-z&nbsp;symbolcap</code> option, any capability data section is converted to define symbol capabilities. All global functions within the object are converted into local functions, and are associated with symbol capabilities. All global initialized data items are converted to local data items, and are associated with symbol capabilities. These transformed symbols are appended with any capability identifier specified as part of the object capabilities group. If a capability identifier is not defined, a default group name is appended.
+               </p>
+               <p>For each original global function or initialized data item, a global reference is created. This reference is associated to any relocation requirements, and provides for binding to a default, global symbol when this object is finally combined to create a dynamic object.</p>
+               <div class="infoboxnote" id="GUID-7A57EE70-F156-4CA8-A95C-434500466389__GUID-EF4170E7-6BC3-4E25-8573-7AE1D746302A">
+                  <p class="notep1">Note:</p>
+         The <code class="codeph">-z&nbsp;symbolcap</code> option only applies to objects that contain an object capabilities section. The option has no affect upon relocatable objects that already contain symbol capabilities, relocatable objects that contain both object and symbol capabilities, or relocatable objects that contain no capabilities. This design allows multiple objects to be combined by the link-editor, with only those objects that contain object capabilities being affected by the option.
+
+               </div>
+               <p>In the following example, a x86 relocatable object contains two global functions <code class="codeph">foo</code>() and <code class="codeph">bar</code>(). This object has been compiled to require the <code class="codeph">MMX</code> and <code class="codeph">SSE</code> hardware capabilities. In these examples, the capabilities group has been named with a capabilities identifier entry. This identifier name is appended to the transformed symbol names. Without this explicit identifier, the link-editor appends a default capabilities group name.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">elfdump -H foo.o</span>
+
+Capabilities Section:  .SUNW_cap
+
+ Object Capabilities:
+   index  tag               value
+     [0]  CA_SUNW_ID        sse,mmx
+     [1]  CA_SUNW_HW_1      0x840  [ SSE MMX ]
+
+$ <span class="bold">elfdump -s foo.o | egrep "foo|bar"</span>
+    [25]         0   0x21  FUNC GLOB  D    0 .text    foo
+    [26]      0x24   0x1e  FUNC GLOB  D    0 .text    bar
+
+$ <span class="bold">elfdump -r foo.o | fgrep foo</span>
+  R_386_PLT32                0x38       .rel.text             foo</pre><p>This relocatable object can now be transformed into a symbol capabilities relocatable object.</p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">ld -r -o foo.1.o -z symbolcap foo.o</span>
+$ <span class="bold">elfdump -H foo.1.o</span>
+
+Capabilities Section:  .SUNW_cap
+
+ Symbol Capabilities:
+   index  tag               value
+     [1]  CA_SUNW_ID        sse,mmx
+     [2]  CA_SUNW_HW_1      0x840  [ SSE MMX ]
+
+  Symbols:
+   index    value     size  type bind oth ver shndx    name
+    [25]        0     0x21  FUNC LOCL  D    0 .text    foo%sse,mmx
+    [26]     0x24     0x1e  FUNC LOCL  D    0 .text    bar%sse,mmx
+
+$ <span class="bold">elfdump -s foo.1.o | egrep "foo|bar"</span>
+    [25]        0     0x21  FUNC LOCL  D    0 .text    foo%sse,mmx
+    [26]     0x24     0x1e  FUNC LOCL  D    0 .text    bar%sse,mmx
+    [37]        0        0  FUNC GLOB  D    0 UNDEF    foo
+    [38]        0        0  FUNC GLOB  D    0 UNDEF    bar
+
+$ <span class="bold">elfdump -r foo.1.o | fgrep foo</span>
+  R_386_PLT32                0x38       .rel.text             foo</pre><p>This object can now be combined with other objects containing instances of the same functions, associated with different symbol capabilities, to produce a dynamic object. In addition, a default instance of each function, one that is not associated with any symbol capabilities, must be provided to lead each capabilities family. This default instance provides for all external references, and ensures that an instance of the function is available on any system.</p>
+               <p>At runtime, any references to <code class="codeph">foo</code>() and <code class="codeph">bar</code>() are directed to the lead instances. However, the runtime linker selects the best symbol capabilities instance if the system accommodates the appropriate capabilities.
+               </p>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

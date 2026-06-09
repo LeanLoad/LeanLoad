@@ -1,0 +1,114 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Mapping Example">
+      <meta name="DC.subject" content=", mapfiles, example">
+      <meta name="keywords" content=", mapfiles, example">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-F87FC5B5-34F8-4919-BF99-ECE5625FB61C">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Mapping Example</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="file-control-directives.html" title="Previous" type="text/html">
+      <link rel="next" href="mapfile-option-defaults.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Mapping Example","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="file-control-directives.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="mapfile-option-defaults.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-F87FC5B5-34F8-4919-BF99-ECE5625FB61C" name="GUID-F87FC5B5-34F8-4919-BF99-ECE5625FB61C"></a>
+         
+         <h2 id="OSLLG-GUID-F87FC5B5-34F8-4919-BF99-ECE5625FB61C" class="sect2">Mapping Example</h2>
+         <div class="ind">
+            <div>
+               <p>The following example is a user-defined <code>mapfile</code>. The numbers on the left are included in the example for tutorial purposes. Only the information to the right of the numbers actually appears in the <code>mapfile</code>.
+               </p>
+               <div class="example" id="GUID-F87FC5B5-34F8-4919-BF99-ECE5625FB61C__CHAPTER7-EX-10">
+                  <p class="titleinexample">Example B-1 User-Defined Mapfile</p>
+                  
+                  <pre class="oac_no_warn" dir="ltr">        1.  elephant : .data : peanuts.o *popcorn.o;
+        2.  monkey : $PROGBITS ?AX;
+        3.  monkey : .data;
+        4.  monkey = LOAD V0x80000000 L0x4000;
+        5.  donkey : .data;
+        6.  donkey = ?RX A0x1000;
+        7.  text = V0x80008000;</pre>
+                  </div>
+               <p>Four separate segments are manipulated in this example. The implicitly declared segment <code class="codeph">elephant</code> (line 1) receives all of the <code class="codeph">.data</code> sections from the files <code>peanuts.o</code> and <code>popcorn.o</code>. Notice that <code>*popcorn.o</code> matches any <code>popcorn.o</code> file that can be supplied to the link-edit. The file need not be in the current directory. On the other hand, if <code>/var/tmp/peanuts.o</code> was supplied to the link-edit, it does not match <code>peanuts.o</code> because it is not preceded by an <code class="codeph">*</code>.
+               </p>
+               <p>The implicitly declared segment <code class="codeph">monkey</code> (line 2) receives all sections that are both <code class="codeph">$PROGBITS</code> and allocatable-executable (<code class="codeph">?AX</code>), as well as all sections not already in the segment <code class="codeph">elephant</code> with the name <code class="codeph">.data</code> (line 3). The <code class="codeph">.data</code> sections entering the <code class="codeph">monkey</code> segment need not be <code class="codeph">$PROGBITS</code> or allocatable-executable because the <code class="codeph">section_type</code> and <code class="codeph">section_flags</code> values are entered on a separate line from the <code class="codeph">section_name</code> value.
+               </p>
+               <p>An "and" relationship exists between attributes on the same line as illustrated by <code class="codeph">$PROGBITS</code> "and" <code class="codeph">?AX</code> on line 2. An "or" relationship exists between attributes for the same segment that span more than one line, as illustrated by <code class="codeph">$PROGBITS ?AX</code> on line 2 "or" <code class="codeph">.data</code> on line 3.
+               </p>
+               <p>The <code class="codeph">monkey</code> segment is implicitly declared in line 2 with <code class="codeph">segment_type</code> value <code class="codeph">LOAD</code>, <code class="codeph">segment_flags</code> value <code class="codeph">RWX</code>, and no <code class="codeph">virtual_address</code>, <code class="codeph">physical_address</code>, <code class="codeph">length</code> or <code class="codeph">alignment</code> values specified (defaults are used). In line 4 the <code class="codeph">segment_type</code> value of <code class="codeph">monkey</code> is set to <code class="codeph">LOAD</code>. Because the <code class="codeph">segment_type</code> attribute value does not change, no warning is issued. The <code class="codeph">virtual_address</code> value is set to <code class="codeph">0x80000000</code> and the maximum <code class="codeph">length</code> value to <code class="codeph">0x4000</code>.
+               </p>
+               <p>Line 5 implicitly declares the <code class="codeph">donkey</code> segment. The entrance criteria are designed to route all <code class="codeph">.data</code> sections to this segment. Actually, no sections fall into this segment because the entrance criteria for <code class="codeph">monkey</code> in line 3 capture all of these sections. In line 6, the <code class="codeph">segment_flags</code> value is set to <code class="codeph">?RX</code> and the <code class="codeph">alignment</code> value is set to <code class="codeph">0x1000</code>. Because both of these attribute values changed, a warning is issued.
+               </p>
+               <p>Line 7 sets the <code class="codeph">virtual_address</code> value of the text segment to <code class="codeph">0x80008000</code>.
+               </p>
+               <p>The example of a user-defined <code>mapfile</code> is designed to cause warnings for illustration purposes. If you want to change the order of the directives to avoid warnings, use the following example.
+               </p><pre class="oac_no_warn" dir="ltr">        1.  elephant : .data : peanuts.o *popcorn.o;
+        4.  monkey = LOAD V0x80000000 L0x4000;
+        2.  monkey : $PROGBITS ?AX;
+        3.  monkey : .data;
+        6.  donkey = ?RX A0x1000;
+        5.  donkey : .data;
+        7.  text = V0x80008000;</pre><p>The following <code>mapfile</code> example uses the section-within-segment ordering.
+               </p><pre class="oac_no_warn" dir="ltr">        1.  text = LOAD ?RXN V0xf0004000;
+        2.  text | .text;
+        3.  text | .rodata;
+        4.  text : $PROGBITS ?A!W;
+        5.  data = LOAD ?RWX R0x1000;</pre><p>The <code class="codeph">text</code> and <code class="codeph">data</code> segments are manipulated in this example. Line 1 declares the <code class="codeph">text</code> segment to have a <code class="codeph">virtual_address</code> of <code class="codeph">0xf0004000</code> and to <span class="italic">not</span> include the <span>ELF</span> header or any program headers as part of this segment's address calculations. Lines 2 and 3 turn on section-within-segment ordering and specify that the <code class="codeph">.text</code> and <code class="codeph">.rodata</code> sections are the first two sections in this segment. The result is that the <code class="codeph">.text</code> section have a virtual address of <code class="codeph">0xf0004000</code>, and the <code class="codeph">.rodata</code> section immediately follows that address.
+               </p>
+               <p>Any other <code class="codeph">$PROGBITS</code> section that makes up the <code class="codeph">text</code> segment follows the <code class="codeph">.rodata</code> section. Line 5 declares the <code class="codeph">data</code> segment and specifies that its virtual address must begin on a <code class="codeph">0x1000</code> byte boundary. The first section that constitutes the <code class="codeph">data</code> segment also resides on a <code class="codeph">0x1000</code> byte boundary within the file image.
+               </p>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

@@ -1,0 +1,194 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Providing an Alternative to dlopen()">
+      <meta name="DC.subject" content=", dlsym, RTLD_PROBE, deferred">
+      <meta name="keywords" content=", dlsym, RTLD_PROBE, deferred">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-4329C8A3-B44C-4375-8DBF-0C084BDDB188">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Providing an Alternative to dlopen()</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="lazy-loading-dynamic-dependencies.html" title="Previous" type="text/html">
+      <link rel="next" href="deferred-symbol-references.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Providing an Alternative to dlopen()","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="lazy-loading-dynamic-dependencies.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="deferred-symbol-references.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-4329C8A3-B44C-4375-8DBF-0C084BDDB188" name="GUID-4329C8A3-B44C-4375-8DBF-0C084BDDB188"></a>
+         
+         <h2 id="OSLLG-GUID-4329C8A3-B44C-4375-8DBF-0C084BDDB188" class="sect2">Providing an Alternative to <code class="codeph">dlopen</code>()
+         </h2>
+         <div class="ind">
+            <div>
+               <p>
+                  <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/dlopen-3c.html" target="_blank">
+                     <code class="codeph">dlopen</code>(3C)</a> and <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/dlsym-3c.html" target="_blank">
+                     <code class="codeph">dlsym</code>(3C)</a> are often used to load and exercise additional objects. See <a href="runtime-linking-programming-interface.html#GUID-BB19AD2A-0059-48F3-A84A-068FD249D691">Runtime Linking Programming Interface</a>. For example, the
+                                following code from <code>libdep.so.1</code> loads
+<code>libbar.so.1</code>, and on success calls
+                                interfaces provided by <code>libbar.so.1</code>.
+               </p><pre class="oac_no_warn" dir="ltr">void dep()
+{
+        void *handle;
+
+        if ((handle = dlopen("libbar.so.1", RTLD_LAZY)) != NULL) {
+                int (*fptr)();
+
+                if ((fptr = (int (*)())dlsym(handle, "bar1")) != NULL)
+                        (*fptr)(arg1);
+                if ((fptr = (int (*)())dlsym(handle, "bar2")) != NULL)
+                        (*fptr)(arg2);
+                ....
+        }
+}</pre><p>Although very flexible, this model of using
+<code class="codeph">dlopen</code>() and <code class="codeph">dlsym</code>()
+                                is an unnatural coding style, and has some drawbacks.
+               </p>
+               <ul style="list-style-type: disc;">
+                  <li>
+                     
+                     <p>The object in which the symbols are expected to exist
+                                                must be known.</p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>The calls through function pointers provide no means
+                                                of verification by either the compiler, or
+<code>lint</code>(1).
+                     </p>
+                     
+                  </li>
+               </ul>
+               <p>This code can be simplified if the object that supplies the required
+                                interfaces satisfies the following conditions.</p>
+               <ul style="list-style-type: disc;">
+                  <li>
+                     
+                     <p>The object can be established as a dependency at
+                                                link-edit time.</p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>The object is always available.</p>
+                     
+                  </li>
+               </ul>
+               <p>By exploiting that a function reference can trigger lazy loading, the
+                                same delayed loading of <code>libbar.so.1</code> can be
+                                achieved. In this case, the reference to the function
+<code class="codeph">bar1</code>() results in lazy loading the
+                                associated dependency. This coding is far more natural, and the use
+                                of standard function calls provides for compiler, or
+<code>lint</code>(1) validation.
+               </p><pre class="oac_no_warn" dir="ltr">void dep()
+{
+        bar1(arg1);
+        bar2(arg2);
+        ....
+}
+$ <span class="bold">cc -G -o libdep.so.1 dep.c -L. -z lazyload -lbar -lc</span></pre><p>However, this model fails if the object that provides the required
+                                interfaces is not always available. Should the application be
+                                exercised when <code class="codeph">LD_BIND_NOW</code> is set, or the shared
+				object be loaded through <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/dlopen-3c.html" target="_blank">
+                     <code class="codeph">dlopen</code>(3C)</a> with the <code class="codeph">RTLD_NOW</code>
+                                flag, then all references from the associated objects are processed.
+                                Any failure to bind a symbol reference to a definition results in a
+                                fatal error.
+               </p>
+               <p>In this case, it is desirable to test for the existence of the
+                                dependency, without having to know the dependency name. A means of
+                                testing for the availability of a dependency that satisfies a
+                                function reference is required.</p>
+               <p>A robust model for testing for the existence of a
+                                function can be achieved with <span class="italic">deferred</span> symbol
+                                references, or <span class="italic">deferred</span> dependencies, and use
+				of <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/dlsym-3c.html" target="_blank">
+                     <code class="codeph">dlsym</code>(3C)</a> with the
+<code class="codeph">RTLD_PROBE</code> handle.
+               </p>
+               <p>Deferred symbol references differ from standard symbol
+                                references in the following details.</p>
+               <ul style="list-style-type: disc;">
+                  <li>
+                     
+                     <p>Deferred references can only be established for
+                                                function calls.</p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>Deferred references are directly bound at runtime to
+                                                the associated dependency.</p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>Deferred references are not resolved as part of
+                                                standard relocation processing, or
+<code class="codeph">LD_BIND_NOW</code> processing, or
+through <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/dlopen-3c.html" target="_blank">
+                           <code class="codeph">dlopen</code>(3C)</a> with the
+<code class="codeph">RTLD_NOW</code> flag.
+                     </p>
+                     
+                  </li>
+               </ul>
+               <p>Deferred references are resolved during process execution, when the
+                                associated function is first referenced. The assurance of this
+                                delayed resolution provides a window where the caller can test for
+                                the existence of the deferred dependency before making calls to the
+                                deferred function.</p>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

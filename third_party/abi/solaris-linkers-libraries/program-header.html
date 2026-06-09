@@ -1,0 +1,895 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Program Header">
+      <meta name="DC.subject" content="object files, program header, segment types">
+      <meta name="keywords" content="object files, program header, segment types">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-49F99618-9CDC-4A08-A94C-E2AA264AA01A">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Program Header</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="program-loading-dynamic-linking.html" title="Previous" type="text/html">
+      <link rel="next" href="base-address.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Program Header","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="program-loading-dynamic-linking.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="base-address.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-49F99618-9CDC-4A08-A94C-E2AA264AA01A" name="GUID-49F99618-9CDC-4A08-A94C-E2AA264AA01A"></a>
+         
+         <h2 id="OSLLG-GUID-49F99618-9CDC-4A08-A94C-E2AA264AA01A" class="sect2">Program Header</h2>
+         <div class="ind">
+            <div>
+               <p>The program header table of a dynamic object is an array of structures. Each structure describes a segment or other information that the system needs to prepare the program for execution. An object file segment contains one or more sections, as described in <a href="segment-contents.html#GUID-567E8AB9-F05B-4248-8B77-5048F2533DCA">Segment Contents</a>.
+               </p>
+               <p>Program headers are meaningful only for dynamic objects. A file
+            specifies its own program header size with the <span>ELF</span> header's
+<code class="codeph">e_phentsize</code> and <code class="codeph">e_phnum</code>
+            members.
+               </p>
+               <p>Program headers can have names associated to them. These names are assigned
+            by the link editor, or are specified by <code>mapfiles</code> that create
+            mapped segments. See <a href="program-header-name-section.html#GUID-C806BDDF-100C-4FAB-98F0-3D42F5D7087D">Program Header Name Section</a>.
+               </p>
+               <p>A program header has the following structure. See
+<code>sys/elf.h</code>.
+               </p><pre class="oac_no_warn" dir="ltr">typedef struct {
+        Elf32_Word      p_type;
+        Elf32_Off       p_offset;
+        Elf32_Addr      p_vaddr;
+        Elf32_Addr      p_paddr;
+        Elf32_Word      p_filesz;
+        Elf32_Word      p_memsz;
+        Elf32_Word      p_flags;
+        Elf32_Word      p_align;
+} Elf32_Phdr;
+
+typedef struct {
+        Elf64_Word      p_type;
+        Elf64_Word      p_flags;
+        Elf64_Off       p_offset;
+        Elf64_Addr      p_vaddr;
+        Elf64_Addr      p_paddr;
+        Elf64_Xword     p_filesz;
+        Elf64_Xword     p_memsz;
+        Elf64_Xword     p_align;
+} Elf64_Phdr;</pre><dl>
+                  <dt class="dlterm"><a name="GUID-49F99618-9CDC-4A08-A94C-E2AA264AA01A__GUID-A585DADC-0B9A-4A34-BB0A-A3B65BC9E24D">
+                        <!-- --></a>
+                     <code class="codeph">p_type</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>The kind of segment this array element describes or how to interpret the
+                        array element's information. Type values and their meanings are specified in
+<span>ELF Segment Types</span>.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-49F99618-9CDC-4A08-A94C-E2AA264AA01A__GUID-3256AE07-A535-40A7-8D5F-A4F3228E19DA">
+                        <!-- --></a>
+                     <code class="codeph">p_offset</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>The offset from the beginning of the file at which the first byte of the
+                        segment resides.</p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-49F99618-9CDC-4A08-A94C-E2AA264AA01A__GUID-7146EB52-5594-41E6-9506-3807EE131E96">
+                        <!-- --></a>
+                     <code class="codeph">p_vaddr</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>The virtual address at which the first byte of the segment
+                        resides in memory.</p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-49F99618-9CDC-4A08-A94C-E2AA264AA01A__GUID-A0A0C3E0-53AF-4FC5-A275-06CEBDDEBDAD">
+                        <!-- --></a>
+                     <code class="codeph">p_paddr</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>The segment's physical address for systems in which physical addressing is
+                        relevant. Because the system ignores physical addressing for application
+                        programs, this member has unspecified contents for dynamic
+                        objects.</p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-49F99618-9CDC-4A08-A94C-E2AA264AA01A__GUID-7C3A37FB-FADE-4ECD-BA00-B2675099D3FC">
+                        <!-- --></a>
+                     <code class="codeph">p_filesz</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>The number of bytes in the file image of the segment, which can be
+                        zero.</p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-49F99618-9CDC-4A08-A94C-E2AA264AA01A__GUID-C04974EF-0C31-4679-A50F-BF94EFC17D7E">
+                        <!-- --></a>
+                     <code class="codeph">p_memsz</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>The number of bytes in the memory image of the segment, which can be
+                        zero.</p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-49F99618-9CDC-4A08-A94C-E2AA264AA01A__GUID-B343AFDA-6877-4C39-B64C-5CA720334C3A">
+                        <!-- --></a>
+                     <code class="codeph">p_flags</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Flags that are relevant to the segment. Type values and their meanings are
+    specified in <span>ELF Segment Flags</span>.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-49F99618-9CDC-4A08-A94C-E2AA264AA01A__GUID-5111D4E1-8899-4206-B997-49AC8B9EB1ED">
+                        <!-- --></a>
+                     <code class="codeph">p_align</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Loadable process segments must have congruent values for
+<code class="codeph">p_vaddr</code> and
+<code class="codeph">p_offset</code>, modulo the page size. This member
+                        gives the value to which the segments are aligned in memory and in the file.
+                        Values <code class="codeph">0</code> and <code class="codeph">1</code> mean no alignment is
+                        required. Otherwise, <code class="codeph">p_align</code> should be a
+                        positive, integral power of <code class="codeph">2</code>, and
+<code class="codeph">p_vaddr</code> should equal
+<code class="codeph">p_offset</code>, modulo
+<code class="codeph">p_align</code>. See <a href="program-loading-processor-specific.html#GUID-B36F9933-D39A-4E7A-AE26-C09D313A2932">Program Loading (Processor-Specific)</a>.
+                     </p>
+                     
+                  </dd>
+               </dl>
+               <p>Some entries describe process segments. Other entries give supplementary information
+            and do not contribute to the process image. Segment entries can appear in any order,
+            except as explicitly noted. Defined type values are listed in the following
+            table.</p>
+               <div class="tblformal" id="GUID-49F99618-9CDC-4A08-A94C-E2AA264AA01A__CHAPTER6-69880">
+                  <p class="titleintable">Table 15-1 
+<span>ELF</span> Segment Types
+                  </p>
+                  <table cellpadding="4" cellspacing="0" class="Formal" title="&#xA;ELF Segment Types" summary="&#xA;            Table defining ELF segment types.&#xA;" frame="hsides" border="1" rules="rows">
+                     <thead>
+                        <tr align="left" valign="top">
+                           <th align="left" valign="bottom" width="20%" id="d89616e210">
+Name
+</th>
+                           <th align="left" valign="bottom" width="20%" id="d89616e215">
+Value
+</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d89616e222" headers="d89616e210 ">
+                              
+                              <p>
+                                 <code class="codeph">PT_NULL</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d89616e222 d89616e215 ">
+                              
+                              <p>
+                                 <code class="codeph">0</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d89616e239" headers="d89616e210 ">
+                              
+                              <p>
+                                 <code class="codeph">PT_LOAD</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d89616e239 d89616e215 ">
+                              
+                              <p>
+                                 <code class="codeph">1</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d89616e256" headers="d89616e210 ">
+                              
+                              <p>
+                                 <code class="codeph">PT_DYNAMIC</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d89616e256 d89616e215 ">
+                              
+                              <p>
+                                 <code class="codeph">2</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d89616e273" headers="d89616e210 ">
+                              
+                              <p>
+                                 <code class="codeph">PT_INTERP</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d89616e273 d89616e215 ">
+                              
+                              <p>
+                                 <code class="codeph">3</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d89616e290" headers="d89616e210 ">
+                              
+                              <p>
+                                 <code class="codeph">PT_NOTE</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d89616e290 d89616e215 ">
+                              
+                              <p>
+                                 <code class="codeph">4</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d89616e307" headers="d89616e210 ">
+                              
+                              <p>
+                                 <code class="codeph">PT_SHLIB</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d89616e307 d89616e215 ">
+                              
+                              <p>
+                                 <code class="codeph">5</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d89616e324" headers="d89616e210 ">
+                              
+                              <p>
+                                 <code class="codeph">PT_PHDR</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d89616e324 d89616e215 ">
+                              
+                              <p>
+                                 <code class="codeph">6</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d89616e341" headers="d89616e210 ">
+                              
+                              <p>
+                                 <code class="codeph">PT_TLS</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d89616e341 d89616e215 ">
+                              
+                              <p>
+                                 <code class="codeph">7</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d89616e358" headers="d89616e210 ">
+                              
+                              <p>
+                                 <code class="codeph">PT_LOOS</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d89616e358 d89616e215 ">
+                              
+                              <p>
+                                 <code class="codeph">0x60000000</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d89616e375" headers="d89616e210 ">
+                              
+                              <p>
+                                 <code class="codeph">PT_SUNW_UNWIND</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d89616e375 d89616e215 ">
+                              
+                              <p>
+                                 <code class="codeph">0x6464e550</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d89616e392" headers="d89616e210 ">
+                              
+                              <p>
+                                 <code class="codeph">PT_SUNW_EH_FRAME</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d89616e392 d89616e215 ">
+                              
+                              <p>
+                                 <code class="codeph">0x6474e550</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d89616e410" headers="d89616e210 ">
+                              
+                              <p>
+                                 <code class="codeph">PT_LOSUNW</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d89616e410 d89616e215 ">
+                              
+                              <p>
+                                 <code class="codeph">0x6ffffff7</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d89616e427" headers="d89616e210 ">
+                              
+                              <p>
+                                 <code class="codeph">PT_SUNW_SYSSTAT_ZONE</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d89616e427 d89616e215 ">
+                              
+                              <p>
+                                 <code class="codeph">0x6ffffff8</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d89616e444" headers="d89616e210 ">
+                              
+                              <p>
+                                 <code class="codeph">PT_SUNW_SYSSTAT</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d89616e444 d89616e215 ">
+                              
+                              <p>
+                                 <code class="codeph">0x6ffffff8</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d89616e461" headers="d89616e210 ">
+                              
+                              <p>
+                                 <code class="codeph">PT_SUNW_RESERVE</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d89616e461 d89616e215 ">
+                              
+                              <p>
+                                 <code class="codeph">0x6ffffff9</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d89616e478" headers="d89616e210 ">
+                              
+                              <p>
+                                 <code class="codeph">PT_SUNW_BSS</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d89616e478 d89616e215 ">
+                              
+                              <p>
+                                 <code class="codeph">0x6ffffffa</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d89616e495" headers="d89616e210 ">
+                              
+                              <p>
+                                 <code class="codeph">PT_SUNW_STACK</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d89616e495 d89616e215 ">
+                              
+                              <p>
+                                 <code class="codeph">0x6ffffffb</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d89616e512" headers="d89616e210 ">
+                              
+                              <p>
+                                 <code class="codeph">PT_SUNW_DTRACE</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d89616e512 d89616e215 ">
+                              
+                              <p>
+                                 <code class="codeph">0x6ffffffc</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d89616e529" headers="d89616e210 ">
+                              
+                              <p>
+                                 <code class="codeph">PT_SUNW_CAP</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d89616e529 d89616e215 ">
+                              
+                              <p>
+                                 <code class="codeph">0x6ffffffd</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d89616e546" headers="d89616e210 ">
+                              
+                              <p>
+                                 <code class="codeph">PT_HISUNW</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d89616e546 d89616e215 ">
+                              
+                              <p>
+                                 <code class="codeph">0x6fffffff</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d89616e563" headers="d89616e210 ">
+                              
+                              <p>
+                                 <code class="codeph">PT_HIOS</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d89616e563 d89616e215 ">
+                              
+                              <p>
+                                 <code class="codeph">0x6fffffff</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d89616e580" headers="d89616e210 ">
+                              
+                              <p>
+                                 <code class="codeph">PT_LOPROC</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d89616e580 d89616e215 ">
+                              
+                              <p>
+                                 <code class="codeph">0x70000000</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d89616e598" headers="d89616e210 ">
+                              
+                              <p>
+                                 <code class="codeph">PT_HIPROC</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d89616e598 d89616e215 ">
+                              
+                              <p>
+                                 <code class="codeph">0x7fffffff</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                     </tbody>
+                  </table>
+               </div>
+               <dl>
+                  <dt class="dlterm"><a name="GUID-49F99618-9CDC-4A08-A94C-E2AA264AA01A__GUID-37DCF663-BEFB-49B0-94C2-E677F9FE7FC4">
+                        <!-- --></a>
+                     <code class="codeph">PT_NULL</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Unused. Member values are undefined. This type enables the program header
+                        table to contain ignored entries.</p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-49F99618-9CDC-4A08-A94C-E2AA264AA01A__GUID-BF072425-650F-4DBC-B0E9-167F5BAAE536">
+                        <!-- --></a>
+                     <code class="codeph">PT_LOAD</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Specifies a loadable segment, described by
+<code class="codeph">p_filesz</code> and
+<code class="codeph">p_memsz</code>. The bytes from the file are mapped
+                        to the beginning of the memory segment. If the segment's memory size
+                            (<code class="codeph">p_memsz</code>) is larger than the file size
+                            (<code class="codeph">p_filesz</code>), the extra bytes are defined to
+                        hold the value <code class="codeph">0</code>. These bytes follow the initialized area
+                        of the segment. The file size can not be larger than the memory size.
+                        Loadable segment entries in the program header table appear in ascending
+                        order, and are sorted on the <code class="codeph">p_vaddr</code>
+                        member.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-49F99618-9CDC-4A08-A94C-E2AA264AA01A__GUID-E9754806-C001-40AF-8255-722E900954D4">
+                        <!-- --></a>
+                     <code class="codeph">PT_DYNAMIC</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Specifies dynamic linking information. See <a href="dynamic-section.html#GUID-4336A69A-D905-4FCE-A398-80375A9E6464">Dynamic Section</a>.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-49F99618-9CDC-4A08-A94C-E2AA264AA01A__GUID-9AF7C78C-10EF-4F53-BBFB-CC3AE1AC06B1">
+                        <!-- --></a>
+                     <code class="codeph">PT_INTERP</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Specifies the location and size of a null-terminated path name to invoke
+                        as an interpreter. This type is mandatory for executables. This
+                        type can occur in shared objects. This type cannot occur more than once in an
+                        executable. This type, if present, must precede any loadable segment entries. See
+<a href="program-interpreter.html#GUID-E0AB79F7-FE01-48E4-99DF-325A2949AB0E">Program Interpreter</a> for
+                        details.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-49F99618-9CDC-4A08-A94C-E2AA264AA01A__GUID-866542D4-BEDB-4A0D-BFDF-0021C1EFE8BE">
+                        <!-- --></a>
+                     <code class="codeph">PT_NOTE</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Specifies the location and size of auxiliary information. See <a href="note-section.html#GUID-DBEA6595-3C3A-4B39-AB1D-E0E96C512979">Note Section</a> for details.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-49F99618-9CDC-4A08-A94C-E2AA264AA01A__GUID-A21A208D-03FC-4471-B392-33B305B98AD6">
+                        <!-- --></a>
+                     <code class="codeph">PT_SHLIB</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Reserved but has unspecified semantics.</p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-49F99618-9CDC-4A08-A94C-E2AA264AA01A__GUID-8232B541-D5FC-4CCE-B58C-21F35D8377A0">
+                        <!-- --></a>
+                     <code class="codeph">PT_PHDR</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Specifies the location and size of the program header table, both in the
+                        file and in the memory image of the program. This segment type cannot occur
+                        more than once in a file. Moreover, this segment can occur only if the
+                        program header table is part of the memory image of the program. This type,
+                        if present, must precede any loadable segment entry. See <a href="program-interpreter.html#GUID-E0AB79F7-FE01-48E4-99DF-325A2949AB0E">Program Interpreter</a> for
+                        details.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-49F99618-9CDC-4A08-A94C-E2AA264AA01A__GUID-7C18C099-7711-43B4-9163-1712E331D75D">
+                        <!-- --></a>
+                     <code class="codeph">PT_TLS</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Specifies a thread-local storage template. See <a href="thread-local-storage-section.html#GUID-2A8994D4-4F05-49A8-B3A5-CA2FEF377694">Thread-Local Storage Section</a> for
+                        details.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-49F99618-9CDC-4A08-A94C-E2AA264AA01A__GUID-2A6BC189-454D-4D0C-9B05-8AD6B6ADA53E">
+                        <!-- --></a>
+                     <code class="codeph">PT_LOOS</code> - <code class="codeph">PT_HIOS</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Values in this inclusive range are reserved for OS-specific
+                        semantics.</p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-49F99618-9CDC-4A08-A94C-E2AA264AA01A__GUID-3D1CB2B7-E89C-4CDB-9A0F-BF9E926436D1">
+                        <!-- --></a>
+                     <code class="codeph">PT_SUNW_UNWIND</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>This segment contains the stack unwind tables.</p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-49F99618-9CDC-4A08-A94C-E2AA264AA01A__GUID-E5CBF2B9-CCAC-4970-AA1A-7FF87CC219BE">
+                        <!-- --></a>
+                     <code class="codeph">PT_SUNW_EH_FRAME</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>This segment contains the stack unwind table.
+<code class="codeph">PT_SUNW_EH_FRAME</code> is equivalent to
+<code class="codeph">PT_SUNW_EH_UNWIND</code>.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-49F99618-9CDC-4A08-A94C-E2AA264AA01A__GUID-DB33E84C-FD3E-40B7-B1B4-C2076A849ED9">
+                        <!-- --></a>
+                     <code class="codeph">PT_LOSUNW</code> - <code class="codeph">PT_HISUNW</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Values in this inclusive range are reserved for Sun-specific
+                        semantics.</p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-49F99618-9CDC-4A08-A94C-E2AA264AA01A__GUID-D0F43C19-405E-43F5-B22D-DD8DCF98C420">
+                        <!-- --></a>
+                     <code class="codeph">PT_SUNW_SYSSTAT_ZONE</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Reserved for internal use.</p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-49F99618-9CDC-4A08-A94C-E2AA264AA01A__GUID-D642D4BE-9101-43F7-B1A8-4F7E7675FB01">
+                        <!-- --></a>
+                     <code class="codeph">PT_SUNW_SYSSTAT</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Reserved for internal use.</p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-49F99618-9CDC-4A08-A94C-E2AA264AA01A__GUID-F29A1A31-DFB0-43AB-B898-84A890E46FBD">
+                        <!-- --></a>
+                     <code class="codeph">PT_SUNW_RESERVE</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Memory reservation.</p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-49F99618-9CDC-4A08-A94C-E2AA264AA01A__GUID-9158BEAF-DC4C-46F7-BBA1-E6846E612C6E">
+                        <!-- --></a>
+                     <code class="codeph">PT_SUNW_BSS</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>The same attributes as a <code class="codeph">PT_LOAD</code> element and used to
+                        describe a <code class="codeph">.SUNW_bss</code> section.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-49F99618-9CDC-4A08-A94C-E2AA264AA01A__GUID-B0C02A15-A9B0-401F-8BA6-2501CB36536A">
+                        <!-- --></a>
+                     <code class="codeph">PT_SUNW_STACK</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Describes a process stack. Only one <code class="codeph">PT_SUNW_STACK</code>
+                        element can exist. Only access permissions, as defined in the
+<code class="codeph">p_flags</code> field, are meaningful.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-49F99618-9CDC-4A08-A94C-E2AA264AA01A__GUID-58A8F9CF-7B03-464F-A96D-6D2793EB3F91">
+                        <!-- --></a>
+                     <code class="codeph">PT_SUNW_DTRACE</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Reserved for internal use by <a href="https://docs.oracle.com/cd/E88353_01/html/E72487/dtrace-8.html" target="_blank">
+                           <code class="codeph">dtrace</code>(8)</a>.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-49F99618-9CDC-4A08-A94C-E2AA264AA01A__GUID-CB1BC8F0-5D96-4822-9661-0BE6A1161BE9">
+                        <!-- --></a>
+                     <code class="codeph">PT_SUNW_CAP</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Specifies capability requirements. See <a href="capabilities-section.html#GUID-DF0B57D7-0758-4713-A009-8472460D5029">Capabilities Section</a> for details.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-49F99618-9CDC-4A08-A94C-E2AA264AA01A__GUID-DE4166CE-20B3-41E1-884E-ACC9A5117FCF">
+                        <!-- --></a>
+                     <code class="codeph">PT_LOPROC</code> - <code class="codeph">PT_HIPROC</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Values in this inclusive range are reserved for
+                        processor-specific semantics.</p>
+                     
+                  </dd>
+               </dl>
+               <div class="infoboxnote" id="GUID-49F99618-9CDC-4A08-A94C-E2AA264AA01A__GUID-933FD3CA-F332-410C-B1EC-9912D04B9EB9">
+                  <p class="notep1">Note:</p>
+         Unless specifically required elsewhere, all program header segment types are
+                optional. A file's program header table can contain only those elements that are
+                relevant to its contents.
+
+               </div>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

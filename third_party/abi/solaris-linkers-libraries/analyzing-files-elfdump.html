@@ -1,0 +1,171 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Analyzing Files With elfdump">
+      <meta name="DC.subject" content=", elfdump, sections, segments, mmapobj, data, text">
+      <meta name="keywords" content=", elfdump, sections, segments, mmapobj, data, text">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-CC156187-EBB2-4435-A26A-ADF15228291D">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Analyzing Files With elfdump</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="building-objects-optimize-system-performance.html" title="Previous" type="text/html">
+      <link rel="next" href="underlying-system.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Analyzing Files With elfdump","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="building-objects-optimize-system-performance.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="underlying-system.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-CC156187-EBB2-4435-A26A-ADF15228291D" name="GUID-CC156187-EBB2-4435-A26A-ADF15228291D"></a>
+         
+         <h2 id="OSLLG-GUID-CC156187-EBB2-4435-A26A-ADF15228291D" class="sect2">Analyzing Files With <code>elfdump</code>
+            
+         </h2>
+         <div class="ind">
+            <div>
+               <p>Various tools are available to analyze the contents of an <span>ELF</span> file, including the standard UNIX utilities <a href="https://docs.oracle.com/cd/E88353_01/html/E37839/dump-1.html" target="_blank">
+                     <code class="codeph">dump</code>(1)</a>, <a href="https://docs.oracle.com/cd/E88353_01/html/E37839/nm-1.html" target="_blank">
+                     <code class="codeph">nm</code>(1)</a>, and <a href="https://docs.oracle.com/cd/E88353_01/html/E37839/size-1.html" target="_blank">
+                     <code class="codeph">size</code>(1)</a>. Under Oracle Solaris, these tools have been largely superseded by <a href="https://docs.oracle.com/cd/E88353_01/html/E37839/elfdump-1.html" target="_blank">
+                     <code class="codeph">elfdump</code>(1)</a>.
+               </p>
+               <p>The use of <code>eldump</code> to diagnose the contents of an <span>ELF</span> object can be useful to explore the various performance issues described in the following sections.
+               </p>
+               <p>The <span>ELF</span> format organizes data into <span class="italic">sections</span>. Sections are in turn allocated to units known as <span class="italic">segments</span>. Segments describe how portions of a file are mapped into memory. See <a href="https://docs.oracle.com/cd/E88353_01/html/E37841/mmapobj-2.html" target="_blank">
+                     <code class="codeph">mmapobj</code>(2)</a>. These loadable segments can be displayed by using the <a href="https://docs.oracle.com/cd/E88353_01/html/E37839/elfdump-1.html" target="_blank">
+                     <code class="codeph">elfdump</code>(1)</a> command and examining the <code class="codeph">PT_LOAD</code> entries.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">elfdump -p -NPT_LOAD libfoo.so.1</span>
+Program Header[0]:
+    p_vaddr:      0           p_flags:    [ PF_X PF_R ]
+    p_paddr:      0           p_type:     [ PT_LOAD ]
+    p_filesz:     0x53c       p_memsz:    0x53c
+    p_offset:     0           p_align:    0x10000
+
+Program Header[1]:
+    p_vaddr:      0x1053c     p_flags:    [ PF_X PF_W PF_R ]
+    p_paddr:      0           p_type:     [ PT_LOAD ]
+    p_filesz:     0x114       p_memsz:    0x13c
+    p_offset:     0x53c       p_align:    0x10000</pre><p>There are two loadable segments in the shared object
+<code>libfoo.so.1</code>, commonly referred to as the
+<span class="italic">text</span> and <span class="italic">data</span> segments. The text segment
+            is mapped to allow reading and execution of its contents, <code class="codeph">PF_X</code> and
+<code class="codeph">PF_R</code>. The data segment is mapped to also allow its contents to be
+            modified, <code class="codeph">PF_W</code>. The memory size, <code class="codeph">p_memsz</code>, of the
+            data segment differs from the file size, <code class="codeph">p_filesz</code>. This difference
+            accounts for the <code class="codeph">.bss</code> section, which is part of the data segment, and
+            is dynamically created when the segment is loaded.
+               </p>
+               <p>Programmers usually think of a file in terms of the symbols that define the functions
+            and data elements within their code. These symbols can be displayed using the
+<code class="codeph">-s</code> option to <code>elfdump</code>.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">elfdump -sN.symtab libfoo.so.1</span>
+
+Symbol Table Section:  .symtab
+   index    value     size  type bind oth ver shndx          name
+    ....
+    [36]  0x10628     0x28  OBJT GLOB  D    0 .data          data
+    ....
+    [38]  0x10650     0x28  OBJT GLOB  D    0 .bss           bss
+    ....
+    [40]    0x520      0xc  FUNC GLOB  D    0 .init          _init
+    ....
+    [44]    0x508     0x14  FUNC GLOB  D    0 .text          foo
+    .... 
+    [46]    0x52c      0xc  FUNC GLOB  D    0 .fini          _fini</pre><p>The symbol table information displayed by <code>elfdump</code> includes the
+            section the symbol is associated with. The <code>elfdump</code>
+                  <code class="codeph">-c</code> option can be used to display information about these
+            sections.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">elfdump -c libfoo.so.1</span>
+....
+Section Header[6]:  sh_name: .text
+    sh_addr:      0x4f8           sh_flags:   [ SHF_ALLOC SHF_EXECINSTR ]
+    sh_size:      0x28            sh_type:    [ SHT_PROGBITS ]
+    sh_offset:    0x4f8           sh_entsize: 0
+    sh_link:      0               sh_info:    0
+    sh_addralign: 0x8
+
+Section Header[7]:  sh_name: .init
+    sh_addr:      0x520           sh_flags:   [ SHF_ALLOC SHF_EXECINSTR ]
+    sh_size:      0xc             sh_type:    [ SHT_PROGBITS ]
+    sh_offset:    0x520           sh_entsize: 0
+    sh_link:      0               sh_info:    0
+    sh_addralign: 0x4
+
+Section Header[8]:  sh_name: .fini
+    sh_addr:      0x52c           sh_flags:   [ SHF_ALLOC SHF_EXECINSTR ]
+    sh_size:      0xc             sh_type:    [ SHT_PROGBITS ]
+    sh_offset:    0x52c           sh_entsize: 0
+    sh_link:      0               sh_info:    0
+    sh_addralign: 0x4
+....
+Section Header[12]:  sh_name: .data
+   sh_addr:      0x10628         sh_flags:   [ SHF_WRITE SHF_ALLOC ]
+   sh_size:      0x28            sh_type:    [ SHT_PROGBITS ]
+   sh_offset:    0x628           sh_entsize: 0
+   sh_link:      0               sh_info:    0
+   sh_addralign: 0x4
+....
+Section Header[14]:  sh_name: .bss
+   sh_addr:      0x10650         sh_flags:   [ SHF_WRITE SHF_ALLOC ]
+   sh_size:      0x28            sh_type:    [ SHT_NOBITS ]
+   sh_offset:    0x650           sh_entsize: 0
+   sh_link:      0               sh_info:    0
+   sh_addralign: 0x4
+....</pre><p>The output from <a href="https://docs.oracle.com/cd/E88353_01/html/E37839/elfdump-1.html" target="_blank">
+                     <code class="codeph">elfdump</code>(1)</a> in the previous examples shows the association of the functions <code class="codeph">_init</code>, <code class="codeph">foo</code>, and <code class="codeph">_fini</code> to the sections <code class="codeph">.init</code>, <code class="codeph">.text</code> and <code class="codeph">.fini</code>. These sections, because of their read-only nature, are part of the <span class="italic">text</span> segment.
+               </p>
+               <p>Similarly, the data arrays <code class="codeph">data</code>, and <code class="codeph">bss</code> are
+            associated with the sections <code class="codeph">.data</code> and <code class="codeph">.bss</code>
+            respectively. These sections, because of their writable nature, are part of the
+<span class="italic">data</span> segment.
+               </p>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

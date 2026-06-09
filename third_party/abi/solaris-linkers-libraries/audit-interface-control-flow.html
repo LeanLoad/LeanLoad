@@ -1,0 +1,146 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Audit Interface Control Flow">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-748A286C-F5D0-42AF-91FC-70732922B6A0">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Audit Interface Control Flow</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="audit-interface-functions.html" title="Previous" type="text/html">
+      <link rel="next" href="audit-interface-example.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Audit Interface Control Flow","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="audit-interface-functions.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="audit-interface-example.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-748A286C-F5D0-42AF-91FC-70732922B6A0" name="GUID-748A286C-F5D0-42AF-91FC-70732922B6A0"></a>
+         
+         <h2 id="OSLLG-GUID-748A286C-F5D0-42AF-91FC-70732922B6A0" class="sect2">Audit Interface Control Flow</h2>
+         <div class="ind">
+            <div>
+               <p>The following sections describe the auditing interface routines and actions an
+                audit library can perform with each interface. The emphasis is on process
+                initialization. These routines are presented in the order they are called in the
+                common case of a global auditor that is provided at process startup.</p>
+               <p>Auditing interfaces fall into one of two categories, informational, and
+                control.</p>
+               <p>Informational interfaces provide the audit library information about the executing
+                process, such as object searching, object loading, and symbol bindings. In addition,
+                these interfaces allow the auditor to modify the objects loaded, and to ask for
+                notification of future symbol binding events.</p>
+               <p>Control interfaces are called to allow the audit library to track the start or end
+                of a phase of activity within the process execution. These interfaces allow the
+                auditor to safely inspect a consistent set of objects, and can even allow new
+                objects to be loaded.</p>
+               <p>When an auditing library is first loaded, an immediate call is made to the
+                library's <code class="codeph">la_version</code>() interface. This handshake verifies that
+                the audit library is supportable, and allows the audit library to define the
+                interface version that the library requires from the runtime linker.
+               </p>
+               <p>An audit library can be established at process startup, either from using
+<code class="codeph">LD_AUDIT</code>, or from a local auditing definition within the
+                executable object that starts the process. See <a href="invoking-auditing-interface.html#GUID-DDC0CA58-1FCB-4750-B5D1-14C57784021F">Invoking the Auditing Interface</a>. In this scenario, an
+<code class="codeph">la_objopen</code>() call, for both the executable object, and the
+                runtime linker, are provided to the audit library.
+               </p>
+               <p>At this point the process is still in the early stages of construction. The
+                auditor should refrain from performing any actions that might disturb this
+                construction, such as adding additional objects to the process, or exhaustive symbol
+                searches of the process. These actions can result in prematurely loading and
+                relocating objects in an attempt to satisfy a symbol look up.</p>
+               <p>Dependencies that are immediately loaded at process initialization are each
+                reported to the auditor library's <code class="codeph">la_objopen</code>() interface. For
+                processes that employ lazy loading, only a few dependencies may be loaded at process
+                initialization. See <a href="lazy-loading-dynamic-dependencies.html#GUID-A5882D59-5F75-4EDD-BB1D-590DFB538D71">Lazy Loading of Dynamic Dependencies</a>. Each loaded object is relocated, which results in symbol
+                bindings being established between symbol references and symbol definitions. These
+                bindings are reported to the audit library's <code class="codeph">la_symbind</code>()
+                interface.
+               </p>
+               <p>Once all immediate dependencies have been loaded, and relocated, the audit
+                library's <code class="codeph">la_preinit</code>() interface is called. At this point, the
+                process is still under construction. Threads initialization and initialization
+                routine collection are still pending. However, this interface provides a convenient
+                control point to add additional objects to the initial process.
+               </p>
+               <p>Once threads initialization is completed, the audit library's
+<code class="codeph">la_callinit</code>() interface is called. At this point, all loaded
+                objects are ready to execute, and their initialization routines have been collected
+                and sorted in preparation for execution. See <a href="initialization-termination-routines.html#GUID-3E1961B3-E7BE-4D5E-8817-0F91655D3EF5">Initialization and Termination Routines</a>. The
+<code class="codeph">la_callinit</code>() control point marks the transition to executing
+                application code.
+               </p>
+               <p>The execution of application code results in function call bindings being
+                established between symbol references and symbol definitions. These bindings are
+                reported to the audit library's <code class="codeph">la_symbind</code>() and/or
+<code class="codeph">la_pltenter</code>() interfaces. With lazy loading, additional
+                objects can be loaded to satisfy symbol references, which are reported to the audit
+                library's <code class="codeph">la_objopen</code>().
+               </p>
+               <p>Once all initialization code has been executed, the audit library's
+<code class="codeph">la_callentry</code>() interface is called. The
+<code class="codeph">la_callentry</code>() control point marks the end of processes
+                initialization, and the transition to the applications entry point, typically
+<code class="codeph">start</code>() or <code class="codeph">main</code>().
+               </p>
+               <p>As the process continues to execute, more symbol bindings can occur, resulting in
+<code class="codeph">la_symbind</code>() and/or <code class="codeph">la_pltenter</code>() calls.
+                Addition dependencies can be loaded, resulting in <code class="codeph">la_objopen</code>()
+                calls. New dependencies can also be unloaded, resulting in
+<code class="codeph">la_objclose</code>() calls. Any loading or unloading of objects is
+                bound by a pair of <code class="codeph">la_activity</code>() calls. The first
+<code class="codeph">la_activity</code>() hints at the targeted behavior, an object
+                addition or deletion. The second <code class="codeph">la_activity</code>() indicates that the
+                dependency structure within the process is consistent. Auditors should restrict
+                their inspection of the process to follow a consistent notification.
+               </p>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

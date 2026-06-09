@@ -1,0 +1,183 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Mapfile Directives for Predefined Segments and Entrance Criteria">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-069EDCC6-260D-469F-9560-564744D00C54">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Mapfile Directives for Predefined Segments and Entrance Criteria</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="section-segment-assignment.html" title="Previous" type="text/html">
+      <link rel="next" href="interfaces-versioning.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Mapfile Directives for Predefined Segments and Entrance Criteria","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="section-segment-assignment.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="interfaces-versioning.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-069EDCC6-260D-469F-9560-564744D00C54" name="GUID-069EDCC6-260D-469F-9560-564744D00C54"></a>
+         
+         <h2 id="OSLLG-GUID-069EDCC6-260D-469F-9560-564744D00C54" class="sect2">
+            <code>Mapfile</code> Directives for Predefined Segments and Entrance
+                Criteria
+         </h2>
+         <div class="ind">
+            <div>
+               <p>The link-editor provides a predefined set of output segment descriptors and
+                entrance criteria, as described in <a href="predefined-segments.html#GUID-F45FA064-3173-4ED1-9221-61D48D14D751">Predefined Segments</a>. The link-editor already knows about these sections, so
+<code>mapfile</code> directives are not required to create them. The
+<code>mapfile</code> directives that could be used to produce them are shown
+                for illustrative purposes, and as an example of a relatively complex
+<code>mapfile</code> specification. <code>Mapfile</code> segment
+                directives can be used to modify or augment these built in definitions.
+               </p>
+               <p>Normally, section to segment assignments are done within a single segment
+                directive. However, the predefined sections have more complex requirements,
+                requiring their entrance criteria to be processed in a different order than the
+                segments are laid out in memory. Two passes are used to achieve this, the first to
+                define all the segments in the desired order, and the second to establish entrance
+                criteria in an order that will achieve the desired results. It is rare for a user
+<code>mapfile</code> to require this strategy.
+               </p><pre class="oac_no_warn" dir="ltr">        # Predefined segments and entrance criteria for the Oracle Solaris
+        # link-editor
+        $mapfile_version 2
+
+        # The lrodata and ldata segments only apply to x86-64 objects.
+        # Establish amd64 as a convenient token for conditional input
+        $if _ELF64 &amp;&amp; _x86
+        $add amd64
+        $endif
+
+        # Pass 1: Define the segments and their attributes, but
+        # defer the entrance criteria details to the 2nd pass.
+        LOAD_SEGMENT text {
+                FLAGS = READ EXECUTE;
+        };
+        LOAD_SEGMENT data {
+                FLAGS = READ WRITE EXECUTE;
+        };
+        LOAD_SEGMENT bss {
+                DISABLE;
+                FLAGS=DATA;
+        };
+        $if amd64
+        LOAD_SEGMENT lrodata {
+                FLAGS = READ
+        };
+        LOAD_SEGMENT ldata {
+                FLAGS = READ WRITE;
+        };
+        $endif
+        NOTE_SEGMENT note;
+        NULL_SEGMENT extra;
+
+        # Pass 2: Define ASSIGN_SECTION attributes for the defined segments,
+        # in the order the link-editor should evaluate them.
+
+        # All SHT_NOTE sections go to the note segment
+        NOTE_SEGMENT note {
+                ASSIGN_SECTION {
+                        TYPE = NOTE;
+                };
+        };
+        $if amd64
+        # Medium/large model x86-64 readonly sections to lrodata
+        LOAD_SEGMENT lrodata {
+                ASSIGN_SECTION {
+                        FLAGS = ALLOC AMD64_LARGE;
+                };
+        };
+        $endif
+
+        # text receives all readonly allocable sections
+        LOAD_SEGMENT text {
+                ASSIGN_SECTION {
+                        FLAGS = ALLOC !WRITE;
+                };
+        };
+
+        # If bss is enabled, it takes the writable NOBITS sections
+        # that would otherwise end up in ldata or data.
+        LOAD_SEGMENT bss {
+                DISABLE;
+                ASSIGN_SECTION {
+                        FLAGS = ALLOC WRITE;
+                        TYPE = NOBITS;
+                };
+        };
+
+        $if amd64
+        # Medium/large model x86-64 writable sections to ldata
+        LOAD_SEGMENT ldata {
+                ASSIGN_SECTION {
+                        FLAGS = ALLOC WRITE AMD64_LARGE;
+                };
+                ASSIGN_SECTION {
+                        TYPE = NOBITS;
+                        FLAGS = AMD64_LARGE
+                };
+        };
+        $endif
+
+        # Any writable allocable sections not taken by a preceding
+        # assignment go to data
+        LOAD_SEGMENT data {
+                ASSIGN_SECTION {
+                        FLAGS = ALLOC WRITE;
+                };
+        };
+
+        # Any section that makes it to this point ends up at the
+        # end of the object file in the extra segment. This accounts
+        # for the bulk of non-allocable sections.
+        NULL_SEGMENT extra {
+                ASSIGN_SECTION;
+        };</pre></div>
+         </div>
+      </article>
+   </body>
+</html>

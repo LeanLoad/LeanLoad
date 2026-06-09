@@ -1,0 +1,126 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Interaction Between Controlling and Target Process">
+      <meta name="DC.subject" content=", pkg:/source/demo/system">
+      <meta name="keywords" content=", pkg:/source/demo/system">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-FDD60262-0A5B-477D-BEFE-803E539137A4">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Interaction Between Controlling and Target Process</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="runtime-linker-debugger-interface.html" title="Previous" type="text/html">
+      <link rel="next" href="debugger-interface-agents.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Interaction Between Controlling and Target Process","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="runtime-linker-debugger-interface.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="debugger-interface-agents.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-FDD60262-0A5B-477D-BEFE-803E539137A4" name="GUID-FDD60262-0A5B-477D-BEFE-803E539137A4"></a>
+         
+         <h2 id="OSLLG-GUID-FDD60262-0A5B-477D-BEFE-803E539137A4" class="sect2">Interaction Between Controlling and Target Process</h2>
+         <div class="ind">
+            <div>
+               <p>To be able to inspect and manipulate a target process, the
+<span>rtld-debugger</span> interface employs an
+<span class="italic">exported</span> interface, an <span class="italic">imported</span>
+                interface, and <span class="italic">agents</span> for communicating between these
+                interfaces.
+               </p>
+               <p>The controlling process is linked with the <span>rtld-debugger</span>
+                interface provided by <code>librtld_db.so.1</code>, and makes requests of
+                the interface exported from this library. This interface is defined in
+<code>/usr/include/rtld_db.h</code>. In turn,
+<code>librtld_db.so.1</code> makes requests of the interface imported
+                from the controlling process. This interaction allows the
+<span>rtld-debugger</span> interface to perform the following.
+               </p>
+               <ul style="list-style-type: disc;">
+                  <li>
+                     
+                     <p>Look up symbols in a target process.</p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>Read and write memory in the target process.</p>
+                     
+                  </li>
+               </ul>
+               <p>The imported interface consists of a number of <a href="https://docs.oracle.com/cd/E88353_01/html/E37847/proc-service-3proc.html" target="_blank">
+                     <code class="codeph">proc_service</code>(3PROC)</a> routines that most debuggers already employ to analyze
+                processes. These routines are described in <a href="debugger-import-interface.html#GUID-35ACA4AA-1398-4129-9675-E64EC2437E10">Debugger Import Interface</a>.
+               </p>
+               <p>The <span>rtld-debugger</span> interface assumes that the process being
+                analyzed is stopped when requests are made of the <span>rtld-debugger</span>
+                interface. If this halt does not occur, data structures within the runtime linker of
+                the target process might not be in a consistent state for examination.
+               </p>
+               <p>The flow of information between <code>librtld_db.so.1</code>, the
+                controlling process (debugger) and the target process (dynamic executable) is
+                diagrammed in the following figure.
+               </p>
+               <div class="figure" id="GUID-FDD60262-0A5B-477D-BEFE-803E539137A4__GUID-CB8ED87C-8C3C-48BD-8104-3BE5663FBE4B">
+                  <p>
+                     <span>rtld-debugger</span> Information Flow
+                  </p><br><img height="648" width="825" src="img/rtlddbg.jpg" alt="rtld-debugger information flow." title="rtld-debugger information flow."><br></div>
+               <p>A sample implementation of a controlling process that uses the
+<span>rtld-debugger</span> interface is provided in the
+<code class="codeph">pkg:/source/demo/system</code> package under
+<code>/usr/demo/librtld_db</code>. This debugger,
+<code class="codeph">rdb</code>, provides an example of using the
+<code class="codeph">proc_service</code> imported interface, and shows the required
+                calling sequence for all <code>librtld_db.so.1</code> exported interfaces.
+                The following sections describe the <span>rtld-debugger</span> interfaces. More
+                detailed information can be obtained by examining the sample debugger.
+               </p>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

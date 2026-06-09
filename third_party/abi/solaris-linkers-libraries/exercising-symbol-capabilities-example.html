@@ -1,0 +1,106 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Exercising a Symbol Capabilities Example">
+      <meta name="DC.subject" content="capabilities, exercising a capabilities example">
+      <meta name="keywords" content="capabilities, exercising a capabilities example">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-1D9F1266-F32D-4D54-8E1B-6AFF9763B241">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Exercising a Symbol Capabilities Example</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="creating-symbol-capabilities-example.html" title="Previous" type="text/html">
+      <link rel="next" href="linker-libraries-advanced-topics.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Exercising a Symbol Capabilities Example","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="creating-symbol-capabilities-example.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="linker-libraries-advanced-topics.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-1D9F1266-F32D-4D54-8E1B-6AFF9763B241" name="GUID-1D9F1266-F32D-4D54-8E1B-6AFF9763B241"></a>
+         
+         <h2 id="OSLLG-GUID-1D9F1266-F32D-4D54-8E1B-6AFF9763B241" class="sect2">Exercising a Symbol Capabilities Example</h2>
+         <div class="ind">
+            <div>
+               <p>Objects can now reference <code class="codeph">foo</code>(), and at runtime the best variant is chosen. To observe this, a simple executable is sufficient.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cat main.c</span>
+extern void foo();
+
+int main()
+{
+    foo();
+    return (0);
+}
+$ <span class="bold">cc -o main.1 main.c -R. libfoo.so.1</span></pre><div class="infoboxnote" id="GUID-1D9F1266-F32D-4D54-8E1B-6AFF9763B241__GUID-6B20BB7F-5432-4D48-9A69-8FE74F51F705">
+                  <p class="notep1">Note:</p>
+         Each variant has a set of capabilities that must be available for the variant to be selected. In addition, the object itself may have a capabilities requirement. Any object capabilities need to be considered when exercising the variants.
+
+               </div>
+               <p>In this example, <code>libfoo.so.1</code> requires object capabilities. These capabilities originate from additional objects that the compiler added to the creation of <code>libfoo.so.1</code>.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">elfdump -H libfoo.so.1</span>
+...
+ Object Capabilities:
+  index  tag           value     
+    [0]  CA_SUNW_HW_1  0x800       [ SSE ]
+...</pre><p>The generic <code class="codeph">foo</code>() variant can be exercised by restricting the capabilities available within a process to the object capabilities required by <code>libfoo.so.1</code>.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">LD_HWCAP=SSE LD_CAP_FILES=libfoo.so.1 ./main.1</span>
+called: foo-generic</pre><p>Each variant within <code>libfoo.so.1</code> can be exercised by establishing the capabilities that each variant requires together with the object capabilities that <code>libfoo.so.1</code> requires.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">LD_HWCAP=SSE,AES LD_CAP_FILES=libfoo.so.1 ./main.1</span>
+called: foo-HWCAP-1
+$ <span class="bold">LD_HWCAP=SSE,AVX LD_CAP_FILES=libfoo.so.1 ./main.1</span>
+called: foo-HWCAP-2</pre><p>Similarly, the variants within an executable containing symbol capabilities can be exercised.</p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">LD_HWCAP=SSE LD_CAP_FILES=main.2 ./main.2</span>
+called: foo-generic
+$ <span class="bold">LD_HWCAP=SSE,AES LD_CAP_FILES=main.2 ./main.2</span>
+called: foo-HWCAP-1
+$ <span class="bold">LD_HWCAP=SSE,AVX LD_CAP_FILES=main.2 ./main.2</span>
+called: foo-HWCAP-2</pre><p>This example demonstrates the creation and execution of a capabilities family. A real solution would substitute the <code class="codeph">foo</code>() capabilities variants with code that is targeted to use specific capabilities. The appropriate capabilities variant is then chosen based on the capabilities available to the process at runtime from the system on which the process executes.
+               </p>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

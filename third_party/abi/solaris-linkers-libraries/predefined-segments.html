@@ -1,0 +1,221 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Predefined Segments">
+      <meta name="DC.subject" content=", mapfiles, defaults">
+      <meta name="keywords" content=", mapfiles, defaults">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-F45FA064-3173-4ED1-9221-61D48D14D751">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Predefined Segments</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="value-attribute.html" title="Previous" type="text/html">
+      <link rel="next" href="mapping-examples.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Predefined Segments","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="value-attribute.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="mapping-examples.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-F45FA064-3173-4ED1-9221-61D48D14D751" name="GUID-F45FA064-3173-4ED1-9221-61D48D14D751"></a>
+         
+         <h2 id="OSLLG-GUID-F45FA064-3173-4ED1-9221-61D48D14D751" class="sect2">Predefined Segments</h2>
+         <div class="ind">
+            <div>
+               <p>The link-editor provides a predefined set of output segment descriptors and entrance
+            criteria. These definitions satisfy the needs of most linking scenarios, and comply with
+            the <span>ELF</span> layout rules and conventions expected by the system.
+               </p>
+               <p>The text, data, and extra segments are of primary interest, while the others serve
+            more specialized purposes, as described below.</p>
+               <ul style="list-style-type: disc;">
+                  <li>
+                     
+                     <p>
+                        <code class="codeph">text</code>
+                        
+                     </p>
+                     
+                     <p>The <code class="codeph">text</code> segment defines a read-only executable loadable
+                    segment that accepts allocable, non-writable sections. This includes executable
+                    code, read-only data needed by the program, and read-only data produced by the
+                    link-editor for use by the runtime linker such as the dynamic symbol
+                    table.
+                     </p>
+                     
+                     <p>The <code class="codeph">text</code> segment is the first segment in the process, and
+                    is therefore assigned the <span>ELF</span> header, and the program header
+                    array by the link-editor. This can be prevented using the
+<code class="codeph">HDR_NOALLOC</code>
+                        <code>mapfile</code> directive.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>
+                        <code class="codeph">data</code>
+                        
+                     </p>
+                     
+                     <p>The <code class="codeph">data</code> segment defines a writable loadable segment. The
+<code class="codeph">data</code> segment is used for writable data needed by the
+                    program, and for writable data used by the runtime linker, such as the Global
+                    Offset Table (<code class="codeph">GOT</code>), and the Procedure Linkage Table
+                        (<code class="codeph">PLT</code>), on architectures such as SPARC that require the
+<code class="codeph">PLT</code> sections to be writable.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>
+                        <code class="codeph">extra</code>
+                        
+                     </p>
+                     
+                     <p>The <span>extra</span> segment captures all sections not assigned
+                    elsewhere, directed there by the final entrance criterion record. Common
+                    examples are the full symbol table (<code class="codeph">.symtab</code>), and the various
+                    sections produced for the benefit of debuggers. This is a null segment, and has
+                    no corresponding program header table entry.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>
+                        <code class="codeph">note</code>
+                        
+                     </p>
+                     
+                     <p>The <code class="codeph">note</code> segment captures all sections of type
+<code class="codeph">SHT_NOTE</code>. The link-editor provides a
+<code class="codeph">PT_NOTE</code> program header entry to reference the
+<code class="codeph">note</code> segment.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>
+                        <code class="codeph">lrodata</code> / <code class="codeph">ldata</code>
+                        
+                     </p>
+                     
+                     <p>The x86&#x2013;64 <span>ABI</span> defines small, medium, and large
+                    compilation models. The <span>ABI</span> requires sections for the medium
+                    and large models to set the <code class="codeph">SHF_AMD64_LARGE</code> section flag. An
+                    input section lacking the <code class="codeph">SHF_AMD64_LARGE</code> must be placed in
+                    an output segment that does not exceed 2 Gbytes in size. The
+<code class="codeph">lrodata</code> and <code class="codeph">ldata</code> predefined segments
+                    are present for x86&#x2013;64 output objects only, and are used to handle
+                    sections with the <code class="codeph">SHF_AMD64_LARGE</code> flag set.
+<code class="codeph">lrodata</code> receives read-only sections, and
+<code class="codeph">ldata</code> receives the others.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>
+                        <code class="codeph">bss</code>
+                        
+                     </p>
+                     
+                     <p>
+                        <span>ELF</span> allows for any segment to contain
+<code class="codeph">NOBITS</code> sections. The link-editor places such sections at
+                    the end of the segment they are assigned to. This is implemented using the
+                    program header entry <code class="codeph">p_filesz</code> and <code class="codeph">p_memsz</code>
+                    fields, which must follow the following rule.
+                     </p>
+                     <pre class="oac_no_warn" dir="ltr">        p_memsz &gt;= p_filesz</pre>
+                     <p>If <code class="codeph">p_memsz</code> is greater than <code class="codeph">p_filesz</code>, the
+                    extra bytes are <code class="codeph">NOBITS</code>. The first <code class="codeph">p_filesz</code>
+                    bytes come from the object file, and any remaining bytes up to
+<code class="codeph">p_memsz</code> are zeroed by the system prior to use.
+                     </p>
+                     
+                     <p>The default assignment rules assign read-only <code class="codeph">NOBITS</code>
+                    sections to the text segment, and writable <code class="codeph">NOBITS</code> sections to
+                    the data segment. The link-editor defines the <code class="codeph">bss</code> segment as
+                    an alternative segment that can accept writable <code class="codeph">NOBITS</code>
+                    sections. This segment is disabled by default, and must be explicitly enabled to
+                    be used.
+                     </p>
+                     
+                     <p>Since writable <code class="codeph">NOBITS</code> sections are easily handled as part
+                    of the data segment, the benefit of having a separate <code class="codeph">bss</code>
+                    segment may not be immediately obvious. By convention, the process dynamic
+                    memory heap starts at the end of the final segment, which must be writable. This
+                    is usually the data segment, but if <code class="codeph">bss</code> is enabled,
+<code class="codeph">bss</code> becomes the final segment. When building a dynamic
+                    executable, enabling the <code class="codeph">bss</code> segment with an appropriate
+                    alignment can be used to enable large page assignment of the heap. For example,
+                    the following enables the <code class="codeph">bss</code> segment and sets an alignment
+                    of 4 Mbytes.
+                     </p>
+                     <pre class="oac_no_warn" dir="ltr">        LOAD_SEGMENT bss {
+                ALIGN=0x400000;
+        };</pre>
+                     <div class="infoboxnote" id="GUID-F45FA064-3173-4ED1-9221-61D48D14D751__GUID-A10CE86A-238C-4C82-8034-FBEAB95939A2">
+                        <p class="notep1">Note:</p>
+               Users are cautioned that an alignment specification can be
+                        machine-specific, and may not have the same benefit on different hardware
+                        platforms. A more flexible means of requesting the most optimal underlying
+                        page size may evolve in future releases.
+
+                     </div>
+                     
+                  </li>
+               </ul>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

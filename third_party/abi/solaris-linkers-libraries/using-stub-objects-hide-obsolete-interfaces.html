@@ -1,0 +1,160 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Using Stub Objects to Hide Obsolete Interfaces">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-AA542CFD-9930-4269-8364-DC0DA347C5AD">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Using Stub Objects to Hide Obsolete Interfaces</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="stub-objects.html" title="Previous" type="text/html">
+      <link rel="next" href="ancillary-objects.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Using Stub Objects to Hide Obsolete Interfaces","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="stub-objects.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="ancillary-objects.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-AA542CFD-9930-4269-8364-DC0DA347C5AD" name="GUID-AA542CFD-9930-4269-8364-DC0DA347C5AD"></a>
+         
+         <h2 id="OSLLG-GUID-AA542CFD-9930-4269-8364-DC0DA347C5AD" class="sect2">Using Stub Objects to Hide Obsolete Interfaces</h2>
+         <div class="ind">
+            <div>
+               <p>Libraries evolve, and sometimes the original functionality proves to
+                                be undesirable. It is common for new abilities to be added, and for
+                                older ones to be considered obsolete. When backward compatibility is
+                                a concern, it is necessary to maintain such older functionality in
+                                the library for the benefit of existing objects. However, you may
+                                wish to prevent new use of these features. Stub objects can be used
+                                to enforce this policy. The <code>mapfile</code>
+                  <code class="codeph">STUB_ELIMINATE</code> flag can be used to mark functions
+                                or data from an object that should be eliminated from the stub
+                                object, while remaining in the real object. This prevents new code,
+                                which links to the stub object, from using these obsolete items, and
+                                encourages code to be rewritten to use the preferred interfaces.
+                                Since the real objects still contain these items, existing objects
+                                are able to use them.
+               </p>
+               <p>The <code class="codeph">libidx5</code> example from the previous section
+                                illustrates this. That library demonstrates how to export global
+                                data from an object. However, exported global data introduces
+                                complexity to dynamic linking, and is best avoided. It is usually a
+                                better design to provide a function to access such data, such as the
+<code class="codeph">idx5_func</code>()function provided by
+<code class="codeph">libidx5</code>. Continuing that example,
+<code class="codeph">STUB_ELIMINATE</code> can be used to make the
+                                global data unavailable to new code that links to the stub, while
+                                providing those old interfaces in the real object for the benefit of
+                                existing programs.
+               </p>
+               <p>The <code>mapfile</code> is rewritten to apply
+<code class="codeph">STUB_ELIMINATE</code> to the two global data
+                                symbols. A benefit of applying <code class="codeph">STUB_ELIMINATE</code> to
+                                global data is that it is no longer necessary to provide an
+<code class="codeph">ASSERT</code> directive to provide the data
+                                size. In this example, the <code class="codeph">ASSERT</code> is commented
+                                out. A real <code>mapfile</code> might omit it
+                                entirely.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cat better_mapfile</span>
+$mapfile_version 2
+STUB_OBJECT;
+SYMBOL_SCOPE {
+        _idx5 {
+                FLAGS=STUB_ELIMINATE;
+                #ASSERT { TYPE=data; SIZE=4[5] };
+        };
+        idx5 {
+                FLAGS=STUB_ELIMINATE;
+                #ASSERT { BINDING=weak; ALIAS=_idx5 };
+        };
+        idx5_func;
+    local:
+        *;
+};</pre><p>A new version of the test program only uses the functional
+                                interface.</p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cat better_main.c</span>
+#include    &lt;stdio.h&gt;
+
+extern int idx5_func(int);
+
+int
+main(int argc, char **argv)
+{
+        int i;
+        for (i = 0; i &lt; 5; i++)
+                (void) printf("[%d] %d\n", i, idx5_func(i));
+        return (0);
+}</pre><p>The old test program is saved, the stub object is rebuilt using the
+                                new <code>mapfile</code>, and the test program is rebuilt,
+                                linking against the new stub object that employs
+<code class="codeph">STUB_ELIMINATE</code>:
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cp a.out original_a.out</span>
+$ <span class="bold">cc -Kpic -G -M better_mapfile -h libidx5.so.1 idx5.c -o stublib/libidx5.so.1 -z stub</span>
+$ <span class="bold">cc better_main.c -o better_a.out -L stublib -R '$ORIGIN/lib' -lidx5 -lc</span>
+$ <span class="bold">./better_a.out</span>
+[0] 0
+[1] 1
+[2] 2
+[3] 3
+[4] 4</pre><p>The original test program can no longer be built, because the stub
+                                library lacks the necessary global data symbols. However, the
+                                preexisting binary that used them continues to function because the
+                                real library still provides the global data symbols.</p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cc main.c -L stublib -R '$ORIGIN/lib' -lidx5 -lc</span>
+Undefined                       first referenced
+ symbol                             in file
+idx5                                main.o
+_idx5                               main.o
+ld: fatal: symbol referencing errors
+$ <span class="bold">./original_a.out</span>
+[0] 0 0 0
+[1] 1 1 1
+[2] 2 2 2
+[3] 3 3 3
+[4] 4 4 4</pre></div>
+         </div>
+      </article>
+   </body>
+</html>

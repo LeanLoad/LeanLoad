@@ -1,0 +1,188 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Group Section">
+      <meta name="DC.subject" content="section types, SHT_GROUP, section group flags, SHF_GROUP">
+      <meta name="keywords" content="section types, SHT_GROUP, section group flags, SHF_GROUP">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-52577E38-950E-413B-B7F4-7744E83D2327">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Group Section</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="comdat-section.html" title="Previous" type="text/html">
+      <link rel="next" href="capabilities-section.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Group Section","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="comdat-section.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="capabilities-section.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-52577E38-950E-413B-B7F4-7744E83D2327" name="GUID-52577E38-950E-413B-B7F4-7744E83D2327"></a>
+         
+         <h2 id="OSLLG-GUID-52577E38-950E-413B-B7F4-7744E83D2327" class="sect2">Group Section</h2>
+         <div class="ind">
+            <div>
+               <p>Some sections occur in interrelated groups. For example, an out-of-line definition of an
+      inline function might require additional information besides the section containing executable
+      instructions. This additional information can be a read-only data section containing literals
+      referenced, one or more debugging information sections, or other informational
+      sections.</p>
+               <p>There can be internal references among group sections. However, these references make no
+      sense if one of the sections were removed, or one of the sections were replaced by a duplicate
+      from another object. Therefore, these groups are included, or these groups are omitted, from
+      the linked object as a unit.</p>
+               <p>A section of type <code class="codeph">SHT_GROUP</code> defines such a grouping of
+      sections. The name of a symbol from one of the containing object's symbol tables provides a
+      signature for the section group. The section header of the <code class="codeph">SHT_GROUP</code>
+      section specifies the identifying symbol entry. The <code class="codeph">sh_link</code> member
+      contains the section header index of the symbol table section that contains the entry. The
+<code class="codeph">sh_info</code> member contains the symbol table index of the identifying
+      entry. The <code class="codeph">sh_flags</code> member of the section header contains the value
+      zero. The name of the section (<code class="codeph">sh_name</code>) is not specified.
+               </p>
+               <p>The section data of a <code class="codeph">SHT_GROUP</code> section is an array of
+<code class="codeph">Elf32_Word</code> entries. The first entry is a flag word. The remaining entries
+      are a sequence of section header indices.
+               </p>
+               <p>The following flag is currently defined.</p>
+               <div class="tblformal" id="GUID-52577E38-950E-413B-B7F4-7744E83D2327__CHAPTER7-TBL-2">
+                  <p class="titleintable">Table 14-14 
+<span>ELF</span> Group Section Flag
+                  </p>
+                  <table cellpadding="4" cellspacing="0" class="Formal" title="&#xA;ELF Group Section Flag" summary="&#xA;            Table defining ELF group section flags.&#xA;" frame="hsides" border="1" rules="rows">
+                     <thead>
+                        <tr align="left" valign="top">
+                           <th align="left" valign="bottom" width="20%" id="d68131e96">
+Name
+</th>
+                           <th align="left" valign="bottom" width="20%" id="d68131e101">
+Value
+</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d68131e108" headers="d68131e96 ">
+                              
+                              <p>
+                                 <code class="codeph">GRP_COMDAT</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d68131e108 d68131e101 ">
+                              
+                              <p>
+                                 <code class="codeph">0x1</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                     </tbody>
+                  </table>
+               </div>
+               <dl>
+                  <dt class="dlterm"><a name="GUID-52577E38-950E-413B-B7F4-7744E83D2327__GUID-79D786C2-347C-4D9F-9D68-806493206036">
+                        <!-- --></a>
+                     <code class="codeph">GRP_COMDAT</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>
+                        <code class="codeph">GRP_COMDAT</code> is a <code class="codeph">COMDAT</code> group. This group can
+            duplicate another <code class="codeph">COMDAT</code> group in another object file, where
+            duplication is defined as having the same group signature. In such cases, only one of
+            the duplicate groups is retained by the link-editor. The members of the remaining groups
+            are discarded.
+                     </p>
+                     
+                  </dd>
+               </dl>
+               <p>The section header indices in the <code class="codeph">SHT_GROUP</code> section, identify
+      the sections that make up the group. These sections must have the <code class="codeph">SHF_GROUP</code>
+      flag set in their <code class="codeph">sh_flags</code> section header member. If the
+      link-editor decides to remove the section group, the link-editor removes all members of the
+      group.
+               </p>
+               <p>To facilitate removing a group without leaving dangling references and with only minimal
+      processing of the symbol table, the following rules are followed.</p>
+               <ul style="list-style-type: disc;">
+                  <li>
+                     
+                     <p>References to the sections comprising a group from sections outside of the group must
+          be made through symbol table entries with <code class="codeph">STB_GLOBAL</code> or
+<code class="codeph">STB_WEAK</code> binding and section index <code class="codeph">SHN_UNDEF</code>. A
+          definition of the same symbol in the object containing the reference must have a separate
+          symbol table entry from the reference. Sections outside of the group can not reference
+          symbols with <code class="codeph">STB_LOCAL</code> binding for addresses that are contained in the
+          group's sections, including symbols with type <code class="codeph">STT_SECTION</code>.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>Non-symbol references to the sections comprising a group are not allowed from outside
+          the group. For example, you cannot use a group member's section header index in an
+<code class="codeph">sh_link</code> or <code class="codeph">sh_info</code> member.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>A symbol table entry defined relative to one of the group's sections can be removed if
+          the group members are discarded. This removal occurs if the symbol table entry is
+          contained in a symbol table section that is not part of the group.</p>
+                     
+                  </li>
+               </ul>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

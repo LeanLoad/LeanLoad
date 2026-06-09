@@ -1,0 +1,204 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Directories Searched by the Runtime Linker">
+      <meta name="DC.subject" content="search paths, runtime linker, /lib, /usr/lib, /lib/64, /usr/lib/64, ldd, NEEDED, -h, runpath, RUNPATH, RPATH, LD_LIBRARY_PATH, unable to find shared object">
+      <meta name="keywords" content="search paths, runtime linker, /lib, /usr/lib, /lib/64, /usr/lib/64, ldd, NEEDED, -h, runpath, RUNPATH, RPATH, LD_LIBRARY_PATH, unable to find shared object">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-25D25D01-5737-4F77-99FC-72B19FAD6AB6">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Directories Searched by the Runtime Linker</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="locating-shared-object-dependencies.html" title="Previous" type="text/html">
+      <link rel="next" href="configuring-default-search-paths.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Directories Searched by the Runtime Linker","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="locating-shared-object-dependencies.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="configuring-default-search-paths.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-25D25D01-5737-4F77-99FC-72B19FAD6AB6" name="GUID-25D25D01-5737-4F77-99FC-72B19FAD6AB6"></a>
+         
+         <h2 id="OSLLG-GUID-25D25D01-5737-4F77-99FC-72B19FAD6AB6" class="sect2">Directories Searched by the Runtime Linker</h2>
+         <div class="ind">
+            <div>
+               <p>The runtime linker looks in two default locations for
+                                dependencies. When processing 32-bit objects, the default
+                                locations are <code>/lib</code> and
+<code>/usr/lib</code>. When processing 64-bit
+                                objects, the default locations are <code>/lib/64</code> and
+<code>/usr/lib/64</code>. Any dependency specified
+                                as a simple file name is prefixed with these default directory
+                                names. The resulting path name is used to locate the actual
+                                file.
+               </p>
+               <p>The dependencies of a dynamic
+object can be displayed using <a href="https://docs.oracle.com/cd/E88353_01/html/E37839/ldd-1.html" target="_blank">
+                     <code class="codeph">ldd</code>(1)</a>. For example, the file
+<code>/usr/bin/cat</code> has the following
+                                dependencies.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">ldd /usr/bin/cat</span>
+        libc.so.1 =&gt;     /lib/libc.so.1
+        libm.so.2 =&gt;     /lib/libm.so.2</pre><p>The file <code>/usr/bin/cat</code> has a dependency, or
+<span class="italic">needs</span>, the files
+<code>libc.so.1</code> and
+<code>libm.so.2</code>.
+               </p>
+               <p>The dependencies recorded in an object can be inspected
+using <a href="https://docs.oracle.com/cd/E88353_01/html/E37839/elfdump-1.html" target="_blank">
+                     <code class="codeph">elfdump</code>(1)</a>. Use this command to display the
+                                file's <code class="codeph">.dynamic</code> section, and look for entries
+                                that have a <code class="codeph">NEEDED</code> tag. In the following example,
+                                the dependency <code>libm.so.2</code>, displayed in the
+				previous <a href="https://docs.oracle.com/cd/E88353_01/html/E37839/ldd-1.html" target="_blank">
+                     <code class="codeph">ldd</code>(1)</a> example, is not recorded in the file
+				<code>/usr/bin/cat</code>. <a href="https://docs.oracle.com/cd/E88353_01/html/E37839/ldd-1.html" target="_blank">
+                     <code class="codeph">ldd</code>(1)</a> shows the <span class="italic">total</span>
+                                dependencies of the specified file, and
+<code>libm.so.2</code> is actually a dependency of
+<code>/lib/libc.so.1</code>.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">elfdump -d /usr/bin/cat</span>
+
+Dynamic Section:  .dynamic:
+   index  tag               value
+     [0]  NEEDED            0x211               libc.so.1
+     ...</pre><p>In the previous <a href="https://docs.oracle.com/cd/E88353_01/html/E37839/elfdump-1.html" target="_blank">
+                     <code class="codeph">elfdump</code>(1)</a> example, the dependencies are
+                                expressed as simple file names. In other words, there is no '/' in
+                                the name. The use of a simple file name requires the runtime linker
+                                to generate the path name from a set of default search rules. File
+                                names that contain an embedded '/', are used as provided.
+               </p>
+               <p>The simple file name recording is the standard, most
+                                flexible mechanism of recording dependencies. The <code class="codeph">-h</code>
+                                option of the link-editor records a simple name within the
+                                dependency. See <a href="naming-conventions.html#GUID-D27692A3-A404-4F8D-8013-C01CAAA3686A">Naming Conventions</a> and <a href="recording-shared-object-name.html#GUID-39518FE3-AEAF-477B-8F1F-0D486003D1DC">Recording a Shared Object Name</a>.
+               </p>
+               <p>Frequently, dependencies are distributed in directories other than
+<code>/lib</code> and <code>/usr/lib</code>,
+                                or <code>/lib/64</code> and
+<code>/usr/lib/64</code>. If a dynamic
+                                object needs to locate dependencies in another directory, the
+                                runtime linker must explicitly be told to search this
+                                directory.
+               </p>
+               <p>You can specify additional search path, on a per-object
+                                basis, by recording a <span>
+                     <span class="italic">runpath</span>
+                     </span>
+                                during the link-edit of an object. See <a href="directories-searched-runtime-linker1.html#GUID-65A60FAF-6B90-4358-9A6B-4919F5312841">Directories Searched by the Runtime Linker</a> for details on recording this
+                                information.
+               </p>
+               <p>A <span>runpath</span> recording can be displayed
+using <a href="https://docs.oracle.com/cd/E88353_01/html/E37839/elfdump-1.html" target="_blank">
+                     <code class="codeph">elfdump</code>(1)</a>. Reference the
+<code class="codeph">.dynamic</code> entry that has the
+<code class="codeph">RUNPATH</code> tag. In the following example,
+<code>prog</code> has a dependency on
+<code>libfoo.so.1</code>. The runtime linker must
+                                search directories <code>/home/me/lib</code> and
+<code>/home/you/lib</code> before it looks in the
+                                default location.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">elfdump -d prog | egrep "NEEDED|RUNPATH"</span>
+     [1]  NEEDED        0x4ce            libfoo.so.1
+     [3]  NEEDED        0x4f6            libc.so.1
+    [21]  RUNPATH      0x210e            /home/me/lib:/home/you/lib</pre><p>Another way to add to the runtime linker search path is
+                                to set one of the <code class="codeph">LD_LIBRARY_PATH</code> family of
+                                environment variables. This environment variable, which is analyzed
+                                once at process startup, can be set to a colon-separated list of
+                                directories. These directories are searched by the runtime linker
+                                before any <span>runpath</span> specification or default
+                                directory.
+               </p>
+               <p>These environment variables are well suited to debugging purposes,
+                                such as forcing an application to bind to a local dependency. In the
+                                following example, the file <code>prog</code> from the
+                                previous example is bound to <code>libfoo.so.1</code>, found
+                                in the present working directory.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">LD_LIBRARY_PATH=.  prog</span></pre><p>Although useful as a temporary mechanism of influencing the runtime
+                                linker's search path, the use of <code class="codeph">LD_LIBRARY_PATH</code> is
+                                strongly discouraged in production software. Any executables
+                                that can reference this environment variable will have their search
+                                paths augmented. This augmentation can result in an overall
+                                degradation in performance. Also, as pointed out in <a href="using-environment-variable.html#GUID-5E908B79-E90B-407A-B6DE-102679DFC201">Using an Environment Variable</a> and <a href="directories-searched-runtime-linker1.html#GUID-65A60FAF-6B90-4358-9A6B-4919F5312841">Directories Searched by the Runtime Linker</a>,
+<code class="codeph">LD_LIBRARY_PATH</code> affects the
+                                link-editor.
+               </p>
+               <p>Environmental search paths can result in a 64-bit executable
+                                searching a path that contains a 32-bit library that matches
+                                the name being looked for. Or, the other way around. The runtime
+                                linker rejects the mismatched 32-bit library and continues its
+                                search looking for a valid 64-bit match. If no match is found,
+                                an error message is generated. This rejection can be observed in
+                                detail by setting the <code class="codeph">LD_DEBUG</code> environment variable
+                                to include the <code class="codeph">files</code> token. See <a href="runtime-linker-debugging-facility.html#GUID-2D4FA260-6CC9-47FE-84DC-0EEA76292C3E">Runtime Linker Debugging Facility</a>.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">LD_LIBRARY_PATH=/lib/64 LD_DEBUG=files /usr/bin/ls</span>
+....
+00283: file=libc.so.1;  needed by /usr/bin/ls
+00283:
+00283: file=/lib/64/libc.so.1  rejected: ELF class mismatch: 32-bit/64-bit
+00283:
+00283: file=/lib/libc.so.1  [ ELF ]; generating link map
+00283:     dynamic:  0xef631180  base:  0xef580000  size:      0xb8000
+00283:     entry:    0xef5a1240  phdr:  0xef580034  phnum:           3
+00283:      lmid:           0x0
+00283:
+00283: file=/lib/libc.so.1;  analyzing  [ RTLD_GLOBAL  RTLD_LAZY ]
+....</pre><p>If a dependency cannot be located, <a href="https://docs.oracle.com/cd/E88353_01/html/E37839/ldd-1.html" target="_blank">
+                     <code class="codeph">ldd</code>(1)</a> indicates that the object cannot be
+                                found. Any attempt to execute the application results in an
+                                appropriate error message from the runtime linker.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">ldd prog</span>
+        libfoo.so.1 =&gt;   (file not found)
+        libc.so.1 =&gt;     /lib/libc.so.1
+        libm.so.2 =&gt;     /lib/libm.so.2
+$ <span class="bold">prog</span>
+ld.so.1: prog: fatal: libfoo.so.1: open failed: No such file or directory</pre></div>
+         </div>
+      </article>
+   </body>
+</html>

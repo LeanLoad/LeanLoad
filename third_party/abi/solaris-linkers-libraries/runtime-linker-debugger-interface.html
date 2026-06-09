@@ -1,0 +1,142 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Runtime Linker Debugger Interface">
+      <meta name="DC.subject" content="runtime linker support interfaces (rtld-debugger), support interfaces, runtime linker (rtld-debugger), /usr/lib/ld.so.1, /usr/lib/64/ld.so.1">
+      <meta name="keywords" content="runtime linker support interfaces (rtld-debugger), support interfaces, runtime linker (rtld-debugger), /usr/lib/ld.so.1, /usr/lib/64/ld.so.1">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-6E472868-2BD9-4816-8962-B229032426A5">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Runtime Linker Debugger Interface</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="functions-that-directly-inspect-stack.html" title="Previous" type="text/html">
+      <link rel="next" href="interaction-between-controlling-target-process.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Runtime Linker Debugger Interface","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="functions-that-directly-inspect-stack.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="interaction-between-controlling-target-process.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-6E472868-2BD9-4816-8962-B229032426A5" name="GUID-6E472868-2BD9-4816-8962-B229032426A5"></a>
+         
+         <h2 id="OSLLG-GUID-6E472868-2BD9-4816-8962-B229032426A5" class="sect2">Runtime Linker Debugger Interface</h2>
+         <div class="ind">
+            <div>
+               <p>The runtime linker performs many operations including the mapping of objects into
+            memory and the binding of symbols. Debugging programs often need to access information
+            that describes these runtime linker operations as part of analyzing an application.
+            These debugging programs run as a separate process from the application the debugger is
+            analyzing.</p>
+               <p>This section describes the <span>rtld-debugger</span> interface for monitoring and
+            modifying a dynamically linked application from another process. The architecture of
+	    this interface follows the model used in <a href="https://docs.oracle.com/cd/E88353_01/html/E37842/libc-db-3lib.html" target="_blank">
+                     <code class="codeph">libc_db</code>(3LIB)</a>.
+               </p>
+               <p>When using the <span>rtld-debugger</span> interface, at least two processes are
+            involved.
+               </p>
+               <ul style="list-style-type: disc;">
+                  <li>
+                     
+                     <p>One or more <span class="italic">target</span> processes. The target
+                    processes must be dynamically linked and use the runtime linker
+<code>/usr/lib/ld.so.1</code> for 32-bit processes, or
+<code>/usr/lib/64/ld.so.1</code> for 64-bit processes.
+                     </p>
+                     
+                  </li>
+               </ul>
+               <ul style="list-style-type: disc;">
+                  <li>
+                     
+                     <p>A <span class="italic">controlling</span> process links with the
+<span>rtld-debugger</span> interface library and uses the interface to
+                    inspect the dynamic aspects of the target processes. A 64-bit controlling
+                    process can debug both 64-bit targets and 32-bit targets. However, a
+                    32-bit controlling process is limited to 32-bit targets.
+                     </p>
+                     
+                  </li>
+               </ul>
+               <p>The most anticipated use of the <span>rtld-debugger</span> interface is when the
+            controlling process is a debugger and its target is an executable.
+               </p>
+               <p>The <span>rtld-debugger</span> interface enables the following activities with a
+            target process.
+               </p>
+               <ul style="list-style-type: disc;">
+                  <li>
+                     
+                     <p>Initial rendezvous with the runtime linker.</p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>Notification of the loading and unloading of dynamic objects.</p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>Retrieval of information regarding any loaded objects.</p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>Stepping over procedure linkage table entries.</p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>Enabling object padding.</p>
+                     
+                  </li>
+               </ul>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

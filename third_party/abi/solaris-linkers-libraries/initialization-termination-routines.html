@@ -1,0 +1,146 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Initialization and Termination Routines">
+      <meta name="DC.subject" content="initialization and termination, runtime linker, initialization and termination routines, .init, .init_array, .preinit_array, .fini, .fini_array, dlclose, atexit">
+      <meta name="keywords" content="initialization and termination, runtime linker, initialization and termination routines, .init, .init_array, .preinit_array, .fini, .fini_array, dlclose, atexit">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-3E1961B3-E7BE-4D5E-8817-0F91655D3EF5">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Initialization and Termination Routines</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="deferred-dependencies.html" title="Previous" type="text/html">
+      <link rel="next" href="limitations-pitfalls-initialization-termination---------------------------------code.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Initialization and Termination Routines","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="deferred-dependencies.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="limitations-pitfalls-initialization-termination---------------------------------code.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-3E1961B3-E7BE-4D5E-8817-0F91655D3EF5" name="GUID-3E1961B3-E7BE-4D5E-8817-0F91655D3EF5"></a>
+         
+         <h2 id="OSLLG-GUID-3E1961B3-E7BE-4D5E-8817-0F91655D3EF5" class="sect2">Initialization and Termination Routines</h2>
+         <div class="ind">
+            <div>
+               <p>Dynamic objects can supply code that provides for runtime initialization and
+                        termination processing. The initialization code of a dynamic object is
+                        executed once each time the dynamic object is loaded in a process. The
+                        termination code of a dynamic object is executed once each time the dynamic
+                        object is unloaded from a process or at process termination.</p>
+               <p>Before transferring control to an application, the runtime
+                        linker processes any initialization sections found in the application and
+                        any loaded dependencies. If new dynamic objects are loaded during process
+                        execution, their initialization sections are processed as part of loading
+                        the object. The initialization sections <code class="codeph">.preinit_array</code>,
+<code class="codeph">.init_array</code>, and <code class="codeph">.init</code> are
+                        created by the link-editor when a dynamic object is built.
+               </p>
+               <p>The runtime linker executes functions whose addresses are contained in the
+<code class="codeph">.preinit_array</code> and <code class="codeph">.init_array</code>
+                        sections. These functions are executed in the same order in which their
+                        addresses appear in the array. The runtime linker executes an
+<code class="codeph">.init</code> section as an individual function. If an
+                        object contains both <code class="codeph">.init</code> and
+<code class="codeph">.init_array</code> sections, the
+<code class="codeph">.init</code> section is processed before the functions
+                        defined by the <code class="codeph">.init_array</code> section for that
+                        object.
+               </p>
+               <p>An executable can provide <span>pre-initialization</span> functions
+                        in a <code class="codeph">.preinit_array</code> section. These functions are executed
+                        after the runtime linker has built the process image and performed
+                        relocations but before any other initialization functions.
+<span>Pre-initialization</span> functions are not permitted in
+                        shared objects.
+               </p>
+               <div class="infoboxnote" id="GUID-3E1961B3-E7BE-4D5E-8817-0F91655D3EF5__GUID-E0A610BD-1FC6-4E86-B97B-61B9B10F43E9">
+                  <p class="notep1">Note:</p>
+         Any <code class="codeph">.init</code> section within the executable is
+                                called from the application by the process startup mechanism
+                                supplied by the compiler driver. The <code class="codeph">.init</code>
+                                section within the executable is called last, after all
+                                dependency initialization sections are executed.
+
+               </div>
+               <p>Dynamic objects can also provide termination sections. The
+                        termination sections <code class="codeph">.fini_array</code> and
+<code class="codeph">.fini</code> are created by the link-editor when a
+                        dynamic object is built.
+               </p>
+               <p>Any termination sections are passed to <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/atexit-3c.html" target="_blank">
+                     <code class="codeph">atexit</code>(3C)</a>. These termination routines are called when
+the process calls <a href="https://docs.oracle.com/cd/E88353_01/html/E37841/exit-2.html" target="_blank">
+                     <code class="codeph">exit</code>(2)</a>. Termination sections are also called when
+			objects are removed from the running process with <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/dlclose-3c.html" target="_blank">
+                     <code class="codeph">dlclose</code>(3C)</a>.
+               </p>
+               <p>The runtime linker executes functions whose addresses are contained in the
+<code class="codeph">.fini_array</code> section. These functions are executed
+                        in the reverse order in which their addresses appear in the array. The
+                        runtime linker executes a <code class="codeph">.fini</code> section as an individual
+                        function. If an object contains both <code class="codeph">.fini</code> and
+<code class="codeph">.fini_array</code> sections, the functions defined by
+                        the <code class="codeph">.fini_array</code> section are processed before the
+<code class="codeph">.fini</code> section for that object.
+               </p>
+               <div class="infoboxnote" id="GUID-3E1961B3-E7BE-4D5E-8817-0F91655D3EF5__GUID-842CE64A-B375-4F58-8D73-D762FDF31E4F">
+                  <p class="notep1">Note:</p>
+         Any <code class="codeph">.fini</code> section within the executable is
+                                called from the application by the process termination mechanism
+                                supplied by the compiler driver. The <code class="codeph">.fini</code>
+                                section of the executable is called first, before all
+                                dependency termination sections are executed.
+
+               </div>
+               <p>For more information on the creation of initialization and termination
+                        sections by the link-editor see <a href="initialization-termination-sections.html#GUID-12B75868-FDD8-47A7-9B76-1A55619A28A7">Initialization and Termination Sections</a>.
+               </p>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

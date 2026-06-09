@@ -1,0 +1,120 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Debugger Access and Use of Ancillary Objects">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-282FF767-3A35-4F52-9F37-B853F97D9004">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Debugger Access and Use of Ancillary Objects</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="multiple-ancillary-objects.html" title="Previous" type="text/html">
+      <link rel="next" href="compressed-debug-sections.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Debugger Access and Use of Ancillary Objects","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="multiple-ancillary-objects.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="compressed-debug-sections.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-282FF767-3A35-4F52-9F37-B853F97D9004" name="GUID-282FF767-3A35-4F52-9F37-B853F97D9004"></a>
+         
+         <h2 id="OSLLG-GUID-282FF767-3A35-4F52-9F37-B853F97D9004" class="sect2">Debugger Access and Use of Ancillary Objects</h2>
+         <div class="ind">
+            <div>
+               <p>
+                  <span>Debuggers</span> and other <span>observability</span>
+                                tools must merge the information found in the primary and ancillary
+                                object files in order to build a complete view of the object. This
+                                is equivalent to processing the information from a single file. This
+                                merging is simplified by the primary object and ancillary objects
+                                containing the same section headers, and a single symbol
+                                table.
+               </p>
+               <p>The following steps can be used by a debugger to assemble the
+                                information contained in these files.</p>
+               <ol>
+                  <li>
+                     
+                     <p>Starting with the primary object, or any of the
+                                                ancillary objects, locate the
+<code class="codeph">.SUNW_ancillary</code> section. The
+                                                presence of this section identifies the object as
+                                                part of an ancillary group, contains information
+                                                that can be used to obtain a complete list of the
+                                                files and determine which of those files is the one
+                                                currently being examined.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>Create a section header array in memory, using the
+                                                section header array from the object being examined
+                                                as an initial template.</p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>Open and read each file identified by the
+<code class="codeph">.SUNW_ancillary</code> section in
+                                                turn. For each file, fill in the in-memory section
+                                                header array with the information for each section
+                                                that does not have the
+<code class="codeph">SHF_SUNW_ABSENT</code> flag
+                                                set.
+                     </p>
+                     
+                  </li>
+               </ol>
+               <p>The result will be a complete in-memory copy of the section headers
+                                with pointers to the data for all sections. Once this information
+                                has been acquired, the debugger can proceed as it would in the
+                                single file case, to access and control the running program.</p>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

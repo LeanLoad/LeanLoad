@@ -1,0 +1,736 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Audit Interface Functions">
+      <meta name="DC.subject" content="32-bit/64-bit, rtld-audit, la_version, la_objopen, la_activity, la_objseach, LD_LIBRARY_PATH, auditing, crle, la_objfilter, la_preinit, la_callinit, la_callentry, la_symbind32, la_symbind64, la_sparcv8_pltenter, la_sparcv9_pltenter, la_i86_pltenter, la_amd64_pltenter, la_pltexit, la_objclose">
+      <meta name="keywords" content="32-bit/64-bit, rtld-audit, la_version, la_objopen, la_activity, la_objseach, LD_LIBRARY_PATH, auditing, crle, la_objfilter, la_preinit, la_callinit, la_callentry, la_symbind32, la_symbind64, la_sparcv8_pltenter, la_sparcv9_pltenter, la_i86_pltenter, la_amd64_pltenter, la_pltexit, la_objclose">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-8AA0CF8E-C791-45A2-A291-D09F4020D0FD">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Audit Interface Functions</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="audit-interface-interactions.html" title="Previous" type="text/html">
+      <link rel="next" href="audit-interface-control-flow.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Audit Interface Functions","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="audit-interface-interactions.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="audit-interface-control-flow.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-8AA0CF8E-C791-45A2-A291-D09F4020D0FD" name="GUID-8AA0CF8E-C791-45A2-A291-D09F4020D0FD"></a>
+         
+         <h2 id="OSLLG-GUID-8AA0CF8E-C791-45A2-A291-D09F4020D0FD" class="sect2">Audit Interface Functions</h2>
+         <div class="ind">
+            <div>
+               <p>The following routines are provided by the <span>rtld-audit interface</span>.
+                The routines are described in their expected order of use.
+               </p>
+               <div class="infoboxnote" id="GUID-8AA0CF8E-C791-45A2-A291-D09F4020D0FD__GUID-26BEC1EE-AF9C-4F5C-AC26-9AC3AF8BD32B">
+                  <p class="notep1">Note:</p>
+         References to architecture, or object class specific interfaces are
+                    reduced to their generic name to simplify the discussions. For example, a
+                    reference to <code class="codeph">la_symbind32</code>() and
+<code class="codeph">la_symbind64</code>() is specified as
+<code class="codeph">la_symbind</code>().
+
+               </div>
+               <dl>
+                  <dt class="dlterm"><a name="GUID-8AA0CF8E-C791-45A2-A291-D09F4020D0FD__GUID-B6E7A935-0E22-4160-AB9A-B5F525FF2AB1">
+                        <!-- --></a>
+                     <code class="codeph">la_version</code>()
+                  </dt>
+                  <dd>
+                     
+                     <p>This routine provides the initial handshake between the
+                            runtime linker and the audit library. This interface must be provided
+                            for the audit library to be loaded.</p>
+                     <pre class="oac_no_warn" dir="ltr">uint_t la_version(uint_t <span class="variable" translate="no">version</span>);</pre>
+                     <p>The runtime linker calls this interface with the highest
+<code class="codeph">version</code> of the <span>rtld-audit
+                                interface</span> the runtime linker is capable of supporting. The
+                            audit library can verify this version is sufficient for its use, and
+                            return the version the audit library expects to use. This version is
+                            normally <code class="codeph">LAV_CURRENT</code>, which is defined in
+<code>/usr/include/link.h</code>.
+                     </p>
+                     
+                     <p>If the audit library return is zero, or a version that is greater than
+                            the <span>rtld-audit interface</span> the runtime linker supports,
+                            the audit library is discarded.
+                     </p>
+                     
+                  </dd>
+               </dl>
+               <p>The remaining audit routines are provided one or more
+<span class="italic">cookies</span>. See <a href="audit-interface-interactions.html#GUID-9FFEF6E1-7005-4F8D-B4CC-7042135F5C8F">Audit Interface Interactions</a>. 
+               </p>
+               <p>Following the <code class="codeph">la_version</code>() call, two calls are made to the
+<code class="codeph">la_objopen</code>() routine. The first call provides link-map
+                information for the executable, and the second call provides link-map
+                information for the runtime linker.
+               </p>
+               <dl>
+                  <dt class="dlterm"><a name="GUID-8AA0CF8E-C791-45A2-A291-D09F4020D0FD__GUID-D00BE415-7CEB-4BD1-899B-A2C610EDD10F">
+                        <!-- --></a>
+                     <code class="codeph">la_objopen</code>()
+                  </dt>
+                  <dd>
+                     
+                     <p>This routine is called when a new object is loaded by the
+                            runtime linker.</p>
+                     <pre class="oac_no_warn" dir="ltr">uint_t la_objopen(Link_map *<span class="variable" translate="no">lmp</span>, Lmid_t <span class="variable" translate="no">lmid</span>, uintptr_t *<span class="variable" translate="no">cookie</span>);</pre>
+                     <p>
+                        <code class="codeph">lmp</code> provides the link-map structure that
+                            describes the new object. <code class="codeph">lmid</code> identifies the
+                            link-map list to which the object has been added.
+<code class="codeph">cookie</code> provides a pointer to an identifier.
+                            This identifier is initialized to the objects
+<code class="codeph">lmp</code>. This identifier can be reassigned by the
+                            audit library to better identify the object to other <span>rtld-audit
+                                interface</span> routines.
+                     </p>
+                     
+                     <p>The <code class="codeph">la_objopen</code>() routine returns a value that
+                            indicates the symbol bindings of interest for this object. The return
+                            value is a mask of the following values that are defined
+                                in<code>/usr/include/link.h</code>.
+                     </p>
+                     
+                     <ul style="list-style-type: disc;">
+                        <li>
+                           
+                           <p>
+                              <code class="codeph">LA_FLG_BINDTO</code> &#x2013; Audit symbol bindings
+<span class="italic">to</span> this object.
+                           </p>
+                           
+                        </li>
+                        <li>
+                           
+                           <p>
+                              <code class="codeph">LA_FLG_BINDFROM</code> &#x2013; Audit symbol
+                                    bindings <span class="italic">from</span> this object.
+                           </p>
+                           
+                        </li>
+                     </ul>
+                     
+                     <p>These values allow an auditor to select the objects to monitor with
+<code class="codeph">la_symbind</code>(). A return value of zero indicates
+                            that binding information is of no interest for this object.
+                     </p>
+                     
+                     <p>For example, an auditor can monitor the bindings from
+<code>libfoo.so</code> to <code>libbar.so</code>.
+<code class="codeph">la_objopen</code>() for <code>libfoo.so</code>
+                            should return <code class="codeph">LA_FLG_BINDFROM</code>.
+<code class="codeph">la_objopen</code>() for <code>libbar.so</code>
+                            should return <code class="codeph">LA_FLG_BINDTO</code>.
+                     </p>
+                     
+                     <p>An auditor can monitor all bindings between
+<code>libfoo.so</code> and <code>libbar.so</code>.
+<code class="codeph">la_objopen</code>() for both objects should return
+<code class="codeph">LA_FLG_BINDFROM</code> and
+<code class="codeph">LA_FLG_BINDTO</code>.
+                     </p>
+                     
+                     <p>An auditor can monitor all bindings to <code>libbar.so</code>.
+<code class="codeph">la_objopen</code>() for <code>libbar.so</code>
+                            should return <code class="codeph">LA_FLG_BINDTO</code>. All
+<code class="codeph">la_objopen</code>() calls should return
+<code class="codeph">LA_FLG_BINDFROM</code>.
+                     </p>
+                     
+                     <p>With the auditing version <code class="codeph">LAV_VERSION5</code>, an
+<code class="codeph">la_objopen</code>() call that represents the
+                            executable is provided to a local auditor. In this case, the auditor
+                            should not return a symbol binding flag, as the auditor may have been
+                            loaded too late to monitor any symbol bindings associated with the
+                            executable. Any flags that are returned by the auditor are
+                            ignored. The <code class="codeph">la_objopen</code>() call provides the local
+                            auditor an initial cookie which is required for any subsequent
+<code class="codeph">la_preinit</code>() or <code class="codeph">la_activity</code>()
+                            calls.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-8AA0CF8E-C791-45A2-A291-D09F4020D0FD__GUID-3FA2500B-923A-4578-8E22-6F0E4E402677">
+                        <!-- --></a>
+                     <code class="codeph">la_activity</code>()
+                  </dt>
+                  <dd>
+                     
+                     <p>This routine informs an auditor that link-map activity is
+                            occurring.</p>
+                     <pre class="oac_no_warn" dir="ltr">void la_activity(uintptr_t *<span class="variable" translate="no">cookie</span>, uint_t <span class="variable" translate="no">flags</span>);</pre>
+                     <p>
+                        <code class="codeph">cookie</code> identifies the object heading the
+                            link-map. <code class="codeph">flags</code> indicates the type of activity as
+                            defined in <code>/usr/include/link.h</code>.
+                     </p>
+                     
+                     <ul style="list-style-type: disc;">
+                        <li>
+                           
+                           <p>
+                              <code class="codeph">LA_ACT_ADD</code> &#x2013; Objects are being added
+                                    to the link-map list.
+                           </p>
+                           
+                        </li>
+                        <li>
+                           
+                           <p>
+                              <code class="codeph">LA_ACT_DELETE</code> &#x2013; Objects are being
+                                    deleted from the link-map list.
+                           </p>
+                           
+                        </li>
+                        <li>
+                           
+                           <p>
+                              <code class="codeph">LA_ACT_CONSISTENT</code> &#x2013; Object activity
+                                    has been completed.
+                           </p>
+                           
+                        </li>
+                     </ul>
+                     
+                     <p>An <code class="codeph">LA_ACT_ADD</code> activity is called on process start
+                            up, following the <code class="codeph">la_objopen</code>() calls for the
+                            executable and runtime linker, to indicate that new dependencies are
+			    being added. This activity is also called for lazy loading and <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/dlopen-3c.html" target="_blank">
+                           <code class="codeph">dlopen</code>(3C)</a> events. An <code class="codeph">LA_ACT_DELETE</code>
+			    activity is also called when objects are deleted with <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/dlclose-3c.html" target="_blank">
+                           <code class="codeph">dlclose</code>(3C)</a>.
+                     </p>
+                     
+                     <p>Both the <code class="codeph">LA_ACT_ADD</code> and
+<code class="codeph">LA_ACT_DELETE</code> activities are a
+<span class="italic">hint</span> of the events that are expected to follow.
+                            There are a number of scenarios where the events that unfold might be
+                            different. For example, the addition of new objects can result in some
+                            of the new objects being deleted should the objects fail to relocate
+                            fully. The deletion of objects can also result in new objects being
+                            added should <code class="codeph">.fini</code> executions result in lazy loading
+                            new objects. An <code class="codeph">LA_ACT_CONSISTENT</code> activity follows
+                            any object additions or object deletions, and can be relied upon to
+                            indicate that the application link-map list is consistent. Auditors
+                            should be careful to verify actual results rather than blindly trusting
+                            the <code class="codeph">LA_ACT_ADD</code> and <code class="codeph">LA_ACT_DELETE</code>
+                            hints.
+                     </p>
+                     
+                     <p>For auditing versions <code class="codeph">LAV_VERSION1</code> through
+<code class="codeph">LAV_VERSION4</code>, <code class="codeph">la_activity</code>()
+                            was only called for global auditors. With the auditing version
+<code class="codeph">LAV_VERSION5</code>, activity events can be obtained by
+                            local auditors. An activity event provides a cookie that represents the
+                            application link-map. To prepare for this activity, and allow the
+                            auditor to control the content of this cookie, an
+<code class="codeph">la_objopen</code>() call is first made to the local
+                            auditor. The <code class="codeph">la_objopen</code>() call provides an initial
+                            cookie representing the application link-map. See <a href="audit-interface-interactions.html#GUID-9FFEF6E1-7005-4F8D-B4CC-7042135F5C8F">Audit Interface Interactions</a>.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-8AA0CF8E-C791-45A2-A291-D09F4020D0FD__GUID-986C9C7B-4B21-4DA9-ACEE-6D15EC93A04A">
+                        <!-- --></a>
+                     <code class="codeph">la_objsearch</code>()
+                  </dt>
+                  <dd>
+                     
+                     <p>This routine informs an auditor that an object is about to
+                            be searched for.</p>
+                     <pre class="oac_no_warn" dir="ltr">char *la_objsearch(const char *<span class="variable" translate="no">name</span>, uintptr_t *<span class="variable" translate="no">cookie</span>, uint_t <span class="variable" translate="no">flags</span>);</pre>
+                     <p>
+                        <code class="codeph">name</code> indicates the file or path name being
+                            searched for. <code class="codeph">cookie</code> identifies the object
+                            initiating the search. <code class="codeph">flags</code> identifies the
+                            origin and creation of <code class="codeph">name</code> as defined in
+<code>/usr/include/link.h</code>.
+                     </p>
+                     
+                     <ul style="list-style-type: disc;">
+                        <li>
+                           
+                           <p>
+                              <code class="codeph">LA_SER_ORIG</code> &#x2013; The initial search
+                                    name. Typically, this name indicates the file name that is
+                                    recorded as a <code class="codeph">DT_NEEDED</code> entry, or the
+				    argument supplied to <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/dlopen-3c.html" target="_blank">
+                                 <code class="codeph">dlopen</code>(3C)</a>.
+                           </p>
+                           
+                        </li>
+                        <li>
+                           
+                           <p>
+                              <code class="codeph">LA_SER_LIBPATH</code> &#x2013; The path
+                                    name has been created from a <code class="codeph">LD_LIBRARY_PATH</code>
+                                    component.
+                           </p>
+                           
+                        </li>
+                        <li>
+                           
+                           <p>
+                              <code class="codeph">LA_SER_RUNPATH</code> &#x2013; The path name has
+                                    been created from a <span>runpath</span> component.
+                           </p>
+                           
+                        </li>
+                        <li>
+                           
+                           <p>
+                              <code class="codeph">LA_SER_DEFAULT</code> &#x2013; The path name has
+                                    been created from a default search path component.
+                           </p>
+                           
+                        </li>
+                        <li>
+                           
+                           <p>
+                              <code class="codeph">LA_SER_CONFIG</code> &#x2013; The path component originated from a configuration file. See <a href="https://docs.oracle.com/cd/E88353_01/html/E37839/crle-1.html" target="_blank">
+                                 <code class="codeph">crle</code>(1)</a>.
+                           </p>
+                           
+                        </li>
+                        <li>
+                           
+                           <p>
+                              <code class="codeph">LA_SER_SECURE</code> &#x2013; The path component is
+                                    specific to secure objects.
+                           </p>
+                           
+                        </li>
+                     </ul>
+                     
+                     <p>The return value indicates the search path name that the runtime
+                            linker should continue to process. A value of <code class="codeph">NULL</code> indicates that this
+                            path should be ignored. An audit library that monitors search paths
+                            should return <code class="codeph">name</code>.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-8AA0CF8E-C791-45A2-A291-D09F4020D0FD__GUID-D0BC593A-56DD-4CBE-ADC4-8727C668C728">
+                        <!-- --></a>
+                     <code class="codeph">la_objfilter</code>()
+                  </dt>
+                  <dd>
+                     
+                     <p>This routine is called when a filter loads a new
+<span>filtee</span>. See <a href="shared-objects-filters.html#GUID-5FEACD50-6CF3-405A-B03B-C5912DA4C3EB">Shared Objects as Filters</a>.
+                     </p>
+                     <pre class="oac_no_warn" dir="ltr">int la_objfilter(uintptr_t *<span class="variable" translate="no">fltrcook</span>, const char *<span class="variable" translate="no">fltestr</span>,
+    uintptr_t *<span class="variable" translate="no">fltecook</span>, uint_t <span class="variable" translate="no">flags</span>);</pre>
+                     <p>
+                        <code class="codeph">fltrcook</code> identifies the filter.
+<code class="codeph">fltestr</code> points to the <span>filtee</span>
+                            string. <code class="codeph">fltecook</code> identifies the
+<span>filtee</span>. <code class="codeph">flags</code> is currently
+                            unused. <code class="codeph">la_objfilter</code>() is called after calls to
+<code class="codeph">la_objopen</code>() for both the filter and
+<span>filtee</span> have been made.
+                     </p>
+                     
+                     <p>A return value of zero indicates that this <span>filtee</span>
+                            should be ignored. An audit library that monitors the use of filters
+                            should return a non-zero value.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-8AA0CF8E-C791-45A2-A291-D09F4020D0FD__GUID-A5F6EB2D-2FFB-4E38-9818-412435FF9B5F">
+                        <!-- --></a>
+                     <code class="codeph">la_preinit</code>()
+                  </dt>
+                  <dd>
+                     
+                     <p>This routine is called once after all immediate dependencies
+                            have been loaded for the application.</p>
+                     <pre class="oac_no_warn" dir="ltr">void la_preinit(uintptr_t *<span class="variable" translate="no">cookie</span>);</pre>
+                     <p>
+                        <code class="codeph">cookie</code> identifies the primary object that
+                            started the process, normally the executable.
+                     </p>
+                     
+                     <p>When <code class="codeph">la_preinit</code>() is called, the process still
+                            requires threads initialization, including the creation of any initial
+                            thread local storage. See <a href="program-startup.html#GUID-8C4DD82E-3057-4141-B35C-0E6BE60A1A18">Program Startup</a>. In addition, the initialization sections of all
+                            loaded objects still require collecting and sorting prior to their
+                            execution. See <a href="initialization-termination-routines.html#GUID-3E1961B3-E7BE-4D5E-8817-0F91655D3EF5">Initialization and Termination Routines</a>. This function provides a convenient
+                            control point to add additional objects to the initial process. These
+                            objects can contribute to the initial thread local storage, and
+                            initialization of the process.
+                     </p>
+                     
+                     <p>For auditing versions <code class="codeph">LAV_VERSION1</code> through
+<code class="codeph">LAV_VERSION4</code>, <code class="codeph">la_preinit</code>() was
+                            only called for global auditors. With the auditing version
+<code class="codeph">LAV_VERSION5</code>, a preinit event can be obtained by
+                            local auditors. A preinit event provides a cookie that represents the
+                            application link-map. To prepare for this preinit, and allow the auditor
+                            to control the content of this cookie, an
+<code class="codeph">la_objopen</code>() call is first made to the local
+                            auditor. The <code class="codeph">la_objopen</code>() call provides an initial
+                            cookie representing the application link-map. See <a href="audit-interface-interactions.html#GUID-9FFEF6E1-7005-4F8D-B4CC-7042135F5C8F">Audit Interface Interactions</a>.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-8AA0CF8E-C791-45A2-A291-D09F4020D0FD__GUID-2FC29361-055E-497C-B0D9-023114F87591">
+                        <!-- --></a>
+                     <code class="codeph">la_callinit</code>()
+                  </dt>
+                  <dd>
+                     
+                     <p>This routine is called after threads initialization has
+                            completed, and all initial thread local storage has been established. In
+                            addition, all initialization routines have been collected and sorted
+                            ready for execution.</p>
+                     <pre class="oac_no_warn" dir="ltr">void la_callinit(uintptr_t *<span class="variable" translate="no">cookie</span>);</pre>
+                     <p>
+                        <code class="codeph">cookie</code>, and the calling from global or local
+                            auditors, is as described for <code class="codeph">la_preinit</code>().
+                     </p>
+                     
+                     <p>This interface, added with auditing version
+<code class="codeph">LAV_VERSION6</code>, marks the transition to executing
+                            application code.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-8AA0CF8E-C791-45A2-A291-D09F4020D0FD__GUID-7CBAE1A7-A462-4418-BEED-A028506DFF81">
+                        <!-- --></a>
+                     <code class="codeph">la_callentry</code>()
+                  </dt>
+                  <dd>
+                     
+                     <p>This routine is called after all initialization routines
+                            have been executed.</p>
+                     <pre class="oac_no_warn" dir="ltr">void la_callentry(uintptr_t *<span class="variable" translate="no">cookie</span>);</pre>
+                     <p>
+                        <code class="codeph">cookie</code>, and the calling from global or local
+                            auditors, is as described for <code class="codeph">la_preinit</code>().
+                     </p>
+                     
+                     <p>This interface, added with auditing version
+<code class="codeph">LAV_VERSION6</code>, marks the transition to the
+                            applications entry point.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-8AA0CF8E-C791-45A2-A291-D09F4020D0FD__GUID-238D9114-7349-4A9F-89D6-4C3A617CF303">
+                        <!-- --></a>
+                     <code class="codeph">la_symbind</code>()
+                  </dt>
+                  <dd>
+                     
+                     <p>This routine is called when a binding occurs between two
+                            objects that have been tagged for binding notification from
+<code class="codeph">la_objopen</code>().
+                     </p>
+                     <pre class="oac_no_warn" dir="ltr">uintptr_t la_symbind32(Elf32_Sym *<span class="variable" translate="no">sym</span>, uint_t <span class="variable" translate="no">ndx</span>,
+    uintptr_t *<span class="variable" translate="no">refcook</span>, uintptr_t *<span class="variable" translate="no">defcook</span>, uint_t *<span class="variable" translate="no">flags</span>);
+
+uintptr_t la_symbind64(Elf64_Sym *<span class="variable" translate="no">sym</span>, uint_t <span class="variable" translate="no">ndx</span>,
+    uintptr_t *<span class="variable" translate="no">refcook</span>, uintptr_t *<span class="variable" translate="no">defcook</span>, uint_t *<span class="variable" translate="no">flags</span>,
+    const char *<span class="variable" translate="no">sym_name</span>);</pre>
+                     <p>
+                        <code class="codeph">sym</code> is a constructed symbol structure, whose
+<code class="codeph">sym-&gt;st_value</code> indicates the address of
+                            the symbol definition being bound. See
+<code>/usr/include/sys/elf.h</code>.
+<code class="codeph">la_symbind32</code>() adjusts the
+<code class="codeph">sym-&gt;st_name</code> to point to the actual
+                            symbol name. <code class="codeph">la_symbind64</code>() leaves
+<code class="codeph">sym-&gt;st_name</code> to be the index into the
+                            bound objects string table.
+                     </p>
+                     
+                     <p>
+                        <code class="codeph">ndx</code> indicates the symbol index within the bound
+                            object's dynamic symbol table. <code class="codeph">refcook</code> identifies
+                            the object making reference to this symbol. This identifier is the same
+                            identifier as passed to the <code class="codeph">la_objopen</code>() routine that
+                            returned <code class="codeph">LA_FLG_BINDFROM</code>.
+<code class="codeph">defcook</code> identifies the object defining this
+                            symbol. This identifier is the same as passed to the
+<code class="codeph">la_objopen</code>() that returned
+<code class="codeph">LA_FLG_BINDTO</code>.
+                     </p>
+                     
+                     <p>
+                        <code class="codeph">flags</code> points to a data item that can convey
+                            information regarding the binding. This data item can also be used to
+                            modify the continued auditing of this procedure linkage table entry.
+                            This value is a mask of the symbol binding flags that are defined in
+<code>/usr/include/link.h</code>.
+                     </p>
+                     
+                     <p>The following flags can be supplied to
+<code class="codeph">la_symbind</code>().
+                     </p>
+                     
+                     <ul style="list-style-type: disc;">
+                        <li>
+                           
+                           <p>
+                              <code class="codeph">LA_SYMB_DLSYM</code> &#x2013; The symbol binding
+	occurred as a result of calling <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/dlsym-3c.html" target="_blank">
+                                 <code class="codeph">dlsym</code>(3C)</a>.
+                           </p>
+                           
+                        </li>
+                        <li>
+                           
+                           <p>
+                              <code class="codeph">LA_SYMB_ALTVALUE (LAV_VERSION2)</code> &#x2013; An
+                                    alternate value was returned for the symbol value by a previous
+                                    call to <code class="codeph">la_symbind</code>().
+                           </p>
+                           
+                        </li>
+                     </ul>
+                     
+                     <p>If <code class="codeph">la_pltenter</code>() or <code class="codeph">la_pltexit</code>()
+                            routines exist, these routines are called after
+<code class="codeph">la_symbind</code>() for procedure linkage table entries.
+                            These routines are called each time that the symbol is referenced. See
+                            also <a href="audit-interface-limitations.html#GUID-9EDEAE13-0515-4B94-91CA-F5F9CCCC797C">Audit Interface Limitations</a>.
+                     </p>
+                     
+                     <p>The following flags can be supplied from
+<code class="codeph">la_symbind</code>() to alter this default behavior.
+                            These flags are applied as a bitwise-inclusive OR with the value pointed
+                            to by the <code class="codeph">flags</code> argument.
+                     </p>
+                     
+                     <ul style="list-style-type: disc;">
+                        <li>
+                           
+                           <p>
+                              <code class="codeph">LA_SYMB_NOPLTENTER</code> &#x2013; Do
+<span class="italic">not</span> call the
+<code class="codeph">la_pltenter</code>() routine for this
+                                    symbol.
+                           </p>
+                           
+                        </li>
+                        <li>
+                           
+                           <p>
+                              <code class="codeph">LA_SYMB_NOPLTEXIT</code> &#x2013; Do
+<span class="italic">not</span> call the
+<code class="codeph">la_pltexit</code>() routine for this
+                                    symbol.
+                           </p>
+                           
+                        </li>
+                     </ul>
+                     
+                     <p>The return value indicates the address to which control should be
+                            passed following this call. An audit library that monitors symbol
+                            binding should return the value of
+<code class="codeph">sym-&gt;st_value</code> so that control is
+                            passed to the bound symbol definition. An audit library can
+                            intentionally redirect a symbol binding by returning a different
+                            value.
+                     </p>
+                     
+                     <p>
+                        <code class="codeph">sym_name</code>, which is applicable for
+<code class="codeph">la_symbind64</code>() only, contains the name of the
+                            symbol being processed. This name is available in the
+<code class="codeph">sym-&gt;st_name</code> field for the
+                            32-bit interface.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-8AA0CF8E-C791-45A2-A291-D09F4020D0FD__GUID-D69EA375-4B0D-4A20-B1EF-F04B5F01C130">
+                        <!-- --></a>
+                     <code class="codeph">la_pltenter</code>()
+                  </dt>
+                  <dd>
+                     
+                     <p>These routines are system specific. These routines are
+                            called when a procedure linkage table entry, between two objects that
+                            have been tagged for binding notification, is called.</p>
+                     <pre class="oac_no_warn" dir="ltr">uintptr_t la_sparcv8_pltenter(Elf32_Sym *<span class="variable" translate="no">sym</span>, uint_t <span class="variable" translate="no">ndx</span>,
+    uintptr_t *<span class="variable" translate="no">refcook</span>, uintptr_t *<span class="variable" translate="no">defcook</span>,
+    La_sparcv8_regs *<span class="variable" translate="no">regs</span>, uint_t *<span class="variable" translate="no">flags</span>);
+
+uintptr_t la_sparcv9_pltenter(Elf64_Sym *<span class="variable" translate="no">sym</span>, uint_t <span class="variable" translate="no">ndx</span>,
+    uintptr_t *<span class="variable" translate="no">refcook</span>, uintptr_t *<span class="variable" translate="no">defcook</span>,
+    La_sparcv9_regs *<span class="variable" translate="no">regs</span>, uint_t *<span class="variable" translate="no">flags</span>,
+    const char *<span class="variable" translate="no">sym_name</span>);
+
+uintptr_t la_i86_pltenter(Elf32_Sym *<span class="variable" translate="no">sym</span>, uint_t <span class="variable" translate="no">ndx</span>,
+    uintptr_t *<span class="variable" translate="no">refcook</span>, uintptr_t *<span class="variable" translate="no">defcook</span>,
+    La_i86_regs *<span class="variable" translate="no">regs</span>, uint_t *<span class="variable" translate="no">flags</span>);
+
+uintptr_t la_amd64_pltenter(Elf64_Sym *<span class="variable" translate="no">sym</span>, uint_t <span class="variable" translate="no">ndx</span>,
+    uintptr_t *<span class="variable" translate="no">refcook</span>, uintptr_t *<span class="variable" translate="no">defcook</span>,
+    La_amd64_regs *<span class="variable" translate="no">regs</span>, uint_t *<span class="variable" translate="no">flags</span>, const char *<span class="variable" translate="no">sym_name</span>);</pre>
+                     <p>
+                        <code class="codeph">sym</code>, <code class="codeph">ndx</code>,
+<code class="codeph">refcook</code>, <code class="codeph">defcook</code> and
+<code class="codeph">sym_name</code> provide the same information as
+                            passed to <code class="codeph">la_symbind</code>().
+                     </p>
+                     
+                     <p>For <code class="codeph">la_sparcv8_pltenter</code>() and
+<code class="codeph">la_sparcv9_pltenter</code>(),
+<code class="codeph">regs</code> points to the out registers. For
+<code class="codeph">la_i86_pltenter</code>(), <code class="codeph">regs</code>
+                            points to the stack and frame registers. For
+<code class="codeph">la_amd64_pltenter</code>(), <code class="codeph">regs</code>
+                            points to the stack and frame registers, and the registers used in
+                            passing integer arguments. <code class="codeph">regs</code> are defined in
+<code>/usr/include/link.h</code>.
+                     </p>
+                     
+                     <p>
+                        <code class="codeph">flags</code> points to a data item that can convey
+                            information regarding the binding. This data item can be used to modify
+                            the continued auditing of this procedure linkage table entry. This data
+                            item is the same as pointed to by the <code class="codeph">flags</code> from
+<code class="codeph">la_symbind</code>()
+                     </p>
+                     
+                     <p>The following flags can be supplied from
+<code class="codeph">la_pltenter</code>() to alter the present auditing
+                            behavior. These flags are applied as a bitwise-inclusive OR with the
+                            value pointed to by the <code class="codeph">flags</code> argument.
+                     </p>
+                     
+                     <ul style="list-style-type: disc;">
+                        <li>
+                           
+                           <p>
+                              <code class="codeph">LA_SYMB_NOPLTENTER</code> &#x2013;
+<code class="codeph">la_pltenter</code>() is <span class="italic">not</span>
+                                    be called again for this symbol.
+                           </p>
+                           
+                        </li>
+                        <li>
+                           
+                           <p>
+                              <code class="codeph">LA_SYMB_NOPLTEXIT</code> &#x2013;
+<code class="codeph">la_pltexit</code>() is <span class="italic">not</span>
+                                    be called for this symbol.
+                           </p>
+                           
+                        </li>
+                     </ul>
+                     
+                     <p>The return value indicates the address to which control should be
+                            passed following this call. An audit library that monitors symbol
+                            binding should return the value of
+<code class="codeph">sym-&gt;st_value</code> so that control is
+                            passed to the bound symbol definition. An audit library can
+                            intentionally redirect a symbol binding by returning a different
+                            value.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-8AA0CF8E-C791-45A2-A291-D09F4020D0FD__GUID-BFABADBE-C026-4A85-BD11-3B77204B5725">
+                        <!-- --></a>
+                     <code class="codeph">la_pltexit</code>()
+                  </dt>
+                  <dd>
+                     
+                     <p>This routine is called when a procedure linkage table entry,
+                            between two objects that have been tagged for binding notification,
+                            returns. This routine is called before control reaches the
+                            caller.</p>
+                     <pre class="oac_no_warn" dir="ltr">uintptr_t la_pltexit(Elf32_Sym *<span class="variable" translate="no">sym</span>, uint_t <span class="variable" translate="no">ndx</span>, uintptr_t *<span class="variable" translate="no">refcook</span>,
+    uintptr_t *<span class="variable" translate="no">defcook</span>, uintptr_t <span class="variable" translate="no">retval</span>);
+
+uintptr_t la_pltexit64(Elf64_Sym *<span class="variable" translate="no">sym</span>, uint_t <span class="variable" translate="no">ndx</span>, uintptr_t *<span class="variable" translate="no">refcook</span>,
+    uintptr_t *<span class="variable" translate="no">defcook</span>, uintptr_t <span class="variable" translate="no">retval</span>, const char *<span class="variable" translate="no">sym_name</span>);</pre>
+                     <p>
+                        <code class="codeph">sym</code>, <code class="codeph">ndx</code>,
+<code class="codeph">refcook</code>, <code class="codeph">defcook</code> and
+<code class="codeph">sym_name</code> provide the same information as
+                            passed to <code class="codeph">la_symbind</code>(). <code class="codeph">retval</code>
+                            is the return code from the bound function. An audit library that
+                            monitors symbol binding should return <code class="codeph">retval</code>. An
+                            audit library can intentionally return a different value.
+                     </p>
+                     
+                     <div class="infoboxnote" id="GUID-8AA0CF8E-C791-45A2-A291-D09F4020D0FD__GUID-3D05E8BB-4EF5-4B87-8FE6-4F41BD97DD47">
+                        <p class="notep1">Note:</p>
+                  The <code class="codeph">la_pltexit</code>() interface is experimental. See
+<a href="audit-interface-limitations.html#GUID-9EDEAE13-0515-4B94-91CA-F5F9CCCC797C">Audit Interface Limitations</a>.
+
+                     </div>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-8AA0CF8E-C791-45A2-A291-D09F4020D0FD__GUID-BF97548F-D478-4899-98E8-66D7C63EC646">
+                        <!-- --></a>
+                     <code class="codeph">la_objclose</code>()
+                  </dt>
+                  <dd>
+                     
+                     <p>This routine is called after any termination code for an
+                            object has been executed and prior to the object being unloaded.</p>
+                     <pre class="oac_no_warn" dir="ltr">uint_t la_objclose(uintptr_t *<span class="variable" translate="no">cookie</span>);</pre>
+                     <p>
+                        <code class="codeph">cookie</code> identifies the object, and was obtained
+                            from a previous <code class="codeph">la_objopen</code>(). Any return value is
+                            currently ignored.
+                     </p>
+                     
+                  </dd>
+               </dl>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

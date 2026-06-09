@@ -1,0 +1,216 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Shared Objects as Filters">
+      <meta name="DC.subject" content="shared objects, as filters, filters, -F, filtee, mapfiles, FILTER, AUXILIARY, standard, standard filters, weak, weak filters, auxiliary, auxiliary filters, -f">
+      <meta name="keywords" content="shared objects, as filters, filters, -F, filtee, mapfiles, FILTER, AUXILIARY, standard, standard filters, weak, weak filters, auxiliary, auxiliary filters, -f">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-5FEACD50-6CF3-405A-B03B-C5912DA4C3EB">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Shared Objects as Filters</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="dependency-ordering.html" title="Previous" type="text/html">
+      <link rel="next" href="generating-standard-filters.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Shared Objects as Filters","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="dependency-ordering.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="generating-standard-filters.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-5FEACD50-6CF3-405A-B03B-C5912DA4C3EB" name="GUID-5FEACD50-6CF3-405A-B03B-C5912DA4C3EB"></a>
+         
+         <h2 id="OSLLG-GUID-5FEACD50-6CF3-405A-B03B-C5912DA4C3EB" class="sect2">Shared Objects as Filters</h2>
+         <div class="ind">
+            <div>
+               <p>Shared objects can be defined to act as
+<span class="italic">filters</span>. This technique involves associating
+                        the interfaces that the filter provides with an alternative shared object.
+                        At runtime, the alternative shared object supplies one or more of the
+                        interfaces provided by the <span class="italic">filter</span>. This alternative
+                        shared object is referred to as a
+<span>
+                     <span class="italic">filtee</span>
+                     </span>. A
+<span>filtee</span> is built in the same manner as any shared
+                        object is built.
+               </p>
+               <p>Filtering provides a mechanism of abstracting the compilation environment from
+                        the runtime environment. At link-edit time, a symbol reference that binds to
+                        a filter interface is resolved to the filters symbol definition. At runtime,
+                        a symbol reference that binds to a filter interface can be redirected to an
+                        alternative shared object.</p>
+               <p>Individual  interfaces that are defined within a shared object can be
+                        defined as filters by using the <code>mapfile</code>
+                  <code class="codeph">FILTER</code> or <code class="codeph">AUXILIARY</code> attributes to the
+<code class="codeph">SYMBOL_SCOPE</code> and
+<code class="codeph">SYMBOL_VERSION</code> directives. Alternatively, a
+                        shared object can define all of the interfaces the shared object offers as
+                        filters by using the link-editor <code>mapfile</code>
+                  <code class="codeph">FILTER</code> directive or the <code class="codeph">-F</code> or
+<code class="codeph">-f</code> command line options. These techniques are
+                        typically used individually, but can also be combined within the same shared
+                        object.
+               </p>
+               <p>Three forms of filtering exist.</p>
+               <dl>
+                  <dt class="dlterm"><a name="GUID-5FEACD50-6CF3-405A-B03B-C5912DA4C3EB__GUID-EC09D54E-AFD9-4386-A2EB-EC37C9102E0A">
+                        <!-- --></a>Standard filtering
+                  </dt>
+                  <dd>
+                     
+                     <p>This filtering requires only a symbol
+                                                table entry for the interface being filtered. At
+                                                runtime, the implementation of a filter symbol
+                                                definition must be provided from a
+<span>filtee</span>.
+                     </p>
+                     
+                     <p>Interfaces are defined to act as standard filters by
+                                                using the link-editor's <code>mapfile</code>
+                        <code class="codeph">FILTER</code> directive, or
+<code class="codeph">FILTER</code> per-symbol attribute, or
+                                                by using the link-editor's <code class="codeph">-F</code>
+                                                option. The <code>mapfile</code> keyword or
+                                                command line option, is qualified with the name of
+                                                one or more <span>filtees</span> that must
+                                                supply the symbol definition at runtime.
+                     </p>
+                     
+                     <p>A <span>filtee</span> that cannot be processed at
+                                                runtime is skipped. A standard filter symbol that
+                                                cannot be located within the
+<span>filtee</span>, also causes the
+<span>filtee</span> to be skipped. In both of
+                                                these cases, the symbol definition provided by the
+<span>filter</span> is
+<span class="italic">not</span> used to satisfy this
+                                                symbol lookup.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-5FEACD50-6CF3-405A-B03B-C5912DA4C3EB__GUID-30511470-56C9-433A-AA94-B42CDD17E3AC">
+                        <!-- --></a>Weak filtering
+                  </dt>
+                  <dd>
+                     
+                     <p>Weak filtering is a variation of
+                                                standard filtering. At runtime, weak filters are
+                                                processed the same as standard filters. Weak filters
+                                                differ from standard filters in how the link-editor
+                                                processes weak filter dependencies when unused
+                                                dependency processing is enabled with the
+<code class="codeph">-z</code>
+                        <code class="codeph">discard-unused=dependencies</code>
+                                                option. 
+                     </p>
+                     
+                     <p>Typically, the link-editor resolves external symbols
+                                                from libraries to the first library on the command
+                                                line that offers a symbol definition. In the case of
+                                                weak filters, such symbols are ignored if the
+<span>filtee</span> providing the same symbol
+                                                is also present on the command line. Resolving such
+                                                symbols directly to the <span>filtee</span> can
+                                                allow unused dependency processing to eliminate the
+                                                filter as a dependency, resulting in a simpler and
+                                                more efficient object.
+                     </p>
+                     
+                     <p>Interfaces are defined to act as weak filters by using
+                                                the link-editor's <code>mapfile</code>
+                        <code class="codeph">FILTER</code> directive, or
+<code class="codeph">FILTER</code> per-symbol attribute.
+                                                This <code>mapfile</code> keyword is
+                                                qualified with the name of one or more
+<span>filtees</span> that must supply the
+                                                symbol definition at runtime.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-5FEACD50-6CF3-405A-B03B-C5912DA4C3EB__GUID-A79A3AEE-2C58-4035-8DC3-EAB430DA52F9">
+                        <!-- --></a>Auxiliary filtering
+                  </dt>
+                  <dd>
+                     
+                     <p>This filtering provides a similar
+                                                mechanism to standard filtering, except the filter
+                                                provides a fallback implementation corresponding to
+                                                the auxiliary filter interfaces. At runtime, the
+                                                implementation of the symbol definition can be
+                                                provided from a <span>filtee</span>.
+                     </p>
+                     
+                     <p>Interfaces are defined to act as
+                                                auxiliary filters by using the link-editor's
+<code>mapfile</code>
+                        <code class="codeph">FILTER</code> directive, or with the
+<code class="codeph">FILTER</code> or
+<code class="codeph">AUXILIARY</code> per-symbol attribute,
+                                                or by using the link-editor's <code class="codeph">-f</code>
+                                                option. This <code>mapfile</code> keyword or
+                                                option, is qualified with the name of one or more
+<span>filtees</span> that can supply the
+                                                symbol definition at runtime.
+                     </p>
+                     
+                     <p>A <span>filtee</span> that cannot be processed at
+                                                runtime is skipped. An auxiliary filter symbol that
+                                                cannot be located within the
+<span>filtee</span>, also causes the
+<span>filtee</span> to be skipped. In both of
+                                                these cases, the symbol definition provided by the
+<span>filter</span> is used to satisfy this
+                                                symbol lookup.
+                     </p>
+                     
+                  </dd>
+               </dl>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

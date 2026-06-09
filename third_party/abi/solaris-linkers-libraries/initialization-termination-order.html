@@ -1,0 +1,265 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Initialization and Termination Order">
+      <meta name="DC.subject" content=", ldd, -i, LD_BIND_NOW, -z&nbsp;now, RTLD_NOW, dlopen">
+      <meta name="keywords" content=", ldd, -i, LD_BIND_NOW, -z&nbsp;now, RTLD_NOW, dlopen">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-94F9C220-FCE6-4C65-B0FB-F6A7AF07FA25">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Initialization and Termination Order</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="limitations-pitfalls-initialization-termination---------------------------------code.html" title="Previous" type="text/html">
+      <link rel="next" href="runtime-security.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Initialization and Termination Order","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="limitations-pitfalls-initialization-termination---------------------------------code.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="runtime-security.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-94F9C220-FCE6-4C65-B0FB-F6A7AF07FA25" name="GUID-94F9C220-FCE6-4C65-B0FB-F6A7AF07FA25"></a>
+         
+         <h2 id="OSLLG-GUID-94F9C220-FCE6-4C65-B0FB-F6A7AF07FA25" class="sect2">Initialization and Termination Order</h2>
+         <div class="ind">
+            <div>
+               <p>To determine the order of executing initialization and termination
+                                code within a process at runtime is a complex procedure that
+                                involves dependency analysis. This procedure has evolved
+                                substantially from the original inception of initialization and
+                                termination sections. This procedure attempts to fulfill the
+                                expectations of modern languages and current programming techniques.
+                                However, scenarios can exist, where user expectations are hard to
+                                meet. Flexible, predictable runtime behavior can be achieved by
+                                understanding these scenarios together with limiting the content of
+                                initialization code and termination code.</p>
+               <p>The goal of an initialization section is to execute a small piece of
+                                code before any other code within the same object is referenced. The
+                                goal of a termination section is to execute a small piece of code
+                                after an object has finished executing. Self contained
+                                initialization sections and termination sections can easily satisfy
+                                these requirements.</p>
+               <p>However, initialization sections are typically more complex and make
+                                reference to external interfaces that are provided by other objects.
+                                Therefore, a dependency is established where the initialization
+                                section of one object must be executed before references are made
+                                from other objects. Applications can establish an extensive
+                                dependency hierarchy. In addition, dependencies can creating cycles
+                                within their hierarchies. The situation can be further complicated
+                                by initialization sections that load additional objects, or change
+                                the relocation mode of objects that are already loaded. These issues
+                                have resulted in various sorting and execution techniques that
+                                attempt to satisfy the original goal of these sections.</p>
+               <p>The runtime linker constructs a topologically sorted list of objects
+                                that have been loaded. This list is built from the dependency
+                                relationship expressed by each object, together with any symbol
+                                bindings that occur outside of the expressed dependencies.</p>
+               <p>Initialization sections are executed in the reverse topological order
+                                of the dependencies. If cyclic dependencies are found, the objects
+                                that form the cycle cannot be topologically sorted. The
+                                initialization sections of any cyclic dependencies are executed in
+                                their reverse load order. Similarly, termination sections are called
+                                in the topological order of the dependencies. The termination
+                                sections of any cyclic dependencies are executed in their load
+                                order.</p>
+               <p>A static analysis of the initialization order of an object's dependencies can
+be obtained by using <a href="https://docs.oracle.com/cd/E88353_01/html/E37839/ldd-1.html" target="_blank">
+                     <code class="codeph">ldd</code>(1)</a> with the <code class="codeph">-i</code> option.
+                                For example, the following dynamic objects
+                                exhibit a cyclic dependency.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">elfdump -d B.so.1 | grep NEEDED</span>
+     [1]     NEEDED      0xa9    C.so.1
+$ <span class="bold">elfdump -d C.so.1 | grep NEEDED</span>
+     [1]     NEEDED      0xc4    B.so.1
+$ <span class="bold">elfdump -d main | grep NEEDED</span>
+     [1]     NEEDED      0xd6    A.so.1
+     [2]     NEEDED      0xc8    B.so.1
+     [3]     NEEDED      0xe4    libc.so.1
+$ <span class="bold">ldd -i main</span>
+        A.so.1 =&gt;        ./A.so.1
+        B.so.1 =&gt;        ./B.so.1
+        libc.so.1 =&gt;     /lib/libc.so.1
+        C.so.1 =&gt;        ./C.so.1
+        libm.so.2 =&gt;     /lib/libm.so.2
+
+    cyclic dependencies detected, group[1]:
+        ./libC.so.1
+        ./libB.so.1
+
+    init object=/lib/libc.so.1
+    init object=./A.so.1
+    init object=./C.so.1 - cyclic group [1], referenced by:
+        ./B.so.1
+    init object=./B.so.1 - cyclic group [1], referenced by:
+        ./C.so.1</pre><p>The previous analysis resulted solely from the topological sorting of the explicit dependency relationships. However, objects are frequently created that do not define their required dependencies. For this reason, symbol bindings are also incorporated as part of dependency analysis. The incorporation of symbol bindings with explicit dependencies can help produce a more accurate dependency relationship. A more accurate static analysis of initialization order can be obtained by using <a href="https://docs.oracle.com/cd/E88353_01/html/E37839/ldd-1.html" target="_blank">
+                     <code class="codeph">ldd</code>(1)</a> with the <code class="codeph">-i</code> and <code class="codeph">-d</code> options.
+               </p>
+               <p>The most common model of loading objects uses lazy binding. With this model, only <span class="italic">immediate reference</span> symbol bindings are processed before initialization processing. Symbol bindings from <span class="italic">lazy references</span> might still be pending. These bindings can extend the dependency relationships so far established. A static analysis of the initialization order that incorporates all symbol binding can be obtained by using <a href="https://docs.oracle.com/cd/E88353_01/html/E37839/ldd-1.html" target="_blank">
+                     <code class="codeph">ldd</code>(1)</a> with the <code class="codeph">-i</code> and <code class="codeph">-r</code> options.
+               </p>
+               <p>In practice, most applications use lazy binding. Therefore, the
+                                dependency analysis achieved before computing the initialization
+                                order follows the static analysis using <code>ldd</code>
+                  <code class="codeph">-i</code>
+                  <code class="codeph">-d</code>. However, because this dependency analysis can
+                                be incomplete, and because cyclic dependencies can exist, the
+                                runtime linker provides for dynamic initialization.
+               </p>
+               <p>Dynamic initialization attempts to execute the initialization section
+                                of an object before any functions in the same object are called.
+                                During lazy symbol binding, the runtime linker determines whether
+                                the initialization section of the object being bound to has been
+                                called. If not, the runtime linker executes the initialization
+                                section before returning from the symbol binding procedure.</p>
+               <p>Dynamic initialization can not be revealed with <a href="https://docs.oracle.com/cd/E88353_01/html/E37839/ldd-1.html" target="_blank">
+                     <code class="codeph">ldd</code>(1)</a>. However, the exact sequence of
+                                initialization calls can be observed at runtime by setting the
+<code class="codeph">LD_DEBUG</code> environment variable to include the
+                                token <code class="codeph">init</code>. See <a href="runtime-linker-debugging-facility.html#GUID-2D4FA260-6CC9-47FE-84DC-0EEA76292C3E">Runtime Linker Debugging Facility</a>. Extensive
+                                runtime initialization information and termination information can
+                                be captured by adding the debugging token <code class="codeph">detail</code>.
+                                This information includes dependency listings, topological
+                                processing, and the identification of cyclic dependencies.
+               </p>
+               <p>Dynamic initialization is only available when processing
+                                lazy references. This dynamic initialization is circumvented by the
+                                following.</p>
+               <ul style="list-style-type: disc;">
+                  <li>
+                     
+                     <p>Use of the environment variable
+<code class="codeph">LD_BIND_NOW</code>.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>Objects that have been built with the
+<code class="codeph">-z&nbsp;now</code> option.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>Objects that are loaded by <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/dlopen-3c.html" target="_blank">
+                           <code class="codeph">dlopen</code>(3C)</a> with the mode
+<code class="codeph">RTLD_NOW</code>.
+                     </p>
+                     
+                  </li>
+               </ul>
+               <p>The initialization techniques that have been described so far might
+                                still be insufficient to cope with some dynamic activities.
+                                Initialization sections can load additional objects, either
+				explicitly using <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/dlopen-3c.html" target="_blank">
+                     <code class="codeph">dlopen</code>(3C)</a>, or implicitly through lazy loading
+                                and the use of filters. Initialization sections can also promote the
+                                relocations of existing objects. Objects that have been loaded to
+                                employ lazy binding have these bindings resolved if the same object
+				is referenced using <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/dlopen-3c.html" target="_blank">
+                     <code class="codeph">dlopen</code>(3C)</a> with the mode
+<code class="codeph">RTLD_NOW</code>. This relocation promotion
+                                effectively suppresses the dynamic initialization facility that is
+                                available when resolving a function call dynamically.
+               </p>
+               <p>Whenever new objects are loaded, or existing objects have their
+                                relocations promoted, a topological sort of these objects is
+                                initiated. Effectively, the original initialization execution is
+                                suspended while the new initialization requirements are established
+                                and the associated initialization sections executed. This model
+                                attempts to insure that the newly referenced objects are suitably
+                                initialized for the original initialization section to use. However,
+                                this parallelization can be the cause of unwanted recursion.</p>
+               <p>While processing objects that employ lazy binding, the runtime linker
+                                can detect certain levels of recursion. This recursion can be
+                                displayed by setting <code class="codeph">LD_DEBUG=init</code>. For example, the
+                                execution of the initialization section of
+<code>foo.so.1</code> might result in calling
+                                another object. If this object then references an interface in
+<code>foo.so.1</code> then a cycle is created. The
+                                runtime linker can detect this recursion as part of binding the lazy
+                                function reference to <code>foo.so.1</code>.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">LD_DEBUG=init  prog</span>
+00905: ....
+00905: warning: calling foo.so.1 whose init has not completed
+00905: ....</pre><p>Recursion that occurs through references that have already been
+                                relocated can not be detected by the runtime linker.</p>
+               <p>Recursion can be expensive and problematic. Reduce the number of
+                                external references and dynamic loading activities that can be
+                                triggered by an initialization section so as to eliminate
+                                recursion.</p>
+               <p>Initialization processing is repeated for any objects that are added
+	to the running process with <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/dlopen-3c.html" target="_blank">
+                     <code class="codeph">dlopen</code>(3C)</a>. Termination processing is also
+                                carried out for any objects that are unloaded from the process as a
+				result of a call to <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/dlclose-3c.html" target="_blank">
+                     <code class="codeph">dlclose</code>(3C)</a>.
+               </p>
+               <p>The preceding sections describe the various techniques that are
+                                employed to execute initialization and termination sections in a
+                                manner that attempts to meet user expectations. However, coding
+                                style and link-editing practices should also be employed to simplify
+                                the initialization and termination relationships between
+                                dependencies. This simplification helps make initialization
+                                processing and termination processing that is predictable, while
+                                less prone to any side affects of unexpected dependency
+                                ordering.</p>
+               <p>Keep the content of initialization and termination sections to a
+                                minimum. Avoid global constructors by initializing objects at
+                                runtime. Reduce the dependency of initialization and termination
+                                code on other dependencies. Define the dependency requirements of
+                                all dynamic objects. See <a href="generating-shared-object-output-file.html#GUID-7845E6EC-6C0B-4AF5-82B5-3A7B8D2D9BB9">Generating a Shared Object Output File</a>. Do not
+                                express dependencies that are not required. See <a href="shared-object-processing.html#GUID-E3579800-2372-4D23-8B55-67AA93B192CF">Shared Object Processing</a>.
+                                Avoid cyclic dependencies. Do not depend on the order of an
+                                initialization or termination sequence. The ordering of objects can
+                                be affected by both shared object and application development. See
+<a href="dependency-ordering.html#GUID-FBFF1AFE-BEB4-44BC-B772-CA8C3D4C7029">Dependency Ordering</a>.
+               </p>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

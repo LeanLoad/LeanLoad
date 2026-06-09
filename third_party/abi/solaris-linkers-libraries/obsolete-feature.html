@@ -1,0 +1,132 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Obsolete Feature">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-3E2B47A1-BC4C-4642-B504-A7B866892F70">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Obsolete Feature</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="oracle-solaris-11-4-release.html" title="Previous" type="text/html">
+      <link rel="next" href="oracle-solaris-11-3-release.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Obsolete Feature","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="oracle-solaris-11-4-release.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="oracle-solaris-11-3-release.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-3E2B47A1-BC4C-4642-B504-A7B866892F70" name="GUID-3E2B47A1-BC4C-4642-B504-A7B866892F70"></a>
+         
+         <h2 id="OSLLG-GUID-3E2B47A1-BC4C-4642-B504-A7B866892F70" class="sect2">Obsolete Feature</h2>
+         <div class="ind">
+            <div>
+               <p>The following items have been made obsolete. These items provided internal, or seldom used features. Any existing use of the associated <span>ELF</span> definitions is ignored, however the definitions can still be displayed by tools such as <a href="https://docs.oracle.com/cd/E88353_01/html/E37839/elfdump-1.html" target="_blank">
+                     <code class="codeph">elfdump</code>(1)</a>.
+               </p>
+               <dl>
+                  <dt class="dlterm"><a name="GUID-3E2B47A1-BC4C-4642-B504-A7B866892F70__GUID-7C003238-F835-479B-AF6A-60983237F552">
+                        <!-- --></a>
+                     <code class="codeph">$ISALIST</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>This dynamic token would expand to the native instruction sets of a platform, and could be employed to represent filter, <span>runpath</span> and dependency definitions. This token is no longer expanded by the link-editor, or runtime linker.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-3E2B47A1-BC4C-4642-B504-A7B866892F70__GUID-B2FD7881-5781-4711-A484-874322FD1434">
+                        <!-- --></a>
+                     <a href="https://docs.oracle.com/cd/E88353_01/html/E37839/crle-1.html" target="_blank">
+                        <code class="codeph">crle</code>(1)</a>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Support for the execution of alternative objects, that were created using the <code class="codeph">-I</code>, or <code class="codeph">-G</code> options, has been removed. The <code class="codeph">DF_1_CONFALT</code> flag, which identified an alternative object within the <code class="codeph">DT_FLAGS_1</code> dynamic entry, can no longer be created. Any existing object containing this flag is rejected by the runtime linker.
+                     </p>
+                     
+                     <p>The <code class="codeph">-f</code>, <code class="codeph">-i</code>, <code class="codeph">-I</code>, <code class="codeph">-g</code>, <code class="codeph">-G</code>, and <code class="codeph">-t AOUT</code> options have been removed. Any use of these options result in an error condition.
+                     </p>
+                     
+                     <p>The <code class="codeph">-a</code> and <code class="codeph">-A</code> options have new restrictions on their use. Only files can be redirected, not entire directories. Any use of these options must be preceded by a <code class="codeph">-o</code> option.
+                     </p>
+                     
+                     <p>The <code class="codeph">RTLD_REL_</code> flags defined in the header file <code>dlfcn.h</code>, that were available to <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/dldump-3c.html" target="_blank">
+                           <code class="codeph">dldump</code>(3C)</a>, are no longer supported. Any use of these flags with <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/dldump-3c.html" target="_blank">
+                           <code class="codeph">dldump</code>(3C)</a> result in an error condition.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-3E2B47A1-BC4C-4642-B504-A7B866892F70__GUID-51CD1F8D-E84A-46B5-9E29-48027EEFDA2D">
+                        <!-- --></a>
+                     <code class="codeph">SHF_ORDERED</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Support for the <code class="codeph">SHF_ORDERED</code> section header flag has been discontinued. This flag was never used in a shipping version of Oracle Solaris.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-3E2B47A1-BC4C-4642-B504-A7B866892F70__GUID-0DB183A7-8627-486D-93C0-C8C9850DE2D4">
+                        <!-- --></a>
+                     <code class="codeph">SHN_BEFORE</code> / <code class="codeph">SHN_AFTER</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Support for the <code class="codeph">SHN_BEFORE</code> and <code class="codeph">SHN_AFTER</code> special section indexes used with <code class="codeph">SHF_ORDERED</code> and <code class="codeph">SHF_LINK_ORDER</code> has been deprecated. Their use is discouraged, but remains supported in objects with fewer than <code class="codeph">SHN_LORESERVE</code> sections. See <a href="extended-section-header.html#GUID-E7CAD437-F351-4674-8BCF-895535D07AFC">Extended Section Header</a>.
+                     </p>
+                     
+                  </dd>
+               </dl>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

@@ -1,0 +1,212 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Thread-Local Storage Access Models">
+      <meta name="DC.subject" content="thread-local storage, access models">
+      <meta name="keywords" content="thread-local storage, access models">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-161A1690-4A4C-444A-A4F3-BAA5D9C5E7FB">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Thread-Local Storage Access Models</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="deferred-allocation-thread-local-storage-blocks.html" title="Previous" type="text/html">
+      <link rel="next" href="sparc-thread-local-variable-access.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Thread-Local Storage Access Models","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="deferred-allocation-thread-local-storage-blocks.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="sparc-thread-local-variable-access.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-161A1690-4A4C-444A-A4F3-BAA5D9C5E7FB" name="GUID-161A1690-4A4C-444A-A4F3-BAA5D9C5E7FB"></a>
+         
+         <h2 id="OSLLG-GUID-161A1690-4A4C-444A-A4F3-BAA5D9C5E7FB" class="sect2">Thread-Local Storage Access Models</h2>
+         <div class="ind">
+            <div>
+               <p>Each <span>TLS</span> reference follows one of the
+                        following access models. These models are listed from the most general, but
+                        least optimized, to the fastest, but most restrictive.
+               </p>
+               <dl>
+                  <dt class="dlterm"><a name="GUID-161A1690-4A4C-444A-A4F3-BAA5D9C5E7FB__GUID-5A9FB8FD-42CD-4A81-9A59-B9041F3B9B83">
+                        <!-- --></a>
+                     <span class="italic">General Dynamic (GD)</span> - dynamic
+<span>TLS</span>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>This model allows reference of all
+<span>TLS</span> variables, from a
+                                                dynamic object. This model
+                                                also supports the deferred allocation of a
+<span>TLS</span> block when the block is
+                                                first referenced from a specific thread.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-161A1690-4A4C-444A-A4F3-BAA5D9C5E7FB__GUID-C54659E8-8E79-4207-A36C-DC536B0631D7">
+                        <!-- --></a>
+                     <span class="italic">Local Dynamic (LD)</span> - dynamic
+<span>TLS</span> of local symbols
+                  </dt>
+                  <dd>
+                     
+                     <p>This model is a optimization of the
+<span class="italic">GD</span> model. The compiler might
+                                                determine that a variable is bound locally, or
+                                                protected, within the object being built. In this
+                                                case, the compiler instructs the link-editor to
+                                                statically bind the dynamic
+<code class="codeph">tlsoffset</code> and use this model.
+                                                This model provides a performance benefit over the
+<span class="italic">GD</span> model. Only one call to
+<code class="codeph">tls_get_addr</code>() is required per
+                                                function, to determine the address of
+<code class="codeph">dtv</code>
+                        <sub>0,m</sub>.
+                                                The dynamic <span>TLS</span> offset, bound at
+                                                link-edit time, is added to the
+<code class="codeph">dtv</code>
+                        <sub>0,m</sub>
+                                                address for each reference.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-161A1690-4A4C-444A-A4F3-BAA5D9C5E7FB__GUID-815F0451-8DC3-42F0-A608-B589BAD9203C">
+                        <!-- --></a>
+                     <span class="italic">Initial Executable (IE)</span> - static
+<span>TLS</span> with assigned offsets
+                  </dt>
+                  <dd>
+                     
+                     <p>This model can only reference <span>TLS</span>
+                                                variables which are available as part of the initial
+                                                static <span>TLS</span> template. This
+                                                template is composed of all <span>TLS</span>
+                                                blocks that are available at process startup, plus a
+                                                small backup reservation. See <a href="program-startup.html#GUID-8C4DD82E-3057-4141-B35C-0E6BE60A1A18">Program Startup</a>. In
+                                                this model, the thread pointer-relative offset for a
+                                                given variable <span class="italic">x</span> is stored in
+                                                the <code class="codeph">GOT</code> entry for
+<span class="italic">x</span>.
+                     </p>
+                     
+                     <p>This model can reference a limited number of
+<span>TLS</span> variables from shared
+                                                libraries loaded after initial process startup, such
+						as by means of lazy loading, filters, or <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/dlopen-3c.html" target="_blank">
+                           <code class="codeph">dlopen</code>(3C)</a>. This access is satisfied
+                                                from a fixed backup reservation. This reservation
+                                                can only provide storage for uninitialized
+<span>TLS</span> data items. For maximum
+                                                flexibility, shared objects should reference
+                                                thread-local variables using a dynamic
+<span>TLS</span> model.
+                     </p>
+                     
+                     <div class="infoboxnote" id="GUID-161A1690-4A4C-444A-A4F3-BAA5D9C5E7FB__GUID-343D2D62-2250-48CB-89A6-F4A2AA8F7126">
+                        <p class="notep1">Note:</p>
+                  Filters can be employed to dynamically select
+                                                  the use of static <span>TLS</span>. A shared
+                                                  object can be built to use dynamic
+<span>TLS</span>, and act as an auxiliary
+                                                  filter upon a counterpart built to use static
+<span>TLS</span>. If resources allow the
+                                                  static <span>TLS</span> object to be loaded,
+                                                  the object is used. Otherwise, a fallback to the
+                                                  dynamic <span>TLS</span> object insures that
+                                                  the functionality provided by the shared object is
+                                                  always available. For more information on filters
+                                                  see <a href="shared-objects-filters.html#GUID-5FEACD50-6CF3-405A-B03B-C5912DA4C3EB">Shared Objects as Filters</a>.
+
+                     </div>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-161A1690-4A4C-444A-A4F3-BAA5D9C5E7FB__GUID-32A88BCD-E1D3-444D-BB08-8C14B500A3D3">
+                        <!-- --></a>
+                     <span class="italic">Local Executable (LE)</span> - static
+<span>TLS</span>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>This model can only reference <span>TLS</span>
+                                                variables which are part of the
+<span>TLS</span> block of the dynamic
+                                                executable. The link-editor calculates the thread
+                                                pointer-relative offsets statically, without the
+                                                need for dynamic relocations, or the extra reference
+                                                to the <code class="codeph">GOT</code>. This model can not be
+                                                used to reference variables outside of the dynamic
+                                                executable.
+                     </p>
+                     
+                  </dd>
+               </dl>
+               <p>The link-editor can transition code from the more general access models to the
+                        more optimized models, if the transition is determined appropriate. This
+                        transition is possible through the use of unique <span>TLS</span>
+                        relocations. These relocations, not only request updates be performed, but
+                        identify which <span>TLS</span> access model is being used.
+               </p>
+               <p>Knowledge of the <span>TLS</span> access model, together with the type
+                        of object being created, allows the link-editor to perform translations. An
+                        example is if a relocatable object using the <span class="italic">GD</span> access
+                        model is being linked into a dynamic executable. In this case, the
+                        link-editor can transition the references using the <span class="italic">IE</span>
+                        or <span class="italic">LE</span> access models, as appropriate. The relocations
+                        that are required for the model are then performed.
+               </p>
+               <p>The following diagram illustrates the different access models, together with
+                        the transition of one model to another model.</p>
+               <div class="figure" id="GUID-161A1690-4A4C-444A-A4F3-BAA5D9C5E7FB__GUID-AF3C80C9-30BF-4798-BBF9-155D779DE658">
+                  <p>Thread-Local Storage Access Models and Transitions</p><br><img height="996" width="1020" src="img/tlscodemodels.jpg" alt="Thread-Local Storage Access Models and Transitions" title="Thread-Local Storage Access Models and Transitions"><br></div>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

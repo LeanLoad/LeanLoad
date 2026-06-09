@@ -1,0 +1,144 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Defining Unrelated Interfaces">
+      <meta name="DC.subject" content=", pvs">
+      <meta name="keywords" content=", pvs">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-3A25968D-1E99-42A6-A828-86C0B8A9C7DA">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Defining Unrelated Interfaces</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="creating-weak-version-definition.html" title="Previous" type="text/html">
+      <link rel="next" href="binding-version-definition.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Defining Unrelated Interfaces","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="creating-weak-version-definition.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="binding-version-definition.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-3A25968D-1E99-42A6-A828-86C0B8A9C7DA" name="GUID-3A25968D-1E99-42A6-A828-86C0B8A9C7DA"></a>
+         
+         <h2 id="OSLLG-GUID-3A25968D-1E99-42A6-A828-86C0B8A9C7DA" class="sect2">Defining Unrelated Interfaces</h2>
+         <div class="ind">
+            <div>
+               <p>The previous examples show how new version definitions added
+                                        to an object inherit any existing version definitions. You
+                                        can also create version definitions that are unique and
+                                        independent. In the following example, two new files,
+<code>bar1.c</code> and
+<code>bar2.c</code>, are added to the object
+<code>libfoo.so.1</code>. These files
+                                        contribute two new symbols, <code class="codeph">bar1</code> and
+<code class="codeph">bar2</code>, respectively.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cat bar1.c</span>
+extern void foo1();
+
+void bar1()
+{
+        foo1();
+}
+$ <span class="bold">cat bar2.c</span>
+extern void foo2();
+
+void bar2()
+{
+        foo2();
+}</pre><p>These two symbols are intended to define two new public
+                                        interfaces. Neither of these new interfaces are related to
+                                        each other. However, each interface expresses a dependency
+                                        on the original <code class="codeph">SUNW_1.2</code>
+                                        interface.
+               </p>
+               <p>The following <code>mapfile</code> definition creates
+                                        the required association.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cat mapfile</span>
+$mapfile_version 2
+SYMBOL_VERSION SUNW_1.1 {                   # Release X
+        global:
+                foo1;
+        local:
+                *;
+};
+
+SYMBOL_VERSION SUNW_1.2 {                   # Release X+1
+        global:
+                foo2;
+} SUNW_1.1;
+
+SYMBOL_VERSION SUNW_1.2.1 { } SUNW_1.2;     # Release X+2
+
+SYMBOL_VERSION SUNW_1.3a {                  # Release X+3
+        global:
+                bar1;
+} SUNW_1.2;
+
+SYMBOL_VERSION SUNW_1.3b {                  # Release X+3
+        global:
+                bar2;
+} SUNW_1.2;</pre><p>The version definitions created in
+<code>libfoo.so.1</code> when using this
+<code>mapfile</code>, and their related
+dependencies, can be inspected using <a href="https://docs.oracle.com/cd/E88353_01/html/E37839/pvs-1.html" target="_blank">
+                     <code class="codeph">pvs</code>(1)</a>.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cc -o libfoo.so.1 -M mapfile -G foo.o bar1.o bar2.o data.o</span>
+$ <span class="bold">pvs -dv libfoo.so.1</span>
+        libfoo.so.1;
+        SUNW_1.1;
+        SUNW_1.2:                {SUNW_1.1};
+        SUNW_1.2.1 [WEAK]:       {SUNW_1.2};
+        SUNW_1.3a:               {SUNW_1.2};
+        SUNW_1.3b:               {SUNW_1.2};</pre><p>Version definitions can be used to verify runtime binding
+                                        requirements. Version definitions can also be used to
+                                        control the binding of an object during the objects
+                                        creation. The following sections explore these version
+                                        definition usages in more detail.</p>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

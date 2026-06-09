@@ -1,0 +1,155 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Symbol Resolution">
+      <meta name="DC.subject" content="symbol resolution, symbols, undefined, tentative, tentative symbols, COMMON, defined">
+      <meta name="keywords" content="symbol resolution, symbols, undefined, tentative, tentative symbols, COMMON, defined">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-5803F10E-BE20-44D1-B79C-BC3F09BDF21F">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Symbol Resolution</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="symbol-visibility.html" title="Previous" type="text/html">
+      <link rel="next" href="simple-resolutions.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Symbol Resolution","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="symbol-visibility.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="simple-resolutions.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-5803F10E-BE20-44D1-B79C-BC3F09BDF21F" name="GUID-5803F10E-BE20-44D1-B79C-BC3F09BDF21F"></a>
+         
+         <h2 id="OSLLG-GUID-5803F10E-BE20-44D1-B79C-BC3F09BDF21F" class="sect2">Symbol Resolution</h2>
+         <div class="ind">
+            <div>
+               <p>Symbol resolution runs the entire spectrum, from simple and intuitive
+                                to complex and perplexing. Most resolutions are carried out silently
+                                by the link-editor. However, some relocations can be accompanied by
+                                warning diagnostics, while others can result in a fatal error
+                                condition.</p>
+               <p>The most common simple resolutions involve binding symbol references
+                                from one object to symbol definitions within another object. This
+                                binding can occur between two relocatable objects, or between a
+                                relocatable object and the first definition found in a shared object
+                                dependency. Complex resolutions typically occur between two or more
+                                relocatable objects.</p>
+               <p>The resolution of two symbols depends on their attributes, the type of
+                                file that provides the symbol, and the type of file being generated.
+                                For a complete description of symbol attributes, see <a href="symbol-table-section.html#GUID-DBDD92CB-D58A-4CB5-861F-8868D8CB4552">Symbol Table Section</a>. For the
+                                following discussions, however, three basic symbol types are
+                                identified.
+               </p>
+               <ul style="list-style-type: disc;">
+                  <li>
+                     
+                     <p>
+                        <span class="italic">Undefined</span> &#x2013;
+                                                Symbols that have been referenced in a file but have
+                                                not been assigned a storage address.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>
+                        <span class="italic">Tentative</span> &#x2013;
+                                                Symbols that have been created within a file but
+                                                have not yet been sized, or allocated in storage.
+                                                These symbols appear as uninitialized C symbols, or
+<code class="codeph">FORTRAN</code>
+                        <code class="codeph">COMMON</code> blocks within the
+                                                file.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>
+                        <span class="italic">Defined</span> &#x2013;
+                                                Symbols that have been created, and assigned storage
+                                                addresses and space within the file.
+                     </p>
+                     
+                  </li>
+               </ul>
+               <p>In its simplest form, symbol resolution involves the use of a
+                                precedence relationship. This relationship has
+<span class="italic">defined</span> symbols dominate
+<span class="italic">tentative</span> symbols, which in turn
+                                dominate <span class="italic">undefined</span> symbols.
+               </p>
+               <p>The following example of C code shows how these symbol types can be
+                                generated. Undefined symbols are prefixed with
+<code class="codeph">u_</code>. Tentative symbols are prefixed with
+<code class="codeph">t_</code>. Defined symbols are prefixed with
+<code class="codeph">d_</code>.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cat main.c</span>
+extern int u_bar;
+extern int u_foo();
+
+int t_bar;
+int d_bar = 1;
+
+int d_foo()
+{
+        return (u_foo(u_bar, t_bar, d_bar));
+}
+$ <span class="bold">cc -o main.o -c main.c</span>
+$ <span class="bold">elfdump -s main.o</span>
+
+Symbol Table Section:  .symtab
+    index  value   size  type bind oth ver shndx          name
+    ....
+      [7]      0      0  FUNC GLOB  D    0 UNDEF          u_foo
+      [8]   0x10   0x40  FUNC GLOB  D    0 .text          d_foo
+      [9]    0x4    0x4  OBJT GLOB  D    0 COMMON         t_bar
+     [10]      0    0x4  NOTY GLOB  D    0 UNDEF          u_bar
+     [11]      0    0x4  OBJT GLOB  D    0 .data          d_bar</pre></div>
+         </div>
+      </article>
+   </body>
+</html>

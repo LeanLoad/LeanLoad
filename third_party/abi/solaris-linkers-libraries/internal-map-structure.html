@@ -1,0 +1,122 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Internal Map Structure">
+      <meta name="DC.subject" content=", mapfiles, map structure">
+      <meta name="keywords" content=", mapfiles, map structure">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-BE2658A3-0F18-4844-8822-867FE0A1066D">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Internal Map Structure</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="mapfile-option-defaults.html" title="Previous" type="text/html">
+      <link rel="next" href="book-index.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Internal Map Structure","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="mapfile-option-defaults.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="book-index.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-BE2658A3-0F18-4844-8822-867FE0A1066D" name="GUID-BE2658A3-0F18-4844-8822-867FE0A1066D"></a>
+         
+         <h2 id="OSLLG-GUID-BE2658A3-0F18-4844-8822-867FE0A1066D" class="sect2">Internal Map Structure</h2>
+         <div class="ind">
+            <div>
+               <p>One of the most important data structures in the <span>ELF</span>-based link-editor is the map structure. A default map structure, corresponding to the model default <code>mapfile</code>, is used by the link-editor. Any user <code>mapfile</code> augments or overrides certain values in the default map structure.
+               </p>
+               <p>A typical, although somewhat simplified map structure, is illustrated in the figure titled Simple Map Structure. The "Entrance Criteria" boxes correspond to the information in the default mapping directives. The "Segment Attribute Descriptors" boxes correspond to the information in the default segment declarations. The "Output Section Descriptors" boxes give the detailed attributes of the sections that fall under each segment. The sections themselves are shown in circles.</p>
+               <div class="figure" id="GUID-BE2658A3-0F18-4844-8822-867FE0A1066D__GUID-9CB1D99B-1FFC-4163-9082-6947DB136F5B">
+                  <p>Simple Map Structure</p><br><img height="879" width="1281" src="img/simmapstruc.jpg" alt="A simplified map structure." title="A simplified map structure."><br></div>
+               <p>The link-editor performs the following steps when mapping sections to segments.</p>
+               <ol>
+                  <li>
+                     
+                     <p>When a section is read in, the link-editor checks the list of Entrance Criteria looking for a match. All specified criteria must be matched.</p>
+                     
+                     <p>In the figure titled Simple Map Structure, a section that falls into the <code class="codeph">text</code> segment must have a <code class="codeph">section_type</code> value of <code class="codeph">$PROGBITS</code> and have a <code class="codeph">section_flags</code> value of <code class="codeph">?A!W</code>. It need not have the name <code class="codeph">.text</code> since no name is specified in the Entrance Criteria. The section can be either <code class="codeph">X</code> or <code class="codeph">!X</code> in the <code class="codeph">section_flag</code>s value because nothing was specified for the execute bit in the Entrance Criteria.
+                     </p>
+                     
+                     <p>If no Entrance Criteria match is found, the section is placed at the end of the output file after all other segments. No program header entry is created for this information.</p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>When the section falls into a segment, the link-editor checks the list of existing Output Section Descriptors in that segment as follows.</p>
+                     
+                     <p>If the section attribute values match those of an existing Output Section Descriptor exactly, the section is placed at the end of the list of sections associated with that Output Section Descriptor.</p>
+                     
+                     <p>For instance, a section with a <code class="codeph">section_name</code> value of <code class="codeph">.data1</code>, a <code class="codeph">section_type</code> value of <code class="codeph">$PROGBITS</code>, and a <code class="codeph">section_flags</code> value of <code class="codeph">?AWX</code> falls into the second Entrance Criteria box in the figure titled Simple Map Structure, placing it in the <code class="codeph">data</code> segment. The section matches the second Output Section Descriptor box exactly (<code class="codeph">.data1</code>, <code class="codeph">$PROGBITS</code>, <code class="codeph">?AWX</code>) and is added to the end of the list associated with that box. The <code class="codeph">.data1</code> sections from <code>fido.o</code>, <code>rover.o</code>, and <code>sam.o</code> illustrate this point.
+                     </p>
+                     
+                     <p>If no matching Output Section Descriptor is found but other Output Section Descriptors of the same <code class="codeph">section_type</code> exist, a new Output Section Descriptor is created with the same attribute values as the section and that section is associated with the new Output Section Descriptor. The Output Section Descriptor and the section are placed after the last Output Section Descriptor of the same section type. The <code class="codeph">.data2</code> section shown in the figure titled Simple Map Structure was placed in this manner.
+                     </p>
+                     
+                     <p>If no other Output Section Descriptors of the indicated section type exist, a new Output Section Descriptor is created and the section is placed in that section.</p>
+                     
+                     <div class="infoboxnote" id="GUID-BE2658A3-0F18-4844-8822-867FE0A1066D__GUID-F4488D24-127F-4A27-8EE7-C5CAFC36571A">
+                        <p class="notep1">Note:</p>
+               If the input section has a user-defined section type value between <code class="codeph">SHT_LOUSER</code> and <code class="codeph">SHT_HIUSER</code>, it is treated as a <code class="codeph">$PROGBITS</code> section. No method exists for naming this <code class="codeph">section_type</code> value in the <code>mapfile</code>, but these sections can be redirected using the other attribute value specifications (<code class="codeph">section_flags</code>, <code class="codeph">section_name</code>) in the entrance criteria.
+
+                     </div>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>If a segment contains no sections after all of the command line object files and libraries are read in, no program header entry is produced for that segment.</p>
+                     
+                  </li>
+               </ol>
+               <div class="infoboxnote" id="GUID-BE2658A3-0F18-4844-8822-867FE0A1066D__GUID-CDE75A4E-A787-405E-A5F3-8CFEDA514682">
+                  <p class="notep1">Note:</p>
+         Input sections of type <code class="codeph">$SYMTAB</code>, <code class="codeph">$STRTAB</code>, <code class="codeph">$REL</code>, and <code class="codeph">$RELA</code> are used internally by the link-editor. Directives that refer to these section types can only map output sections produced by the link-editor to segments.
+
+               </div>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

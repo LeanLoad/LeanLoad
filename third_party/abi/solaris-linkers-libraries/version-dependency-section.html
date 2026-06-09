@@ -1,0 +1,378 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Version Dependency Section">
+      <meta name="DC.subject" content="section types, SHT_SUNW_verneed">
+      <meta name="keywords" content="section types, SHT_SUNW_verneed">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-B6FC9352-7C83-4F0C-9DFF-7E932302717A">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Version Dependency Section</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="version-definition-section.html" title="Previous" type="text/html">
+      <link rel="next" href="version-symbol-section.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Version Dependency Section","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="version-definition-section.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="version-symbol-section.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-B6FC9352-7C83-4F0C-9DFF-7E932302717A" name="GUID-B6FC9352-7C83-4F0C-9DFF-7E932302717A"></a>
+         
+         <h2 id="OSLLG-GUID-B6FC9352-7C83-4F0C-9DFF-7E932302717A" class="sect2">Version Dependency Section</h2>
+         <div class="ind">
+            <div>
+               <p>The version dependency section is defined by the type
+<code class="codeph">SHT_SUNW_verneed</code>. This section complements the dynamic dependency
+        requirements of the file by indicating the version definitions required from these
+        dependencies. A recording is made in this section only if a dependency contains version
+        definitions. Elements of this section have the following structure.
+               </p><pre class="oac_no_warn" dir="ltr">typedef struct {
+         Elf32_Half      vn_version;
+         Elf32_Half      vn_cnt;
+         Elf32_Word      vn_file;
+         Elf32_Word      vn_aux;
+         Elf32_Word      vn_next;
+} Elf32_Verneed;
+
+typedef struct {
+         Elf32_Word      vna_hash;
+         Elf32_Half      vna_flags;
+         Elf32_Half      vna_other;
+         Elf32_Word      vna_name;
+         Elf32_Word      vna_next;
+} Elf32_Vernaux;
+
+typedef struct {
+         Elf64_Half      vn_version;
+         Elf64_Half      vn_cnt;
+         Elf64_Word      vn_file;
+         Elf64_Word      vn_aux;
+         Elf64_Word      vn_next;
+} Elf64_Verneed;
+
+typedef struct {
+         Elf64_Word      vna_hash;
+         Elf64_Half      vna_flags;
+         Elf64_Half      vna_other;
+         Elf64_Word      vna_name;
+         Elf64_Word      vna_next;
+} Elf64_Vernaux;</pre><dl>
+                  <dt class="dlterm"><a name="GUID-B6FC9352-7C83-4F0C-9DFF-7E932302717A__GUID-ECBB74E2-1A41-410E-92F7-E8CAACE56167">
+                        <!-- --></a>
+                     <code class="codeph">vn_version</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>This member identifies the version of the structure, as listed in the following
+              table.</p>
+                     
+                     <div class="tblformal" id="GUID-B6FC9352-7C83-4F0C-9DFF-7E932302717A__GUID-2B442173-A13F-4D8B-90F7-554C86348A9F">
+                        <table cellpadding="4" cellspacing="0" class="Formal" title summary="&#xA;                     Table defining ELF version identifiers.&#xA;" frame="hsides" border="1" rules="rows">
+                           <thead>
+                              <tr align="left" valign="top">
+                                 <th align="left" valign="bottom" width="20%" id="d88555e55">
+Name
+</th>
+                                 <th align="left" valign="bottom" width="20%" id="d88555e60">
+Value
+</th>
+                                 <th align="left" valign="bottom" width="20%" id="d88555e65">
+Meaning
+</th>
+                              </tr>
+                           </thead>
+                           <tbody>
+                              <tr align="left" valign="top">
+                                 <td align="left" valign="top" width="20%" id="d88555e72" headers="d88555e55 ">
+                                    
+                                    <p>
+                                       <code class="codeph">VER_NEED_NONE</code>
+                                       
+                                    </p>
+                                    
+                                 </td>
+                                 <td align="left" valign="top" width="20%" headers="d88555e72 d88555e60 ">
+                                    
+                                    <p>
+                                       <code class="codeph">0</code>
+                                       
+                                    </p>
+                                    
+                                 </td>
+                                 <td align="left" valign="top" width="20%" headers="d88555e72 d88555e65 ">
+                                    
+                                    <p>Invalid version.</p>
+                                    
+                                 </td>
+                              </tr>
+                              <tr align="left" valign="top">
+                                 <td align="left" valign="top" width="20%" id="d88555e94" headers="d88555e55 ">
+                                    
+                                    <p>
+                                       <code class="codeph">VER_NEED_CURRENT</code>
+                                       
+                                    </p>
+                                    
+                                 </td>
+                                 <td align="left" valign="top" width="20%" headers="d88555e94 d88555e60 ">
+                                    
+                                    <p>
+                                       <code class="codeph">&gt;=1</code>
+                                       
+                                    </p>
+                                    
+                                 </td>
+                                 <td align="left" valign="top" width="20%" headers="d88555e94 d88555e65 ">
+                                    
+                                    <p>Current version.</p>
+                                    
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </div>
+                     
+                     <p>The value 1 signifies the original section format. Extensions require new versions
+              with higher numbers. The value of <code class="codeph">VER_NEED_CURRENT</code> changes as
+              necessary to reflect the current version number.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-B6FC9352-7C83-4F0C-9DFF-7E932302717A__GUID-D472C959-79CC-4D32-9F5B-89B098211840">
+                        <!-- --></a>
+                     <code class="codeph">vn_cnt</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>The number of elements in the <code class="codeph">Elf32_Vernaux</code> array.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-B6FC9352-7C83-4F0C-9DFF-7E932302717A__GUID-B986A303-B48F-4510-9E28-6BEFED15D425">
+                        <!-- --></a>
+                     <code class="codeph">vn_file</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>The string table offset to a null-terminated string, providing the file name of a
+              version dependency. This name matches one of the <code class="codeph">.dynamic</code>
+              dependencies found in the file. See <a href="dynamic-section.html#GUID-4336A69A-D905-4FCE-A398-80375A9E6464">Dynamic Section</a>.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-B6FC9352-7C83-4F0C-9DFF-7E932302717A__GUID-3BB9AD50-D37E-4681-8794-94C3DFFBA0F0">
+                        <!-- --></a>
+                     <code class="codeph">vn_aux</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>The byte offset, from the start of this <code class="codeph">Elf32_Verneed</code> entry, to
+              the <code class="codeph">Elf32_Vernaux</code> array of version definitions that are required
+              from the associated file dependency. At least one version dependency must exist.
+              Additional version dependencies can be present, the number being indicated by the
+<code class="codeph">vn_cnt</code> value.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-B6FC9352-7C83-4F0C-9DFF-7E932302717A__GUID-56EE289D-B966-42C4-8A4E-09AA7824A34D">
+                        <!-- --></a>
+                     <code class="codeph">vn_next</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>The byte offset, from the start of this <code class="codeph">Elf32_Verneed</code> entry, to
+              the next <code class="codeph">Elf32_Verneed</code> entry.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-B6FC9352-7C83-4F0C-9DFF-7E932302717A__GUID-54C586CD-1D28-4171-BFB4-E9542F473755">
+                        <!-- --></a>
+                     <code class="codeph">vna_hash</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>The hash value of the version dependency name. This value is generated using the
+              same hashing function that is described in <a href="hash-table-section.html#GUID-5F131F5B-EC1C-4AC0-96A2-A1F56DC47AFD">Hash Table Section</a>.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-B6FC9352-7C83-4F0C-9DFF-7E932302717A__GUID-2A190E02-B381-4838-AAF3-9B4616D1C145">
+                        <!-- --></a>
+                     <code class="codeph">vna_flags</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Version dependency specific information, as listed in the following table.</p>
+                     
+                     <div class="tblformal" id="GUID-B6FC9352-7C83-4F0C-9DFF-7E932302717A__GUID-54901E28-45AF-46C6-A162-2EDE6143A71D">
+                        <table cellpadding="4" cellspacing="0" class="Formal" title summary="&#xA;                     Table defining ELF version dependency information.&#xA;" frame="hsides" border="1" rules="rows">
+                           <thead>
+                              <tr align="left" valign="top">
+                                 <th align="left" valign="bottom" width="20%" id="d88555e226">
+Name
+</th>
+                                 <th align="left" valign="bottom" width="20%" id="d88555e231">
+Value
+</th>
+                                 <th align="left" valign="bottom" width="20%" id="d88555e236">
+Meaning
+</th>
+                              </tr>
+                           </thead>
+                           <tbody>
+                              <tr align="left" valign="top">
+                                 <td align="left" valign="top" width="20%" id="d88555e243" headers="d88555e226 ">
+                                    
+                                    <p>
+                                       <code class="codeph">VER_FLG_WEAK</code>
+                                       
+                                    </p>
+                                    
+                                 </td>
+                                 <td align="left" valign="top" width="20%" headers="d88555e243 d88555e231 ">
+                                    
+                                    <p>
+                                       <code class="codeph">0x2</code>
+                                       
+                                    </p>
+                                    
+                                 </td>
+                                 <td align="left" valign="top" width="20%" headers="d88555e243 d88555e236 ">
+                                    
+                                    <p>Weak version identifier.</p>
+                                    
+                                 </td>
+                              </tr>
+                              <tr align="left" valign="top">
+                                 <td align="left" valign="top" width="20%" id="d88555e265" headers="d88555e226 ">
+                                    
+                                    <p>
+                                       <code class="codeph">VER_FLG_INFO</code>
+                                       
+                                    </p>
+                                    
+                                 </td>
+                                 <td align="left" valign="top" width="20%" headers="d88555e265 d88555e231 ">
+                                    
+                                    <p>
+                                       <code class="codeph">0x4</code>
+                                       
+                                    </p>
+                                    
+                                 </td>
+                                 <td align="left" valign="top" width="20%" headers="d88555e265 d88555e236 ">
+                                    
+                                    <p>
+                                       <code class="codeph">SHT_SUNW_versym</code> reference exists for informational
+                        purposes, and need not be validated at runtime.
+                                    </p>
+                                    
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </div>
+                     
+                     <p>A weak version dependency indicates an original binding to a weak version
+              definition.</p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-B6FC9352-7C83-4F0C-9DFF-7E932302717A__GUID-209F29E1-9378-4D0A-AD1C-0B4525AEF9F0">
+                        <!-- --></a>
+                     <code class="codeph">vna_other</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>If non-zero, the version index assigned to this dependency version. This index is
+              used within the <code class="codeph">SHT_SUNW_versym</code> to assign global symbol references
+              to this version.
+                     </p>
+                     
+                     <p>Versions of Solaris up to and including the Oracle Solaris 10 release, did
+              not assign version symbol indexes to dependency versions. In these objects, the value
+              of <code class="codeph">vna_other</code> is <code class="codeph">0</code>.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-B6FC9352-7C83-4F0C-9DFF-7E932302717A__GUID-76063CAF-4E10-4A95-B875-B685B8BDCDC6">
+                        <!-- --></a>
+                     <code class="codeph">vna_name</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>The string table offset to a null-terminated string, giving the name of the
+              version dependency.</p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-B6FC9352-7C83-4F0C-9DFF-7E932302717A__GUID-865B7144-43A1-4E70-8DFC-3541A3C4DAB4">
+                        <!-- --></a>
+                     <code class="codeph">vna_next</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>The byte offset from the start of this <code class="codeph">Elf32_Vernaux</code> entry to
+              the next <code class="codeph">Elf32_Vernaux</code> entry.
+                     </p>
+                     
+                  </dd>
+               </dl>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

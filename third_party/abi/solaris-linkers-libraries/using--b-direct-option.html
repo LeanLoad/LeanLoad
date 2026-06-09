@@ -1,0 +1,105 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Using the -B direct Option">
+      <meta name="DC.subject" content="link-editor options, -B&nbsp;direct, -B&nbsp;symbolic, LD_NODIRECT">
+      <meta name="keywords" content="link-editor options, -B&nbsp;direct, -B&nbsp;symbolic, LD_NODIRECT">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-4A5CBA4B-9FBA-4CC0-A3A3-69E7FC301296">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Using the -B direct Option</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="enabling-direct-binding.html" title="Previous" type="text/html">
+      <link rel="next" href="using--z-direct-option.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Using the -B direct Option","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="enabling-direct-binding.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="using--z-direct-option.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-4A5CBA4B-9FBA-4CC0-A3A3-69E7FC301296" name="GUID-4A5CBA4B-9FBA-4CC0-A3A3-69E7FC301296"></a>
+         
+         <h2 id="OSLLG-GUID-4A5CBA4B-9FBA-4CC0-A3A3-69E7FC301296" class="sect2">Using the <code class="codeph">-B direct</code> Option
+         </h2>
+         <div class="ind">
+            <div>
+               <p>The <code class="codeph">-B&nbsp;direct</code> option provides the simplest mechanism of enabling direct binding for any dynamic object. This option establishes direct bindings to any dependencies, and within the object being built.
+               </p>
+               <p>From the components used in the previous example, a directly bound object, <code>W.so.2</code>, can be produced.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cc -o W.so.2 -G -Kpic W.c -R. -B direct w.so.1</span>
+$ <span class="bold">cc -o prog2 -R. main.c W.so.2 X.so.1</span></pre><p>The direct binding information is maintained in a symbol information section, <code class="codeph">.SUNW_syminfo</code>, within <code>W.so.2</code>. This section can be viewed with <a href="https://docs.oracle.com/cd/E88353_01/html/E37839/elfdump-1.html" target="_blank">
+                     <code class="codeph">elfdump</code>(1)</a>.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">elfdump -y W.so.2</span>
+     [6]  [ DEPEND DIRECT ]              &lt;self&gt;         a
+     [7]  [ DEPEND LAZY DIRECT ]     [1] w.so.1         b</pre><p>"<code class="codeph">DIRECT</code>" indicates a direct binding has been recorded for the associated symbol. The function <code class="codeph">a</code>() has been bound to the containing object <code>W.so.2</code>. The function <code class="codeph">b</code>() has been bound directly to the dependency <code>w.so.1</code>. "<code class="codeph">LAZY</code>" indicates that the dependency <code>w.so.1</code> should also be lazily loaded.
+               </p>
+               <p>The direct bindings that are established for <code>W.so.2</code> can be observed using the <code class="codeph">LD_DEBUG</code> environment variable. The <code class="codeph">detail</code> token adds additional information to the binding diagnostics. For <code>W.so.2</code>, this token indicates the direct nature of the binding. The <code class="codeph">detail</code> token also provides additional information about the binding addresses. For simplification, this address information has been omitted from the output generated from the following examples.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">LD_DEBUG=symbols,bindings,detail  prog2</span>
+....
+18452: symbol=a;  lookup in file=./W.so.2  [ ELF ]
+18452: binding file=./W.so.2 to file=./W.so.2: symbol 'a'  (direct)
+18452: symbol=b;  lookup in file=./w.so.1  [ ELF ]
+18452: binding file=./W.so.2 to file=./w.so.1: symbol 'b'  (direct)</pre><p>The <a href="https://docs.oracle.com/cd/E88353_01/html/E37839/lari-1.html" target="_blank">
+                     <code class="codeph">lari</code>(1)</a> utility can also reveal the direct binding information.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">lari prog2</span>
+[2:2ESD]: a(): ./W.so.2
+[2:0]: a(): ./X.so.1
+[2:2ED]: b(): ./w.so.1
+[2:0]: b(): ./x.so.1</pre><p>The letter "<code class="codeph">D</code>" indicates that the function <code class="codeph">a</code>() defined by <code>W.so.2</code> has been bound to directly. Similarly, the function <code class="codeph">b</code>() defined in <code>w.so.1</code> has been bound to directly.
+               </p>
+               <div class="infoboxnote" id="GUID-4A5CBA4B-9FBA-4CC0-A3A3-69E7FC301296__GUID-D1ADCD77-F575-484B-AEE4-2E38D0E8C171">
+                  <p class="notep1">Note:</p>
+         The direct binding of <code>W.so.2</code> to <code>W.so.2</code> for the function <code class="codeph">a</code>() results in a similar effect as would be created had the <code class="codeph">-B&nbsp;symbolic</code> option been used to build <code>W.so.2</code>. However, the <code class="codeph">-B&nbsp;symbolic</code> option causes references such as <code class="codeph">a</code>(), that can be resolved internally, to be finalized at link-edit time. This symbol resolution leaves no binding to resolve at runtime.
+         Unlike <code class="codeph">-B&nbsp;symbolic</code> bindings, a <code class="codeph">-B&nbsp;direct</code> binding is left for resolution at runtime. Therefore, this binding can be overridden by explicit interposition, or disabled by setting the environment variable <code class="codeph">LD_NODIRECT</code> to a non-null value.
+         Symbolic bindings have often been employed to reduce the runtime relocation overhead incurred when loading complex objects. Direct bindings can be used to establish exactly the same symbol bindings. However, a runtime relocation is still required to create each direct binding. Direct bindings require more overhead than symbolic bindings, but provide for greater flexibility.
+
+               </div>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

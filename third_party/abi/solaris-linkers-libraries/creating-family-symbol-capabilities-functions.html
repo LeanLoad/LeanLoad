@@ -1,0 +1,177 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Creating a Family of Symbol Capabilities Functions">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-FD5C4E62-68AD-4AAB-85C8-ABABFF6083C3">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Creating a Family of Symbol Capabilities Functions</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="software-capability-address-space-restriction-processing.html" title="Previous" type="text/html">
+      <link rel="next" href="creating-family-symbol-capabilities-data-items.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Creating a Family of Symbol Capabilities Functions","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="software-capability-address-space-restriction-processing.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="creating-family-symbol-capabilities-data-items.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-FD5C4E62-68AD-4AAB-85C8-ABABFF6083C3" name="GUID-FD5C4E62-68AD-4AAB-85C8-ABABFF6083C3"></a>
+         
+         <h2 id="OSLLG-GUID-FD5C4E62-68AD-4AAB-85C8-ABABFF6083C3" class="sect2">Creating a Family of Symbol Capabilities Functions</h2>
+         <div class="ind">
+            <div>
+               <p>Developers often desire to provide multiple instances of functions, each optimized for a particular set of capabilities, within a single object. It is desirable for the selection and use of these instances to be transparent to any consumers. A generic, front-end function can be created to provide an external interface. This generic instance, together with the optimized instances, can be combined into one object. The generic instance might use <a href="https://docs.oracle.com/cd/E88353_01/html/E37841/getisax-2.html" target="_blank">
+                     <code class="codeph">getisax</code>(2)</a> to determine the systems capabilities and then call the appropriate optimized function instance to handle a task. Although this model works, it suffers from a lack of generality, and incurs a runtime overhead.
+               </p>
+               <p>Symbol capabilities offer an alternative mechanism to construct such an object. This mechanism is simpler, more efficient, and does not require you to write additional front-end code. Multiple instances of a function can be created and associated with different capabilities. These instances, together with a default instance of the function, can be combined into a single dynamic object. The selection of the most appropriate member from this family of symbols is carried out by the runtime linker using the symbol capabilities information.</p>
+               <p>In the following example, the x86 objects <code>foobar.mmx.o</code> and <code>foobar.sse.o</code>, contain the same function <code class="codeph">foo</code>() and <code class="codeph">bar</code>(), that have been compiled to use the <code class="codeph">MMX</code> and <code class="codeph">SSE</code> instructions respectively.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">elfdump -H foobar.mmx.o</span>
+
+Capabilities Section:  .SUNW_cap
+
+ Symbol Capabilities:
+    index  tag               value
+      [1]  CA_SUNW_ID        mmx
+      [2]  CA_SUNW_HW_1      0x40  [ MMX ]
+
+  Symbols:
+     index    value      size  type bind oth ver shndx    name
+      [10]        0      0x21  FUNC LOCL  D    0 .text    foo%mmx
+      [16]     0x24      0x1e  FUNC LOCL  D    0 .text    bar%mmx
+
+$ <span class="bold">elfdump -H foobar.sse.o</span>
+
+Capabilities Section:  .SUNW_cap
+
+ Symbol Capabilities:
+    index  tag               value
+      [1]  CA_SUNW_ID        sse
+      [2]  CA_SUNW_HW_1      0x800  [ SSE ]
+
+  Capabilities symbols:
+     index    value      size  type bind oth ver shndx    name
+      [16]        0      0x2f  FUNC LOCL  D    0 .text    foo%sse
+      [18]     0x48      0x30  FUNC LOCL  D    0 .text    bar%sse</pre><p>Each of these objects contain a local symbol identifying the capabilities function <code class="codeph">foo%*</code>() and <code class="codeph">bar%*</code>(). In addition, each object also defines a global reference to the function <code class="codeph">foo</code>() and <code class="codeph">bar</code>(). Any internal references to <code class="codeph">foo</code>() or <code class="codeph">bar</code>() are relocated through these global references, as are any external references.
+               </p>
+               <p>These two objects can now be combined with a default instance of <code class="codeph">foo</code>() and <code class="codeph">bar</code>(). These default instances satisfy the global references, and provide an implementation that is compatible with any object capabilities. These default instances are said to lead each capabilities family. If no object capabilities exist, this default instance should also require no capabilities. Effectively, three instances of <code class="codeph">foo</code>() and <code class="codeph">bar</code>() exist, the global instance provides the default, and the local instances provide implementations that are used at runtime if the associated capabilities are available.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cc -o libfoobar.so.1 -G foobar.o foobar.sse.o foobar.mmx.o</span>
+$ <span class="bold">elfdump -sN.dynsym libfoobar.so.1 | egrep "foo|bar"</span>
+     [2]     0x700    0x21  FUNC LOCL  D    0 .text    foo%mmx
+     [4]     0x750    0x2f  FUNC LOCL  D    0 .text    foo%sse
+     [8]     0x784    0x1e  FUNC LOCL  D    0 .text    bar%mmx
+     [9]     0x7b0    0x30  FUNC LOCL  D    0 .text    bar%sse
+    [15]     0x7a0    0x14  FUNC GLOB  D    1 .text    foo
+    [17]     0x7c0    0x14  FUNC GLOB  D    1 .text    bar</pre><p>The capabilities information for a dynamic object displays the capabilities symbols, and reveals the capabilities families that are available.</p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">elfdump -H libfoobar.so.1</span>
+
+Capabilities Section:  .SUNW_cap
+
+ Symbol Capabilities:
+   index  tag               value
+     [1]  CA_SUNW_ID        mmx
+     [2]  CA_SUNW_HW_1      0x40  [ MMX ]
+
+  Symbols:
+   index    value     size  type bind oth ver shndx    name
+     [2]    0x700     0x21  FUNC LOCL  D    0 .text    foo%mmx
+     [8]    0x784     0x1e  FUNC LOCL  D    0 .text    bar%mmx
+
+ Symbol Capabilities:
+   index  tag               value
+     [4]  CA_SUNW_ID        sse
+     [5]  CA_SUNW_HW_1      0x800  [ SSE ]
+
+  Symbols:
+   index    value     size  type bind oth ver shndx    name
+     [4]    0x750     0x2f  FUNC LOCL  D    0 .text    foo%sse
+     [9]    0x7b0     0x30  FUNC LOCL  D    0 .text    bar%sse
+
+Capabilities Chain Section:  .SUNW_capchain
+
+ Capabilities family: foo
+  chainndx  symndx      name
+         1  [15]        foo
+         2  [2]         foo%mmx
+         3  [4]         foo%sse
+
+ Capabilities family: bar
+  chainndx  symndx      name
+         5  [17]        bar
+         6  [8]         bar%mmx
+         7  [9]         bar%sse</pre><p>At runtime, all references to <code class="codeph">foo</code>() and <code class="codeph">bar</code>() are initially bound to the global symbols. However, the runtime linker recognizes that these functions are the lead instance of a capabilities family. The runtime linker inspects each family member to determine if a better capability function is available. There is a one time cost to this operation, which occurs on the first call to the function. Subsequent calls to <code class="codeph">foo</code>() and <code class="codeph">bar</code>() are bound directly to the function instance selected by the first call. This function selection can be observed by using the runtime linkers debugging capabilities.
+               </p>
+               <p>In the following example, the underlying system does not provide <code class="codeph">MMX</code> or <code class="codeph">SSE</code> support. The lead instance of <code class="codeph">foo</code>() requires no special capabilities support, and thus satisfies any relocation reference.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">LD_DEBUG=symbols  main</span>
+....
+debug: symbol=foo;  lookup in file=./libfoo.so.1  [ ELF ]
+debug:   symbol=foo[15]:  capability family default
+debug:   symbol=foo%mmx[2]:  capability specific (CA_SUNW_HW_1):  [ 0x40  [ MMX ] ]
+debug:   symbol=foo%mmx[2]:  capability rejected
+debug:   symbol=foo%sse[4]:  capability specific (CA_SUNW_HW_1):  [ 0x800  [ SSE ] ]
+debug:   symbol=foo%sse[4]:  capability rejected
+debug:   symbol=foo[15]:  used</pre><p>In the following example, <code class="codeph">MMX</code> is available, but <code class="codeph">SSE</code> is not. The <code class="codeph">MMX</code> capable instance of <code class="codeph">foo</code>() satisfies any relocation reference.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">LD_DEBUG=symbols  main</span>
+....
+debug: symbol=foo;  lookup in file=./libfoo.so.1  [ ELF ]
+debug:   symbol=foo[15]:  capability family default
+debug:   symbol=foo%mmx[2]:  capability specific (CA_SUNW_HW_1):  [ 0x40  [ MMX ] ]
+debug:   symbol=foo%mmx[2]:  capability candidate
+debug:   symbol=foo%sse[4]:  capability specific (CA_SUNW_HW_1):  [ 0x800  [ SSE ] ]
+debug:   symbol=foo%sse[4]:  capability rejected
+debug:   symbol=foo[2]:  used</pre><p>A family of capabilities function instances must be accessed from a procedure linkage table entry. See <a href="procedure-linkage-table-processor-specific.html#GUID-1BF2785C-FDE5-4799-ACE2-D6F1B633A7BC">Procedure Linkage Table (Processor-Specific)</a>. This procedure linkage reference requires the runtime linker to resolve the function. During this process, the runtime linker can process the associated symbol capabilities information, and select the best function from the available family of function instances.
+               </p>
+               <p>When symbol capabilities are not used, there are cases where the link-editor can resolve references to code without the need of a procedure linkage table entry. For example, within an executable, a reference to a function that exists within the executable can be bound internally at link-edit time. Hidden and protected functions within shared objects can also be bound internally at link-edit time. In these cases, there is normally no need for the runtime linker to be involved in resolving a reference to these functions.</p>
+               <p>However, when symbol capabilities are used, the function must be resolved from a procedure linkage table entry. This entry is necessary in order for the runtime linker to be involved in selecting the appropriate function, while maintaining a read-only text segment. This mechanism results in an indirection through a procedure linkage table entry for all calls to a capability function. This indirection might not be necessary if symbol capabilities are not used. Therefore, there is a small trade off between the cost of calling the capability function, and any performance improvement gained from using the capability function over its default counterpart.</p>
+               <div class="infoboxnote" id="GUID-FD5C4E62-68AD-4AAB-85C8-ABABFF6083C3__GUID-6C3CE7AF-C35B-4F43-85F0-A832365D98DF">
+                  <p class="notep1">Note:</p>
+         Although a capability function must be accessed through a procedure linkage table entry, the function can still be defined as hidden or protected. The runtime linker honors these visibility states and restricts any binding to these functions. This behavior results in the same bindings as are produced when symbol capabilities are not associated with the function. A hidden function can not be bound to from an external object. A reference to a protected function from within an object will only be bound to within the same object.
+
+               </div>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

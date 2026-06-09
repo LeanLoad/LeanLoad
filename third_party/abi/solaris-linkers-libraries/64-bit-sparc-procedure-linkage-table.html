@@ -1,0 +1,396 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="64-bit SPARC: Procedure Linkage Table">
+      <meta name="DC.subject" content="procedure linkage table, SPARC, LD_BIND_NOW">
+      <meta name="keywords" content="procedure linkage table, SPARC, LD_BIND_NOW">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-5ACC5E65-04BB-4F2B-B901-B4A0E28099D8">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>64-bit SPARC: Procedure Linkage Table</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="32-bit-sparc-procedure-linkage-table.html" title="Previous" type="text/html">
+      <link rel="next" href="32-bit-x86-procedure-linkage-table.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"64-bit SPARC: Procedure Linkage Table","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="32-bit-sparc-procedure-linkage-table.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="32-bit-x86-procedure-linkage-table.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-5ACC5E65-04BB-4F2B-B901-B4A0E28099D8" name="GUID-5ACC5E65-04BB-4F2B-B901-B4A0E28099D8"></a>
+         
+         <h2 id="OSLLG-GUID-5ACC5E65-04BB-4F2B-B901-B4A0E28099D8" class="sect2">64-bit SPARC: Procedure Linkage Table</h2>
+         <div class="ind">
+            <div>
+               <p>For 64-bit SPARC dynamic objects, the procedure linkage
+        table resides in private data. The runtime linker determines the
+        absolute addresses of the destination and modifies the procedure linkage
+        table's memory image accordingly.</p>
+               <p>The first four procedure linkage table entries are reserved.
+        The original contents of these entries are unspecified, despite the
+        example that is shown in <a href="64-bit-sparc-procedure-linkage-table.html#GUID-5ACC5E65-04BB-4F2B-B901-B4A0E28099D8__CHAPTER7-TBL-55" title="Table defining an ELF 64-bit SPARC procedure linkage table example.">Table 15-15</a>. Each of the first 32,768 entries in the
+        table occupies 8 words (32 bytes), and must be aligned on a 32-byte
+        boundary. The table as a whole must be aligned on a 256-byte boundary.
+        If more than 32,768 entries are required, the remaining entries consist
+        of 6 words (24 bytes) and 1 pointer (8 bytes). The instructions are
+        collected together in blocks of 160 entries followed by 160 pointers.
+        The last group of entries and pointers can contain less than 160 items.
+        No padding is required.
+               </p>
+               <div class="infoboxnote" id="GUID-5ACC5E65-04BB-4F2B-B901-B4A0E28099D8__GUID-5818B166-97D4-44D1-9C32-A9CBEE077DD4">
+                  <p class="notep1">Note:</p>
+         The numbers 32,768 and 160 are based on the limits of branch and load
+                    displacements respectively with the second rounded down to make the divisions
+                    between code and data fall on 256-byte boundaries so as to improve cache
+                    performance.
+
+               </div>
+               <p>A relocation table is associated with the procedure linkage table. The
+<code class="codeph">DT_JMP_REL</code> entry in the <code class="codeph">_DYNAMIC</code> array
+                gives the location of the first relocation entry. The relocation table has one
+                entry, in the same sequence, for each non-reserved procedure linkage table entry.
+                The relocation type of each of these entries is <code class="codeph">R_SPARC_JMP_SLOT</code>.
+                For the first 32,767 slots, the relocation offset specifies the address of the first
+                byte of the associated procedure linkage table entry, the addend field is zero. The
+                symbol table index refers to the appropriate symbol. For slots 32,768 and beyond,
+                the relocation offset specifies the address of the first byte of the associated
+                pointer. The addend field is the unrelocated value <code class="codeph">-(.PLTN + 4)</code>.
+                The symbol table index refers to the appropriate symbol.
+               </p>
+               <p>To illustrate procedure linkage tables, <a href="64-bit-sparc-procedure-linkage-table.html#GUID-5ACC5E65-04BB-4F2B-B901-B4A0E28099D8__CHAPTER7-TBL-55" title="Table defining an ELF 64-bit SPARC procedure linkage table example.">Table 15-15</a> shows several entries. The first three
+                show initial reserved entries. The following three show examples of the initial
+                32,768 entries together with possible resolved forms that might apply if the target
+                address was +/- 2 Gbytes of the entry, within the lower 4 Gbytes of the address
+                space, or anywhere respectively. The final two show examples of later entries, which
+                consist of instruction and pointer pairs. The left column shows the instructions
+                from the object file before dynamic linking. The right column demonstrates a
+                possible instruction sequence that the runtime linker might use to fix the procedure
+                linkage table entries.
+               </p>
+               <div class="tblformal" id="GUID-5ACC5E65-04BB-4F2B-B901-B4A0E28099D8__CHAPTER7-TBL-55">
+                  <p class="titleintable">Table 15-15 64-bit SPARC: Procedure Linkage Table Example</p>
+                  <table cellpadding="4" cellspacing="0" class="Formal" title="64-bit SPARC: Procedure Linkage Table Example" summary="&#xA;            Table defining an ELF 64-bit SPARC procedure linkage table&#xA;                        example.&#xA;" frame="hsides" border="1" rules="rows">
+                     <thead>
+                        <tr align="left" valign="top">
+                           <th class="text-center" valign="bottom" width="20%" id="d114518e87">
+
+Object File
+
+</th>
+                           <th class="text-center" valign="bottom" width="20%" id="d114518e95">
+
+Memory Segment
+
+</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d114518e105" headers="d114518e87 ">
+                              <pre class="oac_no_warn" dir="ltr">.PLT0:
+    unimp
+    unimp
+    unimp
+    unimp
+    unimp
+    unimp
+    unimp
+    unimp
+.PLT1:
+    unimp
+    unimp
+    unimp
+    unimp
+    unimp
+    unimp
+    unimp
+    unimp
+.PLT2:
+    unimp</pre>
+                              </td>
+                           <td align="left" valign="top" width="20%" headers="d114518e105 d114518e95 ">
+                              <pre class="oac_no_warn" dir="ltr">.PLT0:
+    save    %sp, -176, %sp
+    sethi   %hh(runtime_linker_0), %l0
+    sethi   %lm(runtime_linker_0), %l1
+    or      %l0, %hm(runtime_linker_0), %l0
+    sllx    %l0, 32, %l0
+    or      %l0, %l1, %l0
+    jmpl    %l0+%lo(runtime_linker_0), %o1
+    mov     %g1, %o0
+.PLT1:
+    save    %sp, -176, %sp
+    sethi   %hh(runtime_linker_1), %l0
+    sethi   %lm(runtime_linker_1), %l1
+    or      %l0, %hm(runtime_linker_1), %l0
+    sllx    %l0, 32, %l0
+    or      %l0, %l1, %l0
+    jmpl    %l0+%lo(runtime_linker_0), %o1
+    mov     %g1, %o0
+.PLT2:
+    .xword  identification</pre>
+                              </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d114518e116" headers="d114518e87 ">
+                              <pre class="oac_no_warn" dir="ltr">.PLT101:
+    sethi   (.-.PLT0), %g1
+    ba,a    %xcc, .PLT1
+    nop
+    nop
+    nop;    nop
+    nop;    nop
+.PLT102:
+    sethi   (.-.PLT0), %g1
+    ba,a    %xcc, .PLT1
+    nop
+    nop
+    nop;    nop
+    nop;    nop
+.PLT103:
+    sethi   (.-.PLT0),  %g1
+    ba,a    %xcc, .PLT1
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop</pre>
+                              </td>
+                           <td align="left" valign="top" width="20%" headers="d114518e116 d114518e95 ">
+                              <pre class="oac_no_warn" dir="ltr">.PLT101:
+    nop
+    mov     %o7,  %g1
+    call    name101
+    mov     %g1, %o7
+    nop;    nop
+    nop;    nop
+.PLT102:
+    nop
+    sethi   %hi(name102), %g1
+    jmpl    %g1+%lo(name102), %g0
+    nop
+    nop;    nop
+    nop;    nop
+.PLT103:
+    nop
+    sethi   %hh(name103), %g1
+    sethi   %lm(name103), %g5
+    or      %hm(name103), %g1
+    sllx    %g1, 32, %g1
+    or      %g1, %g5, %g5
+    jmpl    %g5+%lo(name103), %g0
+    nop</pre>
+                              </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d114518e127" headers="d114518e87 ">
+                              <pre class="oac_no_warn" dir="ltr">.PLT32768:
+    mov     %o7, %g5
+    call    .+8
+    nop
+    ldx     [%o7+.PLTP32768 -
+              (.PLT32768+4)], %g1
+    jmpl    %o7+%g1, %g1
+    mov     %g5, %o7
+
+    ....
+
+.PLT32927:
+    mov     %o7, %g5
+    call    .+8
+    nop
+    ldx     [%o7+.PLTP32927 -
+              (.PLT32927+4)], %g1
+    jmpl    %o7+%g1, %g1
+    mov     %g5, %o7</pre>
+                              </td>
+                           <td align="left" valign="top" width="20%" headers="d114518e127 d114518e95 ">
+                              <pre class="oac_no_warn" dir="ltr">.PLT32768:
+    &lt;unchanged&gt;
+    &lt;unchanged&gt;
+    &lt;unchanged&gt;
+    &lt;unchanged&gt;
+
+    &lt;unchanged&gt;
+    &lt;unchanged&gt;
+
+    ....
+
+.PLT32927:
+    &lt;unchanged&gt;
+    &lt;unchanged&gt;
+    &lt;unchanged&gt;
+    &lt;unchanged&gt;
+
+    &lt;unchanged&gt;
+    &lt;unchanged&gt;</pre>
+                              </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d114518e138" headers="d114518e87 ">
+                              <pre class="oac_no_warn" dir="ltr">.PLTP32768
+    .xword  .PLT0 -
+              (.PLT32768+4)
+    ....
+
+.PLTP32927
+    .xword  .PLT0 -
+              (.PLT32927+4)</pre>
+                              </td>
+                           <td align="left" valign="top" width="20%" headers="d114518e138 d114518e95 ">
+                              <pre class="oac_no_warn" dir="ltr">.PLTP32768
+    .xword  name32768 -
+              (.PLT32768+4)
+    ....
+
+    .PLTP32927
+    .xword  name32927 -
+              (.PLT32927+4)</pre>
+                              </td>
+                        </tr>
+                     </tbody>
+                  </table>
+               </div>
+               <p>The following steps describe how the runtime linker and program jointly resolve
+                the symbolic references through the procedure linkage table. The steps that are
+                described are for explanation only. The precise execution-time behavior of the
+                runtime linker is not specified.</p>
+               <ol>
+                  <li>
+                     
+                     <p>When the memory image of the program is initially created, the runtime
+                        linker changes the initial procedure linkage table entries. These entries
+                        are modified so that control is transfer to the runtime linker's own
+                        routines. The runtime linker also stores an extended word of identification
+                        information in the third entry. When the runtime linker receives control,
+                        this word is examined to identify the caller.</p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>All other procedure linkage table entries initially transfer to the first
+                        or second entry. These entries establish a stack frame and call the runtime
+                        linker.</p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>With the identification value, the runtime linker gets its data structures
+                        for the object, including the relocation table.</p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>The runtime linker computes the index of the relocation entry for the
+                        table slot.</p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>With the index information, the runtime linker gets the symbol's real
+                        value, unwinds the stack, modifies the procedure linkage table entry, and
+                        transfers control to the desired destination.</p>
+                     
+                  </li>
+               </ol>
+               <p>The runtime linker does not have to create the instruction
+          sequences under the memory segment column. If the runtime linker does,
+          some points deserve more explanation.</p>
+               <ul style="list-style-type: disc;">
+                  <li>
+                     
+                     <p>To make the code re-entrant, the procedure linkage table's instructions
+                        are changed in a particular sequence. If the runtime linker is fixing a
+                        function's procedure linkage table entry and a signal arrives, the signal
+                        handling code must be able to call the original function with predictable
+                        and correct results.</p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>The runtime linker can change up to eight words to convert an entry. The
+                        runtime linker can update only a single word atomically with regard to
+                        instruction execution. Therefore, re-entrancy is achieved by first
+                        overwriting the <code class="codeph">nop</code> instructions with their replacement
+                        instructions, and then patching the <code class="codeph">ba,a</code>, and the
+<code class="codeph">sethi</code> if using a 64-bit store. If a re-entrant
+                        function call occurs just prior to the last patch, the runtime linker gains
+                        control a second time. Although both invocations of the runtime linker
+                        modify the same procedure linkage table entry, their changes do not
+                        interfere with each other.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>If the initial <code class="codeph">sethi</code> instruction is changed, the
+                        instruction can only be replaced by a <code class="codeph">nop</code>.
+                     </p>
+                     
+                  </li>
+               </ul>
+               <p>Changing the pointer as done for the second form of entry is done using a single
+                atomic 64-bit store.</p>
+               <div class="infoboxnote" id="GUID-5ACC5E65-04BB-4F2B-B901-B4A0E28099D8__GUID-BCBFCBEC-D8A5-4571-B4DB-DD9DC03D285C">
+                  <p class="notep1">Note:</p>
+         The different instruction sequences that are shown for
+<code class="codeph">.PLT101</code>, <code class="codeph">.PLT102</code>, and
+<code class="codeph">.PLT103</code> demonstrate how the update can be optimized for
+                    the associated destination.
+
+               </div>
+               <p>The <code class="codeph">LD_BIND_NOW</code> environment variable changes dynamic
+                linking behavior. If its value is non-null, the runtime linker processes
+<code class="codeph">R_SPARC_JMP_SLOT</code> relocation entries before transferring
+                control to the program.
+               </p>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

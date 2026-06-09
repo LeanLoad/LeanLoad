@@ -1,0 +1,164 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Generating an Executable Output File">
+      <meta name="DC.subject" content="generating an executable, error messages, undefined symbols, -z&nbsp;nodefs, implicit definition, undefined symbols from an implicit reference, explicit definition">
+      <meta name="keywords" content="generating an executable, error messages, undefined symbols, -z&nbsp;nodefs, implicit definition, undefined symbols from an implicit reference, explicit definition">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-3D378972-1796-48E9-9756-0E7B51218927">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Generating an Executable Output File</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="undefined-symbols.html" title="Previous" type="text/html">
+      <link rel="next" href="generating-shared-object-output-file.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Generating an Executable Output File","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="undefined-symbols.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="generating-shared-object-output-file.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-3D378972-1796-48E9-9756-0E7B51218927" name="GUID-3D378972-1796-48E9-9756-0E7B51218927"></a>
+         
+         <h2 id="OSLLG-GUID-3D378972-1796-48E9-9756-0E7B51218927" class="sect2">Generating an Executable Output File</h2>
+         <div class="ind">
+            <div>
+               <p>When generating an executable output file, the
+                                        link-editor's default behavior is to terminate with an
+                                        appropriate error message should any symbols remain
+                                        undefined. A symbol remains undefined when a symbol
+                                        reference in a relocatable object is never matched to a
+                                        symbol definition.</p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cat main.c</span>
+extern int foo();
+
+int main()
+{
+        return (foo());
+}
+$ <span class="bold">cc -o prog main.c</span>
+Undefined           first referenced
+ symbol                 in file
+foo                     main.o
+ld: fatal: symbol referencing errors</pre><p>Similarly, if a shared object is used to create
+                                        an executable and leaves an unresolved symbol
+                                        definition, an undefined symbol error results.</p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cat foo.c</span>
+extern int bar;
+int foo()
+{
+        return (bar);
+}
+$ <span class="bold">cc -o libfoo.so -G -K pic foo.c</span>
+$ <span class="bold">cc -o prog main.c -L. -lfoo</span>
+Undefined           first referenced
+ symbol                 in file
+bar                     ./libfoo.so
+ld: fatal: symbol referencing errors</pre><p>To allow undefined symbols, as in the previous
+                                        example, use the link-editor's
+<code class="codeph">-z&nbsp;nodefs</code> option to suppress
+                                        the default error condition.
+               </p>
+               <div class="infoboxnote" id="GUID-3D378972-1796-48E9-9756-0E7B51218927__GUID-D8BBA8BF-F3D9-4CFB-984A-71E65293C32C">
+                  <p class="notep1">Note:</p>
+         Take care when using the
+<code class="codeph">-z&nbsp;nodefs</code> option. If an
+                                                unavailable symbol reference is required during the
+                                                execution of a process, a fatal runtime relocation
+                                                error occurs. This error might be detected during
+                                                the initial execution and testing of an application.
+                                                However, more complex execution paths can result in
+                                                this error condition taking much longer to detect,
+                                                which can be time consuming and costly.
+
+               </div>
+               <p>Symbols can also remain undefined when a symbol
+                                        reference in a relocatable object is bound to a symbol
+                                        definition in an implicitly defined shared object. For
+                                        example, continuing with the files
+<code>main.c</code> and
+<code>foo.c</code> used in the previous
+                                        example.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cat bar.c</span>
+int bar = 1;
+$ <span class="bold">cc -o libbar.so -R. -G -K pic bar.c -L. -lfoo</span>
+$ <span class="bold">ldd libbar.so</span>
+        libfoo.so =&gt;     ./libfoo.so
+$ <span class="bold">cc -o prog main.c -L. -lbar</span>
+Undefined           first referenced
+ symbol                 in file
+foo                     main.o  (symbol belongs to implicit \
+                        dependency ./libfoo.so)
+ld: fatal: symbol referencing errors</pre><p>
+                  <code>prog</code> is built with an
+<span class="italic">explicit</span> reference to
+<code>libbar.so</code>.
+<code>libbar.so</code> has a dependency on
+<code>libfoo.so</code>. Therefore, an
+                                        implicit reference to <code>libfoo.so</code> from
+<code>prog</code> is established.
+               </p>
+               <p>Because <code>main.c</code> made a specific reference
+                                        to the interface provided by <code>libfoo.so</code>,
+<code>prog</code> really has a dependency on
+<code>libfoo.so</code>. However, only
+                                        explicit shared object dependencies are recorded in the
+                                        output file being generated. Thus, <code>prog</code>
+                                        fails to run if a new version of
+<code>libbar.so</code> is developed that no
+                                        longer has a dependency on
+<code>libfoo.so</code>.
+               </p>
+               <p>For this reason, bindings of this type are deemed fatal. The
+                                        implicit reference must be made explicit by referencing the
+                                        library directly during the link-edit of
+<code>prog</code>. The required reference is
+                                        hinted at in the fatal error message that is shown in the
+                                        preceding example.
+               </p>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

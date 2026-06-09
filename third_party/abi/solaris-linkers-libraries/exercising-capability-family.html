@@ -1,0 +1,160 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Exercising a Capability Family">
+      <meta name="DC.subject" content="capabilities, exercising capabilities">
+      <meta name="keywords" content="capabilities, exercising capabilities">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-35B74536-A9F8-416F-8D75-3DD8AB1C60A2">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Exercising a Capability Family</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="archive-considerations.html" title="Previous" type="text/html">
+      <link rel="next" href="development-evolution-capabilities.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Exercising a Capability Family","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="archive-considerations.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="development-evolution-capabilities.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-35B74536-A9F8-416F-8D75-3DD8AB1C60A2" name="GUID-35B74536-A9F8-416F-8D75-3DD8AB1C60A2"></a>
+         
+         <h2 id="OSLLG-GUID-35B74536-A9F8-416F-8D75-3DD8AB1C60A2" class="sect2">Exercising a Capability Family</h2>
+         <div class="ind">
+            <div>
+               <p>Objects are normally designed and built so that they can execute on all systems of a given architecture. However, individual systems, with special capabilities, are often targeted for optimization. Optimized code can be identified with the capabilities that the code requires to execute, using the mechanisms described in the previous sections.</p>
+               <p>To exercise and test optimized instances it is necessary to use a system that provides the required capabilities. For each system, the runtime linker determines the capabilities that are available, and then chooses the most capable instances. To aid testing and experimentation, the runtime linker can be told to use an alternative set of capabilities than those provided by the system. In addition, you can specify that only specific files should be validated against these alternative capabilities.</p>
+               <p>An alternative set of capabilities is derived from the system capabilities, and can be re-initialized or have capabilities added or removed.</p>
+               <p>A family of environment variables is available to create and target the use of an alternative set of capabilities.</p>
+               <dl>
+                  <dt class="dlterm"><a name="GUID-35B74536-A9F8-416F-8D75-3DD8AB1C60A2__GUID-45810927-D13E-4DFD-9436-87784F3E4BF3">
+                        <!-- --></a>
+                     <code class="codeph">LD_PLATCAP={<span class="variable" translate="no">name</span>}</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Identifies an alternative platform name.</p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-35B74536-A9F8-416F-8D75-3DD8AB1C60A2__GUID-68BDB422-52F8-4DBD-BE80-383880514B5B">
+                        <!-- --></a>
+                     <code class="codeph">LD_MACHCAP={<span class="variable" translate="no">name</span>}</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Identifies an alternative machine hardware name.</p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-35B74536-A9F8-416F-8D75-3DD8AB1C60A2__GUID-A6A99940-F7C3-4B6F-98FA-E6FEF0B06C9B">
+                        <!-- --></a>
+                     <code class="codeph">LD_HWCAP=[+-]{<span class="variable" translate="no">token</span> | [<span class="variable" translate="no">index</span>]<span class="variable" translate="no">number</span>},....</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Identifies an alternative hardware capabilities value.</p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-35B74536-A9F8-416F-8D75-3DD8AB1C60A2__GUID-3C1DECBF-444E-4E90-A23B-2D26367F469F">
+                        <!-- --></a>
+                     <code class="codeph">LD_SFCAP=[+-]{<span class="variable" translate="no">token</span> | [<span class="variable" translate="no">index</span>]<span class="variable" translate="no">number</span>},....</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Identifies an alternative software capabilities value.</p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-35B74536-A9F8-416F-8D75-3DD8AB1C60A2__GUID-CCE6CC95-E4C7-42F2-AAA7-1C54FCF2C4D4">
+                        <!-- --></a>
+                     <code class="codeph">LD_CAP_FILES=<span class="variable" translate="no">file</span>,....</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Identifies the files that should be validated against the alternative capabilities.</p>
+                     
+                  </dd>
+               </dl>
+               <p>The capabilities environment variables <code class="codeph">LD_PLATCAP</code> and <code class="codeph">LD_MACHCAP</code> accept a string that defines the platform name and machine hardware names respectively. See <a href="identifying-platform-machine-capability.html#GUID-1534CAA5-0F98-4D20-9096-DE251F0FEE7A">Identifying a Platform and Machine Capability</a>.
+               </p>
+               <p>The capabilities environment variables <code class="codeph">LD_HWCAP</code> and <code class="codeph">LD_SFCAP</code> accept a comma separated list of <span class="italic">tokens</span> as a symbolic representation of capabilities. See <a href="identifying-hardware-capabilities.html#GUID-5F7C9B2B-3160-4F2D-BB48-B064C11D8316">Identifying Hardware Capabilities</a>, and <a href="identifying-software-capabilities.html#GUID-8281B7A6-7595-403E-8BC6-986FE61D0103">Identifying Software Capabilities</a>. A token can also be a numeric value. To provide for setting numeric values for different masks, such as <code class="codeph">CA_SUNW_HW_1</code> and <code class="codeph">CA_SUNW_HW_2</code>, the number can be prefixed with a bracketed index. For example, <code class="codeph">LD_HWCAP=[2]0x80</code> sets <code class="codeph">CA_SUNW_HW_2</code> to the value <span>0x80</span>. If no index is specified, 1 is assumed. Invalid indexes are ignored.
+               </p>
+               <p>A "<code class="codeph">+</code>" prefix results in the capabilities that follow being added to the alternative capabilities. A "<code class="codeph">-</code>" prefix results in the capabilities that follow being removed from the alternative capabilities. The lack of "<code class="codeph">+-</code>" result in the capabilities that follow replacing the alternative capabilities.
+               </p>
+               <p>The removal of a capability results in a more restricted capabilities environment being emulated. Normally, when a family of capabilities instances is available, a generic, non-capabilities specific instance is also provided. A more restricted capabilities environment can therefore be used to force the use of less capable, or generic code instances.</p>
+               <p>The addition of a capability results in a more enhanced capabilities environment being emulated. This environment should be created with caution, but can be used to exercise the framework of a capabilities family. For example, a family of functions can be created that define their expected capabilities using <code>mapfiles</code>. These functions can use <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/printf-3c.html" target="_blank">
+                     <code class="codeph">printf</code>(3C)</a> to confirm their execution. The creation of the associated objects can then be validated and exercised with various capability combinations. This prototyping of a capabilities family can prove useful before the real capabilities requirements of the functions are coded. However, if the code within a family instance requires a specific capability to execute correctly, and this capability is not provided by the system, but is set as an alternative capability, the code instance will fail to execute correctly.
+               </p>
+               <p>Establishing a set of alternative capabilities without also using <code class="codeph">LD_CAP_FILES</code> results in all of the capabilities specific objects of a process being validated against the alternative capabilities. This approach should also be exercised with caution, as many system objects require system capabilities to execute correctly. Any alteration of capabilities can cause system objects to fail to execute correctly.
+               </p>
+               <p>A best environment for capabilities experimentation is to use a system that provides all the capabilities your objects are targeted to use. <code class="codeph">LD_CAP_FILES</code> should also be used to isolate the objects you wish to experiment with. Capabilities can then be disabled, using the "<code class="codeph">-</code>" syntax, so that the various instances of your capabilities family can be exercised. Each instance is fully supported by the true capabilities of the system.
+               </p>
+               <p>For example, suppose you have two x86 capabilities objects, <code>libfoo.so</code> and <code>libbar.so</code>. These objects contain capability functions that use <code class="codeph">SSE2</code> instructions, functions that use <code class="codeph">MMX</code> instructions, and generic functions that require no capabilities. The underlying system provides both <code class="codeph">SSE2</code> and <code class="codeph">MMX</code>. By default, the <code class="codeph">SSE2</code> functions are used.
+               </p>
+               <p>
+                  <code>libfoo.so</code> and <code>libbar.so</code> can be restricted to use the functions that use <code class="codeph">MMX</code> instructions by removing the <code class="codeph">SSE2</code> capability by using a <code class="codeph">LD_HWCAP</code> definition. The most flexible means of defining <code class="codeph">LD_CAP_FILES</code> is to use the base name of the required files.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">LD_HWCAP=-sse2 LD_CAP_FILES=libfoo.so,libbar.so  ./main</span></pre><p>
+                  <code>libfoo.so</code> and <code>libbar.so</code> can be further restricted to use only generic functions by removing the <code class="codeph">SSE2</code> and <code class="codeph">MMX</code> capabilities.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">LD_HWCAP=-sse2,mmx LD_CAP_FILES=libfoo.so,libbar.so  ./main</span></pre><div class="infoboxnote" id="GUID-35B74536-A9F8-416F-8D75-3DD8AB1C60A2__GUID-0C8F067D-8B47-4EA0-9321-E24616A65C7F">
+                  <p class="notep1">Note:</p>
+         The capabilities available for an application, and any alternative capabilities that have been set, can be observed using the runtime linkers diagnostics.
+<pre class="oac_no_warn" dir="ltr">$ <span class="bold">LD_DEBUG=basic LD_HWCAP=-sse2,mmx,cx8  ./main</span>
+....
+02328: hardware capabilities (CA_SUNW_HW_1) - 0x5c6f  \
+    [ SSE3 SSE2 SSE FXSR MMX CMOV SEP CX8 TSC FPU ]
+02328: alternative hardware capabilities (CA_SUNW_HW_1) - 0x4c2b  \
+    [ SSE3 SSE FXSR CMOV SEP TSC FPU ]
+....</pre>
+                  </div>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

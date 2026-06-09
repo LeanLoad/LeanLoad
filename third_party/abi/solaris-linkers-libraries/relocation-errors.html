@@ -1,0 +1,133 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Relocation Errors">
+      <meta name="DC.subject" content="error messages, relocation errors, -z&nbsp;nodefs, ldd, -d, -r">
+      <meta name="keywords" content="error messages, relocation errors, -z&nbsp;nodefs, ldd, -d, -r">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-7A73FEA5-D9DA-4AD0-A9A5-9F0D43A21085">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Relocation Errors</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="when-relocations-are-performed1.html" title="Previous" type="text/html">
+      <link rel="next" href="preloading-additional-objects.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Relocation Errors","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="when-relocations-are-performed1.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="preloading-additional-objects.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-7A73FEA5-D9DA-4AD0-A9A5-9F0D43A21085" name="GUID-7A73FEA5-D9DA-4AD0-A9A5-9F0D43A21085"></a>
+         
+         <h2 id="OSLLG-GUID-7A73FEA5-D9DA-4AD0-A9A5-9F0D43A21085" class="sect2">Relocation Errors</h2>
+         <div class="ind">
+            <div>
+               <p>The most common relocation error occurs when a symbol
+                                cannot be found. This condition results in an appropriate runtime
+                                linker error message together with the termination of the
+                                application. In the following example, the symbol
+<code class="codeph">bar</code>, which is referenced in the file
+<code>libfoo.so.1</code>, cannot be located.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">ldd prog</span>
+        libfoo.so.1 =&gt;   ./libfoo.so.1
+        libc.so.1 =&gt;     /lib/libc.so.1
+        libbar.so.1 =&gt;   ./libbar.so.1
+        libm.so.2 =&gt;     /lib/libm.so.2
+$ <span class="bold">prog</span>
+ld.so.1: prog: fatal: relocation error: file ./libfoo.so.1: \
+    symbol bar: referenced symbol not found</pre><p>During the link-edit of an executable, any
+                                potential relocation errors of this sort are flagged as fatal
+                                undefined symbols. See <a href="generating-executable-output-file.html#GUID-3D378972-1796-48E9-9756-0E7B51218927">Generating an Executable Output File</a> for examples. However, a
+                                runtime relocation error can occur if a dependency located at
+                                runtime is incompatible with the original dependency referenced as
+                                part of the link-edit. In the previous example,
+<code>prog</code> was built against a version of the
+                                shared object <code>libbar.so.1</code> that contained a
+                                symbol definition for <code class="codeph">bar</code>.
+               </p>
+               <p>The use of the <code class="codeph">-z&nbsp;nodefs</code> option during a
+                                link-edit suppresses the validation of an objects runtime relocation
+                                requirements. This suppression can also lead to runtime relocation
+                                errors.
+               </p>
+               <p>If a relocation error occurs because a symbol used as an immediate
+                                reference cannot be found, the error condition occurs immediately
+                                during process initialization. With the default mode of lazy
+                                binding, if a symbol used as a lazy reference cannot be found, the
+                                error condition occurs after the application has gained control.
+                                This latter case can take minutes or months, or might never occur,
+                                depending on the execution paths exercised throughout the
+                                code.</p>
+               <p>To guard against errors of this kind, the relocation requirements of
+                                any dynamic object can be validated using
+				<a href="https://docs.oracle.com/cd/E88353_01/html/E37839/ldd-1.html" target="_blank">
+                     <code class="codeph">ldd</code>(1)</a>.
+               </p>
+               <p>When the <code class="codeph">-d</code> option is specified with
+<a href="https://docs.oracle.com/cd/E88353_01/html/E37839/ldd-1.html" target="_blank">
+                     <code class="codeph">ldd</code>(1)</a>, every dependency is printed and all
+                                immediate reference relocations are processed. If a reference cannot
+                                be resolved, a diagnostic message is produced. From the previous
+                                example, the <code class="codeph">-d</code> option would result in the following
+                                error diagnostic.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">ldd -d prog</span>
+        libfoo.so.1 =&gt;   ./libfoo.so.1
+        libc.so.1 =&gt;     /lib/libc.so.1
+        libbar.so.1 =&gt;   ./libbar.so.1
+        libm.so.2 =&gt;     /lib/libm.so.2
+        symbol not found: bar           (./libfoo.so.1)</pre><p>When the <code class="codeph">-r</code> option is specified with
+<a href="https://docs.oracle.com/cd/E88353_01/html/E37839/ldd-1.html" target="_blank">
+                     <code class="codeph">ldd</code>(1)</a>, all immediate reference
+<span class="italic">and</span> lazy reference relocations are
+                                processed. If either type of relocation cannot be resolved, a
+                                diagnostic message is produced.
+               </p>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

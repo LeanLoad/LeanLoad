@@ -1,0 +1,187 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Compressed Debug Sections">
+      <meta name="DC.subject" content="compression, link-editor options, -z&nbsp;compress-sections, SHF_COMPRESSED, .debug, .zdebug, SHT_SUNW_ANNOTATE">
+      <meta name="keywords" content="compression, link-editor options, -z&nbsp;compress-sections, SHF_COMPRESSED, .debug, .zdebug, SHT_SUNW_ANNOTATE">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-60D476AD-E06E-437C-95D9-3250CCA7D3D8">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Compressed Debug Sections</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="debugger-access-use-ancillary-objects.html" title="Previous" type="text/html">
+      <link rel="next" href="compression-costs-benefits.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Compressed Debug Sections","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="debugger-access-use-ancillary-objects.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="compression-costs-benefits.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-60D476AD-E06E-437C-95D9-3250CCA7D3D8" name="GUID-60D476AD-E06E-437C-95D9-3250CCA7D3D8"></a>
+         
+         <h2 id="OSLLG-GUID-60D476AD-E06E-437C-95D9-3250CCA7D3D8" class="sect2">Compressed Debug Sections</h2>
+         <div class="ind">
+            <div>
+               <p>As discussed in <a href="ancillary-objects.html#GUID-4D707896-09E2-45BD-9745-E07878460248">Ancillary Objects</a>, objects contain both <span class="italic">allocable</span> and <span class="italic">non-allocable</span> sections. Allocable sections are the sections that contain executable code and the data needed by that code at runtime. Non-allocable sections contain supplemental information that is not required to execute an object at runtime. These sections support the operation of debuggers and other observability tools, and are informally referred to as <span class="italic">debug</span> sections.
+               </p>
+               <p>Depending on the level of debug information requested, debug sections can become very large relative to the code they describe. Ancillary objects, which write these sections to a separate file, offer one mechanism for dealing with these large sections. Section compression offers a second, complimentary, option for reducing section sizes.</p>
+               <p>The link-editor recognizes compressed sections within input objects, and automatically decompresses these sections. This operation is transparent to the user of the link-editor, and requires no special action.</p>
+               <p>By default, the link-editor does not compress sections in output objects. Use the <code class="codeph">-z&nbsp;compress-sections</code> option to enable the compression of  non-allocable sections in the output file.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cc ... -z compress-sections[=cmp-type[,cmp-opt...]] ...</span></pre><p>The following values for <span class="variable" translate="no">cmp-type</span> are recognized.
+               </p>
+               <dl>
+                  <dt class="dlterm"><a name="GUID-60D476AD-E06E-437C-95D9-3250CCA7D3D8__GUID-1D22F64A-E8D7-4D1D-B321-C1E8506D4EDD">
+                        <!-- --></a> <code class="codeph">none</code> 
+                  </dt>
+                  <dd>
+                     <p>No compression is done. This option is equivalent to not specifying the <code class="codeph">-z&nbsp;compress-sections</code> option.
+                     </p>
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-60D476AD-E06E-437C-95D9-3250CCA7D3D8__GUID-029BDEA2-AC27-477B-8024-23F0BC68245E">
+                        <!-- --></a> <code class="codeph">zlib</code> 
+                  </dt>
+                  <dd>
+                     <p>Compress candidate sections using <span>ZLIB</span> compression.  Documentation for ZLIB is found at <a href="https://zlib.net/" target="_blank">https://zlib.net/</a></p>
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-60D476AD-E06E-437C-95D9-3250CCA7D3D8__GUID-029BDEA2-AC27-477B-8024-23F0BC68255E">
+                        <!-- --></a> <code class="codeph">zstd</code> 
+                  </dt>
+                  <dd>
+                     <p>Compress candidate sections using <span>ZStandard</span> compression. Documentation for ZSTD is found at <a href="https://facebook.github.io/zstd/zstd_manual.html" target="_blank">https://facebook.github.io/zstd/zstd_manual.html</a> 
+                     </p>
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-60D476AD-E06E-437C-95D9-3250CCA7D3D8__GUID-726E310D-D025-4342-92D0-E5F1D5A41E54">
+                        <!-- --></a> <code class="codeph">zlib-gnu</code> 
+                  </dt>
+                  <dd>
+                     <p>Compress sections with <span>ZLIB</span> compression, using the older deprecated <span>GNU</span> style. Candidate sections must have a name that begins with <code>.debug</code>. Each resulting output section is renamed to start with <span>.zdebug</span> to identify the use of compression.
+                     </p>
+                  </dd>
+               </dl>
+               <p>The following <span class="variable" translate="no">cmp-opt</span> option can be specified.
+               </p>
+               <dl>
+                  <dt class="dlterm"><a name="GUID-60D476AD-E06E-437C-95D9-3250CCA7D3D8__GUID-519D99F8-8D40-434F-AE80-7CC8855F5DD9">
+                        <!-- --></a> <code class="codeph">force</code> 
+                  </dt>
+                  <dd>
+                     <p>By default, the link-editor will only compress sections if  their resulting size is equal to or smaller than the original data. Specify force to force compression even when the resulting size is larger than the original.</p>
+                  </dd>
+               </dl>
+               <p>If <span class="variable" translate="no">cmp-type</span> is omitted, the <code class="codeph">zlib</code> style is used.
+               </p>
+               <p>To be a candidate for compression, a section must be non-allocable. The link-editor <code class="codeph">-z compress-class</code> option can be used to choose from a wide variety of section classes to compress. If <code class="codeph">-z compress-sections</code> is specified without also using <code class="codeph">-z compress-class</code>, then annotate and debug sections are compressed by default. See <code class="codeph">ld(1)</code> for a full description of <code class="codeph">-z compress-class</code> and the section classes supported.
+               </p>
+               <p>The <code class="codeph">zlib</code> and <code class="codeph">zstd </code>compression types are implemented using standard <code class="codeph">ELF</code> compression features, and can be applied to a wide variety of sections. The resulting sections will have the <code class="codeph">SHF_COMPRESSED</code> section flag set to identify the use of compression. The <code class="codeph">zlib-gnu</code> style predates the introduction of standard compression to <code class="codeph">ELF</code>, and is more limited. Unless there is a specific requirement to use the <code class="codeph">zlib-gnu</code> style, the more general default <code class="codeph">zlib</code> or <code class="codeph">zstd</code> styles are recommended.
+               </p>
+               <p>The <code class="codeph">zlib-gnu</code> compression type is limited to sections with a name that starts with <code>.debug</code>. When <code class="codeph">zlib-gnu</code> is used, sections that would otherwise be candidates for compression are not compressed. The underlying <span>ZLIB</span> compression is identical for the <code class="codeph">zlib</code> and <code class="codeph">zlib-gnu</code> styles, and both formats deliver the same amount of compression for a given input section. The two styles differ in the selection of candidate sections, the format of the compression header, and in how compressed sections are identified. See <a href="section-compression.html#GUID-F853268E-4DA8-4AF4-8338-01FEF0FB6068">Section Compression</a>.
+               </p>
+               <p>The following program demonstrates the use of compressed debug sections. For the purpose of comparison, the program is built twice, once without compression, and once with compression.</p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cat hello.c</span>
+#include    &lt;stdio.h&gt;
+
+int
+main(int argc, char **argv) 
+{ 
+        (void) printf("hello, world\n");
+        return (0);
+}
+% <span class="bold">cc -g hello.c -o a.out.uncompressed</span>
+% <span class="bold">cc -g hello.c -o a.out.compressed -z compress-sections</span></pre><p>The section headers of the uncompressed, and compressed debug can now be compared.</p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">elfdump -c a.out.uncompressed</span>
+....
+Section Header[24]:  sh_name: .debug_info
+    sh_addr:      0               sh_flags:   0
+    sh_size:      0x17b           sh_type:    [ SHT_PROGBITS ]
+    ....
+
+Section Header[25]:  sh_name: .debug_line
+    sh_addr:      0               sh_flags:   0
+    sh_size:      0x4f            sh_type:    [ SHT_PROGBITS ]
+    ....
+
+Section Header[26]:  sh_name: .debug_abbrev
+    sh_addr:      0               sh_flags:   0
+    sh_size:      0x7c            sh_type:    [ SHT_PROGBITS ]
+    ....
+
+Section Header[27]:  sh_name: .debug_pubnames
+    sh_addr:      0               sh_flags:   0
+    sh_size:      0x1b            sh_type:    [ SHT_PROGBITS ]
+    ....
+
+$ <span class="bold">elfdump -c a.out.compressed</span>
+....
+Section Header[24]:  sh_name: .debug_info
+    sh_addr:      0               sh_flags:   [ SHF_COMPRESSED ]
+    sh_size:      0x14f           sh_type:    [ SHT_PROGBITS ]
+    ....
+    ch_size:      0x196           ch_type:    [ ELFCOMPRESS_ZLIB ]
+    ch_addralign: 0x1       
+
+Section Header[25]:  sh_name: .debug_line
+    sh_addr:      0               sh_flags:   0
+    sh_size:      0x4f            sh_type:    [ SHT_PROGBITS ]
+    ....
+
+Section Header[26]:  sh_name: .debug_abbrev
+    sh_addr:      0               sh_flags:   [ SHF_COMPRESSED ]
+    sh_size:      0x79            sh_type:    [ SHT_PROGBITS ]
+    ....
+    ch_size:      0x7c            ch_type:    [ ELFCOMPRESS_ZLIB ]
+    ch_addralign: 0x1       
+
+Section Header[27]:  sh_name: .debug_pubnames
+    sh_addr:      0               sh_flags:   0
+    sh_size:      0x1b            sh_type:    [ SHT_PROGBITS ]
+    ....</pre><p>Each compressed section, <code class="codeph">.debug_info</code>, and <code class="codeph">.debug_abbrev</code>, is identified with a <code class="codeph">SHF_COMPRESSED</code> section flag. In addition, the section header information is accompanied with compression header structure information. The <code class="codeph">ch_size</code> and <code class="codeph">ch_addralign</code> fields provide size and alignment requirements for the uncompressed data. See <a href="section-compression.html#GUID-F853268E-4DA8-4AF4-8338-01FEF0FB6068">Section Compression</a>.
+               </p>
+               <p>The <code class="codeph">.debug_line</code> and <code class="codeph">.debug_pubnames</code> sections would be larger compressed than in their original uncompressed form, and have therefore been left uncompressed.
+               </p>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Filtering Combinations">
+      <meta name="DC.subject" content=", mapfiles, FILTER, AUXILIARY">
+      <meta name="keywords" content=", mapfiles, FILTER, AUXILIARY">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-C50871B1-6116-44E2-AD44-619DB9769D62">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Filtering Combinations</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="generating-auxiliary-filters.html" title="Previous" type="text/html">
+      <link rel="next" href="filtee-processing.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Filtering Combinations","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="generating-auxiliary-filters.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="filtee-processing.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-C50871B1-6116-44E2-AD44-619DB9769D62" name="GUID-C50871B1-6116-44E2-AD44-619DB9769D62"></a>
+         
+         <h2 id="OSLLG-GUID-C50871B1-6116-44E2-AD44-619DB9769D62" class="sect2">Filtering Combinations</h2>
+         <div class="ind">
+            <div>
+               <p>Individual interfaces that define standard filters,
+                                together with individual interfaces that define auxiliary filters,
+                                can be defined within the same shared object. This combination of
+                                filter definitions is achieved by using the
+<code>mapfile</code> keywords
+<code class="codeph">FILTER</code> and <code class="codeph">AUXILIARY</code>
+                                to assign the required <span>filtees</span>.
+               </p>
+               <p>A shared object that defines all of its interfaces to be filters by
+                                using the <code class="codeph">-F</code>, or <code class="codeph">-f</code> option, or the
+<code>mapfile</code>
+                  <code class="codeph">FILTER</code> directive, is either a standard weak, or
+                                auxiliary filter.
+               </p>
+               <p>A shared object can define individual interfaces to act as filters,
+                                together with defining all the interfaces of the object to act as a
+                                filters. In this case, the individual filtering defined for an
+                                interface is processed first. When a <span>filtee</span> for an
+                                individual interface filter can not be established, the
+<span>filtee</span> defined for all he interfaces of the
+                                filter provides a fallback if appropriate.
+               </p>
+               <p>For example, consider the filter <code>filter.so.1</code>.
+                                This filter defines that all interfaces act as auxiliary filters
+                                against the <span>filtee</span>
+                  <code>filtee.so.1</code> using the link-editor's
+<code class="codeph">-f</code> option. <code>filter.so.1</code>
+                                also defines the individual interface <code class="codeph">foo</code> to be a
+                                standard filter against the <span>filtee</span>
+                  <code>foo.so.1</code> using the <code>mapfile</code>
+                  <code class="codeph">FILTER</code> symbol attribute.
+<code>filter.so.1</code> also defines the individual
+                                interface <code class="codeph">bar</code> to be an auxiliary filter against
+                                the <span>filtee</span>
+                  <code>bar.so.1</code> using the <code>mapfile</code>
+                  <code class="codeph">AUXILIARY</code> symbol attribute.
+               </p>
+               <p>An external reference to <code class="codeph">foo</code> results in processing
+                                the <span>filtee</span>
+                  <code>foo.so.1</code>. If <code class="codeph">foo</code> can not be
+                                found from <code>foo.so.1</code>, then no further processing
+                                of the filter is carried out. In this case, no fallback processing
+                                is performed because <code class="codeph">foo</code> is defined to be a
+                                standard filter.
+               </p>
+               <p>An external reference to <code class="codeph">bar</code> results in processing
+                                the <span>filtee</span>
+                  <code>bar.so.1</code>. If <code class="codeph">bar</code> can not be
+                                found from <code>bar.so.1</code>, then processing falls back
+                                to the <span>filtee</span>
+                  <code>filtee.so.1</code>. In this case, fallback processing
+                                is performed because <code class="codeph">bar</code> is defined to be an
+                                auxiliary filter. If <code class="codeph">bar</code> can not be found from
+<code>filtee.so.1</code>, then the definition of
+<code class="codeph">bar</code> within the filter
+<code>filter.so.1</code> is finally used to resolve
+                                the external reference.
+               </p>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

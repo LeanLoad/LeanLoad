@@ -1,0 +1,141 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Runtime Security">
+      <meta name="DC.subject" content="security, runtime security, /lib/secure, /usr/lib/secure, /lib/secure/64, /usr/lib/secure/64, crle, -s, LD_LIBRARY_PATH, LD_CONFIG, LD_SIGNAL, LD_PRELOAD, LD_AUDIT">
+      <meta name="keywords" content="security, runtime security, /lib/secure, /usr/lib/secure, /lib/secure/64, /usr/lib/secure/64, crle, -s, LD_LIBRARY_PATH, LD_CONFIG, LD_SIGNAL, LD_PRELOAD, LD_AUDIT">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-4B55A060-F94A-4A79-B70C-CE070C36BFC1">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Runtime Security</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="initialization-termination-order.html" title="Previous" type="text/html">
+      <link rel="next" href="runtime-linking-programming-interface.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Runtime Security","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="initialization-termination-order.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="runtime-linking-programming-interface.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-4B55A060-F94A-4A79-B70C-CE070C36BFC1" name="GUID-4B55A060-F94A-4A79-B70C-CE070C36BFC1"></a>
+         
+         <h2 id="OSLLG-GUID-4B55A060-F94A-4A79-B70C-CE070C36BFC1" class="sect2">Runtime Security</h2>
+         <div class="ind">
+            <div>
+               <p>Secure processes have some restrictions applied to the
+                        evaluation of their dependencies and <span>runpaths</span> to prevent
+                        malicious dependency substitution or symbol interposition.
+               </p>
+               <p>The runtime linker categorizes a process as secure if the <a href="https://docs.oracle.com/cd/E88353_01/html/E37841/issetugid-2.html" target="_blank">
+                     <code class="codeph">issetugid</code>(2)</a> system call returns true for the process.
+               </p>
+               <p>For 32-bit objects, the default trusted directories that
+                        are known to the runtime linker are <code>/lib/secure</code> and
+<code>/usr/lib/secure</code>. For 64-bit objects, the
+                        default trusted directories that are known to the runtime linker are
+<code>/lib/secure/64</code> and
+<code>/usr/lib/secure/64</code>. The utility <a href="https://docs.oracle.com/cd/E88353_01/html/E37839/crle-1.html" target="_blank">
+                     <code class="codeph">crle</code>(1)</a> can be used to specify additional trusted
+                        directories that are applicable for secure applications. Administrators who
+                        use this technique should ensure that the target directories are suitably
+                        protected from malicious intrusion.
+               </p>
+               <p>If an <code class="codeph">LD_LIBRARY_PATH</code> family environment variable
+                        is in effect for a secure process, only the trusted directories specified by
+                        this variable are used to augment the runtime linker search rules. See
+<a href="directories-searched-runtime-linker.html#GUID-25D25D01-5737-4F77-99FC-72B19FAD6AB6">Directories Searched by the Runtime Linker</a>.
+               </p>
+               <p>In a secure process, any <span>runpath</span> specifications
+                        provided by the application or any of its dependencies are used. However,
+                        the <span>runpath</span> must be a full path name, that is, the path
+                        name must start with a '/'.
+               </p>
+               <p>In a secure process, the expansion of the <code class="codeph">$ORIGIN</code> string is
+                        allowed only if the string expands to a trusted directory. See <a href="security-coded-processes.html#GUID-D290E869-EDA4-4B81-AF78-504380147AA6">Security in Coded Processes</a>. However, should a
+<code class="codeph">$ORIGIN</code> expansion match a directory that has
+                        already provided dependencies, then the directory is implicitly secure. This
+                        directory can be used to provide additional dependencies.
+               </p>
+               <p>In a secure process, <code class="codeph">LD_CONFIG</code> is ignored.
+                        However, a configuration file that is recorded in a secure application is
+			used. See the <code class="codeph">-c</code> option of <a href="https://docs.oracle.com/cd/E88353_01/html/E37839/ld-1.html" target="_blank">
+                     <code class="codeph">ld</code>(1)</a>. A recorded configuration file must be a
+                        full path name, that is, the path name starts with a '/'. A recorded
+                        configuration file that employs the <code class="codeph">$ORIGIN</code> string is
+                        restricted to known trusted directories. Developers who record a
+                        configuration file within a secure application should ensure that the
+                        configuration file directory is suitably protected from malicious intrusion.
+                        In the absence of a recorded configuration file, a secure process uses the
+			default configuration file, if the configuration file exists. See <a href="https://docs.oracle.com/cd/E88353_01/html/E37839/crle-1.html" target="_blank">
+                     <code class="codeph">crle</code>(1)</a>.
+               </p>
+               <p>In a secure process, <code class="codeph">LD_SIGNAL</code> is ignored.
+               </p>
+               <p>Additional objects can be loaded with a secure process using the
+<code class="codeph">LD_PRELOAD</code> or <code class="codeph">LD_AUDIT</code> environment
+                        variables. These objects must be specified as full path names or simple file
+                        names. Full path names are restricted to known trusted directories. Simple
+                        file names, in which no '/' appears in the name, are located subject to the
+                        search path restrictions previously described. Simple file names resolve
+                        only to known trusted directories.
+               </p>
+               <p>In a secure process, any dependencies that consist of simple file names are
+                        processed using the path name restrictions previously described.
+                        Dependencies expressed as full path names or relative path names are used as
+                        is. Therefore, the developer of a secure process should ensure that the
+                        target directory referenced as one of these dependencies is suitably
+                        protected from malicious intrusion.</p>
+               <p>When creating a secure process, do not use relative path names to express
+	dependencies or to construct <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/dlopen-3c.html" target="_blank">
+                     <code class="codeph">dlopen</code>(3C)</a> path names. This restriction applies to the
+                        application and to all dependencies.
+               </p>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

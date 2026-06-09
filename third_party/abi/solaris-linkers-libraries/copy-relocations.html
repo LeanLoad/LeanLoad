@@ -1,0 +1,234 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Copy Relocations">
+      <meta name="DC.subject" content="relocation, copy, .bss, copy relocation size differences, ldd, -d, -r">
+      <meta name="keywords" content="relocation, copy, .bss, copy relocation size differences, ldd, -d, -r">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-CECCC00D-FDAB-44F3-8E53-C8C3CB8044CB">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Copy Relocations</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="combined-relocation-sections.html" title="Previous" type="text/html">
+      <link rel="next" href="using--b-symbolic-option.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Copy Relocations","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="combined-relocation-sections.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="using--b-symbolic-option.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-CECCC00D-FDAB-44F3-8E53-C8C3CB8044CB" name="GUID-CECCC00D-FDAB-44F3-8E53-C8C3CB8044CB"></a>
+         
+         <h2 id="OSLLG-GUID-CECCC00D-FDAB-44F3-8E53-C8C3CB8044CB" class="sect2">Copy Relocations</h2>
+         <div class="ind">
+            <div>
+               <p>Shared objects are usually built with position-independent code.
+                References to external data items from code of this type employs indirect addressing
+                through a set of tables. See <a href="position-independent-code.html#GUID-E3EAF5FD-D15D-4302-A1DB-4BDF79DAA446">Position-Independent Code</a> for more details. These tables are updated at runtime with the real
+                address of the data items. These updated tables enable access to the data without
+                the code itself being modified.
+               </p>
+               <p>Dynamic executables, however, are generally not created from position-independent
+                code. Any references to external data they make can seemingly only be achieved at
+                runtime by modifying the code that makes the reference. Modifying a read-only text
+                segment is to be avoided. The <span class="italic">copy</span> relocation technique can
+                solve this reference.
+               </p>
+               <p>Suppose the link-editor is used to create a dynamic executable, and a
+                reference to a data item is found to reside in one of the dependent shared objects.
+                Space is allocated in the dynamic executable's <code class="codeph">.bss</code>, equivalent
+                in size to the data item found in the shared object. This space is also assigned the
+                same symbolic name as defined in the shared object. Along with this data allocation,
+                the link-editor generates a special copy relocation record that instructs the
+                runtime linker to copy the data from the shared object to the allocated space within
+                the dynamic executable.
+               </p>
+               <p>Because the symbol assigned to this space is global, it is used to satisfy any
+                references from any shared objects. The dynamic executable inherits the data item.
+                Any other objects within the process that make reference to this item are bound to
+                this copy. The original data from which the copy is made effectively becomes
+                unused.</p>
+               <p>The following example of this mechanism uses an array of system error messages
+                that is maintained within the standard C library. In previous SunOS operating system
+                releases, the interface to this information was provided by two global variables,
+<code class="codeph">sys_errlist[]</code>, and <code class="codeph">sys_nerr</code>. The first
+                variable provided the array of error message strings, while the second conveyed the
+                size of the array itself. These variables were commonly used within an application
+                in the following manner.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cat foo.c</span>
+extern int sys_nerr;
+extern char *sys_errlist[];
+
+char *
+error(int errnumb)
+{
+        if ((errnumb &lt; 0) || (errnumb &gt;= sys_nerr))
+                return (0);
+        return (sys_errlist[errnumb]);
+}</pre><p>The application uses the function <code class="codeph">error</code> to provide a focal
+                point to obtain the system error message associated with the number
+<code class="codeph">errnumb</code>.
+               </p>
+               <p>Examining a dynamic executable built using this code shows the implementation of
+                the copy relocation in more detail.</p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cc -o prog main.c foo.c</span>
+$ <span class="bold">elfdump -sN.dynsym prog | grep ' sys_'</span>
+    [24]   0x21240   0x260  OBJT GLOB  D    1 .bss           sys_errlist
+    [39]   0x21230     0x4  OBJT GLOB  D    1 .bss           sys_nerr
+$ <span class="bold">elfdump -c prog</span>
+....
+Section Header[19]:  sh_name: .bss
+    sh_addr:      0x21230         sh_flags:   [ SHF_WRITE SHF_ALLOC ]
+    sh_size:      0x270           sh_type:    [ SHT_NOBITS ]
+    sh_offset:    0x1230          sh_entsize: 0
+    sh_link:      0               sh_info:    0
+    sh_addralign: 0x8
+....
+$ <span class="bold">elfdump -r prog</span>
+
+Relocation Section:  .SUNW_reloc
+      type                     offset     addend  section        symbol
+  ....
+  R_SPARC_COPY                0x21240          0  .SUNW_reloc    sys_errlist
+  R_SPARC_COPY                0x21230          0  .SUNW_reloc    sys_nerr
+  ....</pre><p>The link-editor has allocated space in the dynamic executable's
+<code class="codeph">.bss</code> to receive the data represented by
+<code class="codeph">sys_errlist</code> and <code class="codeph">sys_nerr</code>. These data are
+                copied from the C library by the runtime linker at process initialization. Thus,
+                each application that uses these data gets a private copy of the data in its own
+                data segment.
+               </p>
+               <p>There are two drawbacks to this technique. First, each application pays a
+                performance penalty for the overhead of copying the data at runtime. Second, the
+                size of the data array <code class="codeph">sys_errlist</code> has now become part of the C
+                library's interface. Suppose the size of this array were to change, perhaps as new
+                error messages are added. Any dynamic executables that reference this array have to
+                undergo a new link-edit to be able to access any of the new error messages. Without
+                this new link-edit, the allocated space within the dynamic executable is
+                insufficient to hold the new data.
+               </p>
+               <p>These drawbacks can be eliminated if the data required by a dynamic executable are
+	provided by a functional interface. The <span>ANSI</span> C function <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/strerror-3c.html" target="_blank">
+                     <code class="codeph">strerror</code>(3C)</a> returns a pointer to the appropriate error string, based
+                on the error number supplied to it. One implementation of this function might
+                be:
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cat strerror.c</span>
+static const char *sys_errlist[] = {
+    "Error 0",
+    "Insufficient privileges",
+    "No such file or directory",
+    ....
+};
+static const int sys_nerr = sizeof (sys_errlist) / sizeof (char *);
+
+char *
+strerror(int errnum)
+{
+        if ((errnum &lt; 0) || (errnum &gt;= sys_nerr))
+                return (0);
+        return ((char *)sys_errlist[errnum]);
+}</pre><p>The error routine in <code>foo.c</code> can now be simplified to use this
+                functional interface. This simplification in turn removes any need to perform the
+                original copy relocations at process initialization.
+               </p>
+               <p>Additionally, because the data are now local to the shared object, the data are no
+                longer part of its interface. The shared object therefore has the flexibility of
+                changing the data without adversely effecting any dynamic executables that use it.
+                Eliminating data items from a shared object's interface generally improves
+                performance while making the shared object's interface and code easier to
+                maintain.</p>
+               <p>
+                  <a href="https://docs.oracle.com/cd/E88353_01/html/E37839/ldd-1.html" target="_blank">
+                     <code class="codeph">ldd</code>(1)</a>, when used with either the <code class="codeph">-d</code> or
+<code class="codeph">-r</code> options, can verify any copy relocations that exist within a
+                dynamic executable.
+               </p>
+               <p>For example, suppose the dynamic executable <code>prog</code> had
+                originally been built against the shared object <code>libfoo.so.1</code> and
+                the following two copy relocations had been recorded.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cat foo.c</span>
+int _size_gets_smaller[16];
+int _size_gets_larger[16];
+$ <span class="bold">cc -o libfoo.so -G foo.c</span>
+$ <span class="bold">cc -o prog main.c -L. -R. -lfoo</span>
+$ <span class="bold">elfdump -sN.symtab prog | grep _size</span>
+    [49]   0x211d0   0x40  OBJT GLOB  D    0 .bss           _size_gets_larger
+    [59]   0x21190   0x40  OBJT GLOB  D    0 .bss           _size_gets_smaller
+$ <span class="bold">elfdump -r prog | grep _size</span>
+  R_SPARC_COPY                0x211d0          0  .SUNW_reloc    _size_gets_larger
+  R_SPARC_COPY                0x21190          0  .SUNW_reloc    _size_gets_smaller</pre><p>A new version of this shared object is supplied that contains different data sizes
+                for these symbols.</p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cat foo2.c</span>
+int _size_gets_smaller[4];
+int _size_gets_larger[32];
+$ <span class="bold">cc -o libfoo.so -G foo2.c</span>
+$ <span class="bold">elfdump -sN.symtab libfoo.so | grep _size</span>
+    [37]   0x105cc   0x10  OBJT GLOB  D    0 .bss           _size_gets_smaller
+    [41]   0x105dc   0x80  OBJT GLOB  D    0 .bss           _size_gets_larger</pre><p>Running <a href="https://docs.oracle.com/cd/E88353_01/html/E37839/ldd-1.html" target="_blank">
+                     <code class="codeph">ldd</code>(1)</a> against the dynamic executable reveals the
+                following.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">ldd -d prog</span>
+    libfoo.so.1 =&gt;   ./libfoo.so.1
+    ....
+    relocation R_SPARC_COPY sizes differ: _size_gets_larger
+        (file prog size=0x40; file ./libfoo.so size=0x80)
+        prog size used; possible data truncation
+    relocation R_SPARC_COPY sizes differ: _size_gets_smaller
+        (file prog size=0x40; file ./libfoo.so size=0x10)
+        ./libfoo.so size used; possible insufficient data copied
+....</pre><p>
+                  <a href="https://docs.oracle.com/cd/E88353_01/html/E37839/ldd-1.html" target="_blank">
+                     <code class="codeph">ldd</code>(1)</a> shows that the dynamic executable will copy as much data
+                as the shared object has to offer, but only accepts as much as its allocated space
+                allows.
+               </p>
+               <p>Copy relocations can be eliminated by building the application from
+                position-independent code. See <a href="position-independent-code.html#GUID-E3EAF5FD-D15D-4302-A1DB-4BDF79DAA446">Position-Independent Code</a>.
+               </p>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

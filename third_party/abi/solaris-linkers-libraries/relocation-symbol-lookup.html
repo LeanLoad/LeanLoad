@@ -1,0 +1,175 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Relocation Symbol Lookup">
+      <meta name="DC.subject" content="relocation, symbol lookup, world, -B&nbsp;group, group, dlopen, dependency groups, global, local, singleton">
+      <meta name="keywords" content="relocation, symbol lookup, world, -B&nbsp;group, group, dlopen, dependency groups, global, local, singleton">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-FB3D58C7-82D5-4D25-82F1-A03974437C54">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Relocation Symbol Lookup</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="relocation-processing.html" title="Previous" type="text/html">
+      <link rel="next" href="default-symbol-lookup.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Relocation Symbol Lookup","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="relocation-processing.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="default-symbol-lookup.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-FB3D58C7-82D5-4D25-82F1-A03974437C54" name="GUID-FB3D58C7-82D5-4D25-82F1-A03974437C54"></a>
+         
+         <h2 id="OSLLG-GUID-FB3D58C7-82D5-4D25-82F1-A03974437C54" class="sect2">Relocation Symbol Lookup</h2>
+         <div class="ind">
+            <div>
+               <p>The runtime linker is responsible for searching for
+                                symbols that are required by objects at runtime. Typically, users
+                                become familiar with the default search model that is applied to an
+                                executable and its dependencies, and to the objects obtained
+				through <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/dlopen-3c.html" target="_blank">
+                     <code class="codeph">dlopen</code>(3C)</a>. However, more complex flavors of
+                                symbol lookup can result because of the symbol attributes of an
+                                object, or through specific binding requirements.
+               </p>
+               <p>Two attributes of an object affect symbol lookup. The first attribute
+                                is the requesting object's symbol <span class="italic">search scope</span>.
+                                The second attribute is the symbol <span class="italic">visibility</span>
+                                offered by each object within the process.
+               </p>
+               <p>These attributes can be applied as defaults at the time the object is
+                                loaded. These attributes can also be supplied as specific modes to
+				<a href="https://docs.oracle.com/cd/E88353_01/html/E37843/dlopen-3c.html" target="_blank">
+                     <code class="codeph">dlopen</code>(3C)</a>. In some cases, these attributes can
+                                be recorded within the object at the time the object is
+                                built.
+               </p>
+               <p>An object can define a <span class="italic">world</span> search scope, and/or
+                                a <span class="italic">group</span> search scope.
+               </p>
+               <dl>
+                  <dt class="dlterm"><a name="GUID-FB3D58C7-82D5-4D25-82F1-A03974437C54__GUID-914005DC-2B75-4667-A0AC-3B577F387D67">
+                        <!-- --></a>
+                     <code class="codeph">world</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>The object can search for symbols in
+                                                  any other global object within the process.</p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-FB3D58C7-82D5-4D25-82F1-A03974437C54__GUID-F30FA5F0-C932-46F4-A0A5-CB60F60C7023">
+                        <!-- --></a>
+                     <code class="codeph">group</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>The object can search for symbols in
+                                                  any object of the same <span class="italic">group</span>.
+                                                  The dependency tree created from an object
+						  obtained with <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/dlopen-3c.html" target="_blank">
+                           <code class="codeph">dlopen</code>(3C)</a>, or from an object built
+                                                  using the link-editor's
+<code class="codeph">-B&nbsp;group</code> option, forms a
+                                                  unique group.
+                     </p>
+                     
+                  </dd>
+               </dl>
+               <p>An object can define that any of the object's exported symbols are
+<span class="italic">globally</span> visible or
+<span class="italic">locally</span> visible.
+               </p>
+               <dl>
+                  <dt class="dlterm"><a name="GUID-FB3D58C7-82D5-4D25-82F1-A03974437C54__GUID-7952C8A4-CF8F-445A-85F5-0A309138FD64">
+                        <!-- --></a>
+                     <code class="codeph">global</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>The object's exported symbols can be
+                                                  referenced from any object that has
+<span class="italic">world</span> search scope.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-FB3D58C7-82D5-4D25-82F1-A03974437C54__GUID-1ABCB0E0-23F2-4472-B7B2-1423BFAC163E">
+                        <!-- --></a>
+                     <code class="codeph">local</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>The object's exported symbols can be
+                                                  referenced only from other objects that make up
+                                                  the same <span class="italic">group</span>.
+                     </p>
+                     
+                  </dd>
+               </dl>
+               <p>The runtime symbol search can also be dictated by a
+                                symbols visibility. Symbols assigned the
+<code class="codeph">STV_SINGLETON</code> visibility are not affected
+                                by any symbol search scope. All references to a singleton symbol are
+                                bound to the first occurrence of a singleton definition within the
+                                process. See <span>ELF Symbol Visibility</span>.
+               </p>
+               <p>The simplest form of symbol lookup is outlined in the next section
+<a href="default-symbol-lookup.html#GUID-B9F53A4E-7A60-4E77-849A-CB5BF7E8ADDB">Default Symbol Lookup</a>. Typically, symbol attributes are exploited by
+various forms of <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/dlopen-3c.html" target="_blank">
+                     <code class="codeph">dlopen</code>(3C)</a>. These scenarios are discussed in
+<a href="symbol-lookup1.html#GUID-75F0D03A-B570-4BE1-8C12-DBC859CF0EC9">Symbol Lookup</a>.
+               </p>
+               <p>An alternative model for symbol lookup is provided when a dynamic
+                                object employs direct bindings. This model directs the runtime
+                                linker to search for a symbol directly in the object that provided
+                                the symbol at link-edit time. See <a href="direct-bindings.html#GUID-171688D0-F924-432D-8260-AC03C83317B9">Direct Bindings</a>.
+               </p>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

@@ -1,0 +1,1116 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="SPARC: Thread-Local Storage Relocation Types">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-7124A036-CA4E-4E82-9A0D-E548BB2E7880">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>SPARC: Thread-Local Storage Relocation Types</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="sparc-local-executable-le.html" title="Previous" type="text/html">
+      <link rel="next" href="32-bit-x86-thread-local-variable-access.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"SPARC: Thread-Local Storage Relocation Types","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="sparc-local-executable-le.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="32-bit-x86-thread-local-variable-access.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-7124A036-CA4E-4E82-9A0D-E548BB2E7880" name="GUID-7124A036-CA4E-4E82-9A0D-E548BB2E7880"></a>
+         
+         <h2 id="OSLLG-GUID-7124A036-CA4E-4E82-9A0D-E548BB2E7880" class="sect2">SPARC: Thread-Local Storage Relocation Types</h2>
+         <div class="ind">
+            <div>
+               <p>The <span>TLS</span> relocations that are listed in the
+                                following table are defined for SPARC. Descriptions in the table
+                                use the following notation.
+               </p>
+               <dl>
+                  <dt class="dlterm"><a name="GUID-7124A036-CA4E-4E82-9A0D-E548BB2E7880__GUID-4BE86381-7E27-47F5-92FC-AF0556088729">
+                        <!-- --></a>
+                     <code class="codeph">@dtlndx(x)</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Allocates two contiguous entries in the
+<code class="codeph">GOT</code> to hold a
+<code class="codeph">TLS_index</code> structure. This
+                                                  information is passed to
+<code class="codeph">__tls_get_addr</code>(). The
+                                                  instruction referencing this entry is bound to the
+                                                  address of the first of the two
+<code class="codeph">GOT</code> entries.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-7124A036-CA4E-4E82-9A0D-E548BB2E7880__GUID-FFF3B4F9-9AA4-4833-B1FC-1D629F67CE7C">
+                        <!-- --></a>
+                     <code class="codeph">@tmndx(x)</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Allocates two contiguous entries in the
+<code class="codeph">GOT</code> to hold a
+<code class="codeph">TLS_index</code> structure. This
+                                                  information is passed to
+<code class="codeph">__tls_get_addr</code>(). The
+<code class="codeph">ti_tlsoffset</code> field of
+                                                  this structure is set to <code class="codeph">0</code>, and
+                                                  the <code class="codeph">ti_moduleid</code> is
+                                                  filled in at runtime. The call to
+<code class="codeph">__tls_get_addr</code>() returns the
+                                                  starting offset of the dynamic
+<span>TLS</span> block.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-7124A036-CA4E-4E82-9A0D-E548BB2E7880__GUID-DC4BAAB8-05C7-47F1-9135-C5CD32795476">
+                        <!-- --></a>
+                     <code class="codeph">@dtpoff(x)</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Calculates the <code class="codeph">tlsoffset</code>
+                                                  relative to the <span>TLS</span>
+                                                  block.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-7124A036-CA4E-4E82-9A0D-E548BB2E7880__GUID-06D61C02-8F40-4770-82AF-DC350994F813">
+                        <!-- --></a>
+                     <code class="codeph">@tpoff(x)</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Calculates the negative
+<code class="codeph">tlsoffset</code> relative to the
+                                                  static <span>TLS</span> block. This value is
+                                                  added to the thread-pointer to calculate the
+<span>TLS</span> address.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-7124A036-CA4E-4E82-9A0D-E548BB2E7880__GUID-B6223978-6BF6-4DF9-A61D-69911DD3C62B">
+                        <!-- --></a>
+                     <code class="codeph">@dtpmod(x)</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Calculates the object identifier of the object
+                                                  containing a <span>TLS</span> symbol.
+                     </p>
+                     
+                  </dd>
+               </dl>
+               <div class="tblformal" id="GUID-7124A036-CA4E-4E82-9A0D-E548BB2E7880__GOUDW">
+                  <p class="titleintable">Table 16-7 SPARC: Thread-Local Storage Relocation Types</p>
+                  <table cellpadding="4" cellspacing="0" class="Formal" title="SPARC: Thread-Local Storage Relocation Types" summary="&#xA;            Table defining TLS SPARC relocation&#xA;                                                types.&#xA;" frame="hsides" border="1" rules="rows">
+                     <thead>
+                        <tr align="left" valign="top">
+                           <th align="left" valign="bottom" width="20%" id="d118758e147">
+Name
+</th>
+                           <th align="left" valign="bottom" width="20%" id="d118758e152">
+Value
+</th>
+                           <th align="left" valign="bottom" width="20%" id="d118758e157">
+Field
+</th>
+                           <th align="left" valign="bottom" width="20%" id="d118758e162">
+Calculation
+</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d118758e169" headers="d118758e147 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_TLS_GD_HI22</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e169 d118758e152 ">
+                              
+                              <p>
+                                 <code class="codeph">56</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e169 d118758e157 ">
+                              
+                              <p>
+                                 <code class="codeph">T-simm22</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e169 d118758e162 ">
+                              
+                              <p>
+                                 <code class="codeph">@dtlndx(S + A) &gt;&gt;
+                                                  10</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d118758e202" headers="d118758e147 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_TLS_GD_LO10</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e202 d118758e152 ">
+                              
+                              <p>
+                                 <code class="codeph">57</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e202 d118758e157 ">
+                              
+                              <p>
+                                 <code class="codeph">T-simm13</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e202 d118758e162 ">
+                              
+                              <p>
+                                 <code class="codeph">@dtlndx(S + A) &amp;
+                                                  0x3ff</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d118758e235" headers="d118758e147 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_TLS_GD_ADD</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e235 d118758e152 ">
+                              
+                              <p>
+                                 <code class="codeph">58</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e235 d118758e157 ">
+                              
+                              <p>None</p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e235 d118758e162 ">
+                              
+                              <p>Refer to the explanation following this
+                                                  table.</p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d118758e262" headers="d118758e147 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_TLS_GD_CALL</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e262 d118758e152 ">
+                              
+                              <p>
+                                 <code class="codeph">59</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e262 d118758e157 ">
+                              
+                              <p>
+                                 <code class="codeph">V-disp30</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e262 d118758e162 ">
+                              
+                              <p>Refer to the explanation following this
+                                                  table.</p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d118758e292" headers="d118758e147 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_TLS_LDM_HI22</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e292 d118758e152 ">
+                              
+                              <p>
+                                 <code class="codeph">60</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e292 d118758e157 ">
+                              
+                              <p>
+                                 <code class="codeph">T-simm22</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e292 d118758e162 ">
+                              
+                              <p>
+                                 <code class="codeph">@tmndx(S + A) &gt;&gt;
+                                                  10</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d118758e325" headers="d118758e147 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_TLS_LDM_LO10</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e325 d118758e152 ">
+                              
+                              <p>
+                                 <code class="codeph">61</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e325 d118758e157 ">
+                              
+                              <p>
+                                 <code class="codeph">T-simm13</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e325 d118758e162 ">
+                              
+                              <p>
+                                 <code class="codeph">@tmndx(S + A) &amp;
+                                                  0x3ff</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d118758e358" headers="d118758e147 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_TLS_LDM_ADD</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e358 d118758e152 ">
+                              
+                              <p>
+                                 <code class="codeph">62</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e358 d118758e157 ">
+                              
+                              <p>None</p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e358 d118758e162 ">
+                              
+                              <p>Refer to the explanation following this
+                                                  table.</p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d118758e385" headers="d118758e147 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_TLS_LDM_CALL</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e385 d118758e152 ">
+                              
+                              <p>
+                                 <code class="codeph">63</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e385 d118758e157 ">
+                              
+                              <p>
+                                 <code class="codeph">V-disp30</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e385 d118758e162 ">
+                              
+                              <p>Refer to the explanation following this
+                                                  table.</p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d118758e415" headers="d118758e147 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_TLS_LDO_HIX22</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e415 d118758e152 ">
+                              
+                              <p>
+                                 <code class="codeph">64</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e415 d118758e157 ">
+                              
+                              <p>
+                                 <code class="codeph">T-simm22</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e415 d118758e162 ">
+                              
+                              <p>
+                                 <code class="codeph">@dtpoff(S + A) &gt;&gt;
+                                                  10</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d118758e448" headers="d118758e147 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_TLS_LDO_LOX10</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e448 d118758e152 ">
+                              
+                              <p>
+                                 <code class="codeph">65</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e448 d118758e157 ">
+                              
+                              <p>
+                                 <code class="codeph">T-simm13</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e448 d118758e162 ">
+                              
+                              <p>
+                                 <code class="codeph">@dtpoff(S + A) &amp;
+                                                  0x3ff</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d118758e481" headers="d118758e147 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_TLS_LDO_ADD</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e481 d118758e152 ">
+                              
+                              <p>
+                                 <code class="codeph">66</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e481 d118758e157 ">
+                              
+                              <p>None</p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e481 d118758e162 ">
+                              
+                              <p>Refer to the explanation following this
+                                                  table.</p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d118758e509" headers="d118758e147 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_TLS_IE_HI22</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e509 d118758e152 ">
+                              
+                              <p>
+                                 <code class="codeph">67</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e509 d118758e157 ">
+                              
+                              <p>
+                                 <code class="codeph">T-simm22</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e509 d118758e162 ">
+                              
+                              <p>
+                                 <code class="codeph">@got(@tpoff(S + A)) &gt;&gt;
+                                                  10</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d118758e542" headers="d118758e147 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_TLS_IE_LO10</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e542 d118758e152 ">
+                              
+                              <p>
+                                 <code class="codeph">68</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e542 d118758e157 ">
+                              
+                              <p>
+                                 <code class="codeph">T-simm13</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e542 d118758e162 ">
+                              
+                              <p>
+                                 <code class="codeph">@got(@tpoff(S + A)) &amp;
+                                                  0x3ff</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d118758e575" headers="d118758e147 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_TLS_IE_LD</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e575 d118758e152 ">
+                              
+                              <p>
+                                 <code class="codeph">69</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e575 d118758e157 ">
+                              
+                              <p>None</p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e575 d118758e162 ">
+                              
+                              <p>Refer to the explanation following this
+                                                  table.</p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d118758e602" headers="d118758e147 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_TLS_IE_LDX</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e602 d118758e152 ">
+                              
+                              <p>
+                                 <code class="codeph">70</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e602 d118758e157 ">
+                              
+                              <p>None</p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e602 d118758e162 ">
+                              
+                              <p>Refer to the explanation following this
+                                                  table.</p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d118758e629" headers="d118758e147 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_TLS_IE_ADD</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e629 d118758e152 ">
+                              
+                              <p>
+                                 <code class="codeph">71</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e629 d118758e157 ">
+                              
+                              <p>None</p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e629 d118758e162 ">
+                              
+                              <p>Refer to the explanation following this
+                                                  table.</p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d118758e656" headers="d118758e147 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_TLS_LE_HIX22</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e656 d118758e152 ">
+                              
+                              <p>
+                                 <code class="codeph">72</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e656 d118758e157 ">
+                              
+                              <p>
+                                 <code class="codeph">T-imm22</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e656 d118758e162 ">
+                              
+                              <p>
+                                 <code class="codeph">(@tpoff(S + A) ^0xffffffffffffffff)
+                                                  &gt;&gt; 10</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d118758e689" headers="d118758e147 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_TLS_LE_LOX10</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e689 d118758e152 ">
+                              
+                              <p>
+                                 <code class="codeph">73</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e689 d118758e157 ">
+                              
+                              <p>
+                                 <code class="codeph">T-simm13</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e689 d118758e162 ">
+                              
+                              <p>
+                                 <code class="codeph">(@tpoff(S + A) &amp; 0x3ff) |
+                                                  0x1c00</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d118758e722" headers="d118758e147 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_TLS_DTPMOD32</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e722 d118758e152 ">
+                              
+                              <p>
+                                 <code class="codeph">74</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e722 d118758e157 ">
+                              
+                              <p>
+                                 <code class="codeph">V-word32</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e722 d118758e162 ">
+                              
+                              <p>
+                                 <code class="codeph">@dtpmod(S + A)</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d118758e755" headers="d118758e147 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_TLS_DTPMOD64</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e755 d118758e152 ">
+                              
+                              <p>
+                                 <code class="codeph">75</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e755 d118758e157 ">
+                              
+                              <p>
+                                 <code class="codeph">V-word64</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e755 d118758e162 ">
+                              
+                              <p>
+                                 <code class="codeph">@dtpmod(S + A)</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d118758e788" headers="d118758e147 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_TLS_DTPOFF32</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e788 d118758e152 ">
+                              
+                              <p>
+                                 <code class="codeph">76</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e788 d118758e157 ">
+                              
+                              <p>
+                                 <code class="codeph">V-word32</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e788 d118758e162 ">
+                              
+                              <p>
+                                 <code class="codeph">@dtpoff(S + A)</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d118758e821" headers="d118758e147 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_TLS_DTPOFF64</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e821 d118758e152 ">
+                              
+                              <p>
+                                 <code class="codeph">77</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e821 d118758e157 ">
+                              
+                              <p>
+                                 <code class="codeph">V-word64</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e821 d118758e162 ">
+                              
+                              <p>
+                                 <code class="codeph">@dtpoff(S + A)</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d118758e855" headers="d118758e147 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_TLS_TPOFF32</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e855 d118758e152 ">
+                              
+                              <p>
+                                 <code class="codeph">78</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e855 d118758e157 ">
+                              
+                              <p>
+                                 <code class="codeph">V-word32</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e855 d118758e162 ">
+                              
+                              <p>
+                                 <code class="codeph">@tpoff(S + A)</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d118758e888" headers="d118758e147 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_TLS_TPOFF64</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e888 d118758e152 ">
+                              
+                              <p>
+                                 <code class="codeph">79</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e888 d118758e157 ">
+                              
+                              <p>
+                                 <code class="codeph">V-word64</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d118758e888 d118758e162 ">
+                              
+                              <p>
+                                 <code class="codeph">@tpoff(S + A)</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                     </tbody>
+                  </table>
+               </div>
+               <p>Some relocation types have semantics beyond simple
+                                calculations.</p>
+               <dl>
+                  <dt class="dlterm"><a name="GUID-7124A036-CA4E-4E82-9A0D-E548BB2E7880__GUID-16B6735B-A551-4F87-8791-0B13B78BEC52">
+                        <!-- --></a>
+                     <code class="codeph">R_SPARC_TLS_GD_ADD</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>This relocation tags the
+<code class="codeph">add</code> instruction of a
+<code class="codeph">GD</code> code sequence. The register
+                                                  used for the <code class="codeph">GOT</code>-pointer is the
+                                                  first register in the sequence. The instruction
+                                                  tagged by this relocation comes before the
+<code class="codeph">call</code> instruction tagged by the
+<code class="codeph">R_SPARC_TLS_GD_CALL</code> relocation.
+                                                  This relocation is used to transition between
+<span>TLS</span> models at link-edit
+                                                  time.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-7124A036-CA4E-4E82-9A0D-E548BB2E7880__GUID-7ED52D06-BA08-4BC2-8D7B-A30A50B60C8C">
+                        <!-- --></a>
+                     <code class="codeph">R_SPARC_TLS_GD_CALL</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>This relocation is handled as if it were a
+<code class="codeph">R_SPARC_WPLT30</code> relocation
+                                                  referencing the
+<code class="codeph">__tls_get_addr</code>() function. This
+                                                  relocation is part of a <code class="codeph">GD</code> code
+                                                  sequence.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-7124A036-CA4E-4E82-9A0D-E548BB2E7880__GUID-A25FB459-0BD4-4E7F-A68F-365A4D3EA54F">
+                        <!-- --></a>
+                     <code class="codeph">R_SPARC_LDM_ADD</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>This relocation tags the first
+<code class="codeph">add</code> instruction of a
+<code class="codeph">LD</code> code sequence. The register
+                                                  used for the <code class="codeph">GOT</code>-pointer is the
+                                                  first register in the sequence. The instruction
+                                                  tagged by this relocation comes before the
+<code class="codeph">call</code> instruction tagged by the
+<code class="codeph">R_SPARC_TLS_GD_CALL</code> relocation.
+                                                  This relocation is used to transition between
+<span>TLS</span> models at link-edit
+                                                  time.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-7124A036-CA4E-4E82-9A0D-E548BB2E7880__GUID-3DF64FA7-1C78-4CA3-A9AE-F7F095EA5DA4">
+                        <!-- --></a>
+                     <code class="codeph">R_SPARC_LDM_CALL</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>This relocation is handled as if it were a
+<code class="codeph">R_SPARC_WPLT30</code> relocation
+                                                  referencing the
+<code class="codeph">__tls_get_addr</code>() function. This
+                                                  relocation is part of a <code class="codeph">LD</code> code
+                                                  sequence.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-7124A036-CA4E-4E82-9A0D-E548BB2E7880__GUID-12D92728-AA69-4D64-9878-7195735DFDC5">
+                        <!-- --></a>
+                     <code class="codeph">R_SPARC_LDO_ADD</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>This relocation tags the final
+<code class="codeph">add</code> instruction in a
+<code class="codeph">LD</code> code sequence. The register
+                                                  which contains the object address that is computed
+                                                  in the initial part of the code sequence is the
+                                                  first register in this instruction. This
+                                                  relocation permits the link-editor to identify
+                                                  this register for code transformations.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-7124A036-CA4E-4E82-9A0D-E548BB2E7880__GUID-E04E4C65-F5A0-4EF8-9A2E-53052EE605E5">
+                        <!-- --></a>
+                     <code class="codeph">R_SPARC_TLS_IE_LD</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>This relocation tags the <code class="codeph">ld</code>
+                                                  instruction in the 32-bit
+<code class="codeph">IE</code> code sequence. This
+                                                  relocation is used to transition between
+<span>TLS</span> models at link-edit
+                                                  time.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-7124A036-CA4E-4E82-9A0D-E548BB2E7880__GUID-F1A6AA56-F165-4E67-BC49-06556BDE8295">
+                        <!-- --></a>
+                     <code class="codeph">R_SPARC_TLS_IE_LDX</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>This relocation tags the
+<code class="codeph">ldx</code> instruction in the
+                                                  64-bit <code class="codeph">IE</code> code sequence.
+                                                  This relocation is used to transition between
+<span>TLS</span> models at link-edit
+                                                  time.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-7124A036-CA4E-4E82-9A0D-E548BB2E7880__GUID-DDB70C0F-2915-46C7-976F-14EC4B118EDF">
+                        <!-- --></a>
+                     <code class="codeph">R_SPARC_TLS_IE_ADD</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>This relocation tags the
+<code class="codeph">add</code> instruction in the
+<code class="codeph">IE</code> code sequence. The register
+                                                  that is used for the
+<code class="codeph">GOT</code>-pointer is the first
+                                                  register in the sequence.
+                     </p>
+                     
+                  </dd>
+               </dl>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

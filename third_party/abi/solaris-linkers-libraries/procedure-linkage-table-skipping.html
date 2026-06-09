@@ -1,0 +1,244 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Procedure Linkage Table Skipping">
+      <meta name="DC.subject" content="runtime linker support interfaces (rtld-debugger), rd_plt_resolution">
+      <meta name="keywords" content="runtime linker support interfaces (rtld-debugger), rd_plt_resolution">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-DE194D2A-594B-4EE2-B9CA-6469FF51D3B6">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Procedure Linkage Table Skipping</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="event-notification.html" title="Previous" type="text/html">
+      <link rel="next" href="dynamic-object-padding.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Procedure Linkage Table Skipping","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="event-notification.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="dynamic-object-padding.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-DE194D2A-594B-4EE2-B9CA-6469FF51D3B6" name="GUID-DE194D2A-594B-4EE2-B9CA-6469FF51D3B6"></a>
+         
+         <h2 id="OSLLG-GUID-DE194D2A-594B-4EE2-B9CA-6469FF51D3B6" class="sect2">Procedure Linkage Table Skipping</h2>
+         <div class="ind">
+            <div>
+               <p>The <span>rtld-debugger</span> interface enables a controlling process to
+                    skip over procedure linkage table entries. When a controlling process, such as a
+                    debugger, is asked to step into a function for the first time, the procedure
+                    linkage table processing, causes control to be passed to the runtime linker to
+                    search for the function definition.
+               </p>
+               <p>The following interface enables a controlling process to step over the runtime
+                    linker procedure linkage table processing. The controlling process can determine
+                    when a procedure linkage table entry is encountered based on external
+                    information provided in the <span>ELF</span> file.
+               </p>
+               <p>Once a target process has stepped into a procedure linkage table entry, the
+                    process calls the <code class="codeph">rd_plt_resolution</code>() interface.
+               </p>
+               <dl>
+                  <dt class="dlterm"><a name="GUID-DE194D2A-594B-4EE2-B9CA-6469FF51D3B6__GUID-F694364E-3152-467E-B6AC-B149D57FC4B9">
+                        <!-- --></a>
+                     <code class="codeph">rd_plt_resolution</code>()
+                  </dt>
+                  <dd>
+                     
+                     <p>This function returns the resolution state of the
+                                current procedure linkage table entry and information on how to skip
+                                it.</p>
+                     <pre class="oac_no_warn" dir="ltr">rd_err_e rd_plt_resolution(rd_agent_t *<span class="variable" translate="no">rdap</span>, paddr_t <span class="variable" translate="no">pc</span>,
+    lwpid_t <span class="variable" translate="no">lwpid</span>, paddr_t <span class="variable" translate="no">plt_base</span>, rd_plt_info_t *<span class="variable" translate="no">rpi</span>);</pre>
+                     <p>
+                        <code class="codeph">pc</code> represents the first instruction of the
+                                procedure linkage table entry. <code class="codeph">lwpid</code> provides
+                                the <code class="codeph">lwp</code> identifier and
+<code class="codeph">plt_base</code> provides the base address of the
+                                procedure linkage table. These three variables provide information
+                                sufficient for various architectures to process the procedure
+                                linkage table.
+                     </p>
+                     
+                     <p>
+                        <code class="codeph">rpi</code> provides detailed information regarding
+                                the procedure linkage table entry as defined in the following data
+                                structure, defined in <code>rtld_db.h</code>.
+                     </p>
+                     
+                  </dd>
+               </dl><pre class="oac_no_warn" dir="ltr">typedef enum {
+        RD_RESOLVE_NONE,
+        RD_RESOLVE_STEP,
+        RD_RESOLVE_TARGET,
+        RD_RESOLVE_TARGET_STEP
+} rd_skip_e;
+
+typedef struct rd_plt_info {
+        rd_skip_e       pi_skip_method;
+        long            pi_nstep;
+        psaddr_t        pi_target;
+        psaddr_t        pi_baddr;
+        unsigned int    pi_flags;
+} rd_plt_info_t;
+
+#define RD_FLG_PI_PLTBOUND     0x0001</pre><p>The elements of the <code class="codeph">rd_plt_info_t</code>structure
+                    are:
+               </p>
+               <dl>
+                  <dt class="dlterm"><a name="GUID-DE194D2A-594B-4EE2-B9CA-6469FF51D3B6__GUID-C558888A-BA20-476B-9314-B3033AAE5BF7">
+                        <!-- --></a>
+                     <code class="codeph">pi_skip_method</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Identifies how the procedure linkage table entry can be traversed.
+                                This method is set to one of the <code class="codeph">rd_skip_e</code>
+                                values.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-DE194D2A-594B-4EE2-B9CA-6469FF51D3B6__GUID-69CF1CD0-E1C0-454B-9E40-A0AA48CF1B6C">
+                        <!-- --></a>
+                     <code class="codeph">pi_nstep</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Identifies how many instructions to step over when
+<code class="codeph">RD_RESOLVE_STEP</code> or
+<code class="codeph">RD_RESOLVE_TARGET_STEP</code> are returned.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-DE194D2A-594B-4EE2-B9CA-6469FF51D3B6__GUID-690EF30E-A18B-49C9-9923-330CCEC7BF05">
+                        <!-- --></a>
+                     <code class="codeph">pi_target</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Specifies the address at which to set a breakpoint when
+<code class="codeph">RD_RESOLVE_TARGET_STEP</code> or
+<code class="codeph">RD_RESOLVE_TARGET</code> are returned.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-DE194D2A-594B-4EE2-B9CA-6469FF51D3B6__GUID-8F986664-5BC9-443D-80DC-76A16BCF5579">
+                        <!-- --></a>
+                     <code class="codeph">pi_baddr</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>The procedure linkage table destination address, added with
+<code class="codeph">RD_VERSION3</code>. When the
+<code class="codeph">RD_FLG_PI_PLTBOUND</code> flag of the
+<code class="codeph">pi_flags</code> field is set, this element
+                                identifies the resolved (bound) destination address.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-DE194D2A-594B-4EE2-B9CA-6469FF51D3B6__GUID-66F94E85-287A-4741-9315-077C202903E5">
+                        <!-- --></a>
+                     <code class="codeph">pi_flags</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>A flags field, added with <code class="codeph">RD_VERSION3</code>. The flag
+<code class="codeph">RD_FLG_PI_PLTBOUND</code> identifies the procedure
+                                linkage entry as having been resolved (bound) to its destination
+                                address, which is available in the
+<code class="codeph">pi_baddr</code> field.
+                     </p>
+                     
+                  </dd>
+               </dl>
+               <p>The following scenarios are possible from the
+<code class="codeph">rd_plt_info_t</code> return values.
+               </p>
+               <ul style="list-style-type: disc;">
+                  <li>
+                     
+                     <p>The first call through this procedure linkage table must be resolved
+                            by the runtime linker. In this case, the
+<code class="codeph">rd_plt_info_t</code> contains:
+                     </p>
+                     <pre class="oac_no_warn" dir="ltr">
+<span class="bold">{RD_RESOLVE_TARGET_STEP, M, &lt;BREAK&gt;, 0, 0}</span></pre>
+                     <p>The controlling process sets a breakpoint at <code class="codeph">BREAK</code>
+                            and continues the target process. When the breakpoint is reached, the
+                            procedure linkage table entry processing has finished. The controlling
+                            process can then step <code class="codeph">M</code> instructions to the
+                            destination function. Notice that the bound address
+                                (<code class="codeph">pi_baddr</code>) has not been set since this is the
+                            first call through a procedure linkage table entry.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>On the <code class="codeph">Nth</code> time through this procedure linkage
+                            table, <code class="codeph">rd_plt_info_t</code> contains:
+                     </p>
+                     <pre class="oac_no_warn" dir="ltr">
+<span class="bold">{RD_RESOLVE_STEP, M, 0, &lt;BoundAddr&gt;, RD_FLG_PI_PLTBOUND}</span></pre>
+                     <p>The procedure linkage table entry has already been resolved and the
+                            controlling process can step <code class="codeph">M</code> instructions to the
+                            destination function. The address that the procedure linkage table entry
+                            is bound to is <code class="codeph">&lt;BoundAddr&gt;</code> and the
+<code class="codeph">RD_FLG_PI_PLTBOUND</code> bit has been set in the flags
+                            field.
+                     </p>
+                     
+                  </li>
+               </ul>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

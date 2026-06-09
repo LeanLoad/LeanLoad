@@ -1,0 +1,312 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Event Notification">
+      <meta name="DC.subject" content="runtime linker support interfaces (rtld-debugger), rd_event_enable, rd_event_addr, rd_event_getmsg">
+      <meta name="keywords" content="runtime linker support interfaces (rtld-debugger), rd_event_enable, rd_event_addr, rd_event_getmsg">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-47C1B264-0902-42B4-9678-2F9849368D5F">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Event Notification</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="scanning-loadable-objects.html" title="Previous" type="text/html">
+      <link rel="next" href="procedure-linkage-table-skipping.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Event Notification","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="scanning-loadable-objects.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="procedure-linkage-table-skipping.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-47C1B264-0902-42B4-9678-2F9849368D5F" name="GUID-47C1B264-0902-42B4-9678-2F9849368D5F"></a>
+         
+         <h2 id="OSLLG-GUID-47C1B264-0902-42B4-9678-2F9849368D5F" class="sect2">Event Notification</h2>
+         <div class="ind">
+            <div>
+               <p>A controlling process can track certain events that occur within the scope of
+                    the runtime linker that. These events are:</p>
+               <dl>
+                  <dt class="dlterm"><a name="GUID-47C1B264-0902-42B4-9678-2F9849368D5F__GUID-A4F5138D-C9AF-40A1-B864-497D7030775C">
+                        <!-- --></a>
+                     <code class="codeph">RD_PREINIT</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>The runtime linker has loaded and relocated all the dynamic
+                                objects and is about to start calling the <code class="codeph">.init</code>
+                                sections of each object loaded.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-47C1B264-0902-42B4-9678-2F9849368D5F__GUID-AC62DC99-806E-45BD-BAE6-5110A5FEEDFB">
+                        <!-- --></a>
+                     <code class="codeph">RD_POSTINIT</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>The runtime linker has finished calling all of the
+<code class="codeph">.init</code> sections and is about to transfer
+                                control to the primary executable.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-47C1B264-0902-42B4-9678-2F9849368D5F__GUID-D95F2CC9-BC89-465B-A257-81C7341C7487">
+                        <!-- --></a>
+                     <code class="codeph">RD_DLACTIVITY</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>The runtime linker has been invoked to either load or unload a
+                                dynamic object.</p>
+                     
+                  </dd>
+               </dl>
+               <p>These events can be monitored using the following interface, defined in
+<code>sys/link.h</code> and <code>rtld_db.h</code>.
+               </p><pre class="oac_no_warn" dir="ltr">typedef enum {
+        RD_NONE = 0,
+        RD_PREINIT,
+        RD_POSTINIT,
+        RD_DLACTIVITY
+} rd_event_e;
+
+/*
+ * Ways that the event notification can take place:
+ */
+typedef enum {
+        RD_NOTIFY_BPT,
+        RD_NOTIFY_AUTOBPT,
+        RD_NOTIFY_SYSCALL
+} rd_notify_e;
+
+/*
+ * Information on ways that the event notification can take place:
+ */
+typedef struct rd_notify {
+        rd_notify_e     type;
+        union {
+                psaddr_t        bptaddr;
+                long            syscallno;
+        } u;
+} rd_notify_t;</pre><p>The following functions track events.</p>
+               <dl>
+                  <dt class="dlterm"><a name="GUID-47C1B264-0902-42B4-9678-2F9849368D5F__GUID-08DB16E7-EEFD-45C9-8B7A-B92A248F2347">
+                        <!-- --></a>
+                     <code class="codeph">rd_event_enable</code>()
+                  </dt>
+                  <dd>
+                     
+                     <p>This function enables (1) or disables (0) event
+                                monitoring.</p>
+                     <pre class="oac_no_warn" dir="ltr">rd_err_e rd_event_enable(struct rd_agent *<span class="variable" translate="no">rdap</span>, int <span class="variable" translate="no">onoff</span>);</pre>
+                     <div class="infoboxnote" id="GUID-47C1B264-0902-42B4-9678-2F9849368D5F__GUID-D796E8AA-3C2C-4403-BC65-3B7CB18B399A">
+                        <p class="notep1">Note:</p>
+                  Currently, for performance reasons, the runtime linker ignores
+                                    event disabling. The controlling process should not assume that
+                                    a given break-point can not be reached because of the last call
+                                    to this routine.
+
+                     </div>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-47C1B264-0902-42B4-9678-2F9849368D5F__GUID-0B4BFFB0-30A3-4FC4-B410-534EF5A5BBBE">
+                        <!-- --></a>
+                     <code class="codeph">rd_event_addr</code>()
+                  </dt>
+                  <dd>
+                     
+                     <p>This function specifies how the controlling program is
+                                notified of a given event.</p>
+                     <pre class="oac_no_warn" dir="ltr">rd_err_e rd_event_addr(rd_agent_t *<span class="variable" translate="no">rdap</span>, rd_event_e <span class="variable" translate="no">event</span>,
+    rd_notify_t *<span class="variable" translate="no">notify</span>);</pre>
+                     <p>Depending on the event type, the notification of the controlling
+                                process takes place by calling a benign, cheap system call that is
+                                identified by <code class="codeph">notify-&gt;u.syscallno</code>, or
+                                executing a break point at the address specified by
+<code class="codeph">notify-&gt;u.bptaddr</code>. The controlling
+                                process is responsible for tracing the system call or place the
+                                actual break-point.
+                     </p>
+                     
+                  </dd>
+               </dl>
+               <p>When an event has occurred, additional information can be obtained by this
+                    interface, defined in <code>rtld_db.h</code>.
+               </p><pre class="oac_no_warn" dir="ltr">typedef enum {
+        RD_NOSTATE = 0,
+        RD_CONSISTENT,
+        RD_ADD,
+        RD_DELETE
+} rd_state_e;
+
+typedef struct rd_event_msg {
+        rd_event_e      type;
+        union {
+                rd_state_e      state;
+        } u;
+} rd_event_msg_t;</pre><p>The <code class="codeph">rd_state_e</code> values are:
+               </p>
+               <dl>
+                  <dt class="dlterm"><a name="GUID-47C1B264-0902-42B4-9678-2F9849368D5F__GUID-E0EF2E95-AAE0-4883-83D1-3F8B921D0893">
+                        <!-- --></a>
+                     <code class="codeph">RD_NOSTATE</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>There is no additional state information available.</p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-47C1B264-0902-42B4-9678-2F9849368D5F__GUID-E9EFE32C-44A6-4D5D-9D9B-A5B6E5FBCD05">
+                        <!-- --></a>
+                     <code class="codeph">RD_CONSISTENT</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>The link-maps are in a stable state and can be examined.</p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-47C1B264-0902-42B4-9678-2F9849368D5F__GUID-90812A45-576E-4B13-872C-F5477C823351">
+                        <!-- --></a>
+                     <code class="codeph">RD_ADD</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>A dynamic object is in the process of being loaded and the
+                                link-maps are not in a stable state. They should not be examined
+                                until the <code class="codeph">RD_CONSISTENT</code> state is reached.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-47C1B264-0902-42B4-9678-2F9849368D5F__GUID-BAF6200D-7E68-44DC-BE3A-98215860A97B">
+                        <!-- --></a>
+                     <code class="codeph">RD_DELETE</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>A dynamic object is in the process of being deleted and the
+                                link-maps are not in a stable state. They should not be examined
+                                until the <code class="codeph">RD_CONSISTENT</code> state is reached.
+                     </p>
+                     
+                  </dd>
+               </dl>
+               <p>The <code class="codeph">rd_event_getmsg</code>() function is used to obtain this event
+                    state information.
+               </p>
+               <dl>
+                  <dt class="dlterm"><a name="GUID-47C1B264-0902-42B4-9678-2F9849368D5F__GUID-83FFF76E-8F39-4156-BA72-C245B2D353D9">
+                        <!-- --></a>
+                     <code class="codeph">rd_event_getmsg</code>()
+                  </dt>
+                  <dd>
+                     
+                     <p>This function provides additional information concerning
+                                an event.</p>
+                     <pre class="oac_no_warn" dir="ltr">rd_err_e rd_event_getmsg(struct rd_agent *<span class="variable" translate="no">rdap</span>, rd_event_msg_t *<span class="variable" translate="no">msg</span>);</pre>
+                     </dd>
+               </dl>
+               <p>The following table shows the possible state for each of the different event
+                    types.</p>
+               <div class="tblformal" id="GUID-47C1B264-0902-42B4-9678-2F9849368D5F__GUID-75517571-A46D-44D8-B3C3-AB8D224CAED7">
+                  <table cellpadding="4" cellspacing="0" class="Formal" title summary="&#xA;            Table defining the state of different event types.&#xA;" frame="hsides" border="1" rules="rows">
+                     <thead>
+                        <tr align="left" valign="top">
+                           <th align="left" valign="bottom" width="1%" id="d44513e254">
+
+RD_PREINIT
+
+</th>
+                           <th align="left" valign="bottom" width="1%" id="d44513e262">
+
+RD_POSTINIT
+
+</th>
+                           <th align="left" valign="bottom" width="1%" id="d44513e270">
+
+RD_DLACTIVITY
+
+</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="1%" id="d44513e280" headers="d44513e254 ">
+                              
+                              <p>
+                                 <code class="codeph">RD_NOSTATE</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="1%" headers="d44513e280 d44513e262 ">
+                              
+                              <p>
+                                 <code class="codeph">RD_NOSTATE</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="1%" headers="d44513e280 d44513e270 ">
+                              <pre class="oac_no_warn" dir="ltr">RD_CONSISTENT
+RD_ADD 
+RD_DELETE</pre>
+                              </td>
+                        </tr>
+                     </tbody>
+                  </table>
+               </div>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Coordination of Versioned Filenames">
+      <meta name="DC.subject" content="link-editor options, -h">
+      <meta name="keywords" content="link-editor options, -h">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-B90144B4-4110-4EF2-8484-7CDDC05DF65F">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Coordination of Versioned Filenames</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="external-versioning.html" title="Previous" type="text/html">
+      <link rel="next" href="multiple-external-versioned-files-same-process.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Coordination of Versioned Filenames","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="external-versioning.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="multiple-external-versioned-files-same-process.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-B90144B4-4110-4EF2-8484-7CDDC05DF65F" name="GUID-B90144B4-4110-4EF2-8484-7CDDC05DF65F"></a>
+         
+         <h2 id="OSLLG-GUID-B90144B4-4110-4EF2-8484-7CDDC05DF65F" class="sect2">Coordination of Versioned Filenames</h2>
+         <div class="ind">
+            <div>
+               <p>A link-edit commonly references shared object dependencies using the
+                                link-editors <code class="codeph">-l</code> option. This option uses the
+                                link-editor's library search mechanism to locate shared objects that
+                                are prefixed with <code>lib</code> and suffixed with
+<code>.so</code>.
+               </p>
+               <p>However, at runtime, any shared object dependencies should exist as a
+                                versioned file name. Instead of maintaining two distinct shared
+                                objects that follow two naming conventions, create file system links
+                                between the two file names.</p>
+               <p>For example, the shared object <code>libfoo.so.1</code> can be
+                                made available to the compilation environment by using a symbolic
+                                link. The compilation file name is a symbolic link to the runtime
+                                file name.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cc -o libfoo.so.1 -G -K pic foo.c</span>
+$ <span class="bold">ln -s libfoo.so.1 libfoo.so</span>
+$ <span class="bold">ls -l libfoo*</span>
+lrwxrwxrwx  1 usr grp          11 1991 libfoo.so -&gt; libfoo.so.1
+-rwxrwxr-x  1 usr grp        3136 1991 libfoo.so.1</pre><p>Either a symbolic link or hard link can be used. However, as a
+                                documentation and diagnostic aid, symbolic links are more
+                                useful.</p>
+               <p>The shared object <code>libfoo.so.1</code> has been generated
+                                for the runtime environment. The symbolic link
+<code>libfoo.so</code>, has also enabled this file's
+                                use in a compilation environment.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cc -o prog main.o -L. -lfoo</span></pre><p>The link-editor processes the relocatable object
+<code>main.o</code> with the interface described by
+                                the shared object <code>libfoo.so.1</code>, which is found
+                                by following the symbolic link
+<code>libfoo.so</code>.
+               </p>
+               <p>Over a series of software releases, new versions of
+<code>libfoo.so</code> can be distributed with
+                                changed interfaces. The compilation environment can be constructed
+                                to use the interface that is applicable by changing the symbolic
+                                link.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">ls -l libfoo*</span>
+lrwxrwxrwx  1 usr grp          11 1993 libfoo.so -&gt; libfoo.so.3
+-rwxrwxr-x  1 usr grp        3136 1991 libfoo.so.1
+-rwxrwxr-x  1 usr grp        3237 1992 libfoo.so.2
+-rwxrwxr-x  1 usr grp        3554 1993 libfoo.so.3</pre><p>In this example, three major versions of the shared object are
+                                available. Two versions, <code>libfoo.so.1</code> and
+<code>libfoo.so.2</code>, provide the dependencies
+                                for existing applications. <code>libfoo.so.3</code> offers
+                                the latest major release for creating and running new
+                                applications.
+               </p>
+               <p>The use of this symbolic link mechanism solely is insufficient to
+                                coordinate the compilation shared object with a runtime versioned
+                                file name. As the example currently stands, the link-editor records
+                                in the dynamic executable <code>prog</code> the file name of
+                                the shared object the link-editor processes. In this case, that file
+                                name seen by the link-editor is the compilation environment
+                                file.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">elfdump -d prog | grep libfoo</span>
+     [0]  NEEDED       0x1b7           libfoo.so</pre><p>When the application <code class="codeph">prog</code> is executed, the runtime
+                                linker searches for the dependency <code class="codeph">libfoo.so</code>.
+<code class="codeph">prog</code> binds to the file to which this
+                                symbolic link is pointing.
+               </p>
+               <p>To ensure the correct runtime name is recorded as a
+                                dependency, the shared object <code class="codeph">libfoo.so.1</code> should
+                                be built with an <span>soname</span> definition. This definition
+                                identifies the shared object's runtime name. This name is used as
+                                the dependency name by any object that links against the shared
+                                object. This definition can be provided using the <code class="codeph">-h</code>
+                                option during the creation of the shared object.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cc -o libfoo.so.1 -G -K pic -h libfoo.so.1 foo.c</span>
+$ <span class="bold">ln -s libfoo.so.1 libfoo.so</span>
+$ <span class="bold">cc -o prog main.o -L. -lfoo</span>
+$ <span class="bold">elfdump -d prog | grep libfoog</span>
+     [0]  NEEDED       0x1b7           libfoo.so.1</pre><p>This symbolic link and the <span>soname</span> mechanism establish
+                                a robust coordination between the shared-object naming conventions
+                                of the compilation and runtime environment. The interface processed
+                                during the link-edit is accurately recorded in the output file
+                                generated. This recording ensures that the intended interface are
+                                furnished at runtime.
+               </p>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

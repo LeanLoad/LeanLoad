@@ -1,0 +1,102 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Input File Processing">
+      <meta name="DC.subject" content="input file processing, link-editing, library input processing, -l, library linking options">
+      <meta name="keywords" content="input file processing, link-editing, library input processing, -l, library linking options">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-1FC2E6FF-81DA-462E-AB01-DE282EEE5E53">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Input File Processing</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="specifying-link-editor-options.html" title="Previous" type="text/html">
+      <link rel="next" href="archive-processing.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Input File Processing","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="specifying-link-editor-options.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="archive-processing.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-1FC2E6FF-81DA-462E-AB01-DE282EEE5E53" name="GUID-1FC2E6FF-81DA-462E-AB01-DE282EEE5E53"></a>
+         
+         <h2 id="OSLLG-GUID-1FC2E6FF-81DA-462E-AB01-DE282EEE5E53" class="sect2">Input File Processing</h2>
+         <div class="ind">
+            <div>
+               <p>The link-editor reads input files in the order in which the files appear on
+                        the command line. Each file is opened and inspected to determine the files
+<span>ELF</span> type, and therefore determine how the file
+                        must be processed. The file types that apply as input for the link-edit are
+                        determined by the binding mode of the link-edit, either
+<span class="italic">static</span> or <span class="italic">dynamic</span>.
+               </p>
+               <p>Under <span class="italic">static</span> mode, the link-editor accepts only
+                        relocatable objects or archive libraries as input files. Under
+<span class="italic">dynamic</span> mode, the link-editor also accepts
+                        shared objects.
+               </p>
+               <p>Relocatable objects represent the most basic input file type to the
+                        link-editing process. The <span class="italic">program data</span> sections within
+                        these files are concatenated into the output file image being generated. The
+<span class="italic">link-edit information</span> sections are organized
+                        for later use. Information sections do not become part of the output file
+                        image, as new information sections are generated to take their place.
+                        Symbols are gathered into an internal symbol table for verification and
+                        resolution. This table is then used to create one or more symbol tables in
+                        the output image.
+               </p>
+               <p>Although input files can be specified directly on the link-edit
+                        command line, archive libraries and shared objects are commonly specified
+                        using the <code class="codeph">-l</code> option. See <a href="linking-additional-libraries.html#GUID-20DEF987-BD36-4784-9A4A-62D04F15948E">Linking With Additional Libraries</a>. During a
+<span>link-edit</span>, the interpretation of archive libraries
+                        and shared objects are quite different. The next two sections expand upon
+                        these differences.
+               </p>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

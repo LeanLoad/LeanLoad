@@ -1,0 +1,124 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Capability Specific Shared Objects">
+      <meta name="DC.subject" content="filters, capabilities families, $HWCAP, $CAPABILITY, RTLD_FIRST, dlopen">
+      <meta name="keywords" content="filters, capabilities families, $HWCAP, $CAPABILITY, RTLD_FIRST, dlopen">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-4A41ADA9-635B-4041-A0BC-5B77311612A9">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Capability Specific Shared Objects</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="establishing-dependencies-dynamic-string-tokens.html" title="Previous" type="text/html">
+      <link rel="next" href="reducing-capability-filtee-searches.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Capability Specific Shared Objects","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="establishing-dependencies-dynamic-string-tokens.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="reducing-capability-filtee-searches.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-4A41ADA9-635B-4041-A0BC-5B77311612A9" name="GUID-4A41ADA9-635B-4041-A0BC-5B77311612A9"></a>
+         
+         <h2 id="OSLLG-GUID-4A41ADA9-635B-4041-A0BC-5B77311612A9" class="sect2">Capability Specific Shared Objects</h2>
+         <div class="ind">
+            <div>
+               <p>The dynamic token <code class="codeph">$CAPABILITY</code> can be used to specify a directory in which capability specific shared objects exist. This token is available for filters and dependencies. As this token can expand to multiple objects, its use with dependencies is controlled. Dependencies obtained with <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/dlopen-3c.html" target="_blank">
+                     <code class="codeph">dlopen</code>(3C)</a>, can use this token with the mode <code class="codeph">RTLD_FIRST</code>. Explicit dependencies that use this token will load the first appropriate dependency found.
+               </p>
+               <div class="infoboxnote" id="GUID-4A41ADA9-635B-4041-A0BC-5B77311612A9__GUID-4F2AB6CF-6BF7-4B59-8A58-EB176D4035BD">
+                  <p class="notep1">Note:</p>
+         The original capabilities implementation was based solely on hardware capabilities. The token <code class="codeph">$HWCAP</code> was used to select this capability processing. Capabilities have since been extended beyond hardware capabilities, and the <code class="codeph">$HWCAP</code> token has been replaced by the <code class="codeph">$CAPABILITY</code> token. For compatibility, the <code class="codeph">$HWCAP</code> token is interpreted as an alias for the <code class="codeph">$CAPABILITY</code> token.
+
+               </div>
+               <p>The path name specification must consist of a full path name terminated with the <code class="codeph">$CAPABILITY</code> token. Shared objects that exist in the directory that is specified with the <code class="codeph">$CAPABILITY</code> token are inspected at runtime. These objects should indicate their capability requirements. See <a href="identifying-capability-requirements.html#GUID-06847AC4-08F3-4C54-9AE7-EF44BBD6680B">Identifying Capability Requirements</a>. Each object is validated against the capabilities that are available to the process. Those objects that are applicable for use with the process, are sorted in descending order of their capability values. These sorted <span>filtees</span> are used to resolve symbols that are defined within the filter.
+               </p>
+               <p>
+                  <span>Filtees</span> within the capabilities directory have no naming restrictions. The following example shows how the auxiliary filter <code>libfoo.so.1</code> can be designed to access hardware capability <span>filtees</span>.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">LD_OPTIONS='-f /opt/ISV/lib/cap/$CAPABILITY' \</span>
+<span class="bold">cc -o libfoo.so.1 -G -K pic -h libfoo.so.1 -R. foo.c</span>
+$ <span class="bold">elfdump -d libfoo.so.1 | egrep 'SONAME|AUXILIARY'</span>
+     [2]  SONAME             0x1                libfoo.so.1
+     [3]  AUXILIARY         0x96                /opt/ISV/lib/cap/$CAPABILITY
+$ <span class="bold">elfdump -H /opt/ISV/lib/cap/*</span>
+
+/opt/ISV/lib/cap/filtee.so.3:
+
+Capabilities Section:  .SUNW_cap
+
+ Object Capabilities:
+   index  tag               value
+     [0]  CA_SUNW_HW_1     0x1000  [ SSE2 ]
+
+/opt/ISV/lib/cap/filtee.so.1:
+
+Capabilities Section:  .SUNW_cap
+
+ Object Capabilities:
+   index  tag               value
+     [0]  CA_SUNW_HW_1     0x40  [ MMX ]
+
+/opt/ISV/lib/cap/filtee.so.2:
+
+Capabilities Section:  .SUNW_cap
+
+ Object Capabilities:
+   index  tag               value
+     [0]  CA_SUNW_HW_1     0x800  [ SSE ]</pre><p>If the <span>filter</span>
+                  <code>libfoo.so.1</code> is processed on a system where the <code class="codeph">MMX</code> and <code class="codeph">SSE</code> hardware capabilities are available, the following <span>filtee</span> search order occurs.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cc -o prog prog.c -R. -lfoo</span>
+$ <span class="bold">LD_DEBUG=symbols prog</span>
+....
+01233: symbol=foo;  lookup in file=libfoo.so.1  [ ELF ]
+01233: symbol=foo;  lookup in file=cap/filtee.so.2  [ ELF ]
+01233: symbol=foo;  lookup in file=cap/filtee.so.1  [ ELF ]
+....</pre><p>Note that the capability value for <code>filtee.so.2</code> is greater than the capability value for <code>filtee.so.1</code>. <code>filtee.so.3</code> is not a candidate for inclusion in the symbol search, as the <code class="codeph">SSE2</code> capability is not available.
+               </p>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

@@ -1,0 +1,202 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Debugger Import Interface">
+      <meta name="DC.subject" content="runtime linker support interfaces (rtld-debugger), ps_global_sym, ps_pread, ps_pwrite, ps_plog, ps_pglobal_sym">
+      <meta name="keywords" content="runtime linker support interfaces (rtld-debugger), ps_global_sym, ps_pread, ps_pwrite, ps_plog, ps_pglobal_sym">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-35ACA4AA-1398-4129-9675-E64EC2437E10">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Debugger Import Interface</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="dynamic-object-padding.html" title="Previous" type="text/html">
+      <link rel="next" href="elf-application-binary-interface.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Debugger Import Interface","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="dynamic-object-padding.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="elf-application-binary-interface.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-35ACA4AA-1398-4129-9675-E64EC2437E10" name="GUID-35ACA4AA-1398-4129-9675-E64EC2437E10"></a>
+         
+         <h2 id="OSLLG-GUID-35ACA4AA-1398-4129-9675-E64EC2437E10" class="sect2">Debugger Import Interface</h2>
+         <div class="ind">
+            <div>
+               <p>The imported interface that a controlling process must provide to
+<code>librtld_db.so.1</code> is defined in
+<code>/usr/include/proc_service.h</code>. A sample implementation of
+                these <code class="codeph">proc_service</code> functions can be found in the
+<code>rdb</code> demonstration debugger. The
+<span>rtld-debugger</span> interface uses only a subset of the
+<code class="codeph">proc_service</code> interfaces available. Future versions of the
+<span>rtld-debugger</span> interface might take advantage of additional
+<code class="codeph">proc_service</code> interfaces without creating an incompatible
+                change.
+               </p>
+               <p>The following interfaces are currently being used by the
+<span>rtld-debugger</span> interface.
+               </p>
+               <dl>
+                  <dt class="dlterm"><a name="GUID-35ACA4AA-1398-4129-9675-E64EC2437E10__GUID-F98EEC03-7014-40F7-ABBD-A6D39F4F3EB0">
+                        <!-- --></a>
+                     <code class="codeph">ps_pauxv</code>()
+                  </dt>
+                  <dd>
+                     
+                     <p>This function returns a pointer to a copy of the
+<code class="codeph">auxv</code> vector.
+                     </p>
+                     <pre class="oac_no_warn" dir="ltr">ps_err_e ps_pauxv(const struct ps_prochandle *<span class="variable" translate="no">ph</span>, auxv_t **<span class="variable" translate="no">aux</span>);</pre>
+                     <p>Because the <code class="codeph">auxv</code> vector information is
+                            copied to an allocated structure, the pointer remains as long as the
+<code class="codeph">ps_prochandle</code> is valid.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-35ACA4AA-1398-4129-9675-E64EC2437E10__GUID-92208DBB-681A-426E-B453-A8A927176BCF">
+                        <!-- --></a>
+                     <code class="codeph">ps_pread</code>()
+                  </dt>
+                  <dd>
+                     
+                     <p>This function reads data from the target process.</p>
+                     <pre class="oac_no_warn" dir="ltr">ps_err_e ps_pread(const struct ps_prochandle *<span class="variable" translate="no">ph</span>, paddr_t <span class="variable" translate="no">addr</span>,
+    char *<span class="variable" translate="no">buf</span>, int <span class="variable" translate="no">size</span>);</pre>
+                     <p>From address <code class="codeph">addr</code> in the target
+                            process, <code class="codeph">size</code> bytes are copied to
+<code class="codeph">buf</code>.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-35ACA4AA-1398-4129-9675-E64EC2437E10__GUID-D939FDA7-BB59-4CCB-B236-8E0B4EBDA92A">
+                        <!-- --></a>
+                     <code class="codeph">ps_pwrite</code>()
+                  </dt>
+                  <dd>
+                     
+                     <p>This function writes data to the target process.</p>
+                     <pre class="oac_no_warn" dir="ltr">ps_err_e ps_pwrite(const struct ps_prochandle *<span class="variable" translate="no">ph</span>, paddr_t <span class="variable" translate="no">addr</span>,
+    char *<span class="variable" translate="no">buf</span>, int <span class="variable" translate="no">size</span>);</pre>
+                     <p>
+                        <code class="codeph">size</code> bytes from
+<code class="codeph">buf</code> are copied into the target process at
+                            address <code class="codeph">addr</code>.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-35ACA4AA-1398-4129-9675-E64EC2437E10__GUID-D03ABB8C-8643-4194-A9D4-2DEEDC70D6B4">
+                        <!-- --></a>
+                     <code class="codeph">ps_plog</code>()
+                  </dt>
+                  <dd>
+                     
+                     <p>This function is called with additional diagnostic information from
+                            the <span>rtld-debugger</span> interface.
+                     </p>
+                     <pre class="oac_no_warn" dir="ltr">void ps_plog(const char *<span class="variable" translate="no">fmt</span>, ....);</pre>
+                     <p>The controlling process determines where, or if, to log this
+                            diagnostic information. The arguments to <code class="codeph">ps_plog</code>()
+			    follow the <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/printf-3c.html" target="_blank">
+                           <code class="codeph">printf</code>(3C)</a> format.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-35ACA4AA-1398-4129-9675-E64EC2437E10__GUID-97288F02-4FEA-492E-BE54-0DDD2787050A">
+                        <!-- --></a>
+                     <code class="codeph">ps_pglobal_lookup</code>()
+                  </dt>
+                  <dd>
+                     
+                     <p>This function searches for the symbol in the target process.</p>
+                     <pre class="oac_no_warn" dir="ltr">ps_err_e ps_pglobal_lookup(const struct ps_prochandle *<span class="variable" translate="no">ph</span>,
+    const char *<span class="variable" translate="no">obj</span>, const char *<span class="variable" translate="no">name</span>, ulong_t *<span class="variable" translate="no">sym_addr</span>);</pre>
+                     <p>The symbol named <code class="codeph">name</code> is searched for
+                            within the object named <code class="codeph">obj</code> within the target
+                            process <code class="codeph">ph</code>. If the symbol is found, the symbol
+                            address is stored in <code class="codeph">sym_addr</code>.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-35ACA4AA-1398-4129-9675-E64EC2437E10__GUID-2D4EE657-40ED-4091-A622-83872CD07B5B">
+                        <!-- --></a>
+                     <code class="codeph">ps_pglobal_sym</code>()
+                  </dt>
+                  <dd>
+                     
+                     <p>This function searches for the symbol in the target process.</p>
+                     <pre class="oac_no_warn" dir="ltr">ps_err_e ps_pglobal_sym(const struct ps_prochandle *<span class="variable" translate="no">ph</span>,
+    const char *<span class="variable" translate="no">obj</span>, const char *<span class="variable" translate="no">name</span>, ps_sym_t *<span class="variable" translate="no">sym_desc</span>);</pre>
+                     <p>The symbol named <code class="codeph">name</code> is searched for
+                            within the object named <code class="codeph">obj</code> within the target
+                            process <code class="codeph">ph</code>. If the symbol is found, the symbol
+                            descriptor is stored in <code class="codeph">sym_desc</code>.
+                     </p>
+                     
+                  </dd>
+               </dl>
+               <p>In the event that the <span>rtld-debugger</span> interface needs to find
+                symbols within the application or runtime linker prior to any link-map creation, the
+                following reserved values for <code class="codeph">obj</code> are available.
+               </p><pre class="oac_no_warn" dir="ltr">#define PS_OBJ_EXEC ((const char *)0x0)  /* application id */
+#define PS_OBJ_LDSO ((const char *)0x1)  /* runtime linker id */</pre><p>The controlling process can use the <code class="codeph">procfs</code> file system for
+                these objects, using the following pseudo code.
+               </p><pre class="oac_no_warn" dir="ltr">ioctl(...., PIOCNAUXV, ....)       - obtain AUX vectors
+ldsoaddr = auxv[AT_BASE];
+ldsofd = ioctl(...., PIOCOPENM, &amp;ldsoaddr);
+
+/* process elf information found in ldsofd .... */
+
+execfd = ioctl(...., PIOCOPENM, 0);
+
+/* process elf information found in execfd .... */</pre><p>Once the file descriptors are found, the <span>ELF</span> files can be
+                examined for their symbol information by the controlling program.
+               </p>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

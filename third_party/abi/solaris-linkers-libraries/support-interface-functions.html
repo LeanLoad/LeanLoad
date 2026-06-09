@@ -1,0 +1,458 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Support Interface Functions">
+      <meta name="DC.subject" content=", libelf.so.1, ld_version, ld_start, ld_start64, /usr/bin/ld, /usr/ccs/bin/ld, ld_open, ld_open64, ld_file, ld_file64, ld_input_section, ld_input_section64, ld_section, ld_section64, SHT_SUNW_COMDAT, COMDAT, SHF_EXCLUDE, -z&nbsp;strip-class, ld_input_done, ld_atexit, ld_atexit64">
+      <meta name="keywords" content=", libelf.so.1, ld_version, ld_start, ld_start64, /usr/bin/ld, /usr/ccs/bin/ld, ld_open, ld_open64, ld_file, ld_file64, ld_input_section, ld_input_section64, ld_section, ld_section64, SHT_SUNW_COMDAT, COMDAT, SHF_EXCLUDE, -z&nbsp;strip-class, ld_input_done, ld_atexit, ld_atexit64">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-01EB90DF-CE61-4E7E-BCC6-9BE26C9CA214">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Support Interface Functions</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="32-bit-environments-64-bit-environments.html" title="Previous" type="text/html">
+      <link rel="next" href="support-interface-example.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Support Interface Functions","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="32-bit-environments-64-bit-environments.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="support-interface-example.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-01EB90DF-CE61-4E7E-BCC6-9BE26C9CA214" name="GUID-01EB90DF-CE61-4E7E-BCC6-9BE26C9CA214"></a>
+         
+         <h2 id="OSLLG-GUID-01EB90DF-CE61-4E7E-BCC6-9BE26C9CA214" class="sect2">Support Interface Functions</h2>
+         <div class="ind">
+            <div>
+               <p>All <span>ld-support</span> interfaces are defined in the header file <code>link.h</code>. All interface arguments are basic C types or <span>ELF</span> types. The <span>ELF</span> data types can be examined with the <span>ELF</span> access library <code>libelf</code>. See <a href="https://docs.oracle.com/cd/E88353_01/html/E37845/elf-3elf.html" target="_blank">
+                     <code class="codeph">elf</code>(3ELF)</a> for a description of <code>libelf</code> contents. The following interface functions are provided by the <span>ld-support</span> interface, and are described in their expected order of use.
+               </p>
+               <dl>
+                  <dt class="dlterm"><a name="GUID-01EB90DF-CE61-4E7E-BCC6-9BE26C9CA214__GUID-30685880-BBAC-4D32-9EA9-60DF5D367475">
+                        <!-- --></a>
+                     <code class="codeph">ld_version</code>()
+                  </dt>
+                  <dd>
+                     
+                     <p>This function provides the initial handshake between the link-editor and the support library.</p>
+                     <pre class="oac_no_warn" dir="ltr">uint_t ld_version(uint_t <span class="variable" translate="no">version</span>);</pre>
+                     <p>The link-editor calls this interface with the highest version of the <span>ld-support</span> interface that the link-editor is capable of supporting. The support library can verify this version is sufficient for its use. The support library can then return the version that the support library expects to use. This version is normally <code class="codeph">LD_SUP_VCURRENT</code>.
+                     </p>
+                     
+                     <p>If the support library does not provide this interface, the initial support level <code class="codeph">LD_SUP_VERSION1</code> is assumed.
+                     </p>
+                     
+                     <p>If the support library returns the version <code class="codeph">LD_SUP_VNONE</code>, the link-editor silently unloads the support library, and proceeds without using it. If the returned version is greater than the <span>ld-support</span> interface the link-editor supports, a fatal error is issued, and the link-editor terminates execution. Otherwise, execution continues, using the support library at the specified <span>ld-support</span> interface version.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-01EB90DF-CE61-4E7E-BCC6-9BE26C9CA214__GUID-5012D60F-2FFE-4BD0-88BA-4358DB8C948B">
+                        <!-- --></a>
+                     <code class="codeph">ld_start</code>()
+                  </dt>
+                  <dd>
+                     
+                     <p>This function is called after initial validation of the link-editor command line. This function indicates the start of input file processing.</p>
+                     <pre class="oac_no_warn" dir="ltr">void ld_start(const char *<span class="variable" translate="no">name</span>, const Elf32_Half <span class="variable" translate="no">type</span>,
+    const char *<span class="variable" translate="no">caller</span>);
+
+void ld_start64(const char *<span class="variable" translate="no">name</span>, const Elf64_Half <span class="variable" translate="no">type</span>,
+    const char *<span class="variable" translate="no">caller</span>);</pre>
+                     <p>
+                        <code class="codeph">name</code> is the output file name being created. <code class="codeph">type</code> is the output file type, which is either <code class="codeph">ET_DYN</code>, <code class="codeph">ET_REL</code>, or <code class="codeph">ET_EXEC</code>, as defined in <code>sys/elf.h</code>. <code class="codeph">caller</code> is the application calling the interface, which is normally <code>/usr/bin/ld</code>, or <code>/usr/ccs/bin/ld</code>.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-01EB90DF-CE61-4E7E-BCC6-9BE26C9CA214__GUID-F02B049E-23A2-43C2-B0F9-33B4D3A0ED28">
+                        <!-- --></a>
+                     <code class="codeph">ld_open</code>()
+                  </dt>
+                  <dd>
+                     
+                     <p>This function is called for each file input to the link-edit. This function, which was added in version <code class="codeph">LD_SUP_VERSION3</code>, provides greater flexibility than the <code class="codeph">ld_file</code>() function. This function allows the support library to replace the file descriptor, <span>ELF</span> descriptor, together with the associated file names. This function provides the following possible usage scenarios.
+                     </p>
+                     
+                     <ul style="list-style-type: disc;">
+                        <li>
+                           
+                           <p>The addition of new sections to an existing <span>ELF</span> file. In this case, the original <span>ELF</span> descriptor should be replaced with a descriptor that allows the <span>ELF</span> file to be updated. See the <code class="codeph">ELF_C_RDWR</code> argument of <a href="https://docs.oracle.com/cd/E88353_01/html/E37845/elf-begin-3elf.html" target="_blank">
+                                 <code class="codeph">elf_begin</code>(3ELF)</a>.
+                           </p>
+                           
+                        </li>
+                        <li>
+                           
+                           <p>The entire input file can be replaced with an alternative. In this case, the original file descriptor and <span>ELF</span> descriptor should be replaced with descriptors that are associated with the new file.
+                           </p>
+                           
+                        </li>
+                     </ul>
+                     
+                     <p>In both scenarios the path name and file name can be replaced with
+                            alternative names that indicate the input file has been modified.</p>
+                     <pre class="oac_no_warn" dir="ltr">void ld_open(const char **<span class="variable" translate="no">pname</span>, const char **<span class="variable" translate="no">fname</span>, int *<span class="variable" translate="no">fd</span>,
+    int <span class="variable" translate="no">flags</span>, Elf **<span class="variable" translate="no">elf</span>, Elf *<span class="variable" translate="no">ref</span>, size_t <span class="variable" translate="no">off</span>, Elf_Kind <span class="variable" translate="no">kind</span>);
+
+void ld_open64(const char **<span class="variable" translate="no">pname</span>, const char **<span class="variable" translate="no">fname</span>, int *<span class="variable" translate="no">fd</span>,
+    int <span class="variable" translate="no">flags</span>, Elf **<span class="variable" translate="no">elf</span>, Elf *<span class="variable" translate="no">ref</span>, size_t <span class="variable" translate="no">off</span>, Elf_Kind <span class="variable" translate="no">kind</span>);</pre>
+                     <p>
+                        <code class="codeph">pname</code> is the path name of the input file about
+                            to be processed. <code class="codeph">fname</code> is the file name of the
+                            input file about to be processed. <code class="codeph">fname</code> is
+                            typically the base name of the <code class="codeph">pname</code>. Both
+<code class="codeph">pname</code> and <code class="codeph">fname</code> can be
+                            modified by the support library.
+                     </p>
+                     
+                     <p>
+                        <span class="variable" translate="no">fd</span> is the file descriptor of the input
+                            file. This descriptor can be closed by the support library, and a new
+                            file descriptor can be returned to the link-editor. A file descriptor
+                            with the value <code class="codeph">-1</code> can be returned to indicate that
+                            the file should be ignored.
+                     </p>
+                     
+                     <div class="infoboxnote" id="GUID-01EB90DF-CE61-4E7E-BCC6-9BE26C9CA214__GUID-E38C3C10-F42F-41A0-BD4D-B2F0AFA00FDD">
+                        <p class="notep1">Note:</p>
+                  The <span class="variable" translate="no">fd</span> passed to
+<code class="codeph">ld_open</code>() is set to the value
+<code class="codeph">-1</code> if the link-editor is unable to allow
+<code class="codeph">ld_open</code>() to close the file descriptor. The
+                                most common reason where this can occur is in the case of processing
+                                an archive member. If a value of <code class="codeph">-1</code> is passed to
+<code class="codeph">ld_open</code>(), the descriptor can not be closed,
+                                nor should a replacement descriptor be returned by the support
+                                library.
+
+                     </div>
+                     
+                     <p>The <code class="codeph">flags</code> field indicates how the link-editor
+                            obtained the file. This field can be one or more of the following
+                            definitions.
+                     </p>
+                     
+                     <ul style="list-style-type: disc;">
+                        <li>
+                           
+                           <p>
+                              <code class="codeph">LD_SUP_DERIVED</code> &#x2013; The file name was
+                                    not explicitly named on the command line. The file was derived
+                                    from a <code class="codeph">-l</code> expansion. Or, the file identifies an
+                                    extracted archive member.
+                           </p>
+                           
+                        </li>
+                        <li>
+                           
+                           <p>
+                              <code class="codeph">LD_SUP_EXTRACTED</code> &#x2013; The file was
+                                    extracted from an archive.
+                           </p>
+                           
+                        </li>
+                        <li>
+                           
+                           <p>
+                              <code class="codeph">LD_SUP_INHERITED</code> &#x2013; The file was
+                                    obtained as a dependency of a command line shared object.
+                           </p>
+                           
+                        </li>
+                     </ul>
+                     
+                     <p>If no <code class="codeph">flags</code> values are specified, then the
+                            input file has been explicitly named on the command line.
+                     </p>
+                     
+                     <p>
+                        <span class="variable" translate="no">elf</span> is the <span>ELF</span>
+                            descriptor of the input file. This descriptor can be closed by the
+                            support library, and a new <span>ELF</span> descriptor can be
+                            returned to the link-editor. An <span>ELF</span> descriptor with
+                            the value <code class="codeph">0</code> can be returned to indicate that the file
+                            should be ignored. When the <span class="variable" translate="no">elf</span> descriptor is
+                            associated with a member of an archive library, the
+<span class="variable" translate="no">ref</span> descriptor is the
+<span>ELF</span> descriptor of the underlying archive file.
+                            The <span class="variable" translate="no">off</span> represents the offset of the archive
+                            member within the archive file.
+                     </p>
+                     
+                     <p>
+                        <code class="codeph">kind</code> indicates the input file type, which is
+                            either <code class="codeph">ELF_K_AR</code>, or <code class="codeph">ELF_K_ELF</code>, as
+                            defined in <code>libelf.h</code>.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-01EB90DF-CE61-4E7E-BCC6-9BE26C9CA214__GUID-135BBA38-8BA2-4FF4-B60E-3D25944DF898">
+                        <!-- --></a>
+                     <code class="codeph">ld_file</code>()
+                  </dt>
+                  <dd>
+                     
+                     <p>This function is called for each file input to the
+                            link-edit. This function is called before any processing of the files
+                            data is carried out.</p>
+                     <pre class="oac_no_warn" dir="ltr">void ld_file(const char *<span class="variable" translate="no">name</span>, const Elf_Kind <span class="variable" translate="no">kind</span>, int <span class="variable" translate="no">flags</span>,
+    Elf *<span class="variable" translate="no">elf</span>);
+
+void ld_file64(const char *<span class="variable" translate="no">name</span>, const Elf_Kind <span class="variable" translate="no">kind</span>, int <span class="variable" translate="no">flags</span>,
+    Elf *<span class="variable" translate="no">elf</span>);</pre>
+                     <p>
+                        <code class="codeph">name</code> is the input file about to be processed.
+<code class="codeph">kind</code> indicates the input file type, which is
+                            either <code class="codeph">ELF_K_AR</code>, or <code class="codeph">ELF_K_ELF</code>, as
+                            defined in <code>libelf.h</code>. The
+<code class="codeph">flags</code> field indicates how the link-editor
+                            obtained the file. This field can contain the same definitions as the
+<code class="codeph">flags</code> field for
+<code class="codeph">ld_open</code>().
+                     </p>
+                     
+                     <ul style="list-style-type: disc;">
+                        <li>
+                           
+                           <p>
+                              <code class="codeph">LD_SUP_DERIVED</code> &#x2013; The file name was
+                                    not explicitly named on the command line. The file was derived
+                                    from a <code class="codeph">-l</code> expansion. Or, the file identifies an
+                                    extracted archive member.
+                           </p>
+                           
+                        </li>
+                        <li>
+                           
+                           <p>
+                              <code class="codeph">LD_SUP_EXTRACTED</code> &#x2013; The file was
+                                    extracted from an archive.
+                           </p>
+                           
+                        </li>
+                        <li>
+                           
+                           <p>
+                              <code class="codeph">LD_SUP_INHERITED</code> &#x2013; The file was
+                                    obtained as a dependency of a command line shared object.
+                           </p>
+                           
+                        </li>
+                     </ul>
+                     
+                     <p>If no <code class="codeph">flags</code> values are specified, then the
+                            input file has been explicitly named on the command line.
+                     </p>
+                     
+                     <p>
+                        <code class="codeph">elf</code> is the <span>ELF</span> descriptor of
+                            the input file.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-01EB90DF-CE61-4E7E-BCC6-9BE26C9CA214__GUID-125CA8C8-F84C-414C-BA1B-F1509AB883F1">
+                        <!-- --></a>
+                     <code class="codeph">ld_input_section</code>()
+                  </dt>
+                  <dd>
+                     
+                     <p>This function is called for each section of the input file.
+                            This function, which was added in version
+<code class="codeph">LD_SUP_VERSION2</code>, is called before the link-editor
+                            has determined whether the section should be propagated to the output
+                            file. This function differs from <code class="codeph">ld_section</code>()
+                            processing, which is only called for sections that contribute to the
+                            output file.
+                     </p>
+                     <pre class="oac_no_warn" dir="ltr">void ld_input_section(const char *<span class="variable" translate="no">name</span>, Elf32_Shdr **<span class="variable" translate="no">shdr</span>,
+    Elf32_Word <span class="variable" translate="no">sndx</span>, Elf_Data *<span class="variable" translate="no">data</span>, Elf *<span class="variable" translate="no">elf</span>, unit_t <span class="variable" translate="no">flags</span>);
+
+void ld_input_section64(const char *<span class="variable" translate="no">name</span>, Elf64_Shdr **<span class="variable" translate="no">shdr</span>,
+    Elf64_Word <span class="variable" translate="no">sndx</span>, Elf_Data *<span class="variable" translate="no">data</span>, Elf *<span class="variable" translate="no">elf</span>, uint_t <span class="variable" translate="no">flags</span>);</pre>
+                     <p>
+                        <code class="codeph">name</code> is the input section name.
+<code class="codeph">shdr</code> is a pointer to the associated section
+                            header. <code class="codeph">sndx</code> is the section index within the
+                            input file. <code class="codeph">data</code> is a pointer to the associated
+                            data buffer. <code class="codeph">elf</code> is a pointer to the file's
+<span>ELF</span> descriptor. <code class="codeph">flags</code> is
+                            reserved for future use.
+                     </p>
+                     
+                     <p>Modification of the section header is permitted by reallocating a
+                            section header and reassigning the <code class="codeph">*shdr</code> to the
+                            new header. The link-editor uses the section header information that
+<code class="codeph">*shdr</code> points to upon return from
+<code class="codeph">ld_input_section</code>() to process the section.
+                     </p>
+                     
+                     <p>You can modify the data by reallocating the data and reassigning the
+<code class="codeph">Elf_Data</code> buffer's
+<code class="codeph">d_buf</code> pointer. Any modification to the
+                            data should ensure the correct setting of the
+<code class="codeph">Elf_Data</code> buffer's
+<code class="codeph">d_size</code> element. For input sections that
+                            become part of the output image, setting the
+<code class="codeph">d_size</code> element to zero effectively
+                            removes the data from the output image.
+                     </p>
+                     
+                     <p>This function is called before compressed sections are decompressed,
+                            complicating the task of examining the data or replacing the data. For
+                            this reason, it is recommended that support libraries defer the
+                            examination and possible replacement of section data to
+<code class="codeph">ld_section</code>().
+                     </p>
+                     
+                     <p>The <code class="codeph">flags</code> field points to a
+<code class="codeph">uint_t</code> data field that is initially zero
+                            filled. No flags are currently assigned, although the ability to assign
+                            flags in future updates, by the link-editor or the support library, is
+                            provided.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-01EB90DF-CE61-4E7E-BCC6-9BE26C9CA214__GUID-D9EACF11-71D5-4FFF-B76B-F9D1C499A925">
+                        <!-- --></a>
+                     <code class="codeph">ld_section</code>()
+                  </dt>
+                  <dd>
+                     
+                     <p>This function is called for each section of the input file
+                            that is propagated to the output file. This function is called before
+                            any processing of the section data is carried out. However, sections
+                            containing compressed data are decompressed before this function is
+                            called.</p>
+                     <pre class="oac_no_warn" dir="ltr">void ld_section(const char *<span class="variable" translate="no">name</span>, Elf32_Shdr *<span class="variable" translate="no">shdr</span>,
+    Elf32_Word <span class="variable" translate="no">sndx</span>, Elf_Data *<span class="variable" translate="no">data</span>, Elf *<span class="variable" translate="no">elf</span>);
+
+void ld_section64(const char *<span class="variable" translate="no">name</span>, Elf64_Shdr *<span class="variable" translate="no">shdr</span>,
+    Elf64_Word <span class="variable" translate="no">sndx</span>, Elf_Data *<span class="variable" translate="no">data</span>, Elf *<span class="variable" translate="no">elf</span>);</pre>
+                     <p>
+                        <code class="codeph">name</code> is the input section name.
+<code class="codeph">shdr</code> is a pointer to the associated section
+                            header. <code class="codeph">sndx</code> is the section index within the
+                            input file. <code class="codeph">data</code> is a pointer to the associated
+                            data buffer. <code class="codeph">elf</code> is a pointer to the files
+<span>ELF</span> descriptor.
+                     </p>
+                     
+                     <p>You can modify the data by reallocating the data and reassigning the
+<code class="codeph">Elf_Data</code> buffer's
+<code class="codeph">d_buf</code> pointer. Any modification to the
+                            data should ensure the correct setting of the
+<code class="codeph">Elf_Data</code> buffer's
+<code class="codeph">d_size</code> element. For input sections that
+                            become part of the output image, setting the
+<code class="codeph">d_size</code> element to zero effectively
+                            removes the data from the output image.
+                     </p>
+                     
+                     <div class="infoboxnote" id="GUID-01EB90DF-CE61-4E7E-BCC6-9BE26C9CA214__GUID-1559C847-AFF7-4789-B750-1AFEF63F2C22">
+                        <p class="notep1">Note:</p>
+                  Sections that are removed from the output file are not
+                                reported to <code class="codeph">ld_section</code>(). Sections are stripped
+                                using the link-editor's <code class="codeph">-z&nbsp;strip-class</code> option.
+                                Sections are discarded due to <code class="codeph">SHT_SUNW_COMDAT</code>
+                                processing or <code class="codeph">SHF_EXCLUDE</code> identification. See
+<a href="comdat-section.html#GUID-368CD4AC-ADCF-4286-AC3A-057150FB2F39">COMDAT Section</a>, and
+    <span>ELF Section Attribute Flags</span>.
+
+                     </div>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-01EB90DF-CE61-4E7E-BCC6-9BE26C9CA214__GUID-ABF4DA1C-2E1E-414F-8888-E98353660326">
+                        <!-- --></a>
+                     <code class="codeph">ld_input_done</code>()
+                  </dt>
+                  <dd>
+                     
+                     <p>This function, which was added in version
+<code class="codeph">LD_SUP_VERSION2</code>, is called when input file
+                            processing is complete.
+                     </p>
+                     
+                     <p>At this point, all input sections have been assigned to the output
+                            file image. In addition, the information required to create and update
+                            this image, has been collected in preparation to apply to the initial
+                            image. Great care should be exercised with any attempt by
+<code class="codeph">ld_input_done</code>() to alter any data recorded from
+                            previous support routines. Any change to the identification or
+                            relationship of sections will be lost, or may compromise the creation of
+                            the output file image. Minor updates, such as the addition of section
+                            data that does not require relocation, or affect existing relocations,
+                            can be applied.
+                     </p>
+                     <pre class="oac_no_warn" dir="ltr">void ld_input_done(uint_t *<span class="variable" translate="no">flags</span>);</pre>
+                     <p>The <code class="codeph">flags</code> field points to a
+<code class="codeph">uint_t</code> data field that is initially zero
+                            filled. No flags are currently assigned, although the ability to assign
+                            flags in future updates, by the link-editor or the support library, is
+                            provided.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-01EB90DF-CE61-4E7E-BCC6-9BE26C9CA214__GUID-AA165DBE-5BD5-4494-A73F-F80760CD939A">
+                        <!-- --></a>
+                     <code class="codeph">ld_atexit</code>()
+                  </dt>
+                  <dd>
+                     
+                     <p>This function is called when the link-edit is
+                            complete.</p>
+                     <pre class="oac_no_warn" dir="ltr">void ld_atexit(int <span class="variable" translate="no">status</span>);
+
+void ld_atexit64(int <span class="variable" translate="no">status</span>);</pre>
+                     <p>
+                        <code class="codeph">status</code> is the <a href="https://docs.oracle.com/cd/E88353_01/html/E37841/exit-2.html" target="_blank">
+                           <code class="codeph">exit</code>(2)</a> code that will be returned by the
+                            link-editor and is either <code class="codeph">EXIT_FAILURE</code> or
+<code class="codeph">EXIT_SUCCESS</code>, as defined in
+<code>stdlib.h</code>.
+                     </p>
+                     
+                  </dd>
+               </dl>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

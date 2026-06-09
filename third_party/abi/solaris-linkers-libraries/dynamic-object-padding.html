@@ -1,0 +1,114 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Dynamic Object Padding">
+      <meta name="DC.subject" content="runtime linker support interfaces (rtld-debugger), rd_objpad_enable, mmapobj">
+      <meta name="keywords" content="runtime linker support interfaces (rtld-debugger), rd_objpad_enable, mmapobj">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-6538BDC5-9CE2-4266-AB9D-5CDEA0EB1AB0">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Dynamic Object Padding</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="procedure-linkage-table-skipping.html" title="Previous" type="text/html">
+      <link rel="next" href="debugger-import-interface.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Dynamic Object Padding","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="procedure-linkage-table-skipping.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="debugger-import-interface.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-6538BDC5-9CE2-4266-AB9D-5CDEA0EB1AB0" name="GUID-6538BDC5-9CE2-4266-AB9D-5CDEA0EB1AB0"></a>
+         
+         <h2 id="OSLLG-GUID-6538BDC5-9CE2-4266-AB9D-5CDEA0EB1AB0" class="sect2">Dynamic Object Padding</h2>
+         <div class="ind">
+            <div>
+               <p>The default behavior of the runtime linker relies on the operating system to
+                    load dynamic objects where they can be most efficiently referenced. Some
+                    controlling processes benefit from the existence of padding around the objects
+                    loaded into memory of the target process. This interface enables a controlling
+                    process to request this padding.</p>
+               <dl>
+                  <dt class="dlterm"><a name="GUID-6538BDC5-9CE2-4266-AB9D-5CDEA0EB1AB0__GUID-225A392A-5A4C-4F5E-9E52-1E59E99E231D">
+                        <!-- --></a>
+                     <code class="codeph">rd_objpad_enable</code>()
+                  </dt>
+                  <dd>
+                     
+                     <p>This function enables or disables the padding of any
+                                subsequently loaded objects with the target process. Padding occurs
+                                on both sides of the loaded object.</p>
+                     <pre class="oac_no_warn" dir="ltr">rd_err_e rd_objpad_enable(struct rd_agent *<span class="variable" translate="no">rdap</span>, size_t <span class="variable" translate="no">padsize</span>);</pre>
+                     <p>
+                        <code class="codeph">padsize</code> specifies the size of the
+                                padding, in bytes, to be preserved both before and after any objects
+                                loaded into memory. This padding is reserved as a memory mapping
+				from a <a href="https://docs.oracle.com/cd/E88353_01/html/E37841/mmapobj-2.html" target="_blank">
+                           <code class="codeph">mmapobj</code>(2)</a> request. Effectively, an area of the
+                                virtual address space of the target process, adjacent to any loaded
+                                objects, is reserved. These areas can later be used by the
+                                controlling process.
+                     </p>
+                     
+                     <p>A <code class="codeph">padsize</code> of 0 disables any object padding
+                                for later objects.
+                     </p>
+                     
+                  </dd>
+               </dl>
+               <div class="infoboxnote" id="GUID-6538BDC5-9CE2-4266-AB9D-5CDEA0EB1AB0__GUID-26ED599E-34D4-44AF-A178-9BFF5CED7ECD">
+                  <p class="notep1">Note:</p>
+         Reservations obtained using <a href="https://docs.oracle.com/cd/E88353_01/html/E37841/mmapobj-2.html" target="_blank">
+                     <code class="codeph">mmapobj</code>(2)</a> can be reported using the <a href="https://docs.oracle.com/cd/E88353_01/html/E37839/proc-1.html" target="_blank">
+                     <code class="codeph">proc</code>(1)</a> facilities and by referring to the link-map
+                        information provided in <code class="codeph">rd_loadobj_t</code>.
+
+               </div>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

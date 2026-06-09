@@ -1,0 +1,381 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Ancillary Section">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-333E8998-6F90-4089-BC54-4E59A2C7D1F0">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Ancillary Section</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="special-sections.html" title="Previous" type="text/html">
+      <link rel="next" href="comdat-section.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Ancillary Section","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="special-sections.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="comdat-section.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-333E8998-6F90-4089-BC54-4E59A2C7D1F0" name="GUID-333E8998-6F90-4089-BC54-4E59A2C7D1F0"></a>
+         
+         <h2 id="OSLLG-GUID-333E8998-6F90-4089-BC54-4E59A2C7D1F0" class="sect2">Ancillary Section</h2>
+         <div class="ind">
+            <div>
+               <p>In addition to the primary output object, the Solaris link-editor can produce one or more
+      ancillary objects. Ancillary objects contain non-allocable sections that are normally written
+      to the primary object. When ancillary objects are produced, the primary object and all of the
+      associated ancillary objects contain a <code class="codeph">SHT_SUNW_ancillary</code> section,
+      containing information that identifies these related objects. The ancillary section from any
+      of these objects provides the information needed to identify and interpret the other members
+      of the group.
+               </p>
+               <p>This section contains an array of the following structures. See
+<code>sys/elf.h</code>. 
+               </p><pre class="oac_no_warn" dir="ltr">typedef struct {
+        Elf32_Word      a_tag;
+        union {
+                Elf32_Word      a_val;
+                Elf32_Addr      a_ptr;
+        } a_un;
+} Elf32_Ancillary;
+
+typedef struct {
+        Elf64_Xword     a_tag;
+        union {
+                Elf64_Xword     a_val;
+                Elf64_Addr      a_ptr;
+        } a_un;
+} Elf64_Ancillary;</pre><p>For each object with this type, <code class="codeph">a_tag</code> controls the interpretation of
+<code class="codeph">a_un</code>.
+               </p>
+               <dl>
+                  <dt class="dlterm"><a name="GUID-333E8998-6F90-4089-BC54-4E59A2C7D1F0__GUID-8AC453BD-341D-4401-AF3F-4820C086713B">
+                        <!-- --></a>
+                     <code class="codeph">a_val</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>These objects represent integer values with various interpretations.</p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-333E8998-6F90-4089-BC54-4E59A2C7D1F0__GUID-51990DAA-3D27-4A34-83E2-01A1DEB7B60B">
+                        <!-- --></a>
+                     <code class="codeph">a_ptr</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>These objects represent program virtual addresses.</p>
+                     
+                  </dd>
+               </dl>
+               <p>The following ancillary tags exist.</p>
+               <div class="tblformal" id="GUID-333E8998-6F90-4089-BC54-4E59A2C7D1F0__GLZEO">
+                  <p class="titleintable">Table 14-13 
+<span>ELF</span> Ancillary Array Tags
+                  </p>
+                  <table cellpadding="4" cellspacing="0" class="Formal" title="&#xA;ELF Ancillary Array Tags" summary="&#xA;            Table defining ELF ancillary array tags.&#xA;" frame="hsides" border="1" rules="rows">
+                     <thead>
+                        <tr align="left" valign="top">
+                           <th align="left" valign="bottom" width="20%" id="d67287e78">
+Name
+</th>
+                           <th align="left" valign="bottom" width="20%" id="d67287e83">
+Value
+</th>
+                           <th align="left" valign="bottom" width="20%" id="d67287e88">
+
+c_un
+
+</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d67287e98" headers="d67287e78 ">
+                              
+                              <p>
+                                 <code class="codeph">ANC_SUNW_NULL</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d67287e98 d67287e83 ">
+                              
+                              <p>
+                                 <code class="codeph">0</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d67287e98 d67287e88 ">
+                              
+                              <p>Ignored</p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d67287e120" headers="d67287e78 ">
+                              
+                              <p>
+                                 <code class="codeph">ANC_SUNW_CHECKSUM</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d67287e120 d67287e83 ">
+                              
+                              <p>
+                                 <code class="codeph">1</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d67287e120 d67287e88 ">
+                              
+                              <p>
+                                 <code class="codeph">a_val</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d67287e145" headers="d67287e78 ">
+                              
+                              <p>
+                                 <code class="codeph">ANC_SUNW_MEMBER</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d67287e145 d67287e83 ">
+                              
+                              <p>
+                                 <code class="codeph">2</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d67287e145 d67287e88 ">
+                              
+                              <p>
+                                 <code class="codeph">a_ptr</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                     </tbody>
+                  </table>
+               </div>
+               <dl>
+                  <dt class="dlterm"><a name="GUID-333E8998-6F90-4089-BC54-4E59A2C7D1F0__GUID-20B3B090-FA70-401A-81D5-6B6D2FC1EF5C">
+                        <!-- --></a>
+                     <code class="codeph">ANC_SUNW_NULL</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Marks the end of the ancillary array.</p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-333E8998-6F90-4089-BC54-4E59A2C7D1F0__GUID-86D6E9FB-4660-49DA-A1ED-4C51578F85B5">
+                        <!-- --></a>
+                     <code class="codeph">ANC_SUNW_CHECKSUM</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Provides the checksum for a file in the <code class="codeph">c_val</code> element. When
+<code class="codeph">ANC_SUNW_CHECKSUM</code> precedes the first instance of
+<code class="codeph">ANC_SUNW_MEMBER</code>, it provides the checksum for the object from which
+            the ancillary section is being read. When it follows an
+<code class="codeph">ANC_SUNW_MEMBER</code> tag, it provides the checksum for that
+            member.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-333E8998-6F90-4089-BC54-4E59A2C7D1F0__GUID-9CE67824-58DE-4065-A972-BD78581AE9C6">
+                        <!-- --></a>
+                     <code class="codeph">ANC_SUNW_MEMBER</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Specifies an object name. The <code class="codeph">a_ptr</code> element contains the string
+            table offset of a null-terminated string, that provides the file name.
+                     </p>
+                     
+                  </dd>
+               </dl>
+               <p>An ancillary section must always contain an <code class="codeph">ANC_SUNW_CHECKSUM</code> before
+      the first instance of <code class="codeph">ANC_SUNW_MEMBER</code>, identifying the current object.
+      Following that, there should be an <code class="codeph">ANC_SUNW_MEMBER</code> for each object that
+      makes up the complete set of objects. Each <code class="codeph">ANC_SUNW_MEMBER</code> should be
+      followed by an <code class="codeph">ANC_SUNW_CHECKSUM</code> for that object. A typical ancillary
+      section is therefore be structured as follows.
+               </p>
+               <div class="tblformal" id="GUID-333E8998-6F90-4089-BC54-4E59A2C7D1F0__GUID-995BBB94-04D8-4788-99C2-F11A70B578DA">
+                  <table cellpadding="4" cellspacing="0" class="Formal" title summary="&#xA;            Table defining ancillary section structure.&#xA;" frame="hsides" border="1" rules="rows">
+                     <thead>
+                        <tr align="left" valign="top">
+                           <th align="left" valign="bottom" width="20%" id="d67287e243">
+Tag
+</th>
+                           <th align="left" valign="bottom" width="20%" id="d67287e248">
+Meaning
+</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d67287e255" headers="d67287e243 ">
+                              
+                              <p>
+                                 <code class="codeph">ANC_SUNW_CHECKSUM</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d67287e255 d67287e248 ">
+                              
+                              <p>Checksum of this object</p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d67287e269" headers="d67287e243 ">
+                              
+                              <p>
+                                 <code class="codeph">ANC_SUNW_MEMBER</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d67287e269 d67287e248 ">
+                              
+                              <p>Name of object #1</p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d67287e283" headers="d67287e243 ">
+                              
+                              <p>
+                                 <code class="codeph">ANC_SUNW_CHECKSUM</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d67287e283 d67287e248 ">
+                              
+                              <p>Checksum for object #1</p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d67287e297" headers="d67287e243 ">
+                              
+                              <p>…</p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d67287e297 d67287e248 ">&nbsp;</td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d67287e304" headers="d67287e243 ">
+                              
+                              <p>
+                                 <code class="codeph">ANC_SUNW_MEMBER</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d67287e304 d67287e248 ">
+                              
+                              <p>Name of object N</p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d67287e318" headers="d67287e243 ">
+                              
+                              <p>
+                                 <code class="codeph">ANC_SUNW_CHECKSUM</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d67287e318 d67287e248 ">
+                              
+                              <p>Checksum for object N</p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d67287e332" headers="d67287e243 ">
+                              
+                              <p>
+                                 <code class="codeph">ANC_SUNW_NULL</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d67287e332 d67287e248 ">&nbsp;</td>
+                        </tr>
+                     </tbody>
+                  </table>
+               </div>
+               <p>An object can therefore identify itself by comparing the initial
+<code class="codeph">ANC_SUNW_CHECKSUM</code> to each of the ones that follow, until it finds a
+      match.
+               </p>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

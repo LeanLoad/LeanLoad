@@ -1,0 +1,185 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Obtaining New Symbols">
+      <meta name="DC.subject" content=", dlsym, RTLD_FIRST, dlopen, RTLD_GLOBAL, RTLD_DEFAULT, RTLD_PROBE, RTLD_NEXT, unable to locate symbol">
+      <meta name="keywords" content=", dlsym, RTLD_FIRST, dlopen, RTLD_GLOBAL, RTLD_DEFAULT, RTLD_PROBE, RTLD_NEXT, unable to locate symbol">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-FA2A011A-042A-4D05-9A17-1DDF41D54192">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Obtaining New Symbols</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="object-hierarchies.html" title="Previous" type="text/html">
+      <link rel="next" href="testing-functionality.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Obtaining New Symbols","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="object-hierarchies.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="testing-functionality.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-FA2A011A-042A-4D05-9A17-1DDF41D54192" name="GUID-FA2A011A-042A-4D05-9A17-1DDF41D54192"></a>
+         
+         <h2 id="OSLLG-GUID-FA2A011A-042A-4D05-9A17-1DDF41D54192" class="sect2">Obtaining New Symbols</h2>
+         <div class="ind">
+            <div>
+               <p>A process can obtain the address of a specific symbol
+using <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/dlsym-3c.html" target="_blank">
+                     <code class="codeph">dlsym</code>(3C)</a>. This function takes a
+<span class="italic">handle</span> and a <span class="italic">symbol
+                                        name</span>, and returns the address of the symbol to
+                                the caller. The handle directs the search for the symbol in the
+                                following manner.
+               </p>
+               <ul style="list-style-type: disc;">
+                  <li>
+                     
+                     <p>A handle can be returned from a <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/dlopen-3c.html" target="_blank">
+                           <code class="codeph">dlopen</code>(3C)</a> of a named object. The
+                                                handle enables symbols to be obtained from the named
+                                                object and the objects that define its dependency
+                                                tree. A handle returned using the mode
+<code class="codeph">RTLD_FIRST</code>, enables symbols to
+                                                be obtained only from the named object.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>A handle can be returned from a <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/dlopen-3c.html" target="_blank">
+                           <code class="codeph">dlopen</code>(3C)</a> of a path name whose value is <code class="codeph">0</code>. The handle enables symbols to be obtained from the initiating object of the associated link-map and the objects that define its dependency tree. Typically, the initiating object is the executable. This handle also enables symbols to be obtained from any object obtained by a <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/dlopen-3c.html" target="_blank">
+                           <code class="codeph">dlopen</code>(3C)</a> with the <code class="codeph">RTLD_GLOBAL</code> mode, on the associated link-map. A handle returned using the mode <code class="codeph">RTLD_FIRST</code>, enables symbols to be obtained only from the initiating object of the associated link-map.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>The special handle
+<code class="codeph">RTLD_DEFAULT</code>, and
+<code class="codeph">RTLD_PROBE</code> enable symbols to be
+                                                obtained from the initiating object of the
+                                                associated link-map and objects that define its
+                                                dependency tree. This handle also enables symbols to
+						be obtained from any object obtained by a <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/dlopen-3c.html" target="_blank">
+                           <code class="codeph">dlopen</code>(3C)</a> that belongs to the same
+                                                group as the caller. Use of
+<code class="codeph">RTLD_DEFAULT</code>, or
+<code class="codeph">RTLD_PROBE</code> follows the same
+                                                model as used to resolve a symbolic relocation from
+                                                the calling object.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>The special handle
+<code class="codeph">RTLD_NEXT</code> enables symbols to be
+                                                obtained from the next associated object on the
+                                                callers link-map list.
+                     </p>
+                     
+                  </li>
+               </ul>
+               <p>In the following example, which is probably the most common, an
+                                application adds additional objects to its address space. The
+				application then uses <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/dlsym-3c.html" target="_blank">
+                     <code class="codeph">dlsym</code>(3C)</a> to locate function or data symbols. The application then uses these symbols to call upon services that
+                                are provided in these new objects. The file
+<code>main.c</code> contains the following
+                                code.
+               </p><pre class="oac_no_warn" dir="ltr">#include    &lt;stdio.h&gt;
+#include    &lt;dlfcn.h&gt;
+
+int main()
+{
+        void *handle;
+        int  *dptr, (*fptr)();
+
+        if ((handle = dlopen("foo.so.1", RTLD_LAZY)) == NULL) {
+                (void) printf("dlopen: %s\n", dlerror());
+                return (1);
+        }
+
+        if (((fptr = (int (*)())dlsym(handle, "foo")) == NULL) ||
+            ((dptr = (int *)dlsym(handle, "bar")) == NULL)) {
+                (void) printf("dlsym: %s\n", dlerror());
+                return (1);
+        }
+
+        return ((*fptr)(*dptr));
+}</pre><p>The symbols <code class="codeph">foo</code> and <code class="codeph">bar</code> are
+                                searched for in the file <code>foo.so.1</code>, followed by
+                                any dependencies that are associated with this file. The function
+<code class="codeph">foo</code> is then called with the single
+                                argument <code class="codeph">bar</code> as part of the
+<code class="codeph">return</code>() statement.
+               </p>
+               <p>The application <code>prog</code>, built using the previous
+                                file <code>main.c</code>, contains the following
+                                dependencies.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">ldd prog</span>
+        libc.so.1 =&gt;     /lib/libc.so.1</pre><p>If the file name specified in the <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/dlopen-3c.html" target="_blank">
+                     <code class="codeph">dlopen</code>(3C)</a> had the value 0, the symbols
+<code class="codeph">foo</code> and <code class="codeph">bar</code> are
+                                searched for in <code>prog</code>, followed by
+<code>/lib/libc.so.1</code>.
+               </p>
+               <p>The handle indicates the root at which to start a symbol search. From
+                                this root, the search mechanism follows the same model as described
+                                in <a href="relocation-symbol-lookup.html#GUID-FB3D58C7-82D5-4D25-82F1-A03974437C54">Relocation Symbol Lookup</a>.
+               </p>
+               <p>If the required symbol cannot be located, <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/dlsym-3c.html" target="_blank">
+                     <code class="codeph">dlsym</code>(3C)</a> returns a <code class="codeph">NULL</code> value. In this case, <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/dlerror-3c.html" target="_blank">
+                     <code class="codeph">dlerror</code>(3C)</a> can be used to indicate the true
+                                reason for the failure. In the following example, the application
+<code>prog</code> is unable to locate the symbol
+<code class="codeph">bar</code>.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">prog</span>
+dlsym: ld.so.1: main: fatal: bar: can't find symbol</pre></div>
+         </div>
+      </article>
+   </body>
+</html>

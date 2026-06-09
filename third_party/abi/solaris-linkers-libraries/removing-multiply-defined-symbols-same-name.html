@@ -1,0 +1,110 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Removing Multiply Defined Symbols of the Same Name">
+      <meta name="DC.subject" content=", mapfiles, FILTER">
+      <meta name="keywords" content=", mapfiles, FILTER">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-2BC89347-5473-44E7-8AD6-5912FCC3E4E9">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Removing Multiply Defined Symbols of the Same Name</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="localizing-symbol-instances.html" title="Previous" type="text/html">
+      <link rel="next" href="defining-explicit-interposition.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Removing Multiply Defined Symbols of the Same Name","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="localizing-symbol-instances.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="defining-explicit-interposition.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-2BC89347-5473-44E7-8AD6-5912FCC3E4E9" name="GUID-2BC89347-5473-44E7-8AD6-5912FCC3E4E9"></a>
+         
+         <h2 id="OSLLG-GUID-2BC89347-5473-44E7-8AD6-5912FCC3E4E9" class="sect2">Removing Multiply Defined Symbols of the Same Name</h2>
+         <div class="ind">
+            <div>
+               <p>Multiply defined symbols of the same name can be problematic within a directly bound environment, if the implementation associated with the symbol maintains state. Data symbols are the typical offenders in this regard, however functions that maintain state can also be problematic.</p>
+               <p>In a directly bound environment, multiple instances of the same symbol can be bound to. Therefore, different binding instances can manipulate different state variables that were originally intended to be a single instance within a process.</p>
+               <p>For example, suppose that two shared objects contain the same data item <code class="codeph">errval</code>. Suppose also, that two functions <code class="codeph">action</code>() and <code class="codeph">inspect</code>(), exist in different shared objects. These functions expect to write and read the value <code class="codeph">errval</code> respectively.
+               </p>
+               <p>With the default search model, one definition of <code class="codeph">errval</code> would interpose on the other definition. Both functions <code class="codeph">action</code>() and <code class="codeph">inspect</code>() would be bound to the same instance of <code class="codeph">errval</code>. Therefore, if an error code was written to <code class="codeph">errval</code> by <code class="codeph">action</code>(), then <code class="codeph">inspect</code>() could read, and act upon this error condition.
+               </p>
+               <p>However, suppose the objects containing <code class="codeph">action</code>() and <code class="codeph">inspect</code>() were bound to different dependencies that each defined <code class="codeph">errval</code>. Within a directly bound environment, these functions are bound to different definitions of <code class="codeph">errval</code>. An error code can be written to one instance of <code class="codeph">errval</code> by <code class="codeph">action</code>() while <code class="codeph">inspect</code>() reads the other, uninitialized definition of <code class="codeph">errval</code>. The outcome is that <code class="codeph">inspect</code>() detects no error condition to act upon.
+               </p>
+               <p>Multiple instances of data symbols typically occur when the symbols are declared in headers.</p><pre class="oac_no_warn" dir="ltr">
+<span class="bold">int bar;</span></pre><p>This data declaration results in a data item being produced by each compilation unit that includes the header. The resulting <span class="italic">tentative</span> data item can result in multiple instances of the symbol being defined in different dynamic objects.
+               </p>
+               <p>However, by explicitly defining the data item as external, <span class="italic">references</span> to the data item are produced for each compilation unit that includes the header.
+               </p><pre class="oac_no_warn" dir="ltr">
+<span class="bold">extern int bar;</span></pre><p>These references can then be resolved to one data instance at runtime.</p>
+               <p>Occasionally, the interface for a symbol implementation that you want to remove, should be preserved. Multiple instances of the same interface can be vectored to one implementation, while preserving any existing interface. This model can be achieved by creating individual symbol filters by using a <code class="codeph">FILTER</code>
+                  <code>mapfile</code> keyword. This keyword is described in <a href="symbol-scope-symbol-version-directives.html#GUID-38914CB2-D471-4CA3-8BC2-78323D4CD6B9">SYMBOL_SCOPE and SYMBOL_VERSION Directives</a>.
+               </p>
+               <p>Creating individual symbol filters is useful when dependencies expect to find a symbol in an object where the implementation for that symbol has been removed.</p>
+               <p>For example, suppose the function <code class="codeph">error</code>() exists in two shared objects, <code>A.so.1</code> and <code>B.so.1</code>. To remove the symbol duplication, you want to remove the implementation from <code>A.so.1</code>. However, other dependencies are relying on <code class="codeph">error</code>() being provided from <code>A.so.1</code>. The following example shows the definition of <code class="codeph">error</code>() in <code>A.so.1</code>. A <code>mapfile</code> is then used to allow the removal of the <code class="codeph">error</code>() implementation, while leaving a filter for this symbol that is directed to <code>B.so.1</code>.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cc -o A.so.1 -G -Kpic error.c a.c b.c ....</span>
+$ <span class="bold">elfdump -sN.dynsym A.so.1 | fgrep error</span>
+     [3]     0x300    0x14  FUNC GLOB  D    0 .text      error
+$ <span class="bold">cat mapfile</span>
+$mapfile_version 2
+SYMBOL_SCOPE {
+        global:
+                error { TYPE=FUNCTION; FILTER=B.so.1 };
+};
+$ <span class="bold">cc -o A.so.2 -G -Kpic -M mapfile a.c b.c ....</span>
+$ <span class="bold">elfdump -sN.dynsym A.so.2 | fgrep error</span>
+     [3]         0       0  FUNC GLOB  D    0 ABS        error
+$ <span class="bold">elfdump -y A.so.2 | fgrep error</span>
+     [3]  [ FILTER ]       [0] B.so.1         error</pre><p>The function <code class="codeph">error</code>() is global, and remains an exported interface of <code>A.so.2</code>. However, any runtime binding to this symbol is vectored to the <span>filtee</span>
+                  <code>B.so.1</code>. The letter "<code class="codeph">F</code>" indicates the filter nature of this symbol.
+               </p>
+               <p>This model of preserving existing interfaces, while vectoring to one implementation has been used in several Oracle Solaris libraries. For example, a number of math interfaces that were once defined in <code>libc.so.1</code> are now vectored to the preferred implementation of the functions in <code>libm.so.2</code>.
+               </p>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

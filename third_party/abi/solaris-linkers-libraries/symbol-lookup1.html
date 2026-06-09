@@ -1,0 +1,104 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Symbol Lookup">
+      <meta name="DC.subject" content="symbols, scope, runtime lookup, singleton">
+      <meta name="keywords" content="symbols, scope, runtime lookup, singleton">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-75F0D03A-B570-4BE1-8C12-DBC859CF0EC9">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Symbol Lookup</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="relocation-processing1.html" title="Previous" type="text/html">
+      <link rel="next" href="default-symbol-lookup-model.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Symbol Lookup","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="relocation-processing1.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="default-symbol-lookup-model.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-75F0D03A-B570-4BE1-8C12-DBC859CF0EC9" name="GUID-75F0D03A-B570-4BE1-8C12-DBC859CF0EC9"></a>
+         
+         <h2 id="OSLLG-GUID-75F0D03A-B570-4BE1-8C12-DBC859CF0EC9" class="sect2">Symbol Lookup</h2>
+         <div class="ind">
+            <div>
+               <p>If an object acquired by <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/dlopen-3c.html" target="_blank">
+                     <code class="codeph">dlopen</code>(3C)</a> refers to a global symbol,
+                                        the runtime linker must locate this symbol from the pool of
+                                        objects that make up the process. In the absence of direct
+                                        binding, a default symbol search model is applied to objects
+                                        obtained by <code class="codeph">dlopen</code>(). However, the mode
+                                        of a <code class="codeph">dlopen</code>() together with the
+                                        attributes of the objects that make up the process, provide
+                                        for alternative symbol search models.
+               </p>
+               <p>Objects that required direct binding, although maintaining all
+                                        the attributes described later, search for symbols directly
+                                        in the associated dependency. See <a href="direct-bindings.html#GUID-171688D0-F924-432D-8260-AC03C83317B9">Direct Bindings</a>.
+               </p>
+               <div class="infoboxnote" id="GUID-75F0D03A-B570-4BE1-8C12-DBC859CF0EC9__GUID-A666053C-86F0-4C57-9E4E-9EFC2DC01675">
+                  <p class="notep1">Note:</p>
+         Symbols assigned the
+<code class="codeph">STV_SINGLETON</code> visibility are
+                                                bound using the default symbol search, regardless of
+						any <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/dlopen-3c.html" target="_blank">
+                     						    <code class="codeph">dlopen</code>(3C)</a> attributes. See <span>ELF Symbol Visibility</span>.
+
+               </div>
+               <p>By default, objects obtained with <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/dlopen-3c.html" target="_blank">
+                     <code class="codeph">dlopen</code>(3C)</a> are assigned
+<span class="italic">world</span> symbol search scope, and
+<span class="italic">local</span> symbol visibility. The
+                                        section, <a href="default-symbol-lookup-model.html#GUID-D87C0F3C-8B70-4E8D-AFBE-ECEDF1A7CD4B">Default Symbol Lookup Model</a>, uses this default model to
+                                        illustrate typical object group interactions. The sections
+<a href="defining-global-object.html#GUID-E5C0CDB8-57D4-4935-A2F7-3991DC01CAD8">Defining a Global Object</a>, <a href="isolating-group.html#GUID-5E8EF253-42DB-44AB-A26D-7EE842C0E99D">Isolating a Group</a>, and <a href="object-hierarchies.html#GUID-371D0A8B-EE81-4BFC-AE23-0E15D4B2747E">Object Hierarchies</a>
+show examples of using <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/dlopen-3c.html" target="_blank">
+                     <code class="codeph">dlopen</code>(3C)</a> modes and file attributes to
+                                        extend the default symbol lookup model.
+               </p>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

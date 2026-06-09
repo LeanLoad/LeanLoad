@@ -1,0 +1,110 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="-K pic and -K PIC Options">
+      <meta name="DC.subject" content="compiler options, -K PIC, _GLOBAL_OFFSET_TABLE_">
+      <meta name="keywords" content="compiler options, -K PIC, _GLOBAL_OFFSET_TABLE_">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-6A1F4C90-4FBD-487A-9AE5-86EFFB5F8CB1">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>-K pic and -K PIC Options</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="position-independent-code.html" title="Previous" type="text/html">
+      <link rel="next" href="removing-unused-material.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"-K pic and -K PIC Options","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="position-independent-code.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="removing-unused-material.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-6A1F4C90-4FBD-487A-9AE5-86EFFB5F8CB1" name="GUID-6A1F4C90-4FBD-487A-9AE5-86EFFB5F8CB1"></a>
+         
+         <h2 id="OSLLG-GUID-6A1F4C90-4FBD-487A-9AE5-86EFFB5F8CB1" class="sect2">
+            <code class="codeph">-K pic</code> and <code class="codeph">-K PIC</code> Options
+         </h2>
+         <div class="ind">
+            <div>
+               <p>For SPARC binaries, a subtle difference between the <code class="codeph">-K
+                    pic</code> option and an alternative <code class="codeph">-K PIC</code> option affects
+                references to global offset table entries. See <a href="global-offset-table-processor-specific.html#GUID-6702A8AA-D2EA-4C68-AD83-F04C4EF94410">Global Offset Table (Processor-Specific)</a>.
+               </p>
+               <p>The global offset table is an array of pointers, the size of whose entries are
+                constant for 32-bit (4 bytes) and 64-bit (8 bytes). The
+                following code sequence makes reference to an entry under <code class="codeph">-K
+                pic</code>.
+               </p><pre class="oac_no_warn" dir="ltr">        ld    [%l7 + j], %o0    ! load &amp;j into %o0</pre><p>Where <code class="codeph">%l7</code> is the precomputed value of the symbol
+<code class="codeph">_GLOBAL_OFFSET_TABLE_</code> of the object making the
+                reference.
+               </p>
+               <p>This code sequence provides a 13-bit displacement constant for the global
+                offset table entry. This displacement therefore provides for 2048 unique entries for
+                32-bit objects, and 1024 unique entries for 64-bit objects. If the
+                creation of an object requires more than the available number of entries, the
+                link-editor produces a fatal error.</p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cc -K pic -G -o lobfoo.so.1 a.o b.o .... z.o</span>
+ld: fatal: too many symbols require 'small' PIC references: \
+    have 2050, maximum 2048 -- recompile some modules -K PIC.</pre><p>To overcome this error condition, compile some of the input relocatable objects
+                with the <code class="codeph">-K PIC</code> option. This option provides a 32-bit constant
+                for the global offset table entry.
+               </p><pre class="oac_no_warn" dir="ltr">        sethi %hi(j), %g1
+        or    %g1, %lo(j), %g1    ! get 32-bit constant GOT offset
+        ld    [%l7 + %g1], %o0    ! load &amp;j into %o0</pre><p>You can investigate the global offset table requirements of an object using <a href="https://docs.oracle.com/cd/E88353_01/html/E37839/elfdump-1.html" target="_blank">
+                     <code class="codeph">elfdump</code>(1)</a> with the <code class="codeph">-G</code> option. You can also examine
+                the processing of these entries during a link-edit using the link-editors debugging
+                tokens <code class="codeph">-D got,detail</code>.
+               </p>
+               <p>Ideally, frequently accessed data items benefit from using the <code class="codeph">-K
+                    pic</code> model. You can reference a single entry using both models. However,
+                determining which relocatable objects should be compiled with either option can be
+                time consuming, and the performance improvement realized small. A recompilation of
+                all relocatable objects with the <code class="codeph">-K PIC</code> option is typically
+                easier.
+               </p>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

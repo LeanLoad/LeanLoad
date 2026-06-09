@@ -1,0 +1,288 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="LOAD, NOTE, NULL, and RESERVE_SEGMENT Directives">
+      <meta name="DC.subject" content=", mapfiles, SEGMENT, LOAD_SEGMENT, NOTE_SEGMENT, NULL_SEGMENT, RESERVE_SEGMENT">
+      <meta name="keywords" content=", mapfiles, SEGMENT, LOAD_SEGMENT, NOTE_SEGMENT, NULL_SEGMENT, RESERVE_SEGMENT">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-FCA1069D-697F-4B67-8B8F-BFDA21F4A20E">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>LOAD, NOTE, NULL, and RESERVE_SEGMENT Directives</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="phdr-add-null-directive.html" title="Previous" type="text/html">
+      <link rel="next" href="align-attribute-load-reserve.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"LOAD, NOTE, NULL, and RESERVE_SEGMENT Directives","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="phdr-add-null-directive.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="align-attribute-load-reserve.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-FCA1069D-697F-4B67-8B8F-BFDA21F4A20E" name="GUID-FCA1069D-697F-4B67-8B8F-BFDA21F4A20E"></a>
+         
+         <h2 id="OSLLG-GUID-FCA1069D-697F-4B67-8B8F-BFDA21F4A20E" class="sect2">
+            <code class="codeph">LOAD</code>, <code class="codeph">NOTE</code>, <code class="codeph">NULL</code>, and
+<code class="codeph">RESERVE_SEGMENT</code> Directives
+         </h2>
+         <div class="ind">
+            <div>
+               <p>A segment is a contiguous portion of the output object that contains sections, or
+                a memory reservation within the process that uses the object. The family of
+<code>mapfile</code> segment directives are used to specify the segments for
+                an object. The following directives are provided.
+               </p>
+               <dl>
+                  <dt class="dlterm"><a name="GUID-FCA1069D-697F-4B67-8B8F-BFDA21F4A20E__GUID-3FD974E5-5A06-4474-A0F8-2E2F3A6F4E24">
+                        <!-- --></a>
+                     <span class="bold">LOAD_SEGMENT Directive</span>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>A loadable segment contains code or data that is <span>mapped</span> into the address space of a process at runtime. The link-editor creates a <code class="codeph">PT_LOAD</code> program header entry for each allocable segment, which is used by the runtime linker to locate and map the segment.
+                     </p>
+                     <pre class="oac_no_warn" dir="ltr">        LOAD_SEGMENT <span class="variable" translate="no">segment_name</span> {
+                ALIGN = <span class="variable" translate="no">value</span>;
+
+                ASSIGN_SECTION [<span class="variable" translate="no">assign_name</span>];
+                ASSIGN_SECTION [<span class="variable" translate="no">assign_name</span>] {
+                        FILE_BASENAME = <span class="variable" translate="no">file_basename</span>;
+                        FILE_BASENAME = MATCH(<span class="variable" translate="no">...</span>);
+
+                        FILE_OBJNAME = <span class="variable" translate="no">objname</span>;
+                        FILE_OBJNAME = MATCH(<span class="variable" translate="no">...</span>);
+
+                        FILE_PATH = <span class="variable" translate="no">file_path</span>;
+                        FILE_PATH = MATCH(<span class="variable" translate="no">...</span>);
+
+                        FLAGS = <span class="variable" translate="no">section_flags</span>;
+                        TYPE = <span class="variable" translate="no">section_type</span>;
+
+                        IS_NAME = <span class="variable" translate="no">section_name</span>;
+                        IS_NAME = MATCH(<span class="variable" translate="no">...</span>);
+                
+                        OUTPUT_SECTION {
+                                ANCILLARY = <span class="variable" translate="no">anc_name</span>;
+
+                                DISCARD;
+                        
+                                FLAGS = <span class="variable" translate="no">section_flags</span>;
+                                FLAGS += <span class="variable" translate="no">section_flags</span>;
+                                FLAGS -= <span class="variable" translate="no">section_flags</span>;
+
+                                NAME = <span class="variable" translate="no">section_name</span>;
+                                NAME = MATCHREF(<span class="variable" translate="no">...</span>);
+
+                                TYPE = <span class="variable" translate="no">section_type</span>;
+                        };
+                };
+
+                DISABLE;
+
+                FLAGS  = <span class="variable" translate="no">segment_flags</span>;
+                FLAGS += <span class="variable" translate="no">segment_flags</span>;
+                FLAGS -= <span class="variable" translate="no">segment_flags</span>;
+    
+                IS_ORDER  = <span class="variable" translate="no">assign_name....</span>;
+                IS_ORDER += <span class="variable" translate="no">assign_name....</span>;
+
+                MAX_SIZE = <span class="variable" translate="no">value</span>;
+                NOHDR;
+
+                OS_ORDER  = <span class="variable" translate="no">section_name....</span>;
+                OS_ORDER += <span class="variable" translate="no">section_name....</span>;
+
+                PADDR = <span class="variable" translate="no">value</span>;
+                ROUND = <span class="variable" translate="no">value</span>;
+
+                SIZE_SYMBOL  = <span class="variable" translate="no">symbol_name....</span>;
+                SIZE_SYMBOL += <span class="variable" translate="no">symbol_name....</span>;
+
+                VADDR = <span class="variable" translate="no">value</span>;
+        };</pre>
+                     </dd>
+                  <dt class="dlterm"><a name="GUID-FCA1069D-697F-4B67-8B8F-BFDA21F4A20E__GUID-8D264D80-24BD-4D2D-B9A8-48FFF6C15DD0">
+                        <!-- --></a>
+                     <span class="bold">NOTE_SEGMENT Directive</span>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>A note segment contains note sections. The link-editor creates a <code class="codeph">PT_NOTE</code> program header entry that references the segment. Note segments are not allocable.
+                     </p>
+                     
+                     <p>The syntax of the <code class="codeph">ASSIGN_SECTION</code> attribute is
+                            identical to that of the <code class="codeph">LOAD_SEGMENT</code> directive, and
+                            is not reproduced here in the interest of brevity.
+                     </p>
+                     <pre class="oac_no_warn" dir="ltr">        NOTE_SEGMENT <span class="variable" translate="no">segment_name</span> {
+                ASSIGN_SECTION [<span class="variable" translate="no">assign_name</span>];
+                ASSIGN_SECTION [<span class="variable" translate="no">assign_name</span>] {
+<span class="variable" translate="no">...See LOAD_SEGMENT...</span>
+                };
+
+                DISABLE;
+
+                IS_ORDER  = <span class="variable" translate="no">assign_name....</span>;
+                IS_ORDER += <span class="variable" translate="no">assign_name....</span>;
+
+                OS_ORDER  = <span class="variable" translate="no">section_name....</span>;
+                OS_ORDER += <span class="variable" translate="no">section_name....</span>;
+        };</pre>
+                     </dd>
+                  <dt class="dlterm"><a name="GUID-FCA1069D-697F-4B67-8B8F-BFDA21F4A20E__GUID-882799D3-6CBC-4337-AF6D-555650510AA1">
+                        <!-- --></a>
+                     <span class="bold">NULL_SEGMENT Directive</span>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>A null segment holds sections that are included in the output object,
+                            but which are not available to the object at runtime. Common examples of
+                            such sections are the <code class="codeph">.symtab</code> symbol table, and the
+                            various sections produced for the benefit of debuggers. No program
+                            header is created for a null segment.
+                     </p>
+                     
+                     <p>The syntax of the <code class="codeph">ASSIGN_SECTION</code> attribute is
+                            identical to that of the <code class="codeph">LOAD_SEGMENT</code> directive, and
+                            is not reproduced here in the interest of brevity.
+                     </p>
+                     <pre class="oac_no_warn" dir="ltr">        NULL_SEGMENT <span class="variable" translate="no">segment_name</span> {
+                ASSIGN_SECTION [<span class="variable" translate="no">assign_name</span>];
+                ASSIGN_SECTION [<span class="variable" translate="no">assign_name</span>] {
+<span class="variable" translate="no">See LOAD_SEGMENT...</span>
+                };
+
+                DISABLE;
+
+                IS_ORDER  = <span class="variable" translate="no">assign_name....</span>;
+                IS_ORDER += <span class="variable" translate="no">assign_name....</span>;
+
+                OS_ORDER  = <span class="variable" translate="no">section_name....</span>;
+                OS_ORDER += <span class="variable" translate="no">section_name....</span>;
+        };</pre>
+                     </dd>
+                  <dt class="dlterm"><a name="GUID-FCA1069D-697F-4B67-8B8F-BFDA21F4A20E__GUID-CE1AD923-B5E9-4FB0-8F1F-D1ADB1B92EAB">
+                        <!-- --></a>
+                     <span class="bold">RESERVE_SEGMENT Directive</span>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>A memory reservation provides the means to reserve a portion of a
+                            process address. Mapping operations are able to use the reserved memory
+                            by explicitly specifying a fixed address within the reserved range.
+                            However, the system will not otherwise choose to map objects and or
+                            other files within a reserved range. The <code class="codeph">TYPE</code>
+                            attribute determines the type of memory reservation to be
+                            created.
+                     </p>
+                     <pre class="oac_no_warn" dir="ltr">        RESERVE_SEGMENT <span class="variable" translate="no">segment_name</span> {
+                ALIGN = <span class="variable" translate="no">value</span>;
+                PADDR = <span class="variable" translate="no">value</span>;
+                ROUND = <span class="variable" translate="no">value</span>;
+                SIZE = <span class="variable" translate="no">value</span>;
+
+                SIZE_SYMBOL  = <span class="variable" translate="no">symbol_name....</span>;
+                SIZE_SYMBOL += <span class="variable" translate="no">symbol_name....</span>;
+
+                TYPE = <span class="variable" translate="no">reservation_type</span>
+                VADDR = <span class="variable" translate="no">value</span>;
+        };</pre>
+                     </dd>
+               </dl>
+               <p>Segment directives are used to create new segments in the output file, or to
+                change the attribute values of an existing segment. An existing segment is one that
+                was previous defined, or one of the built-in segments discussed in <a href="predefined-segments.html#GUID-F45FA064-3173-4ED1-9221-61D48D14D751">Predefined Segments</a>. Each new segment is added to the
+                object after the last such segment of the same type. Loadable segments are added
+                first, then note segments, and finally null segments. Any program headers associated
+                with these segments are placed in the program header array in the same relative
+                order as the segments themselves. This default placement can be altered by setting
+                an explicit address in the case of a loadable segment, or using the
+<code class="codeph">SEGMENT_ORDER</code> directive.
+               </p>
+               <p>If <span class="variable" translate="no">segment_name</span> is a preexisting segment, then the
+                attributes specified modify the existing segment. Otherwise, a new segment is
+                created and the specified attributes are applied to the new segment. The link-editor
+                fills in default values for attributes not explicitly supplied.
+               </p>
+               <div class="infoboxnote" id="GUID-FCA1069D-697F-4B67-8B8F-BFDA21F4A20E__GUID-7109183F-7C16-44B3-9DA7-45205FCCA28C">
+                  <p class="notep1">Note:</p>
+         When selecting a segment name, bear in mind that a future version of the
+                    link-editor might add new predefined segments. If the name used in your segment
+                    directive matches this new name, the new predefined segment will alter the
+                    meaning of your <code>mapfile</code>, from creating a new segment to
+                    modifying an existing one. The best way to prevent this situation is to avoid
+                    generic names for segments, and give all of your segment names a unique prefix,
+                    such as a company/project identifier, or even the name of the program. For
+                    example, a program named <code class="codeph">hello_world</code> might use the segment
+                    name <code class="codeph">hello_world_data_segment</code>.
+
+               </div>
+               <p>The <code class="codeph">LOAD_SEGMENT</code>, <code class="codeph">NOTE_SEGMENT</code>, and
+<code class="codeph">NULL_SEGMENT</code> directives can be specified as an empty
+                directive. When an empty segment directive creates a new segment, default values are
+                established for all segment attributes. Empty segments are declared as
+                follows.
+               </p><pre class="oac_no_warn" dir="ltr">        LOAD_SEGMENT <span class="variable" translate="no">segment_name</span>;
+
+        NOTE_SEGMENT <span class="variable" translate="no">segment_name</span>;
+
+        NULL_SEGMENT <span class="variable" translate="no">segment_name</span>;</pre><p>The <code class="codeph">RESERVE_SEGMENT</code> directive always requires the
+<code class="codeph">VADDR</code>, and <code class="codeph">SIZE</code> attributes to be
+                specified, and so, cannot be empty.
+               </p>
+               <p>All of the attributes accepted by one or more of the segment directives are
+                described below. For each attribute, the name of the directives that accept it are
+                shown in the section title, in parenthesis, with the <code class="codeph">_SEGMENT</code>
+                suffix omitted.
+               </p>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

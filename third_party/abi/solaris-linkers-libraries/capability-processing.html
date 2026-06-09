@@ -1,0 +1,135 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Capability Processing">
+      <meta name="DC.subject" content="capabilities, object, object capabilities, symbol, symbol capabilities, platform, machine, hardware, software">
+      <meta name="keywords" content="capabilities, object, object capabilities, symbol, symbol capabilities, platform, machine, hardware, software">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-353ED8B8-C482-4343-8EBD-C71CCEBDA83C">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Capability Processing</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="using-nodirect-mapfile-keyword.html" title="Previous" type="text/html">
+      <link rel="next" href="identifying-capability-requirements.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Capability Processing","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="using-nodirect-mapfile-keyword.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="identifying-capability-requirements.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-353ED8B8-C482-4343-8EBD-C71CCEBDA83C" name="GUID-353ED8B8-C482-4343-8EBD-C71CCEBDA83C"></a>
+         
+         <h2 id="OSLLG-GUID-353ED8B8-C482-4343-8EBD-C71CCEBDA83C" class="sect2"><span class="enumeration_chapter">8 </span>Capability Processing
+         </h2>
+         <div class="ind">
+            <div>
+               <p>Systems can offer various capabilities that are required for code to execute correctly. Systems can also offer services that are required to establish a process, or might be important for debugging or monitoring that process. Objects convey these requirements by defining their capability needs within a <span class="italic">capabilities</span> section.
+               </p>
+               <p>Code that can only be executed when certain capabilities are available should identify these requirements by means of a capabilities section. Recording capability requirements within an object allows the system to validate the object before attempting to execute the associated code. These requirements can also provide a framework where the system can select the most appropriate object from a family of objects, or symbol from a family of symbols. A family consists of instances of the same object or symbol, where each instance requires different capabilities.</p>
+               <p>The following capabilities provide for the validation of an object. These capabilities also provide for the selection of capabilities instances from a family of objects or symbols.</p>
+               <ul style="list-style-type: disc;">
+                  <li>
+                     
+                     <p>A <span class="italic">platform</span> capability - identifies a specific platform by name.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>A <span class="italic">machine</span> capability - identifies a specific machine hardware by name.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>
+                        <span class="italic">Hardware</span> capabilities - identify instruction set extensions and other hardware details with capabilities flags.
+                     </p>
+                     
+                  </li>
+               </ul>
+               <p>When more than one capability instance can be exercised on the same system, a set of precedence rules are used to select one instance. These rules are the same for selecting from a family of objects, or for selecting from a family of symbols within an object.</p>
+               <ul style="list-style-type: disc;">
+                  <li>
+                     
+                     <p>A capability group that defines a platform name takes precedence over a group that does not define a platform name.</p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>A capability group that defines a machine hardware name takes precedence over a group that does not define a machine hardware name.</p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>A larger hardware capabilities value takes precedence over a smaller hardware capabilities value.</p>
+                     
+                  </li>
+               </ul>
+               <p>Objects can also use capabilities to affect process creation or relay other software environment requirements. These capabilities are not inspected as part of object validation, or as part of object or symbol selection, but provide additional information that can affect the process. The following capability provides software information.</p>
+               <ul style="list-style-type: disc;">
+                  <li>
+                     
+                     <p>
+                        <span class="italic">Software</span> capabilities - reflect attributes of the software environment with capabilities flags.
+                     </p>
+                     
+                  </li>
+               </ul>
+               <p>Each of these capabilities can be defined individually, or combined to produce a capabilities group.</p>
+               <p>Dynamic objects, as well as individual functions or initialized data items within an object, can be associated with capability requirements. Some capability requirements are recorded in the relocatable objects that are produced by the compiler, and reflect the options or optimization that was specified at compile time. The link-editor combines the capabilities of any input relocatable objects to create a final capabilities section for the output file. See <a href="capabilities-section.html#GUID-DF0B57D7-0758-4713-A009-8472460D5029">Capabilities Section</a>.
+               </p>
+               <p>In addition, capabilities can be defined when the link-editor creates an output file. These capabilities are identified using a <code>mapfile</code> and the link-editor's <code class="codeph">-M</code> option. Capabilities that are defined by using a <code>mapfile</code> can augment, or override, the capabilities that are specified within any input relocatable objects. <code>Mapfiles</code> are usually used to augment compilers that do not generate the necessary capability information, or to override compiler generated capabilities information in special circumstances.
+               </p>
+               <p>For a simple example that describes creating and exercising symbol capability variants, see <a href="symbol-capabilities-example.html#GUID-561AD592-4D16-4718-A36E-31B1D81258F5">Symbol Capabilities Example</a>.
+               </p>
+               <p>This chapter describes the creation and use of capabilities together with techniques for exercising capabilities instances.</p>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

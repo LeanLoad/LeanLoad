@@ -1,0 +1,791 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="32-bit x86: Relocation Types">
+      <meta name="DC.subject" content="global offset table, x86">
+      <meta name="keywords" content="global offset table, x86">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-2CE5C854-5AD8-4CC5-AABA-C03BED1C3FC0">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>32-bit x86: Relocation Types</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="x86-relocation-entries.html" title="Previous" type="text/html">
+      <link rel="next" href="x64-relocation-types.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"32-bit x86: Relocation Types","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="x86-relocation-entries.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="x64-relocation-types.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-2CE5C854-5AD8-4CC5-AABA-C03BED1C3FC0" name="GUID-2CE5C854-5AD8-4CC5-AABA-C03BED1C3FC0"></a>
+         
+         <h2 id="OSLLG-GUID-2CE5C854-5AD8-4CC5-AABA-C03BED1C3FC0" class="sect2">32-bit x86: Relocation Types</h2>
+         <div class="ind">
+            <div>
+               <p>The relocations that are listed in the following table are defined for 32-bit
+        x86.</p>
+               <div class="tblformal" id="GUID-2CE5C854-5AD8-4CC5-AABA-C03BED1C3FC0__CHAPTER6-TBL-27">
+                  <p class="titleintable">Table 14-18 32-bit x86: <span>ELF</span> Relocation Types
+                  </p>
+                  <table cellpadding="4" cellspacing="0" class="Formal" title="32-bit x86: ELF Relocation Types" summary="&#xA;            Table defining ELF x86 relocation types.&#xA;" frame="hsides" border="1" rules="rows">
+                     <thead>
+                        <tr align="left" valign="top">
+                           <th align="left" valign="bottom" width="20%" id="d77972e58">
+Name
+</th>
+                           <th align="left" valign="bottom" width="20%" id="d77972e63">
+Value
+</th>
+                           <th align="left" valign="bottom" width="20%" id="d77972e68">
+Field
+</th>
+                           <th align="left" valign="bottom" width="20%" id="d77972e73">
+Calculation
+</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d77972e80" headers="d77972e58 ">
+                              
+                              <p>
+                                 <code class="codeph">R_386_NONE</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d77972e80 d77972e63 ">
+                              
+                              <p>
+                                 <code class="codeph">0</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d77972e80 d77972e68 ">
+                              
+                              <p>
+                                 <span>None</span>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d77972e80 d77972e73 ">
+                              
+                              <p>
+                                 <span>None</span>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d77972e113" headers="d77972e58 ">
+                              
+                              <p>
+                                 <code class="codeph">R_386_32</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d77972e113 d77972e63 ">
+                              
+                              <p>
+                                 <code class="codeph">1</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d77972e113 d77972e68 ">
+                              
+                              <p>
+                                 <code class="codeph">word32</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d77972e113 d77972e73 ">
+                              
+                              <p>
+                                 <code class="codeph">S + A</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d77972e146" headers="d77972e58 ">
+                              
+                              <p>
+                                 <code class="codeph">R_386_PC32</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d77972e146 d77972e63 ">
+                              
+                              <p>
+                                 <code class="codeph">2</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d77972e146 d77972e68 ">
+                              
+                              <p>
+                                 <code class="codeph">word32</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d77972e146 d77972e73 ">
+                              
+                              <p>
+                                 <code class="codeph">S + A - P</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d77972e179" headers="d77972e58 ">
+                              
+                              <p>
+                                 <code class="codeph">R_386_GOT32</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d77972e179 d77972e63 ">
+                              
+                              <p>
+                                 <code class="codeph">3</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d77972e179 d77972e68 ">
+                              
+                              <p>
+                                 <code class="codeph">word32</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d77972e179 d77972e73 ">
+                              
+                              <p>
+                                 <code class="codeph">G + A</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d77972e212" headers="d77972e58 ">
+                              
+                              <p>
+                                 <code class="codeph">R_386_PLT32</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d77972e212 d77972e63 ">
+                              
+                              <p>
+                                 <code class="codeph">4</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d77972e212 d77972e68 ">
+                              
+                              <p>
+                                 <code class="codeph">word32</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d77972e212 d77972e73 ">
+                              
+                              <p>
+                                 <code class="codeph">L + A - P</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d77972e245" headers="d77972e58 ">
+                              
+                              <p>
+                                 <code class="codeph">R_386_COPY</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d77972e245 d77972e63 ">
+                              
+                              <p>
+                                 <code class="codeph">5</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d77972e245 d77972e68 ">
+                              
+                              <p>
+                                 <span>None</span>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d77972e245 d77972e73 ">
+                              
+                              <p>Refer to the explanation following this table.</p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d77972e275" headers="d77972e58 ">
+                              
+                              <p>
+                                 <code class="codeph">R_386_GLOB_DAT</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d77972e275 d77972e63 ">
+                              
+                              <p>
+                                 <code class="codeph">6</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d77972e275 d77972e68 ">
+                              
+                              <p>
+                                 <code class="codeph">word32</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d77972e275 d77972e73 ">
+                              
+                              <p>
+                                 <code class="codeph">S</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d77972e308" headers="d77972e58 ">
+                              
+                              <p>
+                                 <code class="codeph">R_386_JMP_SLOT</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d77972e308 d77972e63 ">
+                              
+                              <p>
+                                 <code class="codeph">7</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d77972e308 d77972e68 ">
+                              
+                              <p>
+                                 <code class="codeph">word32</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d77972e308 d77972e73 ">
+                              
+                              <p>
+                                 <code class="codeph">S</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d77972e341" headers="d77972e58 ">
+                              
+                              <p>
+                                 <code class="codeph">R_386_RELATIVE</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d77972e341 d77972e63 ">
+                              
+                              <p>
+                                 <code class="codeph">8</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d77972e341 d77972e68 ">
+                              
+                              <p>
+                                 <code class="codeph">word32</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d77972e341 d77972e73 ">
+                              
+                              <p>
+                                 <code class="codeph">B + A</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d77972e374" headers="d77972e58 ">
+                              
+                              <p>
+                                 <code class="codeph">R_386_GOTOFF</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d77972e374 d77972e63 ">
+                              
+                              <p>
+                                 <code class="codeph">9</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d77972e374 d77972e68 ">
+                              
+                              <p>
+                                 <code class="codeph">word32</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d77972e374 d77972e73 ">
+                              
+                              <p>
+                                 <code class="codeph">S + A - GOT</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d77972e407" headers="d77972e58 ">
+                              
+                              <p>
+                                 <code class="codeph">R_386_GOTPC</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d77972e407 d77972e63 ">
+                              
+                              <p>
+                                 <code class="codeph">10</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d77972e407 d77972e68 ">
+                              
+                              <p>
+                                 <code class="codeph">word32</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d77972e407 d77972e73 ">
+                              
+                              <p>
+                                 <code class="codeph">GOT + A - P</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d77972e441" headers="d77972e58 ">
+                              
+                              <p>
+                                 <code class="codeph">R_386_32PLT</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d77972e441 d77972e63 ">
+                              
+                              <p>
+                                 <code class="codeph">11</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d77972e441 d77972e68 ">
+                              
+                              <p>
+                                 <code class="codeph">word32</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d77972e441 d77972e73 ">
+                              
+                              <p>
+                                 <code class="codeph">L + A</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d77972e474" headers="d77972e58 ">
+                              
+                              <p>
+                                 <code class="codeph">R_386_16</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d77972e474 d77972e63 ">
+                              
+                              <p>
+                                 <code class="codeph">20</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d77972e474 d77972e68 ">
+                              
+                              <p>
+                                 <code class="codeph">word16</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d77972e474 d77972e73 ">
+                              
+                              <p>
+                                 <code class="codeph">S + A</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d77972e507" headers="d77972e58 ">
+                              
+                              <p>
+                                 <code class="codeph">R_386_PC16</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d77972e507 d77972e63 ">
+                              
+                              <p>
+                                 <code class="codeph">21</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d77972e507 d77972e68 ">
+                              
+                              <p>
+                                 <code class="codeph">word16</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d77972e507 d77972e73 ">
+                              
+                              <p>
+                                 <code class="codeph">S + A - P</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d77972e540" headers="d77972e58 ">
+                              
+                              <p>
+                                 <code class="codeph">R_386_8</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d77972e540 d77972e63 ">
+                              
+                              <p>
+                                 <code class="codeph">22</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d77972e540 d77972e68 ">
+                              
+                              <p>
+                                 <code class="codeph">word8</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d77972e540 d77972e73 ">
+                              
+                              <p>
+                                 <code class="codeph">S + A</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d77972e573" headers="d77972e58 ">
+                              
+                              <p>
+                                 <code class="codeph">R_386_PC8</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d77972e573 d77972e63 ">
+                              
+                              <p>
+                                 <code class="codeph">23</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d77972e573 d77972e68 ">
+                              
+                              <p>
+                                 <code class="codeph">word8</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d77972e573 d77972e73 ">
+                              
+                              <p>
+                                 <code class="codeph">S + A - P</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d77972e606" headers="d77972e58 ">
+                              
+                              <p>
+                                 <code class="codeph">R_386_SIZE32</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d77972e606 d77972e63 ">
+                              
+                              <p>
+                                 <code class="codeph">38</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d77972e606 d77972e68 ">
+                              
+                              <p>
+                                 <code class="codeph">word32</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d77972e606 d77972e73 ">
+                              
+                              <p>
+                                 <code class="codeph">Z + A</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                     </tbody>
+                  </table>
+               </div>
+               <div class="infoboxnote" id="GUID-2CE5C854-5AD8-4CC5-AABA-C03BED1C3FC0__GUID-86E73117-B7B7-44F3-A831-94ED07C5D100">
+                  <p class="notep1">Note:</p>
+         Additional relocations are available for thread-local storage references. These
+          relocations are covered in <a href="thread-local-storage.html#GUID-877263F4-090A-44F2-ADAD-44F5EDB8D78F">Thread-Local Storage</a>.
+
+               </div>
+               <p>Some relocation types have semantics beyond simple calculation.</p>
+               <dl>
+                  <dt class="dlterm"><a name="GUID-2CE5C854-5AD8-4CC5-AABA-C03BED1C3FC0__GUID-D92FF8E4-935F-4345-8B17-9D5C7196893F">
+                        <!-- --></a>
+                     <code class="codeph">R_386_GOT32</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Computes the distance from the base of the <code class="codeph">GOT</code> to the symbol's
+<code class="codeph">GOT</code> entry. The relocation also instructs the link-editor to
+              create a global offset table.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-2CE5C854-5AD8-4CC5-AABA-C03BED1C3FC0__GUID-99986CCA-1C83-4310-87A0-250203DB80B1">
+                        <!-- --></a>
+                     <code class="codeph">R_386_PLT32</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Computes the address of the symbol's procedure linkage table entry and instructs
+              the link-editor to create a procedure linkage table.</p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-2CE5C854-5AD8-4CC5-AABA-C03BED1C3FC0__GUID-1672371E-A6F5-4798-9BDA-0945047DBE4E">
+                        <!-- --></a>
+                     <code class="codeph">R_386_COPY</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Created by the link-editor for dynamic executables to preserve a read-only text
+              segment. The relocation offset member refers to a location in a writable segment. The
+              symbol table index specifies a symbol that should exist both in the current object
+              file and in a shared object. During execution, the runtime linker copies data
+              associated with the shared object's symbol to the location specified by the offset.
+              See <a href="copy-relocations.html#GUID-CECCC00D-FDAB-44F3-8E53-C8C3CB8044CB">Copy Relocations</a>.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-2CE5C854-5AD8-4CC5-AABA-C03BED1C3FC0__GUID-72D3FEE8-1993-492D-862E-22505DAFFCF9">
+                        <!-- --></a>
+                     <code class="codeph">R_386_GLOB_DAT</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Used to set a <code class="codeph">GOT</code> entry to the address of the specified symbol.
+              The special relocation type enable you to determine the correspondence between symbols
+              and <code class="codeph">GOT</code> entries.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-2CE5C854-5AD8-4CC5-AABA-C03BED1C3FC0__GUID-A77EF2E2-1DFF-4727-AB66-7331694BF14F">
+                        <!-- --></a>
+                     <code class="codeph">R_386_JMP_SLOT</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Created by the link-editor for dynamic objects to provide lazy binding. The
+              relocation offset member gives the location of a procedure linkage table entry. The
+              runtime linker modifies the procedure linkage table entry to transfer control to the
+              designated symbol address.</p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-2CE5C854-5AD8-4CC5-AABA-C03BED1C3FC0__GUID-1919DBF1-DCC5-4654-8935-78FAD7C62CA2">
+                        <!-- --></a>
+                     <code class="codeph">R_386_RELATIVE</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Created by the link-editor for dynamic objects. The relocation offset member gives
+              the location within a shared object that contains a value representing a relative
+              address. The runtime linker computes the corresponding virtual address by adding the
+              virtual address at which the shared object is loaded to the relative address.
+              Relocation entries for this type must specify a value of zero for the symbol table
+              index.</p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-2CE5C854-5AD8-4CC5-AABA-C03BED1C3FC0__GUID-03D04512-C83A-47E4-B47A-EE5911F8FD5B">
+                        <!-- --></a>
+                     <code class="codeph">R_386_GOTOFF</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Computes the difference between a symbol's value and the address of the
+<code class="codeph">GOT</code>. The relocation also instructs the link-editor to create the
+              global offset table.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-2CE5C854-5AD8-4CC5-AABA-C03BED1C3FC0__GUID-752A37A4-8E5B-4E42-BEA3-9EF00A2773EB">
+                        <!-- --></a>
+                     <code class="codeph">R_386_GOTPC</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Resembles <code class="codeph">R_386_PC32</code>, except that it uses the address of the
+<code class="codeph">GOT</code> in its calculation. The symbol referenced in this relocation
+              normally is <code class="codeph">_GLOBAL_OFFSET_TABLE_</code>, which also instructs the
+              link-editor to create the global offset table.
+                     </p>
+                     
+                  </dd>
+               </dl>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

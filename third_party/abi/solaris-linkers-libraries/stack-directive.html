@@ -1,0 +1,111 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="STACK Directive">
+      <meta name="DC.subject" content=", mapfiles, STACK">
+      <meta name="keywords" content=", mapfiles, STACK">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-F51DBCD2-5159-4319-BB9B-C82A1B1EE5F0">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>STACK Directive</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="segment-order-directive.html" title="Previous" type="text/html">
+      <link rel="next" href="stub-object-directive.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"STACK Directive","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="segment-order-directive.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="stub-object-directive.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-F51DBCD2-5159-4319-BB9B-C82A1B1EE5F0" name="GUID-F51DBCD2-5159-4319-BB9B-C82A1B1EE5F0"></a>
+         
+         <h2 id="OSLLG-GUID-F51DBCD2-5159-4319-BB9B-C82A1B1EE5F0" class="sect2">
+            <code class="codeph">STACK</code> Directive
+         </h2>
+         <div class="ind">
+            <div>
+               <div class="infoboxnote" id="GUID-F51DBCD2-5159-4319-BB9B-C82A1B1EE5F0__GUID-B75725B0-E1B8-4138-A3DF-235C09DD0174">
+                  <p class="notep1">Note:</p>
+         This directive is maintained for backward compatibility.
+	       A more extensive mechanism of requesting security extensions is
+	       provided using the link-editor's
+	       <code class="codeph">-z&nbsp;sx</code> option. See
+	       <a href="requesting-security-extensions.html#GUID-2A65B4DD-A3DA-4C27-8E8C-89C05915A9C1">Requesting Security Extensions</a>.
+
+               </div>
+               <p>The <code class="codeph">STACK</code> directive specifies attributes of the process
+                stack.
+               </p><pre class="oac_no_warn" dir="ltr">        STACK {
+                FLAGS  = <span class="variable" translate="no">segment_flags....</span>;
+                FLAGS += <span class="variable" translate="no">segment_flags....</span>;
+                FLAGS -= <span class="variable" translate="no">segment_flags....</span>;
+        };</pre><p>The <code class="codeph">FLAGS</code> attribute specifies a white space separated list of
+                segment permissions consisting of any of the values described in <span>Segment Flags</span>.
+               </p>
+               <p>There are three forms allowed. The simple "<code class="codeph">=</code>"
+                assignment operator replaces the current flags with the new set, the
+                    "<code class="codeph">+=</code>" form adds the new flags to the existing set,
+                and the "<code class="codeph">-=</code>" form removes the specified flags from
+                the existing set.
+               </p>
+               <p>The default stack permissions are defined by the platform <span>ABI</span>,
+                and vary between platforms. The value for the target platform is specified using the
+                segment flag name <code class="codeph">STACK</code>.
+               </p>
+               <p>On some platforms, the <span>ABI</span> mandated default permissions include
+<code class="codeph">EXECUTE</code>. <code class="codeph">EXECUTE</code> is rarely if ever needed
+                and is generally considered to be a potential security risk. Removing
+<code class="codeph">EXECUTE</code> permission from the stack is a recommended
+                practice.
+               </p><pre class="oac_no_warn" dir="ltr">        STACK {
+                FLAGS -= EXECUTE;
+        };</pre><p>The <code class="codeph">STACK</code> directive is reflected in
+                the output <span>ELF</span> object as a <code class="codeph">PT_SUNW_STACK</code>
+                program header entry.
+               </p>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

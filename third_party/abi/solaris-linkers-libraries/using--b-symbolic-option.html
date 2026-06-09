@@ -1,0 +1,99 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Using the -B symbolic Option">
+      <meta name="DC.subject" content="link-editor options, -B&nbsp;symbolic, .dynamic, SYMBOLIC">
+      <meta name="keywords" content="link-editor options, -B&nbsp;symbolic, .dynamic, SYMBOLIC">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-052E978D-97CB-4686-AFB4-3F9948FE914E">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Using the -B symbolic Option</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="copy-relocations.html" title="Previous" type="text/html">
+      <link rel="next" href="profiling-shared-objects.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Using the -B symbolic Option","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="copy-relocations.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="profiling-shared-objects.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-052E978D-97CB-4686-AFB4-3F9948FE914E" name="GUID-052E978D-97CB-4686-AFB4-3F9948FE914E"></a>
+         
+         <h2 id="OSLLG-GUID-052E978D-97CB-4686-AFB4-3F9948FE914E" class="sect2">Using the <code class="codeph">-B symbolic</code> Option
+         </h2>
+         <div class="ind">
+            <div>
+               <p>The link-editor's <code class="codeph">-B&nbsp;symbolic</code> option enables you to
+            bind symbol references to their global definitions within a shared object. This option
+            is historic, in that it was designed for use in creating the runtime linker
+            itself.
+               </p>
+               <p>Defining an object's interface and reducing non-public symbols to local is preferable
+            to using the <code class="codeph">-B&nbsp;symbolic</code> option. See <a href="reducing-symbol-scope.html#GUID-23966F33-0E78-43E1-8574-D3297C70F744">Reducing Symbol Scope</a>. Using
+<code class="codeph">-B&nbsp;symbolic</code> can often result in some non-intuitive side
+            effects.
+               </p>
+               <p>If a symbolically bound symbol is interposed upon, then references to the symbol from
+            outside of the symbolically bound object bind to the interposer. The object itself is
+            already bound internally. Essentially, two symbols with the same name are now being
+            referenced from within the process. A symbolically bound data symbol that results in a
+            copy relocation creates the same interposition situation. See <a href="copy-relocations.html#GUID-CECCC00D-FDAB-44F3-8E53-C8C3CB8044CB">Copy Relocations</a>.
+               </p>
+               <div class="infoboxnote" id="GUID-052E978D-97CB-4686-AFB4-3F9948FE914E__GUID-9D3EF209-A252-4D27-A88E-DD870DDA099E">
+                  <p class="notep1">Note:</p>
+         Symbolically bound shared objects are identified by the
+<code class="codeph">.dynamic</code> flag <code class="codeph">DF_SYMBOLIC</code>. This flag is
+                informational only. The runtime linker processes symbol lookups from these objects
+                in the same manner as any other object. Any symbolic binding is assumed to have been
+                created at the link-edit phase.
+
+               </div>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

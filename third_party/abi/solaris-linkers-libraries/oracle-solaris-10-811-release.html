@@ -1,0 +1,221 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Oracle Solaris 10 8/11 Release">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-D7B53E39-0988-4AA5-B2B5-83A3D5CDE6CA">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Oracle Solaris 10 8/11 Release</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="oracle-solaris-10-113-release.html" title="Previous" type="text/html">
+      <link rel="next" href="obsolete-feature1.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Oracle Solaris 10 8/11 Release","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="oracle-solaris-10-113-release.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="obsolete-feature1.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-D7B53E39-0988-4AA5-B2B5-83A3D5CDE6CA" name="GUID-D7B53E39-0988-4AA5-B2B5-83A3D5CDE6CA"></a>
+         
+         <h2 id="OSLLG-GUID-D7B53E39-0988-4AA5-B2B5-83A3D5CDE6CA" class="sect2">Oracle Solaris 10 8/11 Release</h2>
+         <div class="ind">
+            <div>
+               <ul style="list-style-type: disc;">
+                  <li>
+                     
+                     <p>The link-editor can create stub objects. Stub objects are shared objects, built entirely from <code>mapfiles</code>, that supply the same linking interface as the real object while containing no code or data. Stub objects can be built very quickly by the link-editor, and can be used to increase build <span>parallelism</span> and to reduce build complexity. See <a href="stub-objects.html#GUID-AC32B5FB-9688-47B7-A018-F32284CE8D93">Stub Objects</a>.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>The link-editor can provide guidance in creating high quality objects using the <code class="codeph">-z&nbsp;guidance</code> option. See <a href="https://docs.oracle.com/cd/E88353_01/html/E37839/ld-1.html" target="_blank">
+                           <code class="codeph">ld</code>(1)</a>.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>Archive processing now allows the creation of archives greater than 4 Gbytes in size.</p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>Local auditors can now receive <code class="codeph">la_preinit</code>() and <code class="codeph">la_activity</code>() events. See <a href="runtime-linker-auditing-interface.html#GUID-80D92620-51FC-4164-9E17-34B3D70AFDD5">Runtime Linker Auditing Interface</a>.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>A more robust model for testing for the existence of functionality is provided with deferred dependencies. See <a href="testing-functionality.html#GUID-228099AE-AB1E-48BA-B2FA-F5A6B3672E97">Testing for Functionality</a> and <a href="providing-alternative-dlopen.html#GUID-4329C8A3-B44C-4375-8DBF-0C084BDDB188">Providing an Alternative to dlopen</a>.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>A new <code>mapfile</code> syntax is provided. See <a href="mapfiles-link-editor.html#GUID-C1735CA5-6E26-45FA-9732-3DB5BEEE2637">Mapfiles in the Link-Editor</a>. This syntax provides a more human readable, and extensible language than the original System V Release 4 language. Full support for processing original <code>mapfiles</code> is maintained within the link-editor. See <a href="system-v-release-4-version-1-mapfiles.html#GUID-12632A87-BAB8-4F42-8FDF-47B4BCA474C4">System V Release 4 (Version 1) Mapfiles</a> for the original <code>mapfile</code> syntax and use.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>Individual symbols can be associated with capability requirements. See <a href="identifying-capability-requirements.html#GUID-06847AC4-08F3-4C54-9AE7-EF44BBD6680B">Identifying Capability Requirements</a>. This functionality provides for the creation of a family of optimized functions within a dynamic object. See <a href="creating-family-symbol-capabilities-functions.html#GUID-FD5C4E62-68AD-4AAB-85C8-ABABFF6083C3">Creating a Family of Symbol Capabilities Functions</a>, and <a href="capabilities-section.html#GUID-DF0B57D7-0758-4713-A009-8472460D5029">Capabilities Section</a>.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>Objects that are created with the link-editor, and contain Oracle Solaris specific <span>ELF</span> data, are tagged with <code class="codeph">ELFOSABI_SOLARIS</code> in the <code class="codeph">e_ident[EI_OSABI]</code>
+                        <span>ELF</span> header. Historically, <code class="codeph">ELFOSABI_NONE</code> has been used for all objects. This change is primarily of informational value, as the runtime linker continues to consider <code class="codeph">ELFOSABI_NONE</code> and <code class="codeph">ELFOSABI_SOLARIS</code> to be equivalent. However, <a href="https://docs.oracle.com/cd/E88353_01/html/E37839/elfdump-1.html" target="_blank">
+                           <code class="codeph">elfdump</code>(1)</a>, and similar diagnostic tools, can use this ABI information to produce more accurate information for a given object.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>
+                        <a href="https://docs.oracle.com/cd/E88353_01/html/E37839/elfdump-1.html" target="_blank">
+                           <code class="codeph">elfdump</code>(1)</a> has been extended to use the value of <code class="codeph">e_ident[EI_OSABI]</code>
+                        <span>ELF</span> header, or the new <code class="codeph">-O</code> option, to identify <span>ELF</span> data types and values that are specific to a given <span>ABI</span>, and to use this information to provide a more accurate display of the object contents. The ability to display <span>ABI</span>-specific information in objects from the <code class="codeph">Linux</code> operating system has been greatly expanded.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>The segment mapping information for an object that is loaded with a process can be obtained using the <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/dlinfo-3c.html" target="_blank">
+                           <code class="codeph">dlinfo</code>(3C)</a> flags <code class="codeph">RTLD_DI_MMAPCNT</code> and <code class="codeph">RTLD_DI_MMAPS</code>.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>The link-editor recognizes a number of <span>GNU</span> link-editor options. See <a href="https://docs.oracle.com/cd/E88353_01/html/E37839/ld-1.html" target="_blank">
+                           <code class="codeph">ld</code>(1)</a>.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>The link-editor provides cross linking for SPARC and x86 targets. See <a href="cross-link-editing.html#GUID-871FD9C7-E90A-43E1-B87F-67A51A370060">Cross Link-Editing</a>.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>The link-editor now provides for merging <code class="codeph">SHF_MERGE</code>
+                        <code class="codeph">|</code>
+                        <code class="codeph">SHF_STRING</code> string sections. See <a href="section-merging.html#GUID-9336E976-BA62-45BC-84DF-C0F29686E8E8">Section Merging</a>.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>The merging of relocation sections when creating dynamic objects is now the default behavior. See <a href="combined-relocation-sections.html#GUID-D1B17129-36EF-4DFC-96A4-B6EA4971CB50">Combined Relocation Sections</a>. This behavior used to require the link-editor's <code class="codeph">-z&nbsp;combreloc</code> option. The <code class="codeph">-z&nbsp;nocombreloc</code> is provided to disable this default behavior, and preserve the one-to-one relationship with the sections to which the relocations must be applied.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>
+                        <span>ELF</span> objects can be edited with the new utility <a href="https://docs.oracle.com/cd/E88353_01/html/E37839/elfedit-1.html" target="_blank">
+                           <code class="codeph">elfedit</code>(1)</a>.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>Arbitrary data files can be encapsulated within <span>ELF</span> relocatable objects using the new utility <a href="https://docs.oracle.com/cd/E88353_01/html/E37839/elfwrap-1.html" target="_blank">
+                           <code class="codeph">elfwrap</code>(1)</a>.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>Additional symbol visibility attributes are provided. See the exported, singleton and eliminate attribute descriptions under <a href="symbol-scope-symbol-version-directives.html#GUID-38914CB2-D471-4CA3-8BC2-78323D4CD6B9">SYMBOL_SCOPE and SYMBOL_VERSION Directives</a> and <span>ELF Symbol Visibility</span>.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>The link-editor, and associated <span>ELF</span> utilities have been moved from <code>/usr/ccs/bin</code> to <code>/usr/bin</code>. See <a href="invoking-link-editor.html#GUID-F2FDE49E-43D0-48E2-B48E-EF47AD9A0743">Invoking the Link-Editor</a>.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>Symbol sort sections have been added, that allow for simplified correlation of memory addresses to symbolic names. See <a href="symbol-sort-sections.html#GUID-FCB1BD8E-147D-4D61-9890-39AF18D86D0F">Symbol Sort Sections</a>.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>The symbol table information that is available with dynamic objects has been extended with the addition of a new <code class="codeph">.SUNW_ldynsym</code> section. See <a href="symbol-table-section.html#GUID-DBDD92CB-D58A-4CB5-861F-8868D8CB4552">Symbol Table Section</a> and <span>ELF Section Types, sh_type</span>.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>The format of configuration files that are managed with <a href="https://docs.oracle.com/cd/E88353_01/html/E37839/crle-1.html" target="_blank">
+                           <code class="codeph">crle</code>(1)</a> has been enhanced for better file identification. The improved format ensures that the runtime linker does not use a configuration file generated on an incompatible platform.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>New relocation types have been added that use the size of the associated symbol in the relocation calculation. See <a href="sparc-relocation-entries.html#GUID-D008E743-A34B-44D1-BA63-192A7EFCB76A">Relocation Entries</a>.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>The <code class="codeph">-z&nbsp;rescan-now</code>, <code class="codeph">-z&nbsp;recan-start</code>, and <code class="codeph">-z&nbsp;rescan-end</code> options provide additional flexibility in specifying archive libraries to a link-edit. See <a href="position-archive-command-line.html#GUID-1AB7D22E-DF30-4787-B010-7B11FF0072D9">Position of an Archive on the Command Line</a>.
+                     </p>
+                     
+                  </li>
+               </ul>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

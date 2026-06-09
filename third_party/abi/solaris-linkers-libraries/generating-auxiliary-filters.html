@@ -1,0 +1,243 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Generating Auxiliary Filters">
+      <meta name="DC.subject" content="filters, auxiliary, auxiliary filters, LD_NOAUXFLTR">
+      <meta name="keywords" content="filters, auxiliary, auxiliary filters, LD_NOAUXFLTR">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-9CB1E3EE-E4A3-4B09-A3AC-ABEC3D90F407">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Generating Auxiliary Filters</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="generating-weak-filters.html" title="Previous" type="text/html">
+      <link rel="next" href="filtering-combinations.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Generating Auxiliary Filters","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="generating-weak-filters.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="filtering-combinations.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-9CB1E3EE-E4A3-4B09-A3AC-ABEC3D90F407" name="GUID-9CB1E3EE-E4A3-4B09-A3AC-ABEC3D90F407"></a>
+         
+         <h2 id="OSLLG-GUID-9CB1E3EE-E4A3-4B09-A3AC-ABEC3D90F407" class="sect2">Generating Auxiliary Filters</h2>
+         <div class="ind">
+            <div>
+               <p>To generate an auxiliary filter, you first define a
+<span>filtee</span> on which the filtering is applied.
+                                The following example builds a <span>filtee</span>
+                  <code>filtee.so.1</code>, supplying the symbol
+<code class="codeph">foo</code>.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cat filtee.c</span>
+char *foo()
+{
+        return("defined in filtee");
+}
+$ <span class="bold">cc -o filtee.so.1 -G -K pic filtee.c</span></pre><p>Auxiliary filtering can be defined at the object level, or for
+                                individual symbols. To declare all of the interfaces offered by a
+                                shared object to be auxiliary filters, use the link-editor
+<code>mapfile</code>
+                  <code class="codeph">FILTER</code> directive, or <code class="codeph">-f</code> command
+                                line option. To declare individual interfaces of a shared object to
+                                be auxiliary filters, use a link-editor <code>mapfile</code>
+                  <code class="codeph">FILTER</code> directive or <code class="codeph">-f</code> command
+                                line option. To declare individual interfaces of a shared object to
+                                be auxiliary filters, use a link-editor <code>mapfile</code>
+                                and the <code class="codeph">AUXILIARY</code> or <code class="codeph">FILTER</code>
+                                symbol attribute.
+               </p>
+               <p>In the following example, the shared object
+<code>filter.so.1</code> is defined to be an
+                                auxiliary filter. <code>filter.so.1</code> offers the
+                                symbols <code class="codeph">foo</code> and <code class="codeph">bar</code>, and is an
+                                auxiliary filter on the <span>filtee</span>
+                  <code>filtee.so.1</code>. In this example, the environment
+                                variable <code class="codeph">LD_OPTIONS</code> is used to circumvent the
+                                compiler driver from interpreting the <code class="codeph">-f</code>
+                                option.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cat filter.c</span>
+char *bar = "defined in filter";
+
+char *foo()
+{
+        return ("defined in filter");
+}
+$ <span class="bold">LD_OPTIONS='-f filtee.so.1' \</span>
+<span class="bold">cc -o filter.so.1 -G -K pic -h filter.so.1 -R. filter.c</span>
+$ <span class="bold">elfdump -d filter.so.1 | egrep "SONAME|AUXILIARY"</span>
+     [2]  SONAME           0xee     filter.so.1
+     [3]  AUXILIARY        0xfb     filtee.so.1</pre><p>A <code>mapfile</code> can be used instead of the
+<code class="codeph">-f</code> command line option.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cat mapfile</span>
+$mapfile_version 2
+FILTER {
+        FILTEE = filtee.so.1;
+        TYPE = AUXILIARY;
+};
+$ <span class="bold">cc -o filter.so.1 -G -K pic -h filter.so.1 -M mapfile -R. filter.c</span>
+$ <span class="bold">elfdump -d filter.so.1 | egrep "SONAME|AUXILIARY"</span>
+     [2]  SONAME           0xee     filter.so.1
+     [3]  AUXILIARY        0xfb     filtee.so.1</pre><p>The link-editor can reference the auxiliary filter
+<code class="codeph">filter.so.1</code> as a dependency when creating
+                                a dynamic object. The link-editor uses
+                                information from the symbol table of the filter to satisfy any
+                                symbol resolution. However, at runtime, any reference to the symbols
+                                of the filter result in a search for the <span>filtee</span>
+                  <code>filtee.so.1</code>. If this <span>filtee</span> is
+                                found, the runtime linker uses the <span>filtee</span> to
+                                resolve any symbols defined by <code>filter.so.1</code>. If
+                                the <span>filtee</span> is not found, or a symbol from the
+                                filter is not found in the <span>filtee</span>, then the
+                                original symbol within the filter is used.
+               </p>
+               <p>For example, the following dynamic executable
+<code>prog</code>, references the symbols
+<code class="codeph">foo</code> and <code class="codeph">bar</code>, which are
+                                resolved during link-edit from the filter
+<code>filter.so.1</code>. The execution of
+<code>prog</code> results in <code class="codeph">foo</code>
+                                being obtained from the <span>filtee</span>
+                  <code>filtee.so.1</code>, <span class="italic">not</span> from the
+                                filter <code>filter.so.1</code>. However,
+<code class="codeph">bar</code> is obtained from the filter
+<code>filter.so.1</code>, as this symbol has no
+                                alternative definition in the <span>filtee</span>
+                  <code>filtee.so.1</code>.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cat main.c</span>
+extern char *bar, *foo();
+
+void main()
+{
+        (void) printf("foo is %s: bar is %s\n", foo(), bar);
+}
+$ <span class="bold">cc -o prog main.c -R. filter.so.1</span>
+$ <span class="bold">prog</span>
+foo is defined in filtee: bar is defined in filter</pre><p>In the following example, the shared object
+<code>filter.so.2</code> defines the interface
+<code class="codeph">foo</code>, to be an auxiliary filter on the
+<span>filtee</span>
+                  <code>filtee.so.1</code>.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cat filter.c</span>
+char *bar = "defined in filter";
+
+char *foo()
+{
+        return ("defined in filter");
+}
+$ <span class="bold">cat mapfile</span>
+$mapfile_version 2
+SYMBOL_SCOPE {
+        global:
+                foo     { AUXILIARY=filtee.so.1 };
+};
+$ <span class="bold">cc -o filter.so.2 -G -K pic -h filter.so.2 -M mapfile -R. filter.c</span>
+$ <span class="bold">elfdump -d filter.so.2 | egrep "SONAME|AUXILIARY"</span>
+     [2]  SONAME           0xd8     filter.so.2
+     [3]  SUNW_AUXILIARY   0xfb     filtee.so.1
+$ <span class="bold">elfdump -y filter.so.2 | egrep "foo|bar"</span>
+     [1]  [ AUXILIARY ]    [3] filtee.so.1      foo
+    [10]  [ DEPEND]            &lt;self&gt;           bar</pre><p>At runtime, any reference to the symbol <code class="codeph">foo</code> of the
+                                filter, results in a search for the <span>filtee</span>
+                  <code>filtee.so.1</code>. If the <span>filtee</span> is
+                                found, the <span>filtee</span> is loaded. The
+<span>filtee</span> is then used to resolve the symbol
+<code class="codeph">foo</code> defined by
+<code>filter.so.2</code>. If the
+<span>filtee</span> is not found, symbol
+<code class="codeph">foo</code> defined by
+<code>filter.so.2</code> is used. Reference to the
+                                symbol <code class="codeph">bar</code> always uses the symbol from
+<code>filter.so.2</code>, as no
+<span>filtee</span> processing is defined for this
+                                symbol.
+               </p>
+               <p>For example, the following dynamic executable
+<code>prog</code>, references the symbols
+<code class="codeph">foo</code> and <code class="codeph">bar</code>, which are
+                                resolved during link-edit from the filter
+<code>filter.so.2</code>. If the
+<span>filtee</span>
+                  <code>filtee.so.1</code> exists, the execution of
+<code>prog</code> results in <code class="codeph">foo</code>
+                                being obtained from the <span>filtee</span>
+                  <code>filtee.so.1</code>, and <code class="codeph">bar</code> being
+                                obtained from the filter <code>filter.so.2</code>.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cc -o prog main.c -R. filter.so.2</span>
+$ <span class="bold">prog</span>
+foo is defined in filtee: bar is defined in filter</pre><p>If the <span>filtee</span>
+                  <code>filtee.so.1</code> does not exist, the execution of
+<code>prog</code> results in <code class="codeph">foo</code>
+                                and <code class="codeph">bar</code> being obtained from the filter
+<code>filter.so.2</code>.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">prog</span>
+foo is defined in filter: bar is defined in filter</pre><p>In these examples, the <span>filtee</span>
+                  <code>filtee.so.1</code> is uniquely associated to the
+                                filter. The <span>filtee</span> is not available to satisfy
+                                symbol lookup from any other objects that might be loaded as a
+                                consequence of executing <code>prog</code>.
+               </p>
+               <p>Auxiliary filters provide a mechanism for defining an alternative
+                                interface of an existing shared object. This mechanism is used in
+                                the Oracle Solaris OS to provide optimized functionality within
+                                hardware capability, and platform specific shared objects. See
+<a href="capability-specific-shared-objects.html#GUID-4A41ADA9-635B-4041-A0BC-5B77311612A9">Capability Specific Shared Objects</a>, and <a href="system-specific-shared-objects.html#GUID-E501A623-50A6-4CC0-9A6E-82F4C54E1225">System Specific Shared Objects</a> for examples.
+               </p>
+               <div class="infoboxnote" id="GUID-9CB1E3EE-E4A3-4B09-A3AC-ABEC3D90F407__GUID-E5110852-9E60-4167-BA04-B80E58966DE8">
+                  <p class="notep1">Note:</p>
+         The environment variable
+<code class="codeph">LD_NOAUXFLTR</code> can be set to disable
+                                        the runtime linkers auxiliary filter processing. Because
+                                        auxiliary filters are frequently employed to provide
+                                        platform specific optimizations, this option can be useful
+                                        in evaluating <span>filtee</span> use and their
+                                        performance impact.
+
+               </div>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

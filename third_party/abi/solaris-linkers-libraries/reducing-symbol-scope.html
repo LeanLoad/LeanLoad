@@ -1,0 +1,265 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Reducing Symbol Scope">
+      <meta name="DC.subject" content="versioning, defining a public interface, generating definitions within an image, -z&nbsp;noversion, symbol not assigned to version, -B&nbsp;local, -B&nbsp;reduce">
+      <meta name="keywords" content="versioning, defining a public interface, generating definitions within an image, -z&nbsp;noversion, symbol not assigned to version, -B&nbsp;local, -B&nbsp;reduce">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-23966F33-0E78-43E1-8574-D3297C70F744">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Reducing Symbol Scope</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="augmenting-symbol-definition.html" title="Previous" type="text/html">
+      <link rel="next" href="symbol-elimination.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Reducing Symbol Scope","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="augmenting-symbol-definition.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="symbol-elimination.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-23966F33-0E78-43E1-8574-D3297C70F744" name="GUID-23966F33-0E78-43E1-8574-D3297C70F744"></a>
+         
+         <h2 id="OSLLG-GUID-23966F33-0E78-43E1-8574-D3297C70F744" class="sect2">Reducing Symbol Scope</h2>
+         <div class="ind">
+            <div>
+               <p>Symbol definitions that are defined to have local scope within a
+<code>mapfile</code> can be used to reduce the
+                                symbol's eventual binding. This mechanism removes the symbol's
+                                visibility to future link-edits which use the generated file as part
+                                of their input. In fact, this mechanism can provide for the precise
+                                definition of a file's interface, and so restrict the functionality
+                                made available to others.
+               </p>
+               <p>For example, say you want to generate a simple shared object from the
+                                files <code>foo.c</code> and <code>bar.c</code>. The
+                                file <code>foo.c</code> contains the global symbol
+<code class="codeph">foo</code>, which provides the service that you
+                                want to make available to others. The file
+<code>bar.c</code> contains the symbols
+<code class="codeph">bar</code> and <code class="codeph">str</code>, which
+                                provide the underlying implementation of the shared object. A shared
+                                object created with these files, typically results in the creation
+                                of three symbols with global scope.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cat foo.c</span>
+extern const char *bar();
+
+const char *foo()
+{
+        return (bar());
+}
+$ <span class="bold">cat bar.c</span>
+const char *str = "returned from bar.c";
+
+const char *bar()
+{
+        return (str);
+}
+$ <span class="bold">cc -o libfoo.so.1 -G foo.c bar.c</span>
+$ <span class="bold">elfdump -sN.symtab libfoo.so.1 | egrep 'foo$|bar$|str$'</span>
+    [41]     0x560    0x18  FUNC GLOB  D    0 .text          bar
+    [44]     0x520    0x2c  FUNC GLOB  D    0 .text          foo
+    [45]   0x106b8     0x4  OBJT GLOB  D    0 .data          str</pre><p>You can now use the functionality offered by
+<code>libfoo.so.1</code> as part of the link-edit of
+                                another application. References to the symbol <code class="codeph">foo</code>
+                                are bound to the implementation provided by the shared
+                                object.
+               </p>
+               <p>Because of their global binding, direct reference to the symbols
+<code class="codeph">bar</code> and <code class="codeph">str</code> is also
+                                possible. This visibility can have dangerous consequences, as you
+                                might later change the implementation that underlies the function
+<code class="codeph">foo</code>. In so doing, you could
+                                unintentionally cause an existing application that had bound to
+<code class="codeph">bar</code> or <code class="codeph">str</code> to fail or
+                                misbehave.
+               </p>
+               <p>Another consequence of the global binding of the symbols
+<code class="codeph">bar</code> and <code class="codeph">str</code> is that
+                                these symbols can be interposed upon by symbols of the same name.
+                                The interposition of symbols within shared objects is covered in
+                                section <a href="simple-resolutions.html#GUID-2FB32327-7FA2-47A9-A900-498031379D6C">Simple Resolutions</a>. This interposition can be intentional and be
+                                used as a means of circumventing the intended functionality offered
+                                by the shared object. On the other hand, this interposition can be
+                                unintentional, the result of the same common symbol name used for
+                                both the application and the shared object.
+               </p>
+               <p>When developing the shared object, you can protect against these
+                                scenarios by reducing the scope of the symbols
+<code class="codeph">bar</code> and <code class="codeph">str</code> to a local
+                                binding. In the following example, the symbols
+<code class="codeph">bar</code> and <code class="codeph">str</code> are no
+                                longer available as part of the shared object's interface. Thus,
+                                these symbols cannot be referenced, or interposed upon, by an
+                                external object. You have effectively defined an interface for the
+                                shared object. This interface can be managed while hiding the
+                                details of the underlying implementation.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cat mapfile</span>
+$mapfile_version 2
+SYMBOL_SCOPE {
+        local:
+                bar;
+                str;
+};
+$ <span class="bold">cc -o libfoo.so.1 -M mapfile -G foo.c bar.c</span>
+$ <span class="bold">elfdump -sN.symtab libfoo.so.1 | egrep 'foo$|bar$|str$'</span>
+    [24]     0x548    0x18  FUNC LOCL  H    0 .text          bar
+    [25]   0x106a0     0x4  OBJT LOCL  H    0 .data          str
+    [45]     0x508    0x2c  FUNC GLOB  D    0 .text          foo</pre><p>This symbol scope reduction has an additional performance advantage.
+                                The symbolic relocations against the symbols <code class="codeph">bar</code>
+                                and <code class="codeph">str</code> that would have been necessary at runtime
+                                are now reduced to relative relocations. See <a href="when-relocations-are-performed.html#GUID-A8FD6F1A-49D9-41A7-A480-1CAB9D0077C5">When Relocations are Performed</a> for
+                                details of symbolic relocation overhead.
+               </p>
+               <p>As the number of symbols that are processed during a link-edit
+                                increases, defining local scope reduction within a
+<code>mapfile</code> becomes harder to maintain. An
+                                alternative and more flexible mechanism enables you to define the
+                                shared object's interface in terms of the global symbols that should
+                                be maintained. Global symbol definitions allow the link-editor to
+                                reduce all other symbols to local binding. This mechanism is
+                                achieved using the special <span class="italic">auto-reduction</span>
+                                directive "*". For example, the previous
+<code>mapfile</code> definition can be rewritten to
+                                define <code class="codeph">foo</code> as the only global symbol required in
+                                the output file generated.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cat mapfile</span>
+$mapfile_version 2
+SYMBOL_VERSION ISV_1.1 {
+        global:
+               foo;
+        local:
+               *;
+};
+$ <span class="bold">cc -o libfoo.so.1 -M mapfile -G foo.c bar.c</span>
+$ <span class="bold">elfdump -sN.symtab libfoo.so.1 | egrep 'foo$|bar$|str$'</span>
+    [26]     0x570    0x18  FUNC LOCL  H    0 .text          bar
+    [27]   0x106d8     0x4  OBJT LOCL  H    0 .data          str
+    [50]     0x530    0x2c  FUNC GLOB  D    0 .text          foo</pre><p>This example also defines a version name,
+<code class="codeph">ISV_1.1</code>, as part of the
+<code>mapfile</code> directive. This version name
+                                establishes an internal version definition that defines the file's
+                                symbolic interface. The creation of a version definition is
+                                recommended. The definition forms the foundation of an internal
+                                versioning mechanism that can be used throughout the evolution of
+                                the file. See <a href="interfaces-versioning.html#GUID-29E9D90C-5FBD-42FF-A81D-90638DB0A5EB">Interfaces and Versioning</a>.
+               </p>
+               <div class="infoboxnote" id="GUID-23966F33-0E78-43E1-8574-D3297C70F744__GUID-4C967F87-75DD-4BF3-97FC-743319A49A02">
+                  <p class="notep1">Note:</p>
+         If a version name is not supplied, the output
+                                        file name is used to label the version definition. The
+                                        versioning information that is created within the output
+                                        file can be suppressed using the link-editor's
+<code class="codeph">-z&nbsp;noversion</code> option.
+
+               </div>
+               <p>Whenever a version name is specified,
+<span class="italic">all</span> global symbols must be assigned to
+                                a version definition. If any global symbols remain unassigned to a
+                                version definition, the link-editor generates a fatal error
+                                condition.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cat mapfile</span>
+$mapfile_version 2
+SYMBOL_VERSION ISV_1.1 {
+        global:
+                foo;
+};
+$ <span class="bold">cc -o libfoo.so.1 -M mapfile -G foo.c bar.c</span>
+Undefined           first referenced
+ symbol                 in file
+str                     bar.o  (symbol has no version assigned)
+bar                     bar.o  (symbol has no version assigned)
+ld: fatal: symbol referencing errors</pre><p>The <code class="codeph">-B&nbsp;local</code> option can be used to
+                                assert the <span class="italic">auto-reduction</span> directive
+                                "*" from the command line. The previous example an be
+                                compiled successfully as follows.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cc -o libfoo.so.1 -M mapfile -B local -G foo.c bar.c</span></pre><p>When generating an executable or shared object, any symbol reduction
+                                results in the recording of version definitions within the output
+                                image. When generating a relocatable object, the version definitions
+                                are created but the symbol reductions are not processed. The result
+                                is that the symbol entries for any symbol reductions still remain
+                                global. For example, using the previous <code>mapfile</code>
+                                with the auto-reduction directive and associated relocatable
+                                objects, an intermediate relocatable object is created with no
+                                symbol reduction.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cat mapfile</span>
+$mapfile_version 2
+SYMBOL_VERSION ISV_1.1 {
+        global:
+                foo;
+        local:
+                *;
+};
+$ <span class="bold">ld -o libfoo.o -M mapfile -r foo.o bar.o</span>
+$ <span class="bold">elfdump -s libfoo.o | egrep 'foo$|bar$|str$'</span>
+    [29]      0x10    0x2c  FUNC GLOB  D    2 .text          foo
+    [30]         0     0x4  OBJT GLOB  H    0 .data          str</pre><p>The version definitions created within this image show that symbol
+                                reductions are required. When the relocatable object is used
+                                eventually to generate a dynamic object, the symbol
+                                reductions occur. In other words, the link-editor reads and
+                                interprets symbol reduction information that is contained in the
+                                relocatable objects in the same manner as versioning data is
+                                processed from a <code>mapfile</code>.
+               </p>
+               <p>Thus, the intermediate relocatable object produced in the previous
+                                example can now be used to generate a shared object.</p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">ld -o libfoo.so.1 -G libfoo.o</span>
+$ <span class="bold">elfdump -sN.symtab libfoo.so.1 | egrep 'foo$|bar$|str$'</span>
+    [24]     0x508    0x18  FUNC LOCL  H    0 .text          bar
+    [25]   0x10644     0x4  OBJT LOCL  H    0 .data          str
+    [42]     0x4c8    0x2c  FUNC GLOB  D    0 .text          foo</pre><p>Symbol reduction at the point at which an executable or
+                                shared object is created is typically the most common requirement.
+                                However, symbol reductions can be forced to occur when creating a
+                                relocatable object by using the link-editor's
+<code class="codeph">-B&nbsp;reduce</code> option.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">ld -o libfoo.o -M mapfile -B reduce -r foo.o bar.o</span>
+$ <span class="bold">elfdump -sN.symtab libfoo.o | egrep 'foo$|bar$|str$'</span>
+    [20]      0x50    0x18  FUNC LOCL  H    0 .text          bar
+    [21]         0     0x4  OBJT LOCL  H    0 .data          str
+    [30]      0x10    0x2c  FUNC GLOB  D    2 .text          foo</pre></div>
+         </div>
+      </article>
+   </body>
+</html>

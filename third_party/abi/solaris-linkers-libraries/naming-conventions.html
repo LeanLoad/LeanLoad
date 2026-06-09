@@ -1,0 +1,128 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Naming Conventions">
+      <meta name="DC.subject" content="naming conventions, shared objects, -l, dlopen, shared object naming conventions">
+      <meta name="keywords" content="naming conventions, shared objects, -l, dlopen, shared object naming conventions">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-D27692A3-A404-4F8D-8013-C01CAAA3686A">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Naming Conventions</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="shared-objects.html" title="Previous" type="text/html">
+      <link rel="next" href="recording-shared-object-name.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Naming Conventions","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="shared-objects.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="recording-shared-object-name.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-D27692A3-A404-4F8D-8013-C01CAAA3686A" name="GUID-D27692A3-A404-4F8D-8013-C01CAAA3686A"></a>
+         
+         <h2 id="OSLLG-GUID-D27692A3-A404-4F8D-8013-C01CAAA3686A" class="sect2">Naming Conventions</h2>
+         <div class="ind">
+            <div>
+               <p>Neither the link-editor nor the runtime linker interprets any
+                        file by virtue of its file name. All files are inspected to determine their
+<span>ELF</span> type (see <a href="elf-header.html#GUID-CA620235-0270-43D7-B36F-9DB9CEF5AD8C">ELF Header</a>). This information enables the link-editor to
+                        deduce the processing requirements of the file. However, shared objects
+                        usually follow one of two naming conventions, depending on whether they are
+                        being used as part of the compilation environment or the runtime
+                        environment.
+               </p>
+               <p>When used as part of the compilation environment, shared objects
+                        are read and processed by the link-editor. Although these shared objects can
+                        be specified by explicit file names as part of the command passed to the
+                        link-editor, the <code class="codeph">-l</code> option is usually used to take advantage
+                        of the link-editor's library search facilities. See <a href="shared-object-processing.html#GUID-E3579800-2372-4D23-8B55-67AA93B192CF">Shared Object Processing</a>.
+               </p>
+               <p>A shared object that is applicable to this link-editor processing, should be
+                        designated with the prefix <code>lib</code> and the suffix
+<code>.so</code>. For example,
+<code>/lib/libc.so</code> is the shared object
+                        representation of the standard C library made available to the compilation
+                        environment. By convention, 64-bit shared objects are placed in a
+                        subdirectory of the <code>lib</code> directory called
+<code>64</code>. For example, the 64-bit counterpart
+                        of <code>/lib/libc.so.1</code>, is
+<code>/lib/64/libc.so.1</code>.
+               </p>
+               <p>When used as part of the runtime environment, shared objects are read and
+                        processed by the runtime linker. To allow for change in the exported
+                        interface of the shared object over a series of software releases, provide
+                        the shared object as a <span class="italic">versioned</span> file name.
+               </p>
+               <p>A versioned file name commonly takes the form of a <code>.so</code>
+                        suffix followed by a version number. For example,
+<code>/lib/libc.so.1</code> is the shared object
+                        representation of version <span class="italic">one</span> of the standard C library
+                        made available to the runtime environment.
+               </p>
+               <p>If a shared object is never intended for use within a
+                        compilation environment, its name might drop the conventional
+<code>lib</code> prefix. Examples of shared objects that
+fall into this category are those used solely with <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/dlopen-3c.html" target="_blank">
+                     <code class="codeph">dlopen</code>(3C)</a>. A suffix of <code>.so</code> is
+                        still recommended to indicate the actual file type. In addition, a version
+                        number is strongly recommended to provide for the correct binding of the
+                        shared object across a series of software releases. <a href="interfaces-versioning.html#GUID-29E9D90C-5FBD-42FF-A81D-90638DB0A5EB">Interfaces and Versioning</a>
+                        describes versioning in more detail.
+               </p>
+               <div class="infoboxnote" id="GUID-D27692A3-A404-4F8D-8013-C01CAAA3686A__GUID-F33F6701-606A-4CC6-9C85-15D57033511F">
+                  <p class="notep1">Note:</p>
+         The shared object name used in a <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/dlopen-3c.html" target="_blank">
+                     <code class="codeph">dlopen</code>(3C)</a> is usually represented as a
+<span class="italic">simple</span> file name, that has no '/' in
+                                the name. The runtime linker can then use a set of rules to locate
+                                the actual file. See <a href="preloading-additional-objects.html#GUID-5D4FE5A6-3E76-46A8-B36E-203915287675">Preloading Additional Objects</a> for more details.
+
+               </div>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

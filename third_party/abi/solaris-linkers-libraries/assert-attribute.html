@@ -1,0 +1,279 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="ASSERT Attribute">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-C08DF88A-920D-447C-A687-C93660A0E334">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>ASSERT Attribute</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="symbol-scope-symbol-version-directives.html" title="Previous" type="text/html">
+      <link rel="next" href="deferred-attribute.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"ASSERT Attribute","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="symbol-scope-symbol-version-directives.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="deferred-attribute.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-C08DF88A-920D-447C-A687-C93660A0E334" name="GUID-C08DF88A-920D-447C-A687-C93660A0E334"></a>
+         
+         <h2 id="OSLLG-GUID-C08DF88A-920D-447C-A687-C93660A0E334" class="sect2">
+            <code class="codeph">ASSERT</code> Attribute
+         </h2>
+         <div class="ind">
+            <div>
+               <p>The <code class="codeph">ASSERT</code> attribute is used to specify the expected
+                    characteristics of the symbol. The link-editor compares the symbol
+                    characteristics that result from the link-edit to those given by
+<code class="codeph">ASSERT</code> attributes. If the real and asserted attributes do
+                    not agree, a fatal error is issued and the output object is not created.
+               </p>
+               <p>The interpretation of the <code class="codeph">ASSERT</code> attribute is dependent on
+                    whether the <code class="codeph">STUB_OBJECT</code> directive or
+<code class="codeph">-z&nbsp;stub</code> command line option are used. The three
+                    possible cases are as follows.
+               </p>
+               <ol>
+                  <li>
+                     
+                     <p>
+                        <code class="codeph">ASSERT</code> attributes are not required when the
+<code class="codeph">STUB_OBJECT</code> directive is not used. However, if
+<code class="codeph">ASSERT</code> attributes exist, their attributes are
+                            verified against the real values collected with the link-edit. Should
+                            any <code class="codeph">ASSERT</code> attributes not match their associated real
+                            values, the link-edit terminates unsuccessfully.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>When the <code class="codeph">STUB_OBJECT</code> directive is used, and the
+<code class="codeph">-z&nbsp;stub</code> command line option is specified, the
+                            link-editor uses the <code class="codeph">ASSERT</code> directives to define the
+                            attributes of the global symbols provided by the object. See <a href="stub-objects.html#GUID-AC32B5FB-9688-47B7-A018-F32284CE8D93">Stub Objects</a>.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>When the <code class="codeph">STUB_OBJECT</code> directive is used, and
+<code class="codeph">-z&nbsp;stub</code> command line option is not specified,
+                            the link-editor requires that all global data in the resulting object
+                            have an associated <code class="codeph">ASSERT</code> directive that declares it
+                            as data and supplies a size. In this mode, if the
+<code class="codeph">TYPE</code>
+                        <code class="codeph">ASSERT</code> attribute is not specified,
+<code class="codeph">GLOBAL</code> is assumed. Similarly, if
+<code class="codeph">SH_ATTR</code> is not specified, a default value of
+<code class="codeph">BITS</code> is assumed. These defaults ensure that the
+                            data attributes of the stub and real objects are compatible. The
+                            resulting <code class="codeph">ASSERT</code> statements are evaluated in the same
+                            manner as in the first case. See <a href="stub-object-directive.html#GUID-D6CCE284-C858-4B5A-A216-E8E81CEEEB08">STUB_OBJECT Directive</a>.
+                     </p>
+                     
+                  </li>
+               </ol>
+               <p>
+                  <code class="codeph">ASSERT</code> accepts the following attributes.
+               </p>
+               <dl>
+                  <dt class="dlterm"><a name="GUID-C08DF88A-920D-447C-A687-C93660A0E334__GUID-7B5FA329-4F54-427D-9F99-804B57065B58">
+                        <!-- --></a>
+                     <code class="codeph">ALIAS</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Defines an alias for a previously defined symbol. An alias symbol
+                                has the same type, value, and size as the main symbol. The
+<code class="codeph">ALIAS</code> attribute cannot be used with the
+<code class="codeph">TYPE</code>, <code class="codeph">SIZE</code>, and
+<code class="codeph">SH_ATTR</code> attributes. When
+<code class="codeph">ALIAS</code> is specified, the type, size, and
+                                section attributes are obtained from the alias symbol.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-C08DF88A-920D-447C-A687-C93660A0E334__GUID-8432ECC2-10F3-4E17-95F9-1CA4BC50C057">
+                        <!-- --></a>
+                     <code class="codeph">BINDING</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Specifies an <span>ELF</span>
+                        <span class="variable" translate="no">symbol_binding</span>, which can be any of the
+<code class="codeph">STB_</code> values defined in
+<code>&lt;sys/elf.h&gt;</code>, with the
+<code class="codeph">STB_</code> prefix removed. For example,
+<code class="codeph">GLOBAL</code>, or <code class="codeph">WEAK</code>.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-C08DF88A-920D-447C-A687-C93660A0E334__GUID-A2D8C7AB-21F9-4D98-AE04-024F3E8F911E">
+                        <!-- --></a>
+                     <code class="codeph">TYPE</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Specifies an <span>ELF</span>
+                        <span class="variable" translate="no">symbol_type</span>, which can be any of the
+<code class="codeph">STT_</code> constants defined in
+<code>&lt;sys/elf.h&gt;</code>, with the
+<code class="codeph">STT_</code> prefix removed. For example,
+<code class="codeph">OBJECT</code>, <code class="codeph">COMMON</code>, or
+<code class="codeph">FUNC</code>. In addition, for compatibility with
+                                other <code>mapfile</code> usage,
+<code class="codeph">FUNCTION</code> and <code class="codeph">DATA</code> can be
+                                specified for <code class="codeph">STT_FUNC</code> and
+<code class="codeph">STT_OBJECT</code>, respectively.
+<code class="codeph">TYPE</code> cannot be used with
+<code class="codeph">ALIAS</code>.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-C08DF88A-920D-447C-A687-C93660A0E334__GUID-C16403F6-A1E0-45B8-800A-518036619085">
+                        <!-- --></a>
+                     <code class="codeph">SH_ATTR</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Specifies attributes of the section associated with the symbol.
+                                The <span class="variable" translate="no">section_attributes</span> that can be
+                                specified are given in <a href="assert-attribute.html#GUID-C08DF88A-920D-447C-A687-C93660A0E334__GKMFH" title="Table defining SH_ATTR values.">Table 10-9</a>. <code class="codeph">SH_ATTR</code> cannot be used with
+<code class="codeph">ALIAS</code>.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-C08DF88A-920D-447C-A687-C93660A0E334__GUID-DFEEC7EE-66F0-491D-B112-7DA6CB43DBAB">
+                        <!-- --></a>
+                     <code class="codeph">SIZE</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Specifies the expected symbol size. <code class="codeph">SIZE</code> cannot
+                                be used with <code class="codeph">ALIAS</code>. The syntax for the
+<span class="variable" translate="no">size_value</span> argument is as described
+                                in the discussion of the <code class="codeph">SIZE</code> attribute. See
+<a href="size-attribute.html#GUID-FB4A0714-9786-40B3-B82E-E0CEAE4793BA">SIZE Attribute</a>.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-C08DF88A-920D-447C-A687-C93660A0E334__GUID-F870FD9D-C59D-43B4-BFC1-B9D194A4CA65">
+                        <!-- --></a>
+                     <code class="codeph">VALUE</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Specifies the expected symbol value.</p>
+                     
+                  </dd>
+               </dl>
+               <div class="tblformal" id="GUID-C08DF88A-920D-447C-A687-C93660A0E334__GKMFH">
+                  <p class="titleintable">Table 10-9 
+<code class="codeph">SH_ATTR</code> Values
+                  </p>
+                  <table cellpadding="4" cellspacing="0" class="Formal" title="&#xA;SH_ATTR Values" summary="&#xA;            Table defining SH_ATTR values.&#xA;" frame="hsides" border="1" rules="rows">
+                     <thead>
+                        <tr align="left" valign="top">
+                           <th align="left" valign="bottom" width="1%" id="d34562e315">
+Section Attribute
+</th>
+                           <th align="left" valign="bottom" width="1%" id="d34562e320">
+Meaning
+</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="1%" id="d34562e327" headers="d34562e315 ">
+                              
+                              <p>
+                                 <code class="codeph">BITS</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="1%" headers="d34562e327 d34562e320 ">
+                              
+                              <p>Section is not of type
+<code class="codeph">SHT_NOBITS</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="1%" id="d34562e344" headers="d34562e315 ">
+                              
+                              <p>
+                                 <code class="codeph">NOBITS</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="1%" headers="d34562e344 d34562e320 ">
+                              
+                              <p>Section is of type <code class="codeph">SHT_NOBITS</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                     </tbody>
+                  </table>
+               </div>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Runtime Linker">
+      <meta name="DC.subject" content="program interpreter, interpreter, runtime linker, section names, .interp, /usr/lib/ld.so.1, /usr/lib/64/ld.so.1, ld.so.1, .dynamic, dlopen, dlsym">
+      <meta name="keywords" content="program interpreter, interpreter, runtime linker, section names, .interp, /usr/lib/ld.so.1, /usr/lib/64/ld.so.1, ld.so.1, .dynamic, dlopen, dlsym">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-5CBAA778-2E1A-4198-AFA5-BEE069E25DC1">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Runtime Linker</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="debugging-aids.html" title="Previous" type="text/html">
+      <link rel="next" href="shared-object-dependencies.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Runtime Linker","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="debugging-aids.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="shared-object-dependencies.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-5CBAA778-2E1A-4198-AFA5-BEE069E25DC1" name="GUID-5CBAA778-2E1A-4198-AFA5-BEE069E25DC1"></a>
+         
+         <h2 id="OSLLG-GUID-5CBAA778-2E1A-4198-AFA5-BEE069E25DC1" class="sect2"><span class="enumeration_chapter">3 </span>Runtime Linker
+         </h2>
+         <div class="ind">
+            <div>
+               <p>As part of the initialization and execution of an executable, an <span class="italic">interpreter</span> is called to complete the binding of the application to its dependencies. In the Oracle Solaris OS, this interpreter is referred to as the runtime linker.
+               </p>
+               <p>During the link-editing of an executable, a special <code class="codeph">.interp</code> section, together with an associated program header, are created. This section contains a path name specifying the program's interpreter. The default name supplied by the link-editor is the name of the runtime linker: <code>/usr/lib/ld.so.1</code> for a 32-bit executable and <code>/usr/lib/64/ld.so.1</code> for a 64-bit executable.
+               </p>
+               <div class="infoboxnote" id="GUID-5CBAA778-2E1A-4198-AFA5-BEE069E25DC1__GUID-F24114DB-BD6C-4EF2-B4D2-AAB679145DFB">
+                  <p class="notep1">Note:</p>
+                  <code>ld.so.1</code> is a special case of a shared object. Here, a version number of 1 is used. However, later Oracle Solaris OS releases might provide higher version numbers.
+
+               </div>
+               <p>During the process of executing a dynamic object, the kernel loads the file and reads the program header information. See <a href="program-header.html#GUID-49F99618-9CDC-4A08-A94C-E2AA264AA01A">Program Header</a>. From this information, the kernel locates the name of the required interpreter. The kernel loads, and transfers control to this interpreter, passing sufficient information to enable the interpreter to continue executing the application.
+               </p>
+               <p>In addition to initializing an application, the runtime linker provides
+                        services that enable the application to extend its address space. This
+                        process involves loading additional objects and binding to symbols provided
+                        by these objects.</p>
+               <p>The runtime linker performs the following actions.</p>
+               <ul style="list-style-type: disc;">
+                  <li>
+                     
+                     <p>Analyzes the executable's dynamic information
+                                        section (<code class="codeph">.dynamic</code>) and determines what
+                                        dependencies are required.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>Locates and loads these dependencies, analyzing their dynamic
+                                        information sections to determine if any additional
+                                        dependencies are required.</p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>Performs any necessary relocations to bind these objects in
+                                        preparation for process execution.</p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>Calls any initialization functions provided by the
+                                        dependencies.</p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>Passes control to the application.</p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>Can be called upon during the application's execution, to
+                                        perform any delayed function binding.</p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>Can be called upon by the application to acquire
+additional objects with <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/dlopen-3c.html" target="_blank">
+                           <code class="codeph">dlopen</code>(3C)</a>, and bind to symbols within
+these objects with <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/dlsym-3c.html" target="_blank">
+                           <code class="codeph">dlsym</code>(3C)</a>.
+                     </p>
+                     
+                  </li>
+               </ul>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

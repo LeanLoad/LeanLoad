@@ -1,0 +1,271 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Stub Objects">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-AC32B5FB-9688-47B7-A018-F32284CE8D93">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Stub Objects</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="requesting-security-extensions.html" title="Previous" type="text/html">
+      <link rel="next" href="using-stub-objects-hide-obsolete-interfaces.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Stub Objects","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="requesting-security-extensions.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="using-stub-objects-hide-obsolete-interfaces.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-AC32B5FB-9688-47B7-A018-F32284CE8D93" name="GUID-AC32B5FB-9688-47B7-A018-F32284CE8D93"></a>
+         
+         <h2 id="OSLLG-GUID-AC32B5FB-9688-47B7-A018-F32284CE8D93" class="sect2">Stub Objects</h2>
+         <div class="ind">
+            <div>
+               <p>A stub object is a shared object, built entirely from
+<code>mapfiles</code>, that supplies the same linking
+                        interface as the real object, while containing no code or data. Stub objects
+                        cannot be used at runtime. However, an application can be built against a
+                        stub object, where the stub object provides the real object name to be used
+                        at runtime.
+               </p>
+               <p>When building a stub object, the link-editor ignores any object or library
+                        files specified on the command line, and these files need not exist in order
+                        to build a stub. Since the compilation step can be omitted, and because the
+                        link-editor has relatively little work to do, stub objects can be built very
+                        quickly.</p>
+               <p>Stub objects can be used to solve a variety of build problems.</p>
+               <ul style="list-style-type: disc;">
+                  <li>
+                     
+                     <p>Speed</p>
+                     
+                     <p>Modern machines, using a version of the
+<code>make</code> utility with the ability to
+                                        parallelize operations, are capable of compiling and linking
+                                        many objects simultaneously, and doing so offers significant
+                                        speedups. However, it is typical that a given object will
+                                        depend on other objects, and that there will be a core set
+                                        of objects that nearly everything else depends on. It is
+                                        necessary to order the builds so that all objects are built
+                                        ahead of their use by other objects. This ordering creates
+                                        bottlenecks that reduce the amount of parallelization that
+                                        is possible and limits the overall speed at which the code
+                                        can be built.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>Complexity/Correctness</p>
+                     
+                     <p>In a large body of code, there can be a large number of
+                                        dependencies between the various objects. The
+<code>makefiles</code> or other build
+                                        descriptions for these objects can become very complex and
+                                        difficult to understand or maintain. The dependencies can
+                                        change as the system evolves. This can cause a given set of
+<code>makefiles</code> to become slightly
+                                        incorrect over time, leading to race conditions and
+                                        mysterious rare build failures.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>Dependency Cycles</p>
+                     
+                     <p>It might be desirable to organize code as cooperating shared
+                                        objects, each of which draw on the resources provided by the
+                                        other. Such cycles cannot be supported in an environment
+                                        where objects must be built before the objects that use
+                                        them, even though the runtime linker is fully capable of
+                                        loading and using such objects if they could be
+                                        built.</p>
+                     
+                  </li>
+               </ul>
+               <p>Stub shared objects offer an alternative method for building code that
+                        sidesteps these issues. Stub objects can be quickly built for all the
+                        shared objects produced by the build. Then, all the real dynamic objects
+                        can be built in parallel, in any order, using the stub objects
+                        to stand in for the real objects at link-time. Afterwards, the
+                        real dynamic objects are kept, and the stub shared objects are
+                        discarded.</p>
+               <p>Stub objects are built from one or more <code>mapfiles</code>, which
+                        must collectively satisfy the following requirements.
+               </p>
+               <ul style="list-style-type: disc;">
+                  <li>
+                     
+                     <p>At least one <code>mapfile</code> must specify the
+<code>STUB_OBJECT</code> directive. See
+<a href="stub-object-directive.html#GUID-D6CCE284-C858-4B5A-A216-E8E81CEEEB08">STUB_OBJECT Directive</a>.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>All function and data symbols that make up the external
+                                        interface to the object must be explicitly listed in the
+<code>mapfile</code>.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>The <code>mapfile</code> must use symbol scope
+                                        reduction ('*'), to remove any symbols not explicitly listed
+                                        from the external interface. See <a href="symbol-scope-symbol-version-directives.html#GUID-38914CB2-D471-4CA3-8BC2-78323D4CD6B9">SYMBOL_SCOPE and SYMBOL_VERSION Directives</a>.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>All global data exported from the object must have an
+<code class="codeph">ASSERT</code> symbol attribute in the
+<code>mapfile</code> to specify the symbol
+                                        type and size. In the case where there are multiple symbols
+                                        that reference the same data, the <code class="codeph">ASSERT</code>
+                                        for one of these symbols must specify the
+<code class="codeph">TYPE</code> and <code class="codeph">SIZE</code>
+                                        attributes, while the others must use the
+<code class="codeph">ALIAS</code> attribute to reference this
+                                        primary symbol. See <a href="assert-attribute.html#GUID-C08DF88A-920D-447C-A687-C93660A0E334">ASSERT Attribute</a>.
+                     </p>
+                     
+                  </li>
+               </ul>
+               <p>Given such a <code>mapfile</code>, the stub and real versions of the
+                        shared object can be built using the same command line for each. The
+<code class="codeph">-z&nbsp;stub</code> option is added to the link-edit of the
+                        stub object, and is omitted from the link-edit of the real object.
+               </p>
+               <p>To demonstrate these ideas, the following code implements a shared object
+                        named <code class="codeph">idx5</code>, which exports data from a 5 element array of
+                        integers. Each element is initialized to contain its zero-based array index.
+                        This data is made available as a global array, as an alternative alias data
+                        symbol with weak binding, and through a functional interface.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cat idx5.c</span>
+int _idx5[5] = { 0, 1, 2, 3, 4 };
+#pragma weak idx5 = _idx5
+
+int
+idx5_func(int index)
+{
+        if ((index &lt; 0) || (index &gt; 4))
+                return (-1);
+        return (_idx5[index]);
+}</pre><p>A <code>mapfile</code> is required to describe the interface provided
+                        by this shared object.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cat mapfile</span>
+$mapfile_version 2
+STUB_OBJECT;
+SYMBOL_SCOPE {
+        _idx5 {
+                ASSERT { TYPE=data; SIZE=4[5] };
+        };
+        idx5 {
+                ASSERT { BINDING=weak; ALIAS=_idx5 };
+        };
+        idx5_func;
+    local:
+        *;
+};</pre><p>The following main program is used to print all the index values available
+                        from the <code class="codeph">idx5</code> shared object.
+               </p><pre class="oac_no_warn" dir="ltr">
+<span class="bold">$ cat main.c</span>
+#include &lt;stdio.h&gt;
+
+extern int _idx5[5], idx5[5], idx5_func(int);
+
+int
+main(int argc, char **argv)
+{
+        int i;
+        for (i = 0; i &lt; 5; i++)
+                (void) printf("[%d] %d %d %d\n",
+                    i, _idx5[i], idx5[i], idx5_func(i));
+        return (0);
+}</pre><p>The following commands create a stub version of this shared object in a
+                        subdirectory named <code>stublib</code>. The
+<code>elfdump</code> command is used to verify that the
+                        resulting object is a stub. The command used to build the stub differs from
+                        that of the real object only in the addition of the
+<code class="codeph">-z&nbsp;stub</code> option, and the use of a different
+                        output file name. This demonstrates the ease with which stub generation can
+                        be added to existing code.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cc -Kpic -G -M mapfile -h libidx5.so.1 idx5.c -o stublib/libidx5.so.1 -z stub</span>
+$ <span class="bold">ln -s libidx5.so.1 stublib/libidx5.so</span>
+$ <span class="bold">elfdump -d stublib/libidx5.so | grep STUB</span>
+    [11]  FLAGS_1           0x4000000           [ STUB ]</pre><p>The main program can now be built, using the stub object to stand in for the
+                        real shared object, and setting a <span>runpath</span> that will find
+                        the real object at runtime. However, as the real object has not been built,
+                        this program cannot yet be run. Attempts to cause the system to load the
+                        stub object are rejected, as the runtime linker knows that stub objects lack
+                        the actual code and data found in the real object, and cannot
+                        execute.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cc main.c -L stublib -R '$ORIGIN/lib' -lidx5 -lc</span>
+$ <span class="bold">./a.out</span>
+ld.so.1: a.out: fatal: libidx5.so.1: open failed: No such file or directory
+Killed
+$ <span class="bold">LD_PRELOAD=stublib/libidx5.so.1  ./a.out</span>
+ld.so.1: a.out: fatal: stublib/libidx5.so.1: stub shared object \
+    cannot be used at runtime
+Killed</pre><p>The real object is built using the same command used to build the stub object.
+                        The <code class="codeph">-z&nbsp;stub</code> option is omitted, and the path for the
+                        real output file is specified.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cc -Kpic -G -M mapfile -h libidx5.so.1 idx5.c -o lib/libidx5.so.1</span></pre><p>Once the real object has been built in the <code class="codeph">lib</code>
+                        subdirectory, the program can be run.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">./a.out</span>
+[0] 0 0 0
+[1] 1 1 1
+[2] 2 2 2
+[3] 3 3 3
+[4] 4 4 4</pre></div>
+         </div>
+      </article>
+   </body>
+</html>

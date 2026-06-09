@@ -1,0 +1,2094 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Special Sections">
+      <meta name="DC.subject" content="section types, , SHT_NOBITS, .bss, .got, .lbss, procedure linkage table, .plt, SHF_ALLOC, .tbss, .SUNW_bss, section names, section header, section attributes">
+      <meta name="keywords" content="section types, , SHT_NOBITS, .bss, .got, .lbss, procedure linkage table, .plt, SHF_ALLOC, .tbss, .SUNW_bss, section names, section header, section attributes">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-7C59F05C-4F6D-4599-9D85-86982ABDA4F6">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Special Sections</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="gnu-style-section-compression.html" title="Previous" type="text/html">
+      <link rel="next" href="ancillary-section.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Special Sections","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="gnu-style-section-compression.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="ancillary-section.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-7C59F05C-4F6D-4599-9D85-86982ABDA4F6" name="GUID-7C59F05C-4F6D-4599-9D85-86982ABDA4F6"></a>
+         
+         <h2 id="OSLLG-GUID-7C59F05C-4F6D-4599-9D85-86982ABDA4F6" class="sect2">Special Sections</h2>
+         <div class="ind">
+            <div>
+               <p>Various sections hold program and control information. Sections in the following table are
+      used by the system and have the indicated types and attributes.</p>
+               <div class="tblformal" id="GUID-7C59F05C-4F6D-4599-9D85-86982ABDA4F6__CHAPTER6-28341">
+                  <p class="titleintable">Table 14-12 
+        <span>ELF</span> Special Sections
+                  </p>
+                  <table cellpadding="4" cellspacing="0" class="Formal" title="&#xA;        ELF Special Sections" summary="&#xA;            Table defining ELF special sections.&#xA;" frame="hsides" border="1" rules="rows">
+                     <thead>
+                        <tr align="left" valign="top">
+                           <th align="left" valign="bottom" width="20%" id="d62403e145">
+              Name
+            </th>
+                           <th align="left" valign="bottom" width="20%" id="d62403e150">
+              Type
+            </th>
+                           <th align="left" valign="bottom" width="20%" id="d62403e155">
+              Attribute
+            </th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d62403e162" headers="d62403e145 ">
+                              
+                              <p>
+                                 <code class="codeph">.bss</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e162 d62403e150 ">
+                              
+                              <p>
+                                 <code class="codeph">SHT_NOBITS</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e162 d62403e155 ">
+                              
+                              <p>
+                                 <code class="codeph">SHF_ALLOC + SHF_WRITE</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d62403e187" headers="d62403e145 ">
+                              
+                              <p>
+                                 <code class="codeph">.comment</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e187 d62403e150 ">
+                              
+                              <p>
+                                 <code class="codeph">SHT_PROGBITS</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e187 d62403e155 ">
+                              
+                              <p>
+                                 <span>None</span>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d62403e212" headers="d62403e145 ">
+                              
+                              <p>
+                                 <code class="codeph">.data</code>, <code class="codeph">.data1</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e212 d62403e150 ">
+                              
+                              <p>
+                                 <code class="codeph">SHT_PROGBITS</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e212 d62403e155 ">
+                              
+                              <p>
+                                 <code class="codeph">SHF_ALLOC + SHF_WRITE</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d62403e240" headers="d62403e145 ">
+                              
+                              <p>
+                                 <code class="codeph">.dynamic</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e240 d62403e150 ">
+                              
+                              <p>
+                                 <code class="codeph">SHT_DYNAMIC</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e240 d62403e155 ">
+                              
+                              <p>
+                                 <code class="codeph">SHF_ALLOC + SHF_WRITE</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d62403e265" headers="d62403e145 ">
+                              
+                              <p>
+                                 <code class="codeph">.dynstr</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e265 d62403e150 ">
+                              
+                              <p>
+                                 <code class="codeph">SHT_STRTAB</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e265 d62403e155 ">
+                              
+                              <p>
+                                 <code class="codeph">SHF_ALLOC</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d62403e290" headers="d62403e145 ">
+                              
+                              <p>
+                                 <code class="codeph">.dynsym</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e290 d62403e150 ">
+                              
+                              <p>
+                                 <code class="codeph">SHT_DYNSYM</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e290 d62403e155 ">
+                              
+                              <p>
+                                 <code class="codeph">SHF_ALLOC</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d62403e315" headers="d62403e145 ">
+                              
+                              <p>
+                                 <code class="codeph">.eh_frame_hdr</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e315 d62403e150 ">
+                              
+                              <p>
+                                 <code class="codeph">SHT_AMD64_UNWIND</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e315 d62403e155 ">
+                              
+                              <p>
+                                 <code class="codeph">SHF_ALLOC</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d62403e340" headers="d62403e145 ">
+                              
+                              <p>
+                                 <code class="codeph">.eh_frame</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e340 d62403e150 ">
+                              
+                              <p>
+                                 <code class="codeph">SHT_AMD64_UNWIND</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e340 d62403e155 ">
+                              
+                              <p>
+                                 <code class="codeph">SHF_ALLOC + SHF_WRITE</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d62403e365" headers="d62403e145 ">
+                              
+                              <p>
+                                 <code class="codeph">.fini</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e365 d62403e150 ">
+                              
+                              <p>
+                                 <code class="codeph">SHT_PROGBITS</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e365 d62403e155 ">
+                              
+                              <p>
+                                 <code class="codeph">SHF_ALLOC + SHF_EXECINSTR</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d62403e390" headers="d62403e145 ">
+                              
+                              <p>
+                                 <code class="codeph">.fini_array</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e390 d62403e150 ">
+                              
+                              <p>
+                                 <code class="codeph">SHT_FINI_ARRAY</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e390 d62403e155 ">
+                              
+                              <p>
+                                 <code class="codeph">SHF_ALLOC + SHF_WRITE</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d62403e415" headers="d62403e145 ">
+                              
+                              <p>
+                                 <code class="codeph">.got</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e415 d62403e150 ">
+                              
+                              <p>
+                                 <code class="codeph">SHT_PROGBITS</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e415 d62403e155 ">
+                              
+                              <p>See <a href="global-offset-table-processor-specific.html#GUID-6702A8AA-D2EA-4C68-AD83-F04C4EF94410">Global Offset Table (Processor-Specific)</a>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d62403e442" headers="d62403e145 ">
+                              
+                              <p>
+                                 <code class="codeph">.hash</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e442 d62403e150 ">
+                              
+                              <p>
+                                 <code class="codeph">SHT_HASH</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e442 d62403e155 ">
+                              
+                              <p>
+                                 <code class="codeph">SHF_ALLOC</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d62403e467" headers="d62403e145 ">
+                              
+                              <p>
+                                 <code class="codeph">.init</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e467 d62403e150 ">
+                              
+                              <p>
+                                 <code class="codeph">SHT_PROGBITS</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e467 d62403e155 ">
+                              
+                              <p>
+                                 <code class="codeph">SHF_ALLOC + SHF_EXECINSTR</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d62403e492" headers="d62403e145 ">
+                              
+                              <p>
+                                 <code class="codeph">.init_array</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e492 d62403e150 ">
+                              
+                              <p>
+                                 <code class="codeph">SHT_INIT_ARRAY</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e492 d62403e155 ">
+                              
+                              <p>
+                                 <code class="codeph">SHF_ALLOC + SHF_WRITE</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d62403e517" headers="d62403e145 ">
+                              
+                              <p>
+                                 <code class="codeph">.interp</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e517 d62403e150 ">
+                              
+                              <p>
+                                 <code class="codeph">SHT_PROGBITS</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e517 d62403e155 ">
+                              
+                              <p>See <a href="program-interpreter.html#GUID-E0AB79F7-FE01-48E4-99DF-325A2949AB0E">Program Interpreter</a>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d62403e543" headers="d62403e145 ">
+                              
+                              <p>
+                                 <code class="codeph">.note</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e543 d62403e150 ">
+                              
+                              <p>
+                                 <code class="codeph">SHT_NOTE</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e543 d62403e155 ">
+                              
+                              <p>
+                                 <span>None</span>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d62403e568" headers="d62403e145 ">
+                              
+                              <p>
+                                 <code class="codeph">.lbss</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e568 d62403e150 ">
+                              
+                              <p>
+                                 <code class="codeph">SHT_NOBITS</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e568 d62403e155 ">
+                              
+                              <p>
+                                 <code class="codeph">SHF_ALLOC + SHF_WRITE + SHF_AMD64_LARGE</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d62403e593" headers="d62403e145 ">
+                              
+                              <p>
+                                 <code class="codeph">.ldata</code>, <code class="codeph">.ldata1</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e593 d62403e150 ">
+                              
+                              <p>
+                                 <code class="codeph">SHT_PROGBITS</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e593 d62403e155 ">
+                              
+                              <p>
+                                 <code class="codeph">SHF_ALLOC + SHF_WRITE + SHF_AMD64_LARGE</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d62403e621" headers="d62403e145 ">
+                              
+                              <p>
+                                 <code class="codeph">.lrodata</code>, <code class="codeph">.lrodata1</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e621 d62403e150 ">
+                              
+                              <p>
+                                 <code class="codeph">SHT_PROGBITS</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e621 d62403e155 ">
+                              
+                              <p>
+                                 <code class="codeph">SHF_ALLOC + SHF_AMD64_LARGE</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d62403e649" headers="d62403e145 ">
+                              
+                              <p>
+                                 <code class="codeph">.plt</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e649 d62403e150 ">
+                              
+                              <p>
+                                 <code class="codeph">SHT_PROGBITS</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e649 d62403e155 ">
+                              
+                              <p>See <a href="procedure-linkage-table-processor-specific.html#GUID-1BF2785C-FDE5-4799-ACE2-D6F1B633A7BC">Procedure Linkage Table (Processor-Specific)</a>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d62403e675" headers="d62403e145 ">
+                              
+                              <p>
+                                 <code class="codeph">.preinit_array</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e675 d62403e150 ">
+                              
+                              <p>
+                                 <code class="codeph">SHT_PREINIT_ARRAY</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e675 d62403e155 ">
+                              
+                              <p>
+                                 <code class="codeph">SHF_ALLOC + SHF_WRITE</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d62403e700" headers="d62403e145 ">
+                              
+                              <p>
+                                 <code class="codeph">.rela</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e700 d62403e150 ">
+                              
+                              <p>
+                                 <code class="codeph">SHT_RELA</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e700 d62403e155 ">
+                              
+                              <p>
+                                 <span>None</span>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d62403e726" headers="d62403e145 ">
+                              
+                              <p>
+                                 <code class="codeph">.rel</code>
+                                 <span class="variable" translate="no">name</span>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e726 d62403e150 ">
+                              
+                              <p>
+                                 <code class="codeph">SHT_REL</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e726 d62403e155 ">
+                              
+                              <p>See <a href="relocation-sections.html#GUID-88278065-8986-4225-B633-87A5B3BE38E9">Relocation Sections</a>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d62403e755" headers="d62403e145 ">
+                              
+                              <p>
+                                 <code class="codeph">.rela</code>
+                                 <span class="variable" translate="no">name</span>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e755 d62403e150 ">
+                              
+                              <p>
+                                 <code class="codeph">SHT_RELA</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e755 d62403e155 ">
+                              
+                              <p>See <a href="relocation-sections.html#GUID-88278065-8986-4225-B633-87A5B3BE38E9">Relocation Sections</a>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d62403e784" headers="d62403e145 ">
+                              
+                              <p>
+                                 <code class="codeph">.rodata</code>, <code class="codeph">.rodata1</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e784 d62403e150 ">
+                              
+                              <p>
+                                 <code class="codeph">SHT_PROGBITS</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e784 d62403e155 ">
+                              
+                              <p>
+                                 <code class="codeph">SHF_ALLOC</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d62403e812" headers="d62403e145 ">
+                              
+                              <p>
+                                 <code class="codeph">.shstrtab</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e812 d62403e150 ">
+                              
+                              <p>
+                                 <code class="codeph">SHT_STRTAB</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e812 d62403e155 ">
+                              
+                              <p>
+                                 <span>None</span>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d62403e837" headers="d62403e145 ">
+                              
+                              <p>
+                                 <code class="codeph">.strtab</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e837 d62403e150 ">
+                              
+                              <p>
+                                 <code class="codeph">SHT_STRTAB</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e837 d62403e155 ">
+                              
+                              <p>Refer to the explanation following this table.</p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d62403e859" headers="d62403e145 ">
+                              
+                              <p>
+                                 <code class="codeph">.symtab</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e859 d62403e150 ">
+                              
+                              <p>
+                                 <code class="codeph">SHT_SYMTAB</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e859 d62403e155 ">
+                              
+                              <p>See <a href="symbol-table-section.html#GUID-DBDD92CB-D58A-4CB5-861F-8868D8CB4552">Symbol Table Section</a>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d62403e885" headers="d62403e145 ">
+                              
+                              <p>
+                                 <code class="codeph">.symtab_shndx</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e885 d62403e150 ">
+                              
+                              <p>
+                                 <code class="codeph">SHT_SYMTAB_SHNDX</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e885 d62403e155 ">
+                              
+                              <p>See <a href="symbol-table-section.html#GUID-DBDD92CB-D58A-4CB5-861F-8868D8CB4552">Symbol Table Section</a>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d62403e911" headers="d62403e145 ">
+                              
+                              <p>
+                                 <code class="codeph">.tbss</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e911 d62403e150 ">
+                              
+                              <p>
+                                 <code class="codeph">SHT_NOBITS</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e911 d62403e155 ">
+                              
+                              <p>
+                                 <code class="codeph">SHF_ALLOC + SHF_WRITE + SHF_TLS</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d62403e936" headers="d62403e145 ">
+                              
+                              <p>
+                                 <code class="codeph">.tdata</code>, <code class="codeph">.tdata1</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e936 d62403e150 ">
+                              
+                              <p>
+                                 <code class="codeph">SHT_PROGBITS</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e936 d62403e155 ">
+                              
+                              <p>
+                                 <code class="codeph">SHF_ALLOC + SHF_WRITE + SHF_TLS</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d62403e964" headers="d62403e145 ">
+                              
+                              <p>
+                                 <code class="codeph">.text</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e964 d62403e150 ">
+                              
+                              <p>
+                                 <code class="codeph">SHT_PROGBITS</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e964 d62403e155 ">
+                              
+                              <p>
+                                 <code class="codeph">SHF_ALLOC + SHF_EXECINSTR</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d62403e989" headers="d62403e145 ">
+                              
+                              <p>
+                                 <code class="codeph">.SUNW_ancillary</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e989 d62403e150 ">
+                              
+                              <p>
+                                 <code class="codeph">SHT_SUNW_ancillary</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e989 d62403e155 ">
+                              
+                              <p>
+                                 <span>None</span>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d62403e1015" headers="d62403e145 ">
+                              
+                              <p>
+                                 <code class="codeph">.SUNW_ancillary_strtab</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e1015 d62403e150 ">
+                              
+                              <p>
+                                 <code class="codeph">SHT_STRTAB</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e1015 d62403e155 ">
+                              
+                              <p>
+                                 <span>None</span>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d62403e1040" headers="d62403e145 ">
+                              
+                              <p>
+                                 <code class="codeph">.SUNW_bss</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e1040 d62403e150 ">
+                              
+                              <p>
+                                 <code class="codeph">SHT_NOBITS</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e1040 d62403e155 ">
+                              
+                              <p>
+                                 <code class="codeph">SHF_ALLOC + SHF_WRITE</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d62403e1065" headers="d62403e145 ">
+                              
+                              <p>
+                                 <code class="codeph">.SUNW_cap</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e1065 d62403e150 ">
+                              
+                              <p>
+                                 <code class="codeph">SHT_SUNW_cap</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e1065 d62403e155 ">
+                              
+                              <p>
+                                 <code class="codeph">SHF_ALLOC</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d62403e1090" headers="d62403e145 ">
+                              
+                              <p>
+                                 <code class="codeph">.SUNW_capchain</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e1090 d62403e150 ">
+                              
+                              <p>
+                                 <code class="codeph">SHT_SUNW_capchain</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e1090 d62403e155 ">
+                              
+                              <p>
+                                 <code class="codeph">SHF_ALLOC</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d62403e1115" headers="d62403e145 ">
+                              
+                              <p>
+                                 <code class="codeph">.SUNW_capinfo</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e1115 d62403e150 ">
+                              
+                              <p>
+                                 <code class="codeph">SHT_SUNW_capinfo</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e1115 d62403e155 ">
+                              
+                              <p>
+                                 <code class="codeph">SHF_ALLOC</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d62403e1140" headers="d62403e145 ">
+                              
+                              <p>
+                                 <code class="codeph">.SUNW_ctf</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e1140 d62403e150 ">
+                              
+                              <p>
+                                 <code class="codeph">SHT_SUNW_ctf</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e1140 d62403e155 ">
+                              
+                              <p>
+                None
+              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d62403e1162" headers="d62403e145 ">
+                              
+                              <p>
+                                 <code class="codeph">.SUNW_heap</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e1162 d62403e150 ">
+                              
+                              <p>
+                                 <code class="codeph">SHT_PROGBITS</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e1162 d62403e155 ">
+                              
+                              <p>
+                                 <code class="codeph">SHF_ALLOC + SHF_WRITE</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d62403e1187" headers="d62403e145 ">
+                              
+                              <p>
+                                 <code class="codeph">.SUNW_ldynsym</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e1187 d62403e150 ">
+                              
+                              <p>
+                                 <code class="codeph">SHT_SUNW_LDYNSYM</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e1187 d62403e155 ">
+                              
+                              <p>
+                                 <code class="codeph">SHF_ALLOC</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d62403e1212" headers="d62403e145 ">
+                              
+                              <p>
+                                 <code class="codeph">.SUNW_dynsymsort</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e1212 d62403e150 ">
+                              
+                              <p>
+                                 <code class="codeph">SHT_SUNW_symsort</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e1212 d62403e155 ">
+                              
+                              <p>
+                                 <code class="codeph">SHF_ALLOC</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d62403e1237" headers="d62403e145 ">
+                              
+                              <p>
+                                 <code class="codeph">.SUNW_dynsymnsort</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e1237 d62403e150 ">
+                              
+                              <p>
+                                 <code class="codeph">SHT_SUNW_symnsort</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e1237 d62403e155 ">
+                              
+                              <p>
+                                 <code class="codeph">SHF_ALLOC</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d62403e1262" headers="d62403e145 ">
+                              
+                              <p>
+                                 <code class="codeph">.SUNW_dyntlssort</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e1262 d62403e150 ">
+                              
+                              <p>
+                                 <code class="codeph">SHT_SUNW_tlssort</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e1262 d62403e155 ">
+                              
+                              <p>
+                                 <code class="codeph">SHF_ALLOC</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d62403e1288" headers="d62403e145 ">
+                              
+                              <p>
+                                 <code class="codeph">.SUNW_move</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e1288 d62403e150 ">
+                              
+                              <p>
+                                 <code class="codeph">SHT_SUNW_move</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e1288 d62403e155 ">
+                              
+                              <p>
+                                 <code class="codeph">SHF_ALLOC</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d62403e1313" headers="d62403e145 ">
+                              
+                              <p>
+                                 <code class="codeph">.SUNW_phname</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e1313 d62403e150 ">
+                              
+                              <p>
+                                 <code class="codeph">SHT_SUNW_phname</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e1313 d62403e155 ">
+                              
+                              <p>
+                                 <code class="codeph">SHF_ALLOC</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d62403e1338" headers="d62403e145 ">
+                              
+                              <p>
+                                 <code class="codeph">.SUNW_reloc</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e1338 d62403e150 ">
+                              
+                              <p>
+                                 <code class="codeph">SHT_REL</code>
+                                 
+                              </p>
+                              
+                              <p>
+                                 <code class="codeph">SHT_RELA</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e1338 d62403e155 ">
+                              
+                              <p>
+                                 <code class="codeph">SHF_ALLOC</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d62403e1369" headers="d62403e145 ">
+                              
+                              <p>
+                                 <code class="codeph">.SUNW_syminfo</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e1369 d62403e150 ">
+                              
+                              <p>
+                                 <code class="codeph">SHT_SUNW_syminfo</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e1369 d62403e155 ">
+                              
+                              <p>
+                                 <code class="codeph">SHF_ALLOC</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d62403e1394" headers="d62403e145 ">
+                              
+                              <p>
+                                 <code class="codeph">.SUNW_symtabsort</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e1394 d62403e150 ">
+                              
+                              <p>
+                                 <code class="codeph">SHT_SUNW_symsort</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e1394 d62403e155 ">
+                              
+                              <p>
+                                 <span>None</span>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d62403e1419" headers="d62403e145 ">
+                              
+                              <p>
+                                 <code class="codeph">.SUNW_symtabnsort</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e1419 d62403e150 ">
+                              
+                              <p>
+                                 <code class="codeph">SHT_SUNW_symnsort</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e1419 d62403e155 ">
+                              
+                              <p>
+                                 <span>None</span>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d62403e1444" headers="d62403e145 ">
+                              
+                              <p>
+                                 <code class="codeph">.SUNW_symtlssort</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e1444 d62403e150 ">
+                              
+                              <p>
+                                 <code class="codeph">SHT_SUNW_tlssort</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e1444 d62403e155 ">
+                              
+                              <p>
+                                 <span>None</span>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d62403e1469" headers="d62403e145 ">
+                              
+                              <p>
+                                 <code class="codeph">.SUNW_version</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e1469 d62403e150 ">
+                              
+                              <p>
+                                 <code class="codeph">SHT_SUNW_verdef</code>
+                                 
+                              </p>
+                              
+                              <p>
+                                 <code class="codeph">SHT_SUNW_verneed</code>
+                                 
+                              </p>
+                              
+                              <p>
+                                 <code class="codeph">SHT_SUNW_versym</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d62403e1469 d62403e155 ">
+                              
+                              <p>
+                                 <code class="codeph">SHF_ALLOC</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                     </tbody>
+                  </table>
+               </div>
+               <dl>
+                  <dt class="dlterm"><a name="GUID-7C59F05C-4F6D-4599-9D85-86982ABDA4F6__GUID-6BF45FE9-ED23-462F-A088-7F9F18A548AC">
+                        <!-- --></a>
+                     <code class="codeph">.bss</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Uninitialized data that contribute to the program's memory image. By
+            definition, the system initializes the data with zeros when the program begins to run.
+            The section occupies no file space, as indicated by the section type
+<code class="codeph">SHT_NOBITS</code>.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-7C59F05C-4F6D-4599-9D85-86982ABDA4F6__GUID-E1B4F884-F1FD-41C1-8B87-78899570F808">
+                        <!-- --></a>
+                     <code class="codeph">.comment</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Comment information, typically contributed by the components of the compilation system. This section can be manipulated by <a href="https://docs.oracle.com/cd/E88353_01/html/E37839/mcs-1.html" target="_blank">
+                           <code class="codeph">mcs</code>(1)</a>.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-7C59F05C-4F6D-4599-9D85-86982ABDA4F6__GUID-CD1AF91E-51E1-47E4-9E39-6F574C70B20C">
+                        <!-- --></a>
+                     <code class="codeph">.data</code>, <code class="codeph">.data1</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Initialized data that contribute to the program's memory image.</p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-7C59F05C-4F6D-4599-9D85-86982ABDA4F6__GUID-4DA4A198-8EA3-4ED9-87F1-F9625C1710D7">
+                        <!-- --></a>
+                     <code class="codeph">.dynamic</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Dynamic linking information. See <a href="dynamic-section.html#GUID-4336A69A-D905-4FCE-A398-80375A9E6464">Dynamic Section</a> for details.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-7C59F05C-4F6D-4599-9D85-86982ABDA4F6__GUID-F763797B-E0FC-4F20-9A31-DDE3FCB0FCD3">
+                        <!-- --></a>
+                     <code class="codeph">.dynstr</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Strings needed for dynamic linking, most commonly the strings that represent the
+            names associated with symbol table entries.</p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-7C59F05C-4F6D-4599-9D85-86982ABDA4F6__GUID-082DBD42-A2D3-4604-AAC4-951D845C41C9">
+                        <!-- --></a>
+                     <code class="codeph">.dynsym</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Dynamic linking symbol table. See <a href="symbol-table-section.html#GUID-DBDD92CB-D58A-4CB5-861F-8868D8CB4552">Symbol Table Section</a> for details.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-7C59F05C-4F6D-4599-9D85-86982ABDA4F6__GUID-C8C31421-5014-41A7-BD0C-0DE77C6D58A1">
+                        <!-- --></a>
+                     <code class="codeph">.eh_frame_hdr</code>, <code class="codeph">.eh_frame</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Call frame information used to unwind the stack.</p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-7C59F05C-4F6D-4599-9D85-86982ABDA4F6__GUID-56D221F3-23F2-4C92-8FFD-79F0759849F2">
+                        <!-- --></a>
+                     <code class="codeph">.fini</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Executable instructions that contribute to a single termination function for the
+            dynamic object containing the section. See <a href="initialization-termination-routines.html#GUID-3E1961B3-E7BE-4D5E-8817-0F91655D3EF5">Initialization and Termination Routines</a> for details.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-7C59F05C-4F6D-4599-9D85-86982ABDA4F6__GUID-A76BA771-4678-4D24-8714-DD5F3D78A7FE">
+                        <!-- --></a>
+                     <code class="codeph">.fini_array</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>An array of function pointers that contribute to a single termination array for the
+            dynamic object containing the section. See <a href="initialization-termination-routines.html#GUID-3E1961B3-E7BE-4D5E-8817-0F91655D3EF5">Initialization and Termination Routines</a> for details.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-7C59F05C-4F6D-4599-9D85-86982ABDA4F6__GUID-E6D07C73-A1C9-42DE-A403-C52C6A8A4E13">
+                        <!-- --></a>
+                     <code class="codeph">.got</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>The global offset table. See <a href="global-offset-table-processor-specific.html#GUID-6702A8AA-D2EA-4C68-AD83-F04C4EF94410">Global Offset Table (Processor-Specific)</a> for details.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-7C59F05C-4F6D-4599-9D85-86982ABDA4F6__GUID-D11117F6-B52A-4D2D-91FA-90959390A730">
+                        <!-- --></a>
+                     <code class="codeph">.hash</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Symbol hash table. See <a href="hash-table-section.html#GUID-5F131F5B-EC1C-4AC0-96A2-A1F56DC47AFD">Hash Table Section</a>
+            for details.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-7C59F05C-4F6D-4599-9D85-86982ABDA4F6__GUID-0AC93360-9385-4F1B-8804-10E3641915C9">
+                        <!-- --></a>
+                     <code class="codeph">.init</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Executable instructions that contribute to a single initialization function for the
+            dynamic object containing the section. See <a href="initialization-termination-routines.html#GUID-3E1961B3-E7BE-4D5E-8817-0F91655D3EF5">Initialization and Termination Routines</a> for details.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-7C59F05C-4F6D-4599-9D85-86982ABDA4F6__GUID-15CE045E-73A0-4385-98CC-56E286EFA473">
+                        <!-- --></a>
+                     <code class="codeph">.init_array</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>An array of function pointers that contributes to a single initialization array for
+            the dynamic object containing the section. See <a href="initialization-termination-routines.html#GUID-3E1961B3-E7BE-4D5E-8817-0F91655D3EF5">Initialization and Termination Routines</a> for details.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-7C59F05C-4F6D-4599-9D85-86982ABDA4F6__GUID-C71841AF-3158-4D18-9722-36C05F061E38">
+                        <!-- --></a>
+                     <code class="codeph">.interp</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>The path name of a program interpreter. See <a href="program-interpreter.html#GUID-E0AB79F7-FE01-48E4-99DF-325A2949AB0E">Program Interpreter</a> for details.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-7C59F05C-4F6D-4599-9D85-86982ABDA4F6__GUID-C4F40750-4E86-449B-AE0A-C99787AC30DE">
+                        <!-- --></a>
+                     <code class="codeph">.lbss</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>x64 specific uninitialized data. This data is similar to <code class="codeph">.bss</code>, but
+            provides for a section that is larger than 2 Gbytes.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-7C59F05C-4F6D-4599-9D85-86982ABDA4F6__GUID-FB1B81D3-1603-45C7-9378-C9A9896B8BA6">
+                        <!-- --></a>
+                     <code class="codeph">.ldata</code>, <code class="codeph">.ldata1</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>x64 specific initialized data. This data is similar to <code class="codeph">.data</code>,
+            but provides for a section that is larger than 2 Gbytes.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-7C59F05C-4F6D-4599-9D85-86982ABDA4F6__GUID-75EF0CB7-E047-4494-A28D-AC454908339F">
+                        <!-- --></a>
+                     <code class="codeph">.lrodata</code>, <code class="codeph">.lrodata1</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>x64 specific read-only data. This data is similar to <code class="codeph">.rodata</code>,
+            but provides for a section that is larger than 2 Gbytes.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-7C59F05C-4F6D-4599-9D85-86982ABDA4F6__GUID-FA6E1970-1BB8-4886-9275-51068104BA8F">
+                        <!-- --></a>
+                     <code class="codeph">.note</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Information in the format described in <a href="note-section.html#GUID-DBEA6595-3C3A-4B39-AB1D-E0E96C512979">Note Section</a>.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-7C59F05C-4F6D-4599-9D85-86982ABDA4F6__GUID-BA44EA77-2BF5-42CB-A4C1-F6B9BDA066E5">
+                        <!-- --></a>
+                     <code class="codeph">.plt</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>The procedure linkage table. See <a href="procedure-linkage-table-processor-specific.html#GUID-1BF2785C-FDE5-4799-ACE2-D6F1B633A7BC">Procedure Linkage Table (Processor-Specific)</a> for details.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-7C59F05C-4F6D-4599-9D85-86982ABDA4F6__GUID-E0055AEF-14EB-4716-9CD1-CB625B263B9D">
+                        <!-- --></a>
+                     <code class="codeph">.preinit_array</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>An array of function pointers that contribute to a single
+<span>pre-initialization</span> array for the executable
+            containing the section. See <a href="initialization-termination-routines.html#GUID-3E1961B3-E7BE-4D5E-8817-0F91655D3EF5">Initialization and Termination Routines</a> for details.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-7C59F05C-4F6D-4599-9D85-86982ABDA4F6__GUID-29AE9A9A-83E2-4C89-A563-662C55FD00A4">
+                        <!-- --></a>
+                     <code class="codeph">.rela</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Relocations that do not apply to a particular section. One use of this section is
+            for register relocations. See <a href="register-symbols.html#GUID-61F73C58-687E-46D1-97F5-C6EB366E81EF">Register Symbols</a>
+            for details.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-7C59F05C-4F6D-4599-9D85-86982ABDA4F6__GUID-1BA4B1BA-6C9E-4FD7-880D-72C43D88152C">
+                        <!-- --></a>
+                     <code class="codeph">.rel</code>
+                     <span class="variable" translate="no">name</span>,
+<code class="codeph">.rela</code>
+                     <span class="variable" translate="no">name</span>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Relocation information, as <a href="relocation-sections.html#GUID-88278065-8986-4225-B633-87A5B3BE38E9">Relocation Sections</a> describes. If the file has a loadable segment that includes
+            relocation, the sections' attributes include the <code class="codeph">SHF_ALLOC</code> bit.
+            Otherwise, that bit is off. Conventionally, <span class="variable" translate="no">name</span> is supplied
+            by the section to which the relocations apply. Thus, a relocation section for
+<code class="codeph">.text</code> normally will have the name <code class="codeph">.rel.text</code> or
+<code class="codeph">.rela.text</code>.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-7C59F05C-4F6D-4599-9D85-86982ABDA4F6__GUID-C1547DCA-50CF-4E0D-BB35-79FDC5AAA74C">
+                        <!-- --></a>
+                     <code class="codeph">.rodata</code>, <code class="codeph">.rodata1</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Read-only data that typically contribute to a non-writable segment in the process
+            image. See <a href="program-header.html#GUID-49F99618-9CDC-4A08-A94C-E2AA264AA01A">Program Header</a> for details.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-7C59F05C-4F6D-4599-9D85-86982ABDA4F6__GUID-4E8A1641-3A76-4C56-8E40-E79DA1E86FE8">
+                        <!-- --></a>
+                     <code class="codeph">.shstrtab</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Section names.</p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-7C59F05C-4F6D-4599-9D85-86982ABDA4F6__GUID-858C337C-61B1-4599-9BC7-F01251894A9B">
+                        <!-- --></a>
+                     <code class="codeph">.strtab</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Strings, most commonly the strings that represent the names that are
+            associated with symbol table entries. If the file has a loadable segment that includes
+            the symbol string table, the section's attributes include the
+<code class="codeph">SHF_ALLOC</code> bit. Otherwise, that bit is turned off.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-7C59F05C-4F6D-4599-9D85-86982ABDA4F6__GUID-C5E79AC4-E2F2-46F7-AB99-F82365979974">
+                        <!-- --></a>
+                     <code class="codeph">.symtab</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Symbol table, as <a href="symbol-table-section.html#GUID-DBDD92CB-D58A-4CB5-861F-8868D8CB4552">Symbol Table Section</a> describes.
+            If the file has a loadable segment that includes the symbol table, the section's
+            attributes include the <code class="codeph">SHF_ALLOC</code> bit. Otherwise, that bit is turned
+            off.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-7C59F05C-4F6D-4599-9D85-86982ABDA4F6__GUID-A539759C-038A-4E6E-9091-DA56204EEC10">
+                        <!-- --></a>
+                     <code class="codeph">.symtab_shndx</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>This section holds the special symbol table section index array, as described by
+<code class="codeph">.symtab</code>. The section's attributes include the
+<code class="codeph">SHF_ALLOC</code> bit if the associated symbol table section does.
+            Otherwise, that bit is turned off.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-7C59F05C-4F6D-4599-9D85-86982ABDA4F6__GUID-01DE8CBF-27DB-4B57-97AA-B2D38627AE49">
+                        <!-- --></a>
+                     <code class="codeph">.tbss</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>This section holds uninitialized thread-local data that contribute to the
+            program's memory image. By definition, the system initializes the data with zeros when
+            the data is instantiated for each new execution flow. The section occupies no file
+            space, as indicated by the section type, <code class="codeph">SHT_NOBITS</code>. See <a href="thread-local-storage.html#GUID-877263F4-090A-44F2-ADAD-44F5EDB8D78F">Thread-Local Storage</a> for details.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-7C59F05C-4F6D-4599-9D85-86982ABDA4F6__GUID-E2591410-620B-46F7-8160-62FDA31741CC">
+                        <!-- --></a>
+                     <code class="codeph">.tdata</code>, <code class="codeph">.tdata1</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>These sections hold initialized thread-local data that contribute to the program's
+            memory image. A copy of its contents is instantiated by the system for each new
+            execution flow. See <a href="thread-local-storage.html#GUID-877263F4-090A-44F2-ADAD-44F5EDB8D78F">Thread-Local Storage</a> for
+            details.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-7C59F05C-4F6D-4599-9D85-86982ABDA4F6__GUID-3C1AC7B0-AE55-4982-AC44-0DFE1999EB5D">
+                        <!-- --></a>
+                     <code class="codeph">.text</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>The <span class="italic">text</span> or executable instructions of a program.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-7C59F05C-4F6D-4599-9D85-86982ABDA4F6__GUID-3FE4F8A6-6BAB-41F4-8C7C-450752D182FF">
+                        <!-- --></a>
+                     <code class="codeph">.SUNW_ancillary</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Ancillary group information. See <a href="ancillary-section.html#GUID-333E8998-6F90-4089-BC54-4E59A2C7D1F0">Ancillary Section</a> for details.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-7C59F05C-4F6D-4599-9D85-86982ABDA4F6__GUID-C416B4C6-3DD5-4B54-AF61-AFCDDBA48E9B">
+                        <!-- --></a>
+                     <code class="codeph">.SUNW_ancillary_strtab</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Strings associated with the <code class="codeph">.SUNW_ancillary</code>
+	  section.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-7C59F05C-4F6D-4599-9D85-86982ABDA4F6__GUID-1B36B532-1ECD-457A-A263-C54224056F34">
+                        <!-- --></a>
+                     <code class="codeph">.SUNW_bss</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Partially initialized data for shared objects that contribute to the
+            program's memory image. The data is initialized at runtime. The section occupies no file
+            space, as indicated by the section type <code class="codeph">SHT_NOBITS</code>.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-7C59F05C-4F6D-4599-9D85-86982ABDA4F6__GUID-948D31FA-2EAD-4FA2-9688-C8EE788C09D4">
+                        <!-- --></a>
+                     <code class="codeph">.SUNW_cap</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Capability requirements. See <a href="capabilities-section.html#GUID-DF0B57D7-0758-4713-A009-8472460D5029">Capabilities Section</a> for details.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-7C59F05C-4F6D-4599-9D85-86982ABDA4F6__GUID-FACBE1D3-2C5F-4D32-8036-0730F1B9AE90">
+                        <!-- --></a>
+                     <code class="codeph">.SUNW_capchain</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Capability chain table. See <a href="capabilities-section.html#GUID-DF0B57D7-0758-4713-A009-8472460D5029">Capabilities Section</a> for details.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-7C59F05C-4F6D-4599-9D85-86982ABDA4F6__GUID-099E1573-5B83-461A-BE07-C41698844D83">
+                        <!-- --></a>
+                     <code class="codeph">.SUNW_capinfo</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Capability symbol information. See <a href="capabilities-section.html#GUID-DF0B57D7-0758-4713-A009-8472460D5029">Capabilities Section</a> for details.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-7C59F05C-4F6D-4599-9D85-86982ABDA4F6__dot-SUNW-ctf">
+                        <!-- --></a>
+                     <code class="codeph">.SUNW_ctf</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Identifies CTF (Compact C Type Format) debugging information. CTF data is consumed by
+            Oracle Solaris observability tools such as <code>mdb</code> and DTrace. See the <a href="https://docs.oracle.com/cd/E88353_01/html/E37839/mdb-1.html" target="_blank"><code>mdb</code>(1)</a> and <a href="https://docs.oracle.com/cd/E88353_01/html/E72487/dtrace-8.html" target="_blank"><code>dtrace</code>(8)</a> man pages.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-7C59F05C-4F6D-4599-9D85-86982ABDA4F6__GUID-D04B1344-F13F-46CC-8115-2CD45807BF99">
+                        <!-- --></a>
+                     <code class="codeph">.SUNW_heap</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>The <span class="italic">heap</span> of a dynamic executable created from <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/dldump-3c.html" target="_blank">
+                           <code class="codeph">dldump</code>(3C)</a>.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-7C59F05C-4F6D-4599-9D85-86982ABDA4F6__GUID-12A14BFE-C977-4728-8BC3-6D2905B3BFEE">
+                        <!-- --></a>
+                     <code class="codeph">.SUNW_dynsymsort</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>An array of indices to symbols in the combined <code class="codeph">.SUNW_ldynsym</code>
+            &#x2013; <code class="codeph">.dynsym</code> symbol table. The indices are sorted to reference
+            symbols in order of increasing address. Symbols that do not represent variables or do
+            not represent functions are not included. In the case of redundant global symbols and
+            weak symbols, only the weak symbol is kept. See <a href="symbol-sort-sections.html#GUID-FCB1BD8E-147D-4D61-9890-39AF18D86D0F">Symbol Sort Sections</a> for details.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-7C59F05C-4F6D-4599-9D85-86982ABDA4F6__GUID-5CE7E17B-AFE6-432A-83D3-259439CF2A81">
+                        <!-- --></a>
+                     <code class="codeph">.SUNW_dynsymnsort</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>An array of indices to symbols in the combined <code class="codeph">.SUNW_ldynsym</code>
+            &#x2013; <code class="codeph">.dynsym</code> symbol table. The indices are sorted to reference
+            symbols by name, in increasing lexical order. Symbols that do not represent variables or do
+            not represent functions are not included. See <a href="symbol-sort-sections.html#GUID-FCB1BD8E-147D-4D61-9890-39AF18D86D0F">Symbol Sort Sections</a> for details.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-7C59F05C-4F6D-4599-9D85-86982ABDA4F6__GUID-BC48434E-AA38-4CEB-932E-4935C9F6BC2B">
+                        <!-- --></a>
+                     <code class="codeph">.SUNW_dyntlssort</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>An array of indices to thread-local storage symbols in the combined
+<code class="codeph">.SUNW_ldynsym</code> &#x2013; <code class="codeph">.dynsym</code> symbol table. The
+            indices are sorted to reference symbols in order of increasing offset. Symbols that do
+            not represent <span>TLS</span> variables are not included. In the case of
+            redundant global symbols and weak symbols, only the weak symbol is kept. See <a href="symbol-sort-sections.html#GUID-FCB1BD8E-147D-4D61-9890-39AF18D86D0F">Symbol Sort Sections</a> for details.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-7C59F05C-4F6D-4599-9D85-86982ABDA4F6__GUID-B048B4A4-E8C9-4877-A97F-E6C19BBF6684">
+                        <!-- --></a>
+                     <code class="codeph">.SUNW_ldynsym</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Augments the <code class="codeph">.dynsym</code> section. This section contains local
+            function symbols, for use in contexts where the full <code class="codeph">.symtab</code> section
+            is not available. The link-editor always places the data for a
+<code class="codeph">.SUNW_ldynsym</code> section immediately before, and adjacent to, the
+<code class="codeph">.dynsym</code> section. Both sections always use the same
+<code class="codeph">.dynstr</code> string table section. This placement and organization,
+            allows both symbol tables to be treated as a single larger symbol table. See <a href="symbol-table-section.html#GUID-DBDD92CB-D58A-4CB5-861F-8868D8CB4552">Symbol Table Section</a>.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-7C59F05C-4F6D-4599-9D85-86982ABDA4F6__GUID-1C428762-6FB1-45CD-9901-43DD4286B0B0">
+                        <!-- --></a>
+                     <code class="codeph">.SUNW_move</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Additional information for partially initialized data. See <a href="move-section.html#GUID-F156DBAD-8611-4903-8838-71A864585AC2">Move Section</a> for details.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-7C59F05C-4F6D-4599-9D85-86982ABDA4F6__GUID-C876C0DD-A35A-4561-953D-E91C2769DBD9">
+                        <!-- --></a>
+                     <code class="codeph">.SUNW_phname</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Program header names. See <a href="program-header-name-section.html#GUID-C806BDDF-100C-4FAB-98F0-3D42F5D7087D">Program Header Name Section</a> for details.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-7C59F05C-4F6D-4599-9D85-86982ABDA4F6__GUID-3B17AA75-6F6F-40BB-8417-8D51BA33F0B1">
+                        <!-- --></a>
+                     <code class="codeph">.SUNW_reloc</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Relocation information, as <a href="relocation-sections.html#GUID-88278065-8986-4225-B633-87A5B3BE38E9">Relocation Sections</a> describes. This section is a concatenation of relocation sections
+            that provides better locality of reference of the individual relocation records. Only
+            the offset of the relocation record is meaningful, thus the section
+<code class="codeph">sh_info</code> value is zero.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-7C59F05C-4F6D-4599-9D85-86982ABDA4F6__GUID-FF7E4C21-9769-4F07-9AD4-D6DF865D57DC">
+                        <!-- --></a>
+                     <code class="codeph">.SUNW_syminfo</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Additional symbol table information. See <a href="syminfo-table-section.html#GUID-800FB027-237E-4011-A29B-B41E72E9BA5D">Syminfo Table Section</a> for details.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-7C59F05C-4F6D-4599-9D85-86982ABDA4F6__GUID-9C482750-78C5-4B23-A26B-D6E22FE02981">
+                        <!-- --></a>
+                     <code class="codeph">.SUNW_symtabsort</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>An array of indices to symbols in the <code class="codeph">.symtab</code> symbol table.
+		The indices are sorted to reference symbols in order of increasing address.
+		Symbols that do not represent variables or do not represent functions are not
+		included. In the case of redundant global symbols and weak symbols, only the
+		weak symbol is kept. See <a href="symbol-sort-sections.html#GUID-FCB1BD8E-147D-4D61-9890-39AF18D86D0F">Symbol Sort Sections</a>
+		for details.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-7C59F05C-4F6D-4599-9D85-86982ABDA4F6__GUID-AA395B4B-4EB4-4E3C-984A-906D11CD5652">
+                        <!-- --></a>
+                     <code class="codeph">.SUNW_symtabnsort</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>An array of indices to symbols in the <code class="codeph">.symtab</code> symbol table.
+		The indices are sorted to reference symbols by name, in increasing lexical order.
+		Symbols that do not represent variables or do not represent functions are not
+		included. See <a href="symbol-sort-sections.html#GUID-FCB1BD8E-147D-4D61-9890-39AF18D86D0F">Symbol Sort Sections</a>
+		for details.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-7C59F05C-4F6D-4599-9D85-86982ABDA4F6__GUID-A7C898AA-B2F9-478B-B520-0C0BE5E9BEBC">
+                        <!-- --></a>
+                     <code class="codeph">.SUNW_symtlssort</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>An array of indices to thread-local storage symbols in the <code class="codeph">.symtab</code>
+		symbol table. The indices are sorted to reference symbols in order of increasing
+		offset. Symbols that do not represent <span>TLS</span> variables are not
+		included. In the case of redundant global symbols and weak symbols, only the weak
+		symbol is kept. See <a href="symbol-sort-sections.html#GUID-FCB1BD8E-147D-4D61-9890-39AF18D86D0F">Symbol Sort Sections</a> for details.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-7C59F05C-4F6D-4599-9D85-86982ABDA4F6__GUID-931EDA4F-996E-4752-AAF4-EEC4F108253F">
+                        <!-- --></a>
+                     <code class="codeph">.SUNW_version</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Versioning information. See <a href="versioning-sections.html#GUID-331E6534-4562-4C26-B050-4C5F556FE8E9">Versioning Sections</a> for details.
+                     </p>
+                     
+                  </dd>
+               </dl>
+               <p>Section names with a dot (.) prefix are reserved for the system, although
+      applications can use these sections if their existing meanings are satisfactory. Applications
+      can use names without the prefix to avoid conflicts with system sections. The object file
+      format enables you to define sections that are not reserved. An object file can have more than
+      one section with the same name.</p>
+               <p>Section names that are reserved for a processor architecture are formed by placing an
+      abbreviation of the architecture name ahead of the section name. The name should be taken from
+      the architecture names that are used for <code class="codeph">e_machine</code>. For example,
+<code class="codeph">.Foo.psect</code> is the <code class="codeph">psect</code> section defined by the
+<code class="codeph">FOO</code> architecture.
+               </p>
+               <p>Existing extensions use their historical names.</p>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

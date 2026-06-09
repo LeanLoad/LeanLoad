@@ -1,0 +1,111 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Creating an Audit Library">
+      <meta name="DC.subject" content="link-editor options, -z&nbsp;defs">
+      <meta name="keywords" content="link-editor options, -z&nbsp;defs">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-23134562-8322-4381-B4F7-C54881914452">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Creating an Audit Library</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="establishing-namespace.html" title="Previous" type="text/html">
+      <link rel="next" href="invoking-auditing-interface.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Creating an Audit Library","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="establishing-namespace.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="invoking-auditing-interface.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-23134562-8322-4381-B4F7-C54881914452" name="GUID-23134562-8322-4381-B4F7-C54881914452"></a>
+         
+         <h2 id="OSLLG-GUID-23134562-8322-4381-B4F7-C54881914452" class="sect2">Creating an Audit Library</h2>
+         <div class="ind">
+            <div>
+               <p>An audit library is built like any other shared object. However, the audit
+                libraries unique namespace within a process requires some additional care.</p>
+               <ul style="list-style-type: disc;">
+                  <li>
+                     
+                     <p>The library must provide all dependency requirements.</p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>The library should not use system interfaces that do not provide for
+                        multiple instances of the interface within a process.</p>
+                     
+                  </li>
+               </ul>
+               <p>If an audit library references external interfaces, then the audit library must
+                define the dependency that provides the interface definition. For example, if the
+		audit library calls <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/printf-3c.html" target="_blank">
+                     <code class="codeph">printf</code>(3C)</a>, then the audit library must define a dependency on
+<code>libc</code>. See <a href="generating-shared-object-output-file.html#GUID-7845E6EC-6C0B-4AF5-82B5-3A7B8D2D9BB9">Generating a Shared Object Output File</a>. Because the audit library has a unique name
+                space, symbol references cannot be satisfied by the <code>libc</code> that
+                is present in the application being audited. If an audit library has a dependency on
+<code>libc</code>, then two versions of <code>libc.so.1</code>
+                are loaded into the process. One version satisfies the binding requirements of the
+                application link-map list. The other version satisfies the binding requirements of
+                the audit link-map list.
+               </p>
+               <p>To ensure that audit libraries are built with all dependencies recorded, use the link-editors <code class="codeph">-z&nbsp;defs</code> option.
+               </p>
+               <p>Some system interfaces assume that the interfaces are the only instance of their implementation within a process. Examples of such implementations are signals and <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/malloc-3c.html" target="_blank">
+                     <code class="codeph">malloc</code>(3C)</a>. Audit libraries should avoid using such interfaces, as doing so can inadvertently alter the behavior of the application.
+               </p>
+               <div class="infoboxnote" id="GUID-23134562-8322-4381-B4F7-C54881914452__GUID-C35324AD-45FA-4D9C-95E9-39B8244CAA6C">
+                  <p class="notep1">Note:</p>
+         An audit library can allocate memory using <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/mapmalloc-3malloc.html" target="_blank">
+                     <code class="codeph">mapmalloc</code>(3MALLOC)</a>, as this allocation method can exist with any allocation scheme normally employed by the application.
+
+               </div>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

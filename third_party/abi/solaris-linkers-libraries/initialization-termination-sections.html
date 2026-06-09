@@ -1,0 +1,194 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Initialization and Termination Sections">
+      <meta name="DC.subject" content="initialization and termination, section names, .preinit_array, .init_array, .fini_array, _init, _fini, .init, .fini, -z&nbsp;initarray, -z&nbsp;finiarray, dldump">
+      <meta name="keywords" content="initialization and termination, section names, .preinit_array, .init_array, .fini_array, _init, _fini, .init, .fini, -z&nbsp;initarray, -z&nbsp;finiarray, dldump">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-12B75868-FDD8-47A7-9B76-1A55619A28A7">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Initialization and Termination Sections</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="directories-searched-runtime-linker1.html" title="Previous" type="text/html">
+      <link rel="next" href="symbol-processing.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Initialization and Termination Sections","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="directories-searched-runtime-linker1.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="symbol-processing.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-12B75868-FDD8-47A7-9B76-1A55619A28A7" name="GUID-12B75868-FDD8-47A7-9B76-1A55619A28A7"></a>
+         
+         <h2 id="OSLLG-GUID-12B75868-FDD8-47A7-9B76-1A55619A28A7" class="sect2">Initialization and Termination Sections</h2>
+         <div class="ind">
+            <div>
+               <p>Dynamic objects can supply code that provides for runtime
+                                initialization and termination processing. The initialization code
+                                of a dynamic object is executed once each time the dynamic object is
+                                loaded in a process. The termination code of a dynamic object is
+                                executed once each time the dynamic object is unloaded from a
+                                process or at process termination. This code can be encapsulated in
+                                one of two section types, either an array of function pointers or a
+                                single code block. Each of these section types is built from a
+                                concatenation of like sections from the input relocatable
+                                objects.</p>
+               <p>The sections <code class="codeph">.pre_initarray</code>,
+<code class="codeph">.init_array</code> and
+<code class="codeph">.fini_array</code> provide arrays of runtime
+<span>pre-initialization</span>, initialization, and
+                                termination functions, respectively. When creating a dynamic object,
+                                the link-editor identifies these arrays with the
+<code class="codeph">.dynamic</code> tag pairs
+<code class="codeph">DT_PREINIT_[ARRAY/ARRAYSZ]</code>,
+<code class="codeph">DT_INIT_[ARRAY/ARRAYSZ]</code>, and
+<code class="codeph">DT_FINI_[ARRAY/ARRAYSZ]</code> accordingly.
+                                These tags identify the associated sections so that the sections can
+                                be called by the runtime linker. A
+<span>pre-initialization</span> array is applicable to
+                                executables only.
+               </p>
+               <div class="infoboxnote" id="GUID-12B75868-FDD8-47A7-9B76-1A55619A28A7__GUID-CFEC5D97-FED6-4A4A-889B-BE431A376C69">
+                  <p class="notep1">Note:</p>
+         Functions that are assigned to these arrays must be provided
+                                        from the object that is being built.
+
+               </div>
+               <p>The sections <code class="codeph">.init</code> and
+<code class="codeph">.fini</code> provide a runtime initialization
+                                and termination code block, respectively. The compiler drivers
+                                typically supply <code class="codeph">.init</code> and
+<code class="codeph">.fini</code> sections with files they add to the
+                                beginning and end of your input file list. These compiler provided
+                                files have the effect of encapsulating the <code class="codeph">.init</code>
+                                and <code class="codeph">.fini</code> code from your relocatable objects into
+                                individual functions. These functions are identified by the reserved
+                                symbol names <code class="codeph">_init</code> and <code class="codeph">_fini</code>
+                                respectively. When creating a dynamic object, the link-editor
+                                identifies these symbols with the <code class="codeph">.dynamic</code> tags
+<code class="codeph">DT_INIT</code> and <code class="codeph">DT_FINI</code>
+                                accordingly. These tags identify the associated sections so they can
+                                be called by the runtime linker.
+               </p>
+               <p>For more information about the execution of initialization and
+                                termination code at runtime see <a href="initialization-termination-routines.html#GUID-3E1961B3-E7BE-4D5E-8817-0F91655D3EF5">Initialization and Termination Routines</a>.
+               </p>
+               <p>The registration of initialization and termination
+                                functions can be carried out directly by the link-editor by using
+                                the <code class="codeph">-z&nbsp;initarray</code> and
+<code class="codeph">-z&nbsp;finiarray</code> options. For example, the
+                                following command places the address of <code class="codeph">foo</code>() in
+                                an <code class="codeph">.init_array</code> element, and the address of
+<code class="codeph">bar</code>() in a <code class="codeph">.fini_array</code>
+                                element.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cat main.c</span>
+#include    &lt;stdio.h&gt;
+
+void foo()
+{
+        (void) printf("initializing: foo()\n");
+}
+
+void bar()
+{
+        (void) printf("finalizing: bar()\n");
+}
+
+void main()
+{
+        (void) printf("main()\n");
+}
+$ <span class="bold">cc -o main -z initarray=foo -z finiarray=bar main.c</span>
+$ <span class="bold">main</span>
+initializing: foo()
+main()
+finalizing: bar()</pre><p>The creation of initialization and termination sections can be carried
+                                out directly using an assembler. However, most compilers offer
+                                special primitives to simplify their declaration. For example, the
+                                previous code example can be rewritten using the following
+<code class="codeph">#pragma</code> definitions. These definitions
+                                result in a call to <code class="codeph">foo</code>() being placed in an
+<code class="codeph">.init</code> section, and a call to
+<code class="codeph">bar</code>() being placed in a
+<code class="codeph">.fini</code> section.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cat main.c</span>
+#include    &lt;stdio.h&gt;
+
+#pragma init (foo)
+#pragma fini (bar)
+
+....
+$ <span class="bold">cc -o main main.c</span>
+$ <span class="bold">main</span>
+initializing: foo()
+main()
+finalizing: bar()</pre><p>Initialization and termination code, spread throughout several
+                                relocatable objects, can result in different behavior when included
+                                in an archive library or shared object. The link-edit of an
+                                application that uses this archive might extract only a fraction of
+                                the objects contained in the archive. These objects might provide
+                                only a portion of the initialization and termination code spread
+                                throughout the members of the archive. At runtime, only this portion
+                                of code is executed. The same application built against the shared
+                                object will have all the accumulated initialization and termination
+                                code executed when the dependency is loaded at runtime.</p>
+               <p>To determine the order of executing initialization and termination
+                                code within a process at runtime is a complex issue that involves
+                                dependency analysis. Limit the content of initialization and
+                                termination code to simplify this analysis. Simplified, self
+                                contained, initialization and termination code provides predictable
+                                runtime behavior. See <a href="initialization-termination-order.html#GUID-94F9C220-FCE6-4C65-B0FB-F6A7AF07FA25">Initialization and Termination Order</a> for more details.
+               </p>
+               <p>Data initialization should be independent if the
+                                initialization code is involved with a dynamic object whose memory
+				can be dumped using <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/dldump-3c.html" target="_blank">
+                     <code class="codeph">dldump</code>(3C)</a>.
+               </p>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

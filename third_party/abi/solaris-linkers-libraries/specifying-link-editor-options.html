@@ -1,0 +1,212 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Specifying the Link-Editor Options">
+      <meta name="DC.subject" content="link-editor, specifying options, LD_OPTIONS, LD_UNSET, LD_EXEC_OPTIONS, LD_KMOD_OPTIONS, LD_PIE_OPTIONS, LD_RELOC_OPTIONS, LD_SHARED_OPTIONS, LD_EXEC_UNSET, LD_KMOD_UNSET, LD_PIE_UNSET, LD_RELOC_UNSET, LD_SHARED_UNSET">
+      <meta name="keywords" content="link-editor, specifying options, LD_OPTIONS, LD_UNSET, LD_EXEC_OPTIONS, LD_KMOD_OPTIONS, LD_PIE_OPTIONS, LD_RELOC_OPTIONS, LD_SHARED_OPTIONS, LD_EXEC_UNSET, LD_KMOD_UNSET, LD_PIE_UNSET, LD_RELOC_UNSET, LD_SHARED_UNSET">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-72462324-85B6-41F6-BEB0-FD4DD19C3491">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Specifying the Link-Editor Options</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="cross-link-editing.html" title="Previous" type="text/html">
+      <link rel="next" href="input-file-processing.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Specifying the Link-Editor Options","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="cross-link-editing.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="input-file-processing.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-72462324-85B6-41F6-BEB0-FD4DD19C3491" name="GUID-72462324-85B6-41F6-BEB0-FD4DD19C3491"></a>
+         
+         <h2 id="OSLLG-GUID-72462324-85B6-41F6-BEB0-FD4DD19C3491" class="sect2">Specifying the Link-Editor Options</h2>
+         <div class="ind">
+            <div>
+               <p>Typically, link-edits are completely specified using command line options. In
+                        addition, a variety of environment variables are provided to augment command
+                        line processing. These variables provide for supplying options that might
+                        clash with compiler options. These variables also provide for overriding, or
+                        unsetting, the command line options that are embedded in scripts and build
+                        environments.</p>
+               <p>Any inconsistencies between command line options result in a fatal error
+                        condition. Any inconsistencies that involve an option provided by an
+                        environment variable result in a warning, and the first option taking
+                        precedence. Any <code class="codeph">UNSET</code> operation is accompanied with a
+                        warning notification. 
+               </p>
+               <p>Initial options are interpreted from the environment and the
+                        command line in the following order.</p>
+               <ul style="list-style-type: disc;">
+                  <li>
+                     
+                     <p>From the <code class="codeph">LD_OPTIONS</code> environment
+                                        variable.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>From the command line.</p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>From the <code class="codeph">LD_UNSET</code> environment
+                                        variable.
+                     </p>
+                     
+                  </li>
+               </ul>
+               <p>
+                  <code class="codeph">LD_OPTIONS</code> can be used to pass arguments to the link-editor
+                        that would otherwise be interpreted by the compiler drivers. For example,
+                        diagnostics related to the link-edit can be obtained using the
+<code class="codeph">-D</code> option. This option is normally interpreted by
+                        the compiler preprocessor.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">LD_OPTIONS=-Dargs  cc -o main main.c</span>
+...
+debug: arg[0]  option=-D:  option-argument: args  (LD_OPTIONS)
+debug:
+debug: arg[0]  /usr/ccs/bin/ld
+debug: arg[2]  option=-o:  option-argument: main
+debug: arg[3]  option=-Q:  option-argument: y
+debug: arg[4]  option=-l:  option-argument: c</pre><p>
+                  <code class="codeph">LD_OPTIONS</code> can also be used to override options that have a
+                        family of variants. For example, an embedded <code class="codeph">-z&nbsp;text</code>
+                        option can be overridden by a <code class="codeph">-z&nbsp;textoff</code> option.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">LD_OPTIONS=-ztextoff  cc -z text -G null.o</span>
+ld: warning: option '-ztextoff' and option '-z text' are incompatible, \
+    first option taken</pre><p>Some options have no alternative variants, and therefore can not be
+                        overridden. However, they can be unset. For example, a standard link-edit
+                        can create the following sections.</p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cc -o main main.c</span>
+$ <span class="bold">elfdump -c main | egrep "symtab|debug"</span>
+Section Header[19]:  sh_name: .symtab
+Section Header[22]:  sh_name: .debug_info
+Section Header[23]:  sh_name: .debug_line</pre><p>These sections can be removed with the <code class="codeph">-z&nbsp;strip-class</code>
+                        option.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cc -o main -z strip-class=symbol -z strip-class=debug main.c</span>
+$ <span class="bold">elfdump -c main | egrep "symtab|debug"</span>
+$</pre><p>Individual strip options can be unset. The follow example unsets the stripping
+                        of debug sections.</p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">LD_UNSET=-zstrip-class=debug  cc -o main -z strip-class=symbol \
+    -z strip-class=debug main.c</span>
+ld: warning: unsetting option '-zstrip-class=debug': LD_UNSET directed
+$ <span class="bold">elfdump -c main | egrep "symtab|debug"</span>
+Section Header[20]:  sh_name: .debug_info
+Section Header[21]:  sh_name: .debug_line</pre><p>In addition, options that provide for multiple instances, such as
+<code class="codeph">-z&nbsp;strip-class</code> can have all family members
+                        unset by specifying the option without any qualifying option string. The
+                        following example unsets the stripping of debug and symbol table
+                        sections.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">LD_UNSET=-zstrip-class  cc -o main -z strip-class=symbol \
+    -z strip-class=debug main.c</span>
+ld: warning: unsetting option '-zstrip-class': LD_UNSET directed
+$ <span class="bold">elfdump -c main | egrep "symtab|debug"</span>
+Section Header[19]:  sh_name: .symtab
+Section Header[22]:  sh_name: .debug_info
+Section Header[23]:  sh_name: .debug_line</pre><p>From the three components, <code class="codeph">LD_OPTIONS</code>, the
+                        command line, and <code class="codeph">LD_UNSET</code>, the initial object type of
+                        the output file being created, is determined. This object type is then used
+                        to investigate any <code class="codeph">LD_{object-type}_UNSET</code>, and
+<code class="codeph">LD_{object-type}_OPTIONS</code> environment variables.
+                        These variables can remove, or add, options specific to the object type
+                        being built.
+               </p>
+               <p>The object-type corresponds to the values, in uppercase,
+			accepted by the <code class="codeph">-z&nbsp;type</code> option, and is one of
+<code class="codeph">EXEC</code>, <code class="codeph">KMOD</code>,
+<code class="codeph">PIE</code>, <code class="codeph">RELOC</code> or
+<code class="codeph">SHARED</code>. For example, the
+<code class="codeph">LD_EXEC_OPTIONS</code> option is interpreted when the
+                        output file type is a dynamic executable.
+               </p>
+               <p>If an <code class="codeph">LD_{object-type}_OPTIONS</code>
+                        exists, the variable is first searched to discover whether a
+<code class="codeph">-z&nbsp;type</code> option is specified. This search
+                        provides a final chance to affect the object type of the output file being
+                        created. The following example redefines a dynamic executable to be a
+                        position-independent executable.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">LD_EXEC_OPTIONS=-ztype=pie  cc -o main main.c</span></pre><p>The object type is now finalized, and the associated environment variables for
+                        this final object type are processed. Note that these variables can not
+                        change the object type or class.</p>
+               <p>These environment variables are processed in the
+                        following order.</p>
+               <ul style="list-style-type: disc;">
+                  <li>
+                     
+                     <p>From the <code class="codeph">LD_{object-type}_UNSET</code> environment
+                                        variable.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>From the <code class="codeph">LD_{object-type}_OPTIONS</code>
+                                        environment variable.
+                     </p>
+                     
+                  </li>
+               </ul>
+               <p>The following example executes a build process where all
+		        objects created by
+                        the link-editor have guidance enabled. Any dynamic executables become
+                        position-independent executables, and have a number of security extensions
+                        enabled. Any shared objects are ensured to contain position-independent code
+                        and have all their dependencies defined.</p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">LD_OPTIONS=-zguidance  \
+    LD_EXEC_OPTIONS=-ztype=pie  \
+    LD_PIE_OPTIONS=-zsx=aslr,nxheap,nxstack  \
+    LD_SHARED_OPTIONS='-ztext -zdefs'  build.sh</span></pre><p>Any command line options that are inconsistent with this output object type
+                        result in a fatal error condition. Any inconsistent option provided by an
+                        environment variable results in a warning, and the option being
+                        ignored.</p>
+               <p>See <a href="link-editor-quick-reference.html#GUID-7C2E1AA5-3E62-487F-8FCE-A41028890C62">Link-Editor Quick Reference</a> for the most commonly used link-editor options, and <a href="https://docs.oracle.com/cd/E88353_01/html/E37839/ld-1.html" target="_blank">
+                     <code class="codeph">ld</code>(1)</a> for a complete description of all link-editor options.
+               </p>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

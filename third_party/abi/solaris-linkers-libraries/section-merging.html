@@ -1,0 +1,158 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Section Merging">
+      <meta name="DC.subject" content="section flags, SHF_MERGE, SHF_STRINGS, -z&nbsp;nocompstrtab">
+      <meta name="keywords" content="section flags, SHF_MERGE, SHF_STRINGS, -z&nbsp;nocompstrtab">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-9336E976-BA62-45BC-84DF-C0F29686E8E8">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Section Merging</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="extended-section-header.html" title="Previous" type="text/html">
+      <link rel="next" href="section-compression.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Section Merging","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="extended-section-header.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="section-compression.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-9336E976-BA62-45BC-84DF-C0F29686E8E8" name="GUID-9336E976-BA62-45BC-84DF-C0F29686E8E8"></a>
+         
+         <h2 id="OSLLG-GUID-9336E976-BA62-45BC-84DF-C0F29686E8E8" class="sect2">Section Merging</h2>
+         <div class="ind">
+            <div>
+               <p>The <code class="codeph">SHF_MERGE</code> section flag can be used to mark
+      <code class="codeph">SHT_PROGBITS</code> sections within relocatable objects. See <span>ELF Section Attribute Flags</span>. This flag indicates that the
+      section can be merged with compatible sections from other objects. Such merging has the
+      potential to reduce the size of any dynamic object that is built from these
+      relocatable objects. This size reduction can also have a positive effect on the runtime
+      performance of the resulting object.
+               </p>
+               <p>A <code class="codeph">SHF_MERGE</code> flagged section indicates that the section adheres to the
+      following characteristics.
+               </p>
+               <ul style="list-style-type: disc;">
+                  <li>
+                     
+                     <p>The section is read-only. It must not be possible for a program containing this
+          section to alter the section data at runtime.</p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>Every item in the section is accessed from an individual relocation record. The
+          program code must not make any assumptions about the relative position of items in the
+          section when generating the code that accesses the items.</p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>If the section also has the <code class="codeph">SHF_STRINGS</code> flag set, then the section
+          can only contain null terminated strings. Null characters are only allowed as string
+          terminators, and null characters must not appear within the middle of any string.
+                     </p>
+                     
+                  </li>
+               </ul>
+               <p>
+                  <code class="codeph">SHF_MERGE</code> is an optional flag indicating a possible optimization. The
+      link-editor is allowed to perform the optimization, or to ignore the optimization. The
+      link-editor creates a valid output object in either case. The link-editor currently implements
+      section merging only for sections containing string data marked with the
+<code class="codeph">SHF_STRINGS</code> flag.
+               </p>
+               <p>When the <code class="codeph">SHF_STRINGS</code> section flag is set in conjunction with the
+<code class="codeph">SHF_MERGE</code> flag, the strings in the section are available to be merged
+      with strings from other compatible sections. The link-editor merges such sections using the
+      same string compression algorithm as used to compress the <code class="codeph">SHT_STRTAB</code> string
+      tables, <code class="codeph">.strtab</code> and <code class="codeph">.dynstr</code>.
+               </p>
+               <ul style="list-style-type: disc;">
+                  <li>
+                     
+                     <p>Duplicate strings are reduced to a single copy.</p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>Tail strings are eliminated. For example, if input sections contain the strings
+            "<span>bigdog</span>" and "<span>dog</span>", then the smaller
+          "dog" string is eliminated, and the tail of the larger string is used to
+          represent the smaller string.
+                     </p>
+                     
+                  </li>
+               </ul>
+               <p>The link-editor currently implements string merging only for strings that consist of byte
+      sized characters that do not have special alignment constraints. Specifically, the following
+      section characteristics are required.</p>
+               <ul style="list-style-type: disc;">
+                  <li>
+                     
+                     <p>
+                        <code class="codeph">sh_entsize</code> must be <code class="codeph">0</code>, or
+<code class="codeph">1</code>. Sections containing wide characters are not supported.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>Only sections where <code class="codeph">sh_addralign</code> is <code class="codeph">0</code>,
+          or a power of <code class="codeph">2</code>, are merged.
+                     </p>
+                     
+                  </li>
+               </ul>
+               <div class="infoboxnote" id="GUID-9336E976-BA62-45BC-84DF-C0F29686E8E8__GUID-67698EDB-CF7E-4C15-BBBD-4010CFF2668A">
+                  <p class="notep1">Note:</p>
+         Any string table compression can be suppressed with the link-editors
+<code class="codeph">-z&nbsp;nocompstrtab</code> option.
+
+               </div>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

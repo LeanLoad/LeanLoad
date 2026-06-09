@@ -1,0 +1,125 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="By-Name Symbol Sort Sections">
+      <meta name="DC.subject" content="link-editor options, -z&nbsp;noldynsym">
+      <meta name="keywords" content="link-editor options, -z&nbsp;noldynsym">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-6571A11A-B1DA-497D-A40A-B90BC32199DF">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>By-Name Symbol Sort Sections</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="address-symbol-sort-sections.html" title="Previous" type="text/html">
+      <link rel="next" href="register-symbols.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"By-Name Symbol Sort Sections","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="address-symbol-sort-sections.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="register-symbols.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-6571A11A-B1DA-497D-A40A-B90BC32199DF" name="GUID-6571A11A-B1DA-497D-A40A-B90BC32199DF"></a>
+         
+         <h2 id="OSLLG-GUID-6571A11A-B1DA-497D-A40A-B90BC32199DF" class="sect2">By-Name Symbol Sort Sections</h2>
+         <div class="ind">
+            <div>
+               <p>A single by-name symbol sort section provides access
+	to both regular symbols and thread-local storage symbols.</p>
+               <p>The link-editor produces the following by-name symbol sort sections.</p>
+               <dl>
+                  <dt class="dlterm"><a name="GUID-6571A11A-B1DA-497D-A40A-B90BC32199DF__GUID-CBDF0C20-5545-4BC6-8068-E8EC820863A0">
+                        <!-- --></a>
+                     <code class="codeph">.SUNW_dynsymnsort</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>A section of type <code class="codeph">SHT_SUNW_SYMNSORT</code>, containing indexes to
+              symbols in the combined <code class="codeph">.SUNW_ldynsym</code> &#x2013;
+<code class="codeph">.dynsym</code> symbol table, sorted by name, in lexical order.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-6571A11A-B1DA-497D-A40A-B90BC32199DF__GUID-F4168395-AC39-4074-82CB-A52613617D80">
+                        <!-- --></a>
+                     <code class="codeph">.SUNW_symtabnsort</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>A section of type <code class="codeph">SHT_SUNW_SYMNSORT</code>, containing indexes to
+              symbols in the <code class="codeph">.symtab</code> symbol table, sorted by name, in lexical order.
+                     </p>
+                     
+                  </dd>
+               </dl>
+               <p>The <code class="codeph">.SUNW_dynsymnsort</code> section requires that a
+<code class="codeph">.SUNW_ldynsym</code> section be present. Therefore, use
+        of the <code class="codeph">-z&nbsp;noldynsym</code> option also prevents the creation of
+	the <code class="codeph">.SUNW_dynsymnsort</code> sort section.
+               </p>
+               <p>The link-editor uses the following rules, in the order that is shown, to select which
+        symbols are referenced by these sort sections.</p>
+               <ul style="list-style-type: disc;">
+                  <li>
+                     
+                     <p>The symbol must have a function or variable type: <code class="codeph">STT_FUNC</code>,
+<code class="codeph">STT_OBJECT</code>, <code class="codeph">STT_COMMON</code>, or
+<code class="codeph">STT_TLS</code>.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>The symbol must not be undefined.</p>
+                     
+                  </li>
+               </ul>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

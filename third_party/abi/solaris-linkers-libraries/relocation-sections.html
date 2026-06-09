@@ -1,0 +1,227 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Relocation Sections">
+      <meta name="DC.subject" content="object files, relocation, dynamic, implementation, shared">
+      <meta name="keywords" content="object files, relocation, dynamic, implementation, shared">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-88278065-8986-4225-B633-87A5B3BE38E9">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Relocation Sections</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="program-header-name-section.html" title="Previous" type="text/html">
+      <link rel="next" href="relocation-calculations.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Relocation Sections","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="program-header-name-section.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="relocation-calculations.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-88278065-8986-4225-B633-87A5B3BE38E9" name="GUID-88278065-8986-4225-B633-87A5B3BE38E9"></a>
+         
+         <h2 id="OSLLG-GUID-88278065-8986-4225-B633-87A5B3BE38E9" class="sect2">Relocation Sections</h2>
+         <div class="ind">
+            <div>
+               <p>Relocation is the process of connecting symbolic references with symbolic definitions. For
+      example, when a program calls a function, the associated call instruction must transfer
+      control to the proper destination address at execution. Relocatable files must have
+      information that describes how to modify their section contents. This information allows
+      dynamic object files to hold the right information for a process's program
+      image. Relocation entries are these data.</p>
+               <p>Relocation entries can have the following structure. See
+<code>sys/elf.h</code>.
+               </p><pre class="oac_no_warn" dir="ltr">typedef struct {
+        Elf32_Addr      r_offset;
+        Elf32_Word      r_info;
+} Elf32_Rel;
+
+typedef struct {
+        Elf32_Addr      r_offset;
+        Elf32_Word      r_info;
+        Elf32_Sword     r_addend;
+} Elf32_Rela;
+
+typedef struct {
+        Elf64_Addr      r_offset;
+        Elf64_Xword     r_info;
+} Elf64_Rel;
+
+typedef struct {
+        Elf64_Addr      r_offset;
+        Elf64_Xword     r_info;
+        Elf64_Sxword    r_addend;
+} Elf64_Rela;</pre><dl>
+                  <dt class="dlterm"><a name="GUID-88278065-8986-4225-B633-87A5B3BE38E9__GUID-D500A2F5-B61C-4F8B-8667-96593C27ECD9">
+                        <!-- --></a>
+                     <code class="codeph">r_offset</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>This member gives the location at which to apply the relocation action. Different
+            object files have slightly different interpretations for this member.</p>
+                     
+                     <p>For a relocatable file, the value indicates a section offset. The relocation section
+            describes how to modify another section in the file. Relocation offsets designate a
+            storage unit within the second section.</p>
+                     
+                     <p>For a dynamic object, the value indicates the virtual address of the
+            storage unit affected by the relocation. This information makes the relocation entries
+            more useful for the runtime linker.</p>
+                     
+                     <p>Although the interpretation of the member changes for different object files to
+            allow efficient access by the relevant programs, the meanings of the relocation types
+            stay the same.</p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-88278065-8986-4225-B633-87A5B3BE38E9__GUID-762FFA7A-4C10-4B60-BAB9-37F6C5292693">
+                        <!-- --></a>
+                     <code class="codeph">r_info</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>This member gives both the symbol table index, with respect to which the relocation
+            must be made, and the type of relocation to apply. For example, a call instruction's
+            relocation entry holds the symbol table index of the function being called. If the index
+            is <code class="codeph">STN_UNDEF</code>, the undefined symbol index, the relocation uses zero as
+            the symbol value.
+                     </p>
+                     
+                     <p>Relocation types are processor-specific. A relocation entry's relocation type or
+            symbol table index is the result of applying <code class="codeph">ELF32_R_TYPE</code> or
+<code class="codeph">ELF32_R_SYM</code>, respectively, to the entry's <code class="codeph">r_info</code>
+            member.
+                     </p>
+                     <pre class="oac_no_warn" dir="ltr">#define ELF32_R_SYM(info)             ((info)&gt;&gt;8)
+#define ELF32_R_TYPE(info)            ((unsigned char)(info))
+#define ELF32_R_INFO(sym, type)       (((sym)&lt;&lt;8)+(unsigned char)(type))
+
+#define ELF64_R_SYM(info)             ((info)&gt;&gt;32)
+#define ELF64_R_TYPE(info)            ((Elf64_Word)(info))
+#define ELF64_R_INFO(sym, type)       (((Elf64_Xword)(sym)&lt;&lt;32)+ \
+                                          (Elf64_Xword)(type))</pre>
+                     <p>For 64-bit SPARC <code class="codeph">Elf64_Rela</code> structures, the
+<code class="codeph">r_info</code> field is further broken down into an 8-bit
+            type identifier and a 24-bit type dependent data field. For the existing
+            relocation types, the data field is zero. New relocation types, however, might make use
+            of the data bits.
+                     </p>
+                     <pre class="oac_no_warn" dir="ltr">#define ELF64_R_TYPE_DATA(info)       (((Elf64_Xword)(info)&lt;&lt;32)&gt;&gt;40)
+#define ELF64_R_TYPE_ID(info)         (((Elf64_Xword)(info)&lt;&lt;56)&gt;&gt;56)
+#define ELF64_R_TYPE_INFO(data, type) (((Elf64_Xword)(data)&lt;&lt;8)+ \
+                                          (Elf64_Xword)(type))</pre>
+                     </dd>
+                  <dt class="dlterm"><a name="GUID-88278065-8986-4225-B633-87A5B3BE38E9__GUID-E740ACAB-034A-4556-8AD0-469EAA2D00C2">
+                        <!-- --></a>
+                     <code class="codeph">r_addend</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>This member specifies a constant addend used to compute the value to be stored into
+            the relocatable field.</p>
+                     
+                  </dd>
+               </dl>
+               <p>
+                  <code class="codeph">Rela</code> entries contain an explicit addend. Entries of type
+<code class="codeph">Rel</code> store an implicit addend in the location to be modified. In all
+      cases, the addend and the computed result use the same byte order. The relocation entry type
+      and interpretation of the addend value are defined by the platform specific ABI.
+               </p>
+               <dl>
+                  <dt class="dlterm"><a name="GUID-88278065-8986-4225-B633-87A5B3BE38E9__GUID-8FBAD58C-47BA-46DE-B004-F28A938B3740">
+                        <!-- --></a>SPARC
+                  </dt>
+                  <dd>
+                     
+                     <p>32-bit SPARC uses <code class="codeph">Elf32_Rela</code> relocation entries.
+            64-bit SPARC uses <code class="codeph">Elf64_Rela</code> relocation entries. The prior
+            value of the field to be relocated, added to the <code class="codeph">r_addend</code>
+            member, serves as the relocation addend.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-88278065-8986-4225-B633-87A5B3BE38E9__GUID-B96A738B-5B37-4DEF-B319-1DD754B67AC1">
+                        <!-- --></a>32-bit x86
+                  </dt>
+                  <dd>
+                     
+                     <p>32-bit x86 uses <code class="codeph">Elf32_Rel</code> relocation entries. The field
+            to be relocated holds the addend.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-88278065-8986-4225-B633-87A5B3BE38E9__GUID-4CCAC5E8-5A00-4CBA-8A4D-6957DA38EDDB">
+                        <!-- --></a>64-bit x86
+                  </dt>
+                  <dd>
+                     
+                     <p>64-bit x86 uses <code class="codeph">Elf64_Rela</code> relocation entries. The
+<code class="codeph">r_addend</code> member serves as the relocation addend. The prior
+            value of the field to be relocated is ignored.
+                     </p>
+                     
+                  </dd>
+               </dl>
+               <p>A relocation section can reference two other sections: a symbol table, identified by the
+<code class="codeph">sh_link</code> section header entry, and a section to modify, identified
+      by the <code class="codeph">sh_info</code> section header entry. <a href="section-headers.html#GUID-2CBE4879-2E76-426E-BB7F-CF0CB1D87C52">Section Headers</a> specifies these relationships. A <code class="codeph">sh_info</code> entry
+      is required when a relocation section exists in a relocatable object, but is optional for
+      dynamic objects. The relocation offset is sufficient to perform the
+      relocation.
+               </p>
+               <p>In all cases, the <code class="codeph">r_offset</code> value designates the offset or
+      virtual address of the first byte of the affected storage unit. The relocation type specifies
+      which bits to change and how to calculate their values.
+               </p>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Runtime Linking">
+      <meta name="DC.subject" content="runtime linking, runtime linker, compilation environment, runtime environment">
+      <meta name="keywords" content="runtime linking, runtime linker, compilation environment, runtime environment">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-8C9A3366-95BE-426D-8AD8-CA7B49C75CD0">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Runtime Linking</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="static-executables.html" title="Previous" type="text/html">
+      <link rel="next" href="related-topics.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Runtime Linking","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="static-executables.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="related-topics.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-8C9A3366-95BE-426D-8AD8-CA7B49C75CD0" name="GUID-8C9A3366-95BE-426D-8AD8-CA7B49C75CD0"></a>
+         
+         <h2 id="OSLLG-GUID-8C9A3366-95BE-426D-8AD8-CA7B49C75CD0" class="sect2">Runtime Linking</h2>
+         <div class="ind">
+            <div>
+               <p>Runtime linking involves the binding of objects, usually generated from one or more previous link-edits, to generate a runnable process. During the generation of these objects by the link-editor, appropriate bookkeeping information is produced to represent the verified binding requirements. This information enables the runtime linker to load, relocate, and complete the binding process.</p>
+               <p>During process execution, the facilities of the runtime linker are made available. These facilities can be used to extend the process' address space by adding additional shared objects on demand. The two most common components involved in runtime linking are executables and shared objects.</p>
+               <p>Executables are applications that are executed under the control of a runtime linker. These applications usually have dependencies in the form of shared objects, which are located, and bound by the runtime linker to create a runnable process. Dynamic executables are the default output file generated by the link-editor. A position-independent executable is similar to a dynamic executable, however, a position-independent executable is not assigned to a fixed virtual address.</p>
+               <p>Shared objects provide the key building-block to a dynamically linked system. A shared object is similar to a position-independent executable, in that a shared object is not assigned to a fixed virtual address.</p>
+               <p>Executables usually have dependencies on one or more shared objects. Typically, one or more shared objects must be bound to the executable to produce a runnable process. Because shared objects can be used by many applications, aspects of their construction directly affect shareability, versioning, and performance.</p>
+               <p>Shared object processing by the link-editor or the runtime linker can be distinguished by the <span class="italic">environment</span> in which the shared object is used.
+               </p>
+               <dl>
+                  <dt class="dlterm"><a name="GUID-8C9A3366-95BE-426D-8AD8-CA7B49C75CD0__GUID-5E610D5E-65F9-43F9-9DFC-EE9D08530317">
+                        <!-- --></a>
+                     <span class="italic">compilation</span> environment
+                  </dt>
+                  <dd>
+                     
+                     <p>Shared objects are processed by the link-editor to generate executables or other shared objects. The shared objects become dependencies of the output file being generated.</p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-8C9A3366-95BE-426D-8AD8-CA7B49C75CD0__GUID-4CC5DCA7-0892-47F5-A2FA-F0946DE50432">
+                        <!-- --></a>
+                     <span class="italic">runtime</span> environment
+                  </dt>
+                  <dd>
+                     
+                     <p>Shared objects are processed by the runtime linker, together with an executable, to produce a runnable process.</p>
+                     
+                  </dd>
+               </dl>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

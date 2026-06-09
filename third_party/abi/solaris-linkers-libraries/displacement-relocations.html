@@ -1,0 +1,156 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Displacement Relocations">
+      <meta name="DC.subject" content="relocation, displacement, copy, -z&nbsp;verbose, copy relocation size differences, ldd, -d, -r">
+      <meta name="keywords" content="relocation, displacement, copy, -z&nbsp;verbose, copy relocation size differences, ldd, -d, -r">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-4686E36B-CC05-48E4-9450-DEEDFCC0434F">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Displacement Relocations</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="relocation-processing2.html" title="Previous" type="text/html">
+      <link rel="next" href="requesting-security-extensions.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Displacement Relocations","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="relocation-processing2.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="requesting-security-extensions.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-4686E36B-CC05-48E4-9450-DEEDFCC0434F" name="GUID-4686E36B-CC05-48E4-9450-DEEDFCC0434F"></a>
+         
+         <h2 id="OSLLG-GUID-4686E36B-CC05-48E4-9450-DEEDFCC0434F" class="sect2">Displacement Relocations</h2>
+         <div class="ind">
+            <div>
+               <p>Error conditions might occur if displacement relocations
+                                are applied to a data item, which can be used in a copy relocation.
+                                The details of copy relocations are covered in <a href="copy-relocations.html#GUID-CECCC00D-FDAB-44F3-8E53-C8C3CB8044CB">Copy Relocations</a>.
+               </p>
+               <p>A displacement relocation remains valid when both the relocated offset
+                                and the relocation target remain separated by the same displacement.
+                                A copy relocation is where a global data item within a shared object
+                                is copied to the <code class="codeph">.bss</code> of a dynamic executable. This copy
+                                preserves the executable's read-only text segment. If the copied
+                                data has a displacement relocation applied to the data, or an
+                                external relocation is a displacement into the copied data, the
+                                displacement relocation becomes invalidated.
+               </p>
+               <p>Two areas of validation attempt to catch displacement relocation
+                                problems.</p>
+               <ul style="list-style-type: disc;">
+                  <li>
+                     
+                     <p>The first occurs when generating a shared object. Any
+                                                potential copy relocatable data items that can be
+                                                problematic if the copied data is involved in a
+                                                displacement relocation are flagged. During
+                                                construction of a shared object, the link-editor has
+                                                no knowledge of what external references might be
+                                                made to a data item. Thus, all that can be flagged
+                                                are <span class="italic">potential</span> problems.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>The second occurs when generating a dynamic executable. The
+                                                creation of a copy relocation whose data is known to
+                                                be involved in a displacement relocation is
+                                                flagged.</p>
+                     
+                     <p>However, displacement relocations applied to a shared
+                                                object might be completed during the shared objects
+                                                creation at link-edit time. These displacement
+                                                relocations might not have been flagged. The
+                                                link-edit of a dynamic executable that references an
+                                                unflagged shared object has no knowledge of a
+                                                displacement being in effect in any copy-relocated
+                                                data.</p>
+                     
+                  </li>
+               </ul>
+               <p>To help diagnose these problem areas, the link-editor
+                                indicates the displacement relocation use of a dynamic object with
+                                one or more dynamic <code class="codeph">DT_FLAGS_1</code> flags, as shown in
+    <span>ELF Dynamic Flags, DT_FLAGS_1</span>. In addition, the link-editor's
+<code class="codeph">-z&nbsp;verbose</code> option can be used to
+                                display suspicious relocations.
+               </p>
+               <p>For example, say you create a shared object with a global data item,
+<code class="codeph">bar[]</code>, to which a displacement relocation
+                                is applied. This item could be copy-relocated if referenced from a
+                                dynamic executable. The link-editor warns of this condition.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cc -G -o libfoo.so.1 -z verbose -K pic foo.o</span>
+ld: warning: relocation warning: R_SPARC_DISP32: file foo.o: symbol foo: \
+    displacement relocation to be applied to the symbol bar: at 0x194: \
+    displacement relocation will be visible in output image</pre><p>If you now create an application that references the data item
+<code class="codeph">bar[]</code>, a copy relocation is created. This
+                                copy results in the displacement relocation being invalidated.
+                                Because the link-editor can explicitly discover this situation, an
+                                error message is generated regardless of the use of the
+<code class="codeph">-z&nbsp;verbose</code> option.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cc -o prog prog.o -L. -lfoo</span>
+ld: warning: relocation error: R_SPARC_DISP32: file foo.so: symbol foo: \
+    displacement relocation applied to the symbol bar at: 0x194: \
+    the symbol bar is a copy relocated symbol</pre><div class="infoboxnote" id="GUID-4686E36B-CC05-48E4-9450-DEEDFCC0434F__GUID-A7356E47-5A4F-4559-9683-479FBAD2AB90">
+                  <p class="notep1">Note:</p>
+                  <a href="https://docs.oracle.com/cd/E88353_01/html/E37839/ldd-1.html" target="_blank">
+                     <code class="codeph">ldd</code>(1)</a>, when used with either the
+<code class="codeph">-d</code> or <code class="codeph">-r</code> options,
+                                        uses the displacement dynamic flags to generate similar
+                                        relocation warnings.
+
+               </div>
+               <p>These error conditions can be avoided by ensuring that the symbol
+                                definition being relocated (offset) and the symbol target of the
+                                relocation are both local. Use static definitions or the
+                                link-editor's scoping technology. See <a href="reducing-symbol-scope.html#GUID-23966F33-0E78-43E1-8574-D3297C70F744">Reducing Symbol Scope</a>.
+                                Relocation problems of this type can be avoided by accessing data
+                                within shared objects by using functional interfaces.
+               </p>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

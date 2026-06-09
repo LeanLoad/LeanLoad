@@ -1,0 +1,208 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Runtime Linker Debugging Facility">
+      <meta name="DC.subject" content="environment variables, LD_DEBUG, LD_BIND_NOW, deferred, symbol lookup, lazy binding, lazy">
+      <meta name="keywords" content="environment variables, LD_DEBUG, LD_BIND_NOW, deferred, symbol lookup, lazy binding, lazy">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-2D4FA260-6CC9-47FE-84DC-0EEA76292C3E">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Runtime Linker Debugging Facility</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="debugging-aids1.html" title="Previous" type="text/html">
+      <link rel="next" href="debugger-module.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Runtime Linker Debugging Facility","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="debugging-aids1.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="debugger-module.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-2D4FA260-6CC9-47FE-84DC-0EEA76292C3E" name="GUID-2D4FA260-6CC9-47FE-84DC-0EEA76292C3E"></a>
+         
+         <h2 id="OSLLG-GUID-2D4FA260-6CC9-47FE-84DC-0EEA76292C3E" class="sect2">Runtime Linker Debugging Facility</h2>
+         <div class="ind">
+            <div>
+               <p>The runtime linker provides a debugging facility that allows you to
+                                trace the runtime linking of applications and their dependencies in
+                                detail. The type of information that is displayed by using this
+                                facility is expected to remain constant. However, the exact format
+                                of the information might change slightly from release to
+                                release.</p>
+               <p>Some of the debugging output might be unfamiliar to users who do not
+                                have an intimate knowledge of the runtime linker. However, many
+                                aspects might be of general interest to you.</p>
+               <p>Debugging is enabled by using the environment variable
+<code class="codeph">LD_DEBUG</code>. All debugging output is prefixed
+                                with the process identifier. This environment variable must be
+                                augmented with one or more tokens to indicate the type of debugging
+                                that is required.
+               </p>
+               <p>The tokens that are available with <code class="codeph">LD_DEBUG</code> can be
+                                displayed by using <code class="codeph">LD_DEBUG=help</code>.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">LD_DEBUG=help  prog</span></pre><p>
+                  <code>prog</code> can be any executable. The process is
+                                terminated following the display of the help information, before
+                                control transfers to <code>prog</code>. The choice of
+                                executable is unimportant.
+               </p>
+               <p>If the <code class="codeph">help</code> token is specified by itself, output goes
+                                to <code class="codeph">stdout</code>, the standard output file. If any other
+                                tokens are specified, debug output is sent to <code class="codeph">stderr</code>,
+                                the standard error output file. Debug output can be directed to a file
+                                instead by using the <code class="codeph">output</code> token. For example, the
+                                help text can be captured in a file named
+<code>rtld-debug.txt</code>.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">LD_DEBUG=help,output=rtld-debug.txt  prog</span></pre><p>Alternatively, debug output can be redirected by setting the
+                                environment variable <code class="codeph">LD_DEBUG_OUTPUT</code>. When
+<code class="codeph">LD_DEBUG_OUTPUT</code> is used, the process
+                                identifier is added as a suffix to the output filename.
+               </p>
+               <p>If <code class="codeph">LD_DEBUG_OUTPUT</code> and the <code class="codeph">output</code>
+                                token are both specified, <code class="codeph">LD_DEBUG_OUTPUT</code> takes
+                                precedence. If <code class="codeph">LD_DEBUG_OUTPUT</code> and the
+<code class="codeph">output</code> token are both specified,
+<code class="codeph">LD_DEBUG_OUTPUT</code> takes precedence. Use of the
+<code class="codeph">output</code> token with programs that call
+<a href="https://docs.oracle.com/cd/E88353_01/html/E37841/fork-2.html" target="_blank">
+                     <code class="codeph">fork</code>(2)</a> result in each process writing debug
+                                output to the same file. The debug output will become jumbled and
+                                incomplete. <code class="codeph">LD_DEBUG_OUTPUT</code> should be used in such
+                                cases to direct debug output for each process to a unique
+                                file.
+               </p>
+               <p>The debugging of secure applications is not allowed.</p>
+               <p>One of the most useful debugging options is to display the symbol
+                                bindings that occur at runtime. The following example uses a very
+                                trivial dynamic executable that has a dependency on two local shared
+                                objects.</p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cat bar.c</span>
+int bar = 10;
+$ <span class="bold">cc -o bar.so.1 -K pic -G bar.c</span>
+
+$ <span class="bold">cat foo.c</span>
+int foo(int data)
+{
+return (data);
+}
+$ <span class="bold">cc -o foo.so.1 -K pic -G foo.c</span>
+
+$ <span class="bold">cat main.c</span>
+extern int foo();
+extern int bar;
+
+int main()
+{
+        return (foo(bar));
+}
+$ <span class="bold">cc -o prog main.c -R/tmp:. foo.so.1 bar.so.1</span></pre><p>The runtime symbol bindings can be displayed by setting
+<code class="codeph">LD_DEBUG=bindings</code>.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">LD_DEBUG=bindings  prog</span>
+11753: ....
+11753: binding file=prog to file=./bar.so.1: symbol bar
+11753: ....
+11753: transferring control: prog
+11753: ....
+11753: binding file=prog to file=./foo.so.1: symbol foo
+11753: ....</pre><p>The symbol <code class="codeph">bar</code>, which is required by
+                                an immediate relocation, is bound <span class="italic">before</span> the
+                                application gains control. Whereas the symbol
+<code class="codeph">foo</code>, which is required by a lazy relocation, is
+                                bound <span class="italic">after</span> the application gains control on
+                                the first call to the function. This relocation demonstrates the
+                                default mode of lazy binding. If the environment variable
+<code class="codeph">LD_BIND_NOW</code> is set, all symbol bindings occur
+                                before the application gains control.
+               </p>
+               <p>By setting <code class="codeph">LD_DEBUG=bindings,detail</code>, additional
+                                information regarding the real and relative addresses of the actual
+                                binding locations is provided.
+               </p>
+               <p>You can use <code class="codeph">LD_DEBUG</code> to display the various search
+                                paths used. For example, the search path mechanism used to locate
+                                any dependencies can be displayed by setting
+<code class="codeph">LD_DEBUG=libs</code>.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">LD_DEBUG=libs  prog</span>
+11775:
+11775: find object=foo.so.1; searching
+11775:  search path=/tmp:.  (RUNPATH/RPATH from file prog)
+11775:  trying path=/tmp/foo.so.1
+11775:  trying path=./foo.so.1
+11775:
+11775: find object=bar.so.1; searching
+11775:  search path=/tmp:.  (RUNPATH/RPATH from file prog)
+11775:  trying path=/tmp/bar.so.1
+11775:  trying path=./bar.so.1
+11775: ....</pre><p>The <span>runpath</span> recorded in the application
+<code>prog</code> affects the search for the two
+                                dependencies <code>foo.so.1</code> and
+<code>bar.so.1</code>.
+               </p>
+               <p>In a similar manner, the search paths of each symbol lookup can be
+                                displayed by setting <code class="codeph">LD_DEBUG=symbols</code>. A combination
+                                of <code class="codeph">symbols</code> and <code class="codeph">bindings</code>
+                                produces a complete picture of the symbol relocation process.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">LD_DEBUG=bindings,symbols  prog</span>
+11782: ....
+11782: symbol=bar;  lookup in file=./foo.so.1  [ ELF ]
+11782: symbol=bar;  lookup in file=./bar.so.1  [ ELF ]
+11782: binding file=prog to file=./bar.so.1: symbol bar
+11782: ....
+11782: transferring control: prog
+11782: ....
+11782: symbol=foo;  lookup in file=prog  [ ELF ]
+11782: symbol=foo;  lookup in file=./foo.so.1  [ ELF ]
+11782: binding file=prog to file=./foo.so.1: symbol foo
+11782: ....</pre><p>In the previous example, the symbol <code class="codeph">bar</code> is not
+                                searched for in the application <code>prog</code>. This
+                                omission of a data reference lookup is due to an optimization used
+                                when processing copy relocations. See <a href="copy-relocations.html#GUID-CECCC00D-FDAB-44F3-8E53-C8C3CB8044CB">Copy Relocations</a> for more details of this relocation
+                                type.
+               </p>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

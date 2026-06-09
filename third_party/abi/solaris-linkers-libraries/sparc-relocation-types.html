@@ -1,0 +1,2261 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="SPARC: Relocation Types">
+      <meta name="DC.subject" content="global offset table, SPARC, registers">
+      <meta name="keywords" content="global offset table, SPARC, registers">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-1E1DA76C-A09A-4024-A1D4-DE5583B64FD2">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>SPARC: Relocation Types</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="sparc-relocation-entries.html" title="Previous" type="text/html">
+      <link rel="next" href="64-bit-sparc-relocation-types.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"SPARC: Relocation Types","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="sparc-relocation-entries.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="64-bit-sparc-relocation-types.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-1E1DA76C-A09A-4024-A1D4-DE5583B64FD2" name="GUID-1E1DA76C-A09A-4024-A1D4-DE5583B64FD2"></a>
+         
+         <h2 id="OSLLG-GUID-1E1DA76C-A09A-4024-A1D4-DE5583B64FD2" class="sect2">SPARC: Relocation Types</h2>
+         <div class="ind">
+            <div>
+               <p>Field names in the following table tell whether the relocation type checks for
+<code class="codeph">overflow</code>. A calculated relocation value can be larger than the
+          intended field, and a relocation type can verify (<code class="codeph">V</code>) the value fits or
+          truncate (<code class="codeph">T</code>) the result. As an example, <code class="codeph">V-simm13</code>
+          means that the computed value can not have significant, nonzero bits outside the
+<code class="codeph">simm13</code> field.
+               </p>
+               <div class="tblformal" id="GUID-1E1DA76C-A09A-4024-A1D4-DE5583B64FD2__CHAPTER6-TBL-25">
+                  <p class="titleintable">Table 14-16 SPARC: <span>ELF</span> Relocation Types
+                  </p>
+                  <table cellpadding="4" cellspacing="0" class="Formal" title="SPARC: ELF Relocation Types" summary="&#xA;            Table defining ELF SPARC relocation types.&#xA;" frame="hsides" border="1" rules="rows">
+                     <thead>
+                        <tr align="left" valign="top">
+                           <th align="left" valign="bottom" width="20%" id="d70566e78">
+Name
+</th>
+                           <th align="left" valign="bottom" width="20%" id="d70566e83">
+Value
+</th>
+                           <th align="left" valign="bottom" width="20%" id="d70566e88">
+Field
+</th>
+                           <th align="left" valign="bottom" width="20%" id="d70566e93">
+Calculation
+</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d70566e100" headers="d70566e78 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_NONE</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e100 d70566e83 ">
+                              
+                              <p>
+                                 <code class="codeph">0</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e100 d70566e88 ">
+                              
+                              <p>
+                                 <span>None</span>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e100 d70566e93 ">
+                              
+                              <p>
+                                 <span>None</span>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d70566e133" headers="d70566e78 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_8</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e133 d70566e83 ">
+                              
+                              <p>
+                                 <code class="codeph">1</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e133 d70566e88 ">
+                              
+                              <p>
+                                 <code class="codeph">V-byte8</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e133 d70566e93 ">
+                              
+                              <p>
+                                 <code class="codeph">S + A</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d70566e166" headers="d70566e78 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_16</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e166 d70566e83 ">
+                              
+                              <p>
+                                 <code class="codeph">2</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e166 d70566e88 ">
+                              
+                              <p>
+                                 <code class="codeph">V-half16</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e166 d70566e93 ">
+                              
+                              <p>
+                                 <code class="codeph">S + A</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d70566e199" headers="d70566e78 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_32</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e199 d70566e83 ">
+                              
+                              <p>
+                                 <code class="codeph">3</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e199 d70566e88 ">
+                              
+                              <p>
+                                 <code class="codeph">V-word32</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e199 d70566e93 ">
+                              
+                              <p>
+                                 <code class="codeph">S + A</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d70566e232" headers="d70566e78 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_DISP8</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e232 d70566e83 ">
+                              
+                              <p>
+                                 <code class="codeph">4</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e232 d70566e88 ">
+                              
+                              <p>
+                                 <code class="codeph">V-byte8</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e232 d70566e93 ">
+                              
+                              <p>
+                                 <code class="codeph">S + A - P</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d70566e265" headers="d70566e78 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_DISP16</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e265 d70566e83 ">
+                              
+                              <p>
+                                 <code class="codeph">5</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e265 d70566e88 ">
+                              
+                              <p>
+                                 <code class="codeph">V-half16</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e265 d70566e93 ">
+                              
+                              <p>
+                                 <code class="codeph">S + A - P</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d70566e298" headers="d70566e78 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_DISP32</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e298 d70566e83 ">
+                              
+                              <p>
+                                 <code class="codeph">6</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e298 d70566e88 ">
+                              
+                              <p>
+                                 <code class="codeph">V-disp32</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e298 d70566e93 ">
+                              
+                              <p>
+                                 <code class="codeph">S + A - P</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d70566e331" headers="d70566e78 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_WDISP30</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e331 d70566e83 ">
+                              
+                              <p>
+                                 <code class="codeph">7</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e331 d70566e88 ">
+                              
+                              <p>
+                                 <code class="codeph">V-disp30</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e331 d70566e93 ">
+                              
+                              <p>
+                                 <code class="codeph">(S + A - P) &gt;&gt; 2</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d70566e364" headers="d70566e78 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_WDISP22</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e364 d70566e83 ">
+                              
+                              <p>
+                                 <code class="codeph">8</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e364 d70566e88 ">
+                              
+                              <p>
+                                 <code class="codeph">V-disp22</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e364 d70566e93 ">
+                              
+                              <p>
+                                 <code class="codeph">(S + A - P) &gt;&gt; 2</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d70566e397" headers="d70566e78 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_HI22</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e397 d70566e83 ">
+                              
+                              <p>
+                                 <code class="codeph">9</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e397 d70566e88 ">
+                              
+                              <p>
+                                 <code class="codeph">T-imm22</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e397 d70566e93 ">
+                              
+                              <p>
+                                 <code class="codeph">(S + A) &gt;&gt; 10</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d70566e430" headers="d70566e78 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_22</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e430 d70566e83 ">
+                              
+                              <p>
+                                 <code class="codeph">10</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e430 d70566e88 ">
+                              
+                              <p>
+                                 <code class="codeph">V-imm22</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e430 d70566e93 ">
+                              
+                              <p>
+                                 <code class="codeph">S + A</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d70566e464" headers="d70566e78 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_13</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e464 d70566e83 ">
+                              
+                              <p>
+                                 <code class="codeph">11</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e464 d70566e88 ">
+                              
+                              <p>
+                                 <code class="codeph">V-simm13</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e464 d70566e93 ">
+                              
+                              <p>
+                                 <code class="codeph">S + A</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d70566e497" headers="d70566e78 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_LO10</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e497 d70566e83 ">
+                              
+                              <p>
+                                 <code class="codeph">12</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e497 d70566e88 ">
+                              
+                              <p>
+                                 <code class="codeph">T-simm13</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e497 d70566e93 ">
+                              
+                              <p>
+                                 <code class="codeph">(S + A) &amp; 0x3ff</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d70566e530" headers="d70566e78 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_GOT10</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e530 d70566e83 ">
+                              
+                              <p>
+                                 <code class="codeph">13</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e530 d70566e88 ">
+                              
+                              <p>
+                                 <code class="codeph">T-simm13</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e530 d70566e93 ">
+                              
+                              <p>
+                                 <code class="codeph">G &amp; 0x3ff</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d70566e563" headers="d70566e78 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_GOT13</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e563 d70566e83 ">
+                              
+                              <p>
+                                 <code class="codeph">14</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e563 d70566e88 ">
+                              
+                              <p>
+                                 <code class="codeph">V-simm13</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e563 d70566e93 ">
+                              
+                              <p>
+                                 <code class="codeph">G</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d70566e596" headers="d70566e78 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_GOT22</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e596 d70566e83 ">
+                              
+                              <p>
+                                 <code class="codeph">15</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e596 d70566e88 ">
+                              
+                              <p>
+                                 <code class="codeph">T-simm22</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e596 d70566e93 ">
+                              
+                              <p>
+                                 <code class="codeph">G &gt;&gt; 10</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d70566e629" headers="d70566e78 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_PC10</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e629 d70566e83 ">
+                              
+                              <p>
+                                 <code class="codeph">16</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e629 d70566e88 ">
+                              
+                              <p>
+                                 <code class="codeph">T-simm13</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e629 d70566e93 ">
+                              
+                              <p>
+                                 <code class="codeph">(S + A - P) &amp; 0x3ff</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d70566e662" headers="d70566e78 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_PC22</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e662 d70566e83 ">
+                              
+                              <p>
+                                 <code class="codeph">17</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e662 d70566e88 ">
+                              
+                              <p>
+                                 <code class="codeph">V-disp22</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e662 d70566e93 ">
+                              
+                              <p>
+                                 <code class="codeph">(S + A - P) &gt;&gt; 10</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d70566e695" headers="d70566e78 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_WPLT30</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e695 d70566e83 ">
+                              
+                              <p>
+                                 <code class="codeph">18</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e695 d70566e88 ">
+                              
+                              <p>
+                                 <code class="codeph">V-disp30</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e695 d70566e93 ">
+                              
+                              <p>
+                                 <code class="codeph">(L + A - P) &gt;&gt; 2</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d70566e728" headers="d70566e78 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_COPY</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e728 d70566e83 ">
+                              
+                              <p>
+                                 <code class="codeph">19</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e728 d70566e88 ">
+                              
+                              <p>
+                                 <span>None</span>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e728 d70566e93 ">
+                              
+                              <p>Refer to the explanation following this table.</p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d70566e758" headers="d70566e78 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_GLOB_DAT</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e758 d70566e83 ">
+                              
+                              <p>
+                                 <code class="codeph">20</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e758 d70566e88 ">
+                              
+                              <p>
+                                 <code class="codeph">V-word32</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e758 d70566e93 ">
+                              
+                              <p>
+                                 <code class="codeph">S + A</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d70566e791" headers="d70566e78 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_JMP_SLOT</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e791 d70566e83 ">
+                              
+                              <p>
+                                 <code class="codeph">21</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e791 d70566e88 ">
+                              
+                              <p>
+                                 <span>None</span>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e791 d70566e93 ">
+                              
+                              <p>Refer to the explanation following this table.</p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d70566e822" headers="d70566e78 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_RELATIVE</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e822 d70566e83 ">
+                              
+                              <p>
+                                 <code class="codeph">22</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e822 d70566e88 ">
+                              
+                              <p>
+                                 <code class="codeph">V-word32</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e822 d70566e93 ">
+                              
+                              <p>
+                                 <code class="codeph">B + A</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d70566e855" headers="d70566e78 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_UA32</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e855 d70566e83 ">
+                              
+                              <p>
+                                 <code class="codeph">23</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e855 d70566e88 ">
+                              
+                              <p>
+                                 <code class="codeph">V-word32</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e855 d70566e93 ">
+                              
+                              <p>
+                                 <code class="codeph">S + A</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d70566e888" headers="d70566e78 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_PLT32</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e888 d70566e83 ">
+                              
+                              <p>
+                                 <code class="codeph">24</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e888 d70566e88 ">
+                              
+                              <p>
+                                 <code class="codeph">V-word32</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e888 d70566e93 ">
+                              
+                              <p>
+                                 <code class="codeph">L + A</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d70566e921" headers="d70566e78 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_HIPLT22</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e921 d70566e83 ">
+                              
+                              <p>
+                                 <code class="codeph">25</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e921 d70566e88 ">
+                              
+                              <p>
+                                 <code class="codeph">T-imm22</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e921 d70566e93 ">
+                              
+                              <p>
+                                 <code class="codeph">(L + A) &gt;&gt; 10</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d70566e954" headers="d70566e78 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_LOPLT10</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e954 d70566e83 ">
+                              
+                              <p>
+                                 <code class="codeph">26</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e954 d70566e88 ">
+                              
+                              <p>
+                                 <code class="codeph">T-simm13</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e954 d70566e93 ">
+                              
+                              <p>
+                                 <code class="codeph">(L + A) &amp; 0x3ff</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d70566e987" headers="d70566e78 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_PCPLT32</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e987 d70566e83 ">
+                              
+                              <p>
+                                 <code class="codeph">27</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e987 d70566e88 ">
+                              
+                              <p>
+                                 <code class="codeph">V-word32</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e987 d70566e93 ">
+                              
+                              <p>
+                                 <code class="codeph">L + A - P</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d70566e1020" headers="d70566e78 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_PCPLT22</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1020 d70566e83 ">
+                              
+                              <p>
+                                 <code class="codeph">28</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1020 d70566e88 ">
+                              
+                              <p>
+                                 <code class="codeph">V-disp22</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1020 d70566e93 ">
+                              
+                              <p>
+                                 <code class="codeph">(L + A - P) &gt;&gt; 10</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d70566e1053" headers="d70566e78 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_PCPLT10</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1053 d70566e83 ">
+                              
+                              <p>
+                                 <code class="codeph">29</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1053 d70566e88 ">
+                              
+                              <p>
+                                 <code class="codeph">V-simm13</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1053 d70566e93 ">
+                              
+                              <p>
+                                 <code class="codeph">(L + A - P) &amp; 0x3ff</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d70566e1086" headers="d70566e78 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_10</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1086 d70566e83 ">
+                              
+                              <p>
+                                 <code class="codeph">30</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1086 d70566e88 ">
+                              
+                              <p>
+                                 <code class="codeph">V-simm10</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1086 d70566e93 ">
+                              
+                              <p>
+                                 <code class="codeph">S + A</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d70566e1119" headers="d70566e78 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_11</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1119 d70566e83 ">
+                              
+                              <p>
+                                 <code class="codeph">31</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1119 d70566e88 ">
+                              
+                              <p>
+                                 <code class="codeph">V-simm11</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1119 d70566e93 ">
+                              
+                              <p>
+                                 <code class="codeph">S + A</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d70566e1152" headers="d70566e78 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_HH22</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1152 d70566e83 ">
+                              
+                              <p>
+                                 <code class="codeph">34</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1152 d70566e88 ">
+                              
+                              <p>
+                                 <code class="codeph">V-imm22</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1152 d70566e93 ">
+                              
+                              <p>
+                                 <code class="codeph">(S + A) &gt;&gt; 42</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d70566e1186" headers="d70566e78 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_HM10</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1186 d70566e83 ">
+                              
+                              <p>
+                                 <code class="codeph">35</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1186 d70566e88 ">
+                              
+                              <p>
+                                 <code class="codeph">T-simm13</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1186 d70566e93 ">
+                              
+                              <p>
+                                 <code class="codeph">((S + A) &gt;&gt; 32) &amp; 0x3ff</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d70566e1219" headers="d70566e78 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_LM22</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1219 d70566e83 ">
+                              
+                              <p>
+                                 <code class="codeph">36</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1219 d70566e88 ">
+                              
+                              <p>
+                                 <code class="codeph">T-imm22</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1219 d70566e93 ">
+                              
+                              <p>
+                                 <code class="codeph">(S + A) &gt;&gt; 10</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d70566e1252" headers="d70566e78 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_PC_HH22</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1252 d70566e83 ">
+                              
+                              <p>
+                                 <code class="codeph">37</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1252 d70566e88 ">
+                              
+                              <p>
+                                 <code class="codeph">V-imm22</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1252 d70566e93 ">
+                              
+                              <p>
+                                 <code class="codeph">(S + A - P) &gt;&gt; 42</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d70566e1285" headers="d70566e78 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_PC_HM10</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1285 d70566e83 ">
+                              
+                              <p>
+                                 <code class="codeph">38</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1285 d70566e88 ">
+                              
+                              <p>
+                                 <code class="codeph">T-simm13</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1285 d70566e93 ">
+                              
+                              <p>
+                                 <code class="codeph">((S + A - P) &gt;&gt; 32) &amp; 0x3ff</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d70566e1318" headers="d70566e78 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_PC_LM22</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1318 d70566e83 ">
+                              
+                              <p>
+                                 <code class="codeph">39</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1318 d70566e88 ">
+                              
+                              <p>
+                                 <code class="codeph">T-imm22</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1318 d70566e93 ">
+                              
+                              <p>
+                                 <code class="codeph">(S + A - P) &gt;&gt; 10</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d70566e1351" headers="d70566e78 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_WDISP16</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1351 d70566e83 ">
+                              
+                              <p>
+                                 <code class="codeph">40</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1351 d70566e88 ">
+                              
+                              <p>
+                                 <code class="codeph">V-d2/disp14</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1351 d70566e93 ">
+                              
+                              <p>
+                                 <code class="codeph">(S + A - P) &gt;&gt; 2</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d70566e1384" headers="d70566e78 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_WDISP19</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1384 d70566e83 ">
+                              
+                              <p>
+                                 <code class="codeph">41</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1384 d70566e88 ">
+                              
+                              <p>
+                                 <code class="codeph">V-disp19</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1384 d70566e93 ">
+                              
+                              <p>
+                                 <code class="codeph">(S + A - P) &gt;&gt; 2</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d70566e1417" headers="d70566e78 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_7</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1417 d70566e83 ">
+                              
+                              <p>
+                                 <code class="codeph">43</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1417 d70566e88 ">
+                              
+                              <p>
+                                 <code class="codeph">V-imm7</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1417 d70566e93 ">
+                              
+                              <p>
+                                 <code class="codeph">S + A</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d70566e1450" headers="d70566e78 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_5</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1450 d70566e83 ">
+                              
+                              <p>
+                                 <code class="codeph">44</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1450 d70566e88 ">
+                              
+                              <p>
+                                 <code class="codeph">V-imm5</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1450 d70566e93 ">
+                              
+                              <p>
+                                 <code class="codeph">S + A</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d70566e1483" headers="d70566e78 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_6</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1483 d70566e83 ">
+                              
+                              <p>
+                                 <code class="codeph">45</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1483 d70566e88 ">
+                              
+                              <p>
+                                 <code class="codeph">V-imm6</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1483 d70566e93 ">
+                              
+                              <p>
+                                 <code class="codeph">S + A</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d70566e1516" headers="d70566e78 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_HIX22</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1516 d70566e83 ">
+                              
+                              <p>
+                                 <code class="codeph">48</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1516 d70566e88 ">
+                              
+                              <p>
+                                 <code class="codeph">V-imm22</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1516 d70566e93 ">
+                              
+                              <p>
+                                 <code class="codeph">((S + A) ^ 0xffffffffffffffff) &gt;&gt; 10</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d70566e1550" headers="d70566e78 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_LOX10</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1550 d70566e83 ">
+                              
+                              <p>
+                                 <code class="codeph">49</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1550 d70566e88 ">
+                              
+                              <p>
+                                 <code class="codeph">T-simm13</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1550 d70566e93 ">
+                              
+                              <p>
+                                 <code class="codeph">((S + A) &amp; 0x3ff) | 0x1c00</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d70566e1583" headers="d70566e78 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_H44</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1583 d70566e83 ">
+                              
+                              <p>
+                                 <code class="codeph">50</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1583 d70566e88 ">
+                              
+                              <p>
+                                 <code class="codeph">V-imm22</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1583 d70566e93 ">
+                              
+                              <p>
+                                 <code class="codeph">(S + A) &gt;&gt; 22</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d70566e1616" headers="d70566e78 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_M44</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1616 d70566e83 ">
+                              
+                              <p>
+                                 <code class="codeph">51</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1616 d70566e88 ">
+                              
+                              <p>
+                                 <code class="codeph">T-imm10</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1616 d70566e93 ">
+                              
+                              <p>
+                                 <code class="codeph">((S + A) &gt;&gt; 12) &amp; 0x3ff</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d70566e1649" headers="d70566e78 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_L44</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1649 d70566e83 ">
+                              
+                              <p>
+                                 <code class="codeph">52</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1649 d70566e88 ">
+                              
+                              <p>
+                                 <code class="codeph">T-imm13</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1649 d70566e93 ">
+                              
+                              <p>
+                                 <code class="codeph">(S + A) &amp; 0xfff</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d70566e1682" headers="d70566e78 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_REGISTER</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1682 d70566e83 ">
+                              
+                              <p>
+                                 <code class="codeph">53</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1682 d70566e88 ">
+                              
+                              <p>
+                                 <code class="codeph">V-word32</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1682 d70566e93 ">
+                              
+                              <p>
+                                 <code class="codeph">S + A</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d70566e1715" headers="d70566e78 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_UA16</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1715 d70566e83 ">
+                              
+                              <p>
+                                 <code class="codeph">55</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1715 d70566e88 ">
+                              
+                              <p>
+                                 <code class="codeph">V-half16</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1715 d70566e93 ">
+                              
+                              <p>
+                                 <code class="codeph">S + A</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d70566e1748" headers="d70566e78 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_GOTDATA_HIX22</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1748 d70566e83 ">
+                              
+                              <p>
+                                 <code class="codeph">80</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1748 d70566e88 ">
+                              
+                              <p>
+                                 <code class="codeph">V-imm22</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1748 d70566e93 ">
+                              
+                              <p>
+                                 <code class="codeph">((S + A - GOT) &gt;&gt; 10) ^ ((S + A - GOT) &gt;&gt;
+                    31)</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d70566e1781" headers="d70566e78 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_GOTDATA_LOX10</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1781 d70566e83 ">
+                              
+                              <p>
+                                 <code class="codeph">81</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1781 d70566e88 ">
+                              
+                              <p>
+                                 <code class="codeph">T-imm13</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1781 d70566e93 ">
+                              
+                              <p>
+                                 <code class="codeph">((S + A - GOT) &amp; 0x3ff) | (((S + A - GOT) &gt;&gt; 31) &amp;
+                      0x1c00)</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d70566e1814" headers="d70566e78 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_GOTDATA_OP_HIX22</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1814 d70566e83 ">
+                              
+                              <p>
+                                 <code class="codeph">82</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1814 d70566e88 ">
+                              
+                              <p>
+                                 <code class="codeph">T-imm22</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1814 d70566e93 ">
+                              
+                              <p>
+                                 <code class="codeph">(G &gt;&gt; 10) ^ (G &gt;&gt; 31)</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d70566e1847" headers="d70566e78 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_GOTDATA_OP_LOX10</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1847 d70566e83 ">
+                              
+                              <p>
+                                 <code class="codeph">83</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1847 d70566e88 ">
+                              
+                              <p>
+                                 <code class="codeph">T-imm13</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1847 d70566e93 ">
+                              
+                              <p>
+                                 <code class="codeph">(G &amp; 0x3ff) | ((G &gt;&gt; 31) &amp; 0x1c00)</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d70566e1880" headers="d70566e78 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_GOTDATA_OP</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1880 d70566e83 ">
+                              
+                              <p>
+                                 <code class="codeph">84</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1880 d70566e88 ">
+                              
+                              <p>
+                                 <code class="codeph">Word32</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1880 d70566e93 ">
+                              
+                              <p>Refer to the explanation following this table.</p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d70566e1911" headers="d70566e78 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_SIZE32</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1911 d70566e83 ">
+                              
+                              <p>
+                                 <code class="codeph">86</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1911 d70566e88 ">
+                              
+                              <p>
+                                 <code class="codeph">V-word32</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1911 d70566e93 ">
+                              
+                              <p>
+                                 <code class="codeph">Z + A</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d70566e1944" headers="d70566e78 ">
+                              
+                              <p>
+                                 <code class="codeph">R_SPARC_WDISP10</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1944 d70566e83 ">
+                              
+                              <p>
+                                 <code class="codeph">88</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1944 d70566e88 ">
+                              
+                              <p>
+                                 <code class="codeph">V-d2/disp8</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d70566e1944 d70566e93 ">
+                              
+                              <p>
+                                 <code class="codeph">(S + A - P) &gt;&gt; 2</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                     </tbody>
+                  </table>
+               </div>
+               <div class="infoboxnote" id="GUID-1E1DA76C-A09A-4024-A1D4-DE5583B64FD2__GUID-58822949-FD6C-4129-A2E2-B1917FB26459">
+                  <p class="notep1">Note:</p>
+         Additional relocations are available for thread-local storage references. These
+            relocations are covered in <a href="thread-local-storage.html#GUID-877263F4-090A-44F2-ADAD-44F5EDB8D78F">Thread-Local Storage</a>.
+
+               </div>
+               <p>Some relocation types have semantics beyond simple calculation.</p>
+               <dl>
+                  <dt class="dlterm"><a name="GUID-1E1DA76C-A09A-4024-A1D4-DE5583B64FD2__GUID-EC860B37-3530-410A-93DA-383C85B3733F">
+                        <!-- --></a>
+                     <code class="codeph">R_SPARC_GOT10</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Resembles <code class="codeph">R_SPARC_LO10</code>, except that the relocation refers to
+                the address of the symbol's <code class="codeph">GOT</code> entry. Additionally,
+<code class="codeph">R_SPARC_GOT10</code> instructs the link-editor to create a global
+                offset table.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-1E1DA76C-A09A-4024-A1D4-DE5583B64FD2__GUID-73399744-0D2E-462B-A850-3F516F80C4E7">
+                        <!-- --></a>
+                     <code class="codeph">R_SPARC_GOT13</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Resembles <code class="codeph">R_SPARC_13</code>, except that the relocation refers to
+                the address of the symbol's <code class="codeph">GOT</code> entry. Additionally,
+<code class="codeph">R_SPARC_GOT13</code> instructs the link-editor to create a global
+                offset table.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-1E1DA76C-A09A-4024-A1D4-DE5583B64FD2__GUID-82AC8F1D-B5A7-42A5-A522-21E70997AE18">
+                        <!-- --></a>
+                     <code class="codeph">R_SPARC_GOT22</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Resembles <code class="codeph">R_SPARC_22</code>, except that the relocation refers to
+                the address of the symbol's <code class="codeph">GOT</code> entry. Additionally,
+<code class="codeph">R_SPARC_GOT22</code> instructs the link-editor to create a global
+                offset table.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-1E1DA76C-A09A-4024-A1D4-DE5583B64FD2__GUID-838C5031-FB88-45F1-BEFB-3C49C2773C5F">
+                        <!-- --></a>
+                     <code class="codeph">R_SPARC_WPLT30</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Resembles <code class="codeph">R_SPARC_WDISP30</code>, except that the relocation refers
+                to the address of the symbol's procedure linkage table entry. Additionally,
+<code class="codeph">R_SPARC_WPLT30</code> instructs the link-editor to create a procedure
+                linkage table.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-1E1DA76C-A09A-4024-A1D4-DE5583B64FD2__GUID-B92B43AB-6DC0-4950-902F-1777C1690393">
+                        <!-- --></a>
+                     <code class="codeph">R_SPARC_COPY</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Created by the link-editor for dynamic executables to preserve a read-only text
+                segment. The relocation offset member refers to a location in a writable segment.
+                The symbol table index specifies a symbol that should exist both in the current
+                object file and in a shared object. During execution, the runtime linker copies data
+                associated with the shared object's symbol to the location specified by the offset.
+                See <a href="copy-relocations.html#GUID-CECCC00D-FDAB-44F3-8E53-C8C3CB8044CB">Copy Relocations</a>.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-1E1DA76C-A09A-4024-A1D4-DE5583B64FD2__GUID-6B609120-F000-48DB-8A3F-BB205A23B2F3">
+                        <!-- --></a>
+                     <code class="codeph">R_SPARC_GLOB_DAT</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Resembles <code class="codeph">R_SPARC_32</code>, except that the relocation sets a
+<code class="codeph">GOT</code> entry to the address of the specified symbol. The special
+                relocation type enables you to determine the correspondence between symbols and
+<code class="codeph">GOT</code> entries.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-1E1DA76C-A09A-4024-A1D4-DE5583B64FD2__GUID-3A5AF4B7-A3EB-4C1A-B923-ED574F2E9FB7">
+                        <!-- --></a>
+                     <code class="codeph">R_SPARC_JMP_SLOT</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Created by the link-editor for dynamic objects to provide lazy binding. The
+                relocation offset member gives the location of a procedure linkage table entry. The
+                runtime linker modifies the procedure linkage table entry to transfer control to the
+                designated symbol address.</p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-1E1DA76C-A09A-4024-A1D4-DE5583B64FD2__GUID-251FB8D8-B8D6-43B4-A423-71D89FD80F04">
+                        <!-- --></a>
+                     <code class="codeph">R_SPARC_RELATIVE</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Created by the link-editor for dynamic objects. The relocation offset member
+                gives the location within a shared object that contains a value representing a
+                relative address. The runtime linker computes the corresponding virtual address by
+                adding the virtual address at which the shared object is loaded to the relative
+                address. Relocation entries for this type must specify a value of zero for the
+                symbol table index.</p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-1E1DA76C-A09A-4024-A1D4-DE5583B64FD2__GUID-CE5DFBE7-9C8D-46A4-BFF1-242FE889204F">
+                        <!-- --></a>
+                     <code class="codeph">R_SPARC_UA32</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Resembles <code class="codeph">R_SPARC_32</code>, except that the relocation refers to an
+                unaligned word. The word to be relocated must be treated as four separate bytes with
+                arbitrary alignment, not as a word aligned according to the architecture
+                requirements.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-1E1DA76C-A09A-4024-A1D4-DE5583B64FD2__GUID-413652B5-E251-4E38-AC09-CECA907DA351">
+                        <!-- --></a>
+                     <code class="codeph">R_SPARC_LM22</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Resembles <code class="codeph">R_SPARC_HI22</code>, except that the relocation truncates
+                rather than validates.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-1E1DA76C-A09A-4024-A1D4-DE5583B64FD2__GUID-2288F89F-3C38-4200-B715-41D4D62094E1">
+                        <!-- --></a>
+                     <code class="codeph">R_SPARC_PC_LM22</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Resembles <code class="codeph">R_SPARC_PC22</code>, except that the relocation truncates
+                rather than validates.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-1E1DA76C-A09A-4024-A1D4-DE5583B64FD2__GUID-E80464C5-E943-4B52-BCF4-E9535B87D382">
+                        <!-- --></a>
+                     <code class="codeph">R_SPARC_HIX22</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Used with <code class="codeph">R_SPARC_LOX10</code> for executables that are confined to
+                the uppermost 4 gigabytes of the 64-bit address space. Similar to
+<code class="codeph">R_SPARC_HI22</code>, but supplies ones complement of linked
+                value.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-1E1DA76C-A09A-4024-A1D4-DE5583B64FD2__GUID-F318AD7E-0AD9-482F-A84C-9D3540C35E34">
+                        <!-- --></a>
+                     <code class="codeph">R_SPARC_LOX10</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Used with <code class="codeph">R_SPARC_HIX22</code>. Similar to
+<code class="codeph">R_SPARC_LO10</code>, but always sets bits 10 through 12 of the linked
+                value.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-1E1DA76C-A09A-4024-A1D4-DE5583B64FD2__GUID-4C7A31E7-D8AA-4A90-B470-43DA0CB6B06E">
+                        <!-- --></a>
+                     <code class="codeph">R_SPARC_L44</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Used with the <code class="codeph">R_SPARC_H44</code> and <code class="codeph">R_SPARC_M44</code>
+                relocation types to generate a 44-bit absolute addressing model.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-1E1DA76C-A09A-4024-A1D4-DE5583B64FD2__GUID-195A5902-7042-4FE3-86CB-6E8330EA568D">
+                        <!-- --></a>
+                     <code class="codeph">R_SPARC_REGISTER</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Used to initialize a register symbol. The relocation offset member
+                contains the register number to be initialized. A corresponding register symbol must
+                exist for this register. The symbol must be of type
+<code class="codeph">SHN_ABS</code>.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-1E1DA76C-A09A-4024-A1D4-DE5583B64FD2__GUID-F9690600-491C-4B7E-9A52-2E871EED0813">
+                        <!-- --></a>
+                     <code class="codeph">R_SPARC_GOTDATA_OP_HIX22</code>,
+<code class="codeph">R_SPARC_GOTDATA_OP_LOX10</code>, and
+<code class="codeph">R_SPARC_GOTDATA_OP</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>These relocations provide for code transformations.</p>
+                     
+                  </dd>
+               </dl>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

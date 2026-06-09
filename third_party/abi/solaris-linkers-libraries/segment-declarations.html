@@ -1,0 +1,389 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Segment Declarations">
+      <meta name="DC.subject" content=", mapfiles, segment declarations">
+      <meta name="keywords" content=", mapfiles, segment declarations">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-61636CCD-7A9C-4FDB-9A34-52D7F2223F19">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Segment Declarations</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="mapfile-structure-syntax1.html" title="Previous" type="text/html">
+      <link rel="next" href="mapping-directives.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Segment Declarations","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="mapfile-structure-syntax1.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="mapping-directives.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-61636CCD-7A9C-4FDB-9A34-52D7F2223F19" name="GUID-61636CCD-7A9C-4FDB-9A34-52D7F2223F19"></a>
+         
+         <h2 id="OSLLG-GUID-61636CCD-7A9C-4FDB-9A34-52D7F2223F19" class="sect2">Segment Declarations</h2>
+         <div class="ind">
+            <div>
+               <p>A segment declaration creates a new segment in the output file, or changes the attribute values of an existing segment. An existing segment is one that you previously defined or one of the four built-in segments described immediately following.</p>
+               <p>A segment declaration has the following syntax.</p><pre class="oac_no_warn" dir="ltr">        segment_name = {segment_attribute_value}*;</pre><p>For each <code class="codeph">segment_name</code>, you can specify any number of <code class="codeph">segment_attribute_values</code> in any order, each separated by a space. Only one attribute value is allowed for each segment attribute. The segment attributes and their valid values are as shown in the following table.
+               </p>
+               <div class="tblformal" id="GUID-61636CCD-7A9C-4FDB-9A34-52D7F2223F19__CHAPTER7-TBL-4">
+                  <p class="titleintable">Table B-1 Mapfile Segment Attributes</p>
+                  <table cellpadding="4" cellspacing="0" class="Formal" title="Mapfile Segment Attributes" summary="&#xA;            Table defining version 1 mapfile segment attributes.&#xA;" frame="hsides" border="1" rules="rows">
+                     <thead>
+                        <tr align="left" valign="top">
+                           <th align="left" valign="bottom" width="1%" id="d130759e40">
+Attribute
+</th>
+                           <th align="left" valign="bottom" width="1%" id="d130759e45">
+Value
+</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="1%" id="d130759e52" headers="d130759e40 ">
+                              
+                              <p>
+                                 <code class="codeph">segment_type</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="1%" headers="d130759e52 d130759e45 ">
+                              
+                              <p>
+                                 <code class="codeph">LOAD | NOTE | NULL | STACK</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="1%" id="d130759e69" headers="d130759e40 ">
+                              
+                              <p>
+                                 <code class="codeph">segment_flags</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="1%" headers="d130759e69 d130759e45 ">
+                              
+                              <p>
+                                 <code class="codeph">? [E] [N] [O] [R] [W] [X]</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="1%" id="d130759e86" headers="d130759e40 ">
+                              
+                              <p>
+                                 <code class="codeph">virtual_address</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="1%" headers="d130759e86 d130759e45 ">
+                              
+                              <p>
+                                 <code class="codeph">V</code>
+                                 <span class="variable" translate="no">number</span>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="1%" id="d130759e106" headers="d130759e40 ">
+                              
+                              <p>
+                                 <code class="codeph">physical_address</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="1%" headers="d130759e106 d130759e45 ">
+                              
+                              <p>
+                                 <code class="codeph">P</code>
+                                 <span class="variable" translate="no">number</span>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="1%" id="d130759e126" headers="d130759e40 ">
+                              
+                              <p>
+                                 <code class="codeph">length</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="1%" headers="d130759e126 d130759e45 ">
+                              
+                              <p>
+                                 <code class="codeph">L</code>
+                                 <span class="variable" translate="no">number</span>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="1%" id="d130759e146" headers="d130759e40 ">
+                              
+                              <p>
+                                 <code class="codeph">rounding</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="1%" headers="d130759e146 d130759e45 ">
+                              
+                              <p>
+                                 <code class="codeph">R</code>
+                                 <span class="variable" translate="no">number</span>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="1%" id="d130759e166" headers="d130759e40 ">
+                              
+                              <p>
+                                 <code class="codeph">alignment</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="1%" headers="d130759e166 d130759e45 ">
+                              
+                              <p>
+                                 <code class="codeph">A</code>
+                                 <span class="variable" translate="no">number</span>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                     </tbody>
+                  </table>
+               </div>
+               <p>Four built-in segments exist with the following default attribute values.</p>
+               <ul style="list-style-type: disc;">
+                  <li>
+                     
+                     <p>
+                        <code class="codeph">text</code> &#x2013; <code class="codeph">LOAD</code>, <code class="codeph">?RX</code>, no <code class="codeph">virtual_address</code>, <code class="codeph">physical_address</code>, or <code class="codeph">length</code> specified. <code class="codeph">alignment</code> values are set to defaults per CPU type.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>
+                        <code class="codeph">data</code> &#x2013; <code class="codeph">LOAD</code>, <code class="codeph">?RWX</code>, no <code class="codeph">virtual_address</code>, <code class="codeph">physical_address</code>, or <code class="codeph">length</code> specified. <code class="codeph">alignment</code> values are set to defaults per CPU type.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>
+                        <code class="codeph">bss</code> &#x2013; disabled, <code class="codeph">LOAD</code>, <code class="codeph">?RWX</code>, no <code class="codeph">virtual_address</code>, <code class="codeph">physical_address</code>, or <code class="codeph">length</code> specified. <code class="codeph">alignment</code> values are set to defaults per CPU type.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>
+                        <code class="codeph">note</code> &#x2013; <code class="codeph">NOTE</code>.
+                     </p>
+                     
+                  </li>
+               </ul>
+               <p>By default, the <code class="codeph">bss</code> segment is disabled. Any sections of type <code class="codeph">SHT_NOBITS</code>, which are its sole input, are captured in the <code class="codeph">data</code> segment. See <span>ELF Section Types, sh_type</span> for a full description of <code class="codeph">SHT_NOBITS</code> sections. The simplest <code class="codeph">bss</code> declaration is sufficient to enable the creation of a <code class="codeph">bss</code> segment.
+               </p><pre class="oac_no_warn" dir="ltr">        bss =;</pre><p>Any <code class="codeph">SHT_NOBITS</code> sections is captured by this segment, rather than captured in the <code class="codeph">data</code> segment. In its simplest form, this segment is aligned using the same defaults as applied to any other segment. The declaration can also provide additional segment attributes that both enable the segment creation, and assign the specified attributes.
+               </p>
+               <p>The link-editor behaves as if these segments are declared before your <code>mapfile</code> is read in. See <a href="mapfile-option-defaults.html#GUID-BBCED025-2C16-4714-973F-2051F895EF05">Mapfile Option Defaults</a>.
+               </p>
+               <p>Note the following when entering segment declarations.</p>
+               <ul style="list-style-type: disc;">
+                  <li>
+                     
+                     <p>A number can be hexadecimal, decimal, or octal, following the same rules as in the C language.</p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>No space is allowed between the <code class="codeph">V</code>, <code class="codeph">P</code>, <code class="codeph">L</code>, <code class="codeph">R</code>, or <code class="codeph">A</code> and the number.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>The <code class="codeph">segment_type</code> value can be either <code class="codeph">LOAD</code>, <code class="codeph">NOTE</code>, <code class="codeph">NULL</code> or <code class="codeph">STACK</code>. If unspecified, the segment type defaults to <code class="codeph">LOAD</code>.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>The <code class="codeph">segment_flags</code> values are <code class="codeph">R</code> for readable, <code class="codeph">W</code> for writable, <code class="codeph">X</code> for executable, and <code class="codeph">O</code> for order. No spaces are allowed between the question mark (<code class="codeph">?</code>) and the individual flags that make up the <code class="codeph">segment_flags</code> value.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>The <code class="codeph">segment_flags</code> value for a <code class="codeph">LOAD</code> segment defaults to <code class="codeph">RWX</code>.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>
+                        <code class="codeph">NOTE</code> segments cannot be assigned any segment attribute value other than a <code class="codeph">segment_type</code>.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>One <code class="codeph">segment_type</code> of value <code class="codeph">STACK</code> is permitted. Only the access requirements of the segment, selected from the <code class="codeph">segment_flags</code>, can be specified.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>Implicitly declared segments default to <code class="codeph">segment_type</code> value <code class="codeph">LOAD</code>, <code class="codeph">segment_flags</code> value <code class="codeph">RWX</code>, a default <code class="codeph">virtual_address</code>, <code class="codeph">physical_address</code>, and <code class="codeph">alignment</code> value, and have no <code class="codeph">length</code> limit.
+                     </p>
+                     
+                     <div class="infoboxnote" id="GUID-61636CCD-7A9C-4FDB-9A34-52D7F2223F19__GUID-ABED72AA-F69F-4EE8-AEAB-D17BBC8BB38D">
+                        <p class="notep1">Note:</p>
+               The link-editor calculates the addresses and length of the current segment based on the previous segment's attribute values.
+
+                     </div>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>
+                        <code class="codeph">LOAD</code> segments can have an explicitly specified <code class="codeph">virtual_address</code> value or <code class="codeph">physical_address</code> value, as well as a maximum segment <code class="codeph">length</code> value.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>If a segment has a <code class="codeph">segment_flags</code> value of <code class="codeph">?</code> with nothing following, the value defaults to not readable, not writable, and not executable.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>The <code class="codeph">alignment</code> value is used in calculating the virtual address of the beginning of the segment. This alignment only affects the segment for which the alignment is specified. Other segments still have the default alignment unless their <code class="codeph">alignment</code> values are also changed.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>If any of the <code class="codeph">virtual_address</code>, <code class="codeph">physical_address</code>, or <code class="codeph">length</code> attribute values are not set, the link-editor calculates these values as the output file is created.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>If an <code class="codeph">alignment</code> value is not specified for a segment, the alignment is set to the built-in default. This default differs from one CPU to another and might even differ between software revisions.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>If both a <code class="codeph">virtual_address</code> and an <code class="codeph">alignment</code> value are specified for a segment, the <code class="codeph">virtual_address</code> value takes priority.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>If a <code class="codeph">virtual_address</code> value is specified for a segment, the <code class="codeph">alignment</code> field in the program header contains the default alignment value.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>If the <code class="codeph">rounding</code> value is set for a segment, that segment's virtual address is rounded to the next address that conforms to the value that is given. This value only effects the segments that the value is specified for. If no value is given, no rounding is performed.
+                     </p>
+                     
+                  </li>
+               </ul>
+               <div class="infoboxnote" id="GUID-61636CCD-7A9C-4FDB-9A34-52D7F2223F19__GUID-616BD509-D091-4197-8201-8D5D394B0ACE">
+                  <p class="notep1">Note:</p>
+         If a <code class="codeph">virtual_address</code> value is specified, the segment is placed at that virtual address. For the system kernel, this method creates a correct result. For files that start through <a href="https://docs.oracle.com/cd/E88353_01/html/E37841/exec-2.html" target="_blank">
+                     <code class="codeph">exec</code>(2)</a>, this method creates an incorrect output file because the segments do not have correct offsets relative to their page boundaries.
+
+               </div>
+               <p>The <code class="codeph">?E</code> flag allows the creation of an empty segment. This empty segment has no sections associated with the segment. This segment can be a <code class="codeph">LOAD</code> segment or a <code class="codeph">NULL</code> segment. Empty <code class="codeph">LOAD</code> segments can only be specified for executables. These segments must have a specified size and alignment. These segments result in the creation of memory reservations at process startup. Empty <code class="codeph">NULL</code> segments provide for adding program header entries that can be used by post-processing utilities. These segments should have no additional attributes specified. Multiple definitions for <code class="codeph">LOAD</code> segments and <code class="codeph">NULL</code> segments are permitted.
+               </p>
+               <p>The <code class="codeph">?N</code> flag enables you to control whether the <span>ELF</span> header, and any program headers are included as part of the first loadable segment. By default, the <span>ELF</span> header and program headers are included with the first segment. The information in these headers is used within the mapped image, typically by the runtime linker. The use of the <code class="codeph">?N</code> option causes the virtual address calculations for the image to start at the first section of the first segment.
+               </p>
+               <p>The <code class="codeph">?O</code> flag enables you control the order of sections in the output file. This flag is intended for use in conjunction with the <code class="codeph">-xF</code> option to the compilers. When a file is compiled with the <code class="codeph">-xF</code> option, each function in that file is placed in a separate section with the same attributes as the <code class="codeph">.text</code> section. These sections are called <code class="codeph">.text</code>%<span class="variable" translate="no">function_name</span>.
+               </p>
+               <p>For example, a file containing three functions, <code class="codeph">main</code>(), <code class="codeph">foo</code>() and <code class="codeph">bar</code>(), when compiled with the <code class="codeph">-xF</code> option, yields a relocatable object file with text for the three functions being placed in sections called <code class="codeph">.text%main</code>, <code class="codeph">.text%foo</code>, and <code class="codeph">.text%bar</code>. Because the <code class="codeph">-xF</code> option forces one function per section, the use of the <code class="codeph">?O</code> flag to control the order of sections in effect controls the order of functions.
+               </p>
+               <p>Consider the following user-defined <code>mapfile</code>.
+               </p><pre class="oac_no_warn" dir="ltr">        text = LOAD ?RXO;
+        text: .text%foo;
+        text: .text%bar;
+        text: .text%main;</pre><p>The first declaration associates the <code class="codeph">?O</code> flag with the default text segment.
+               </p>
+               <p>If the order of function definitions in the source file is <code class="codeph">main</code>, <code class="codeph">foo</code>, and <code class="codeph">bar</code>, then the final executable contains functions in the order <code class="codeph">foo</code>, <code class="codeph">bar</code>, and <code class="codeph">main</code>.
+               </p>
+               <p>For static functions with the same name, the file names must also be used. The <code class="codeph">?O</code> flag forces the ordering of sections as requested in the <code>mapfile</code>. For example, if a static function <code class="codeph">bar</code>() exists in files <code>a.o</code> and <code>b.o</code>, and function <code class="codeph">bar</code>() from file <code>a.o</code> is to be placed before function <code class="codeph">bar</code>() from file <code>b.o</code>, then the <code>mapfile</code> entries should read as follows.
+               </p><pre class="oac_no_warn" dir="ltr">        text: .text%bar: a.o;
+        text: .text%bar: b.o;</pre><p>The syntax allows for the following entry.</p><pre class="oac_no_warn" dir="ltr">        text: .text%bar: a.o b.o;</pre><p>However, this entry does not guarantee that function <code class="codeph">bar</code>() from file <code>a.o</code> is placed before function <code class="codeph">bar</code>() from file <code>b.o</code>. The second format is not recommended as the results are not reliable.
+               </p>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

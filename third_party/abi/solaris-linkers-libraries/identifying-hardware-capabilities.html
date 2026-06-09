@@ -1,0 +1,126 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Identifying Hardware Capabilities">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-5F7C9B2B-3160-4F2D-BB48-B064C11D8316">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Identifying Hardware Capabilities</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="identifying-platform-machine-capability.html" title="Previous" type="text/html">
+      <link rel="next" href="identifying-software-capabilities.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Identifying Hardware Capabilities","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="identifying-platform-machine-capability.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="identifying-software-capabilities.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-5F7C9B2B-3160-4F2D-BB48-B064C11D8316" name="GUID-5F7C9B2B-3160-4F2D-BB48-B064C11D8316"></a>
+         
+         <h2 id="OSLLG-GUID-5F7C9B2B-3160-4F2D-BB48-B064C11D8316" class="sect2">Identifying Hardware Capabilities</h2>
+         <div class="ind">
+            <div>
+               <p>The hardware capabilities of an object identify the hardware requirements of a system necessary for the object, or specific symbol, to execute correctly. An example of this requirement might be the identification of code that requires the <code class="codeph">MMX</code> or <code class="codeph">SSE</code> features that are available on x86 architectures.
+               </p>
+               <p>Hardware capability requirements can be identified using the following <code>mapfile</code> syntax.
+               </p><pre class="oac_no_warn" dir="ltr">    $mapfile_version 2
+        CAPABILITY {
+                HW  = <span class="variable" translate="no">hwcap_flag...</span>;
+                HW += <span class="variable" translate="no">hwcap_flag...</span>;
+                HW -= <span class="variable" translate="no">hwcap_flag...</span>;
+        };</pre><p>The <code class="codeph">HW</code> attribute to the <code class="codeph">CAPABILITY</code> directive is qualified with one or more tokens, which are symbolic representations of hardware capabilities. The "<code class="codeph">+=</code>" form of assignment augments the hardware capabilities specified by the input objects, while the "<code class="codeph">=</code>" form overrides them. The "<code class="codeph">-=</code>" form of assignment is used to exclude hardware capabilities from the output object.
+               </p>
+               <p>For SPARC systems, hardware capabilities are defined as <code class="codeph">AV_</code> values in <code>sys/auxv_SPARC.h</code>. For x86 systems, hardware capabilities are defined as <code class="codeph">AV_</code> values in <code>sys/auxv_386.h</code>.
+               </p>
+               <p>The following x86 example shows the declaration of <code class="codeph">MMX</code> and <code class="codeph">SSE</code> as hardware capabilities required by the object <code>foo.so.1</code>.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">egrep "MMX|SSE" /usr/include/sys/auxv_386.h</span>
+#define AV_386_MMX    0x0040
+#define AV_386_SSE    0x0800
+$ <span class="bold">cat mapfile</span>
+$mapfile_version 2
+CAPABILITY {
+        HW += SSE MMX;
+};
+$ <span class="bold">cc -o foo.so.1 -G -K pic -Mmapfile foo.c -lc</span>
+$ <span class="bold">elfdump -H foo.so.1</span>
+
+Capabilities Section:  .SUNW_cap
+
+ Object Capabilities:
+     index  tag               value
+       [0]  CA_SUNW_HW_1      0x840  [ SSE  MMX ]</pre><p>Relocatable objects can contain hardware capabilities values. The link-editor combines any hardware capabilities values from multiple input relocatable objects. The resulting <code class="codeph">CA_SUNW_HW_1</code> value is a bitwise-inclusive OR of the associated input values. By default, these values are combined with the hardware capabilities specified by a <code>mapfile</code>.
+               </p>
+               <p>The hardware capability requirements of an object can be controlled explicitly from a <code>mapfile</code> by using the "<code class="codeph">=</code>" form of assignment to override any hardware capabilities that might be provided from any input relocatable objects. An empty <code class="codeph">HW</code> attribute used with the "<code class="codeph">=</code>" form of assignment effectively removes any hardware capabilities requirement from the object being built.
+               </p>
+               <p>The following example suppresses any hardware capabilities data defined by the input relocatable object <code>foo.o</code> from being included in the output file, <code>bar.o</code>.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">elfdump -H foo.o</span>
+
+Capabilities Section:  .SUNW_cap
+
+ Object Capabilities:
+     index  tag               value
+       [0]  CA_SUNW_HW_1      0x840  [ SSE  MMX ]
+$ <span class="bold">cat mapfile</span>
+$mapfile_version 2
+CAPABILITY {
+        HW = ;
+};
+$ <span class="bold">ld -o bar.o -r -Mmapfile foo.o</span>
+$ <span class="bold">elfdump -H bar.o</span>
+$ </pre><p>Any hardware capability requirements defined by a dynamic object are validated by the runtime linker against the hardware capabilities that are provided by the system. If any of the hardware capability requirements can not be satisfied, the object is not loaded at runtime. For example, if the <code class="codeph">SSE</code> feature is not available to a process, <a href="https://docs.oracle.com/cd/E88353_01/html/E37839/ldd-1.html" target="_blank">
+                     <code class="codeph">ldd</code>(1)</a> indicates the following error.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">ldd prog</span>
+        foo.so.1 =&gt;      ./foo.so.1  - hardware capability unsupported: 0x800 [ SSE ]
+        ....</pre><p>Multiple instances of a dynamic object that exploit different hardware capabilities can provide a flexible runtime environment using filters. See <a href="capability-specific-shared-objects.html#GUID-4A41ADA9-635B-4041-A0BC-5B77311612A9">Capability Specific Shared Objects</a>.
+               </p>
+               <p>Hardware capabilities can also be used to identify the capabilities of individual functions within a single object. In this case, the runtime linker can select the most appropriate function instance to use based upon the current system capabilities. See <a href="creating-family-symbol-capabilities-functions.html#GUID-FD5C4E62-68AD-4AAB-85C8-ABABFF6083C3">Creating a Family of Symbol Capabilities Functions</a>.
+               </p>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Using the -z direct Option">
+      <meta name="DC.subject" content="link-editor options, -z&nbsp;direct">
+      <meta name="keywords" content="link-editor options, -z&nbsp;direct">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-C202640D-B3E9-4C4A-85C5-1C6361927458">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Using the -z direct Option</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="using--b-direct-option.html" title="Previous" type="text/html">
+      <link rel="next" href="using-direct-mapfile-keyword.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Using the -z direct Option","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="using--b-direct-option.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="using-direct-mapfile-keyword.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-C202640D-B3E9-4C4A-85C5-1C6361927458" name="GUID-C202640D-B3E9-4C4A-85C5-1C6361927458"></a>
+         
+         <h2 id="OSLLG-GUID-C202640D-B3E9-4C4A-85C5-1C6361927458" class="sect2">Using the <code class="codeph">-z direct</code> Option
+         </h2>
+         <div class="ind">
+            <div>
+               <p>The <code class="codeph">-z&nbsp;direct</code> option provides a mechanism of establishing direct bindings to any dependencies that follow the option on the link-edit command line. Unlike the <code class="codeph">-B&nbsp;direct</code> option, no direct bindings are established within the object that is being built.
+               </p>
+               <p>This option is well suited for building objects that are designed to be interposed upon. For example, shared objects are sometimes designed that contain a number of default, or fallback, interfaces. Applications are free to define their own definitions of these interfaces with the intent that the application definitions are bound to at runtime. To allow an application to interpose on the interfaces of a shared object, build the shared object using the <code class="codeph">-z&nbsp;direct</code> option rather than the <code class="codeph">-B&nbsp;direct</code> option.
+               </p>
+               <p>The <code class="codeph">-z&nbsp;direct</code> option is also useful if you want to be selective over directly binding to one or more dependencies. The <code class="codeph">-z&nbsp;nodirect</code> option allows you to toggle the use of direct bindings between the dependencies supplied with a link-edit.
+               </p>
+               <p>From the components used in the previous example, a directly bound object <code>X.so.2</code> can be produced.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cc -o X.so.2 -G -Kpic X.c -R. -z direct x.so.1</span>
+$ <span class="bold">cc -o prog3 -R. main.c W.so.2 X.so.2</span></pre><p>The direct binding information can be viewed with <a href="https://docs.oracle.com/cd/E88353_01/html/E37839/elfdump-1.html" target="_blank">
+                     <code class="codeph">elfdump</code>(1)</a>.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">elfdump -y X.so.2</span>
+     [6]  [ DEPEND ]                 &lt;self&gt;         a
+     [7]  [ DEPEND DIRECT ]      [1] x.so.1         b</pre><p>The function <code class="codeph">b</code>() has been bound directly to the dependency <code>x.so.1</code>. The function <code class="codeph">a</code>()is defined as having a potential direct binding, "<code class="codeph">D</code>", with the object <code>X.so.2</code>, but no direct binding is established.
+               </p>
+               <p>The <code class="codeph">LD_DEBUG</code> environment variable can be used to observe the runtime bindings.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">LD_DEBUG=symbols,bindings,detail  prog3</span>
+....
+06177: symbol=a;  lookup in file=prog3  [ ELF ]
+06177: symbol=a;  lookup in file=./W.so.2  [ ELF ]
+06177: binding file=./X.so.2 to file=./W.so.2: symbol 'a'
+06177: symbol=b;  lookup in file=./x.so.1  [ ELF ]
+06177: binding file=./X.so.2 to file=./x.so.1: symbol 'b'  (direct)</pre><p>The <a href="https://docs.oracle.com/cd/E88353_01/html/E37839/lari-1.html" target="_blank">
+                     <code class="codeph">lari</code>(1)</a> utility can also reveal the direct binding information.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">lari prog3</span>
+[2:2ESD]: a(): ./W.so.2
+[2:0]: a(): ./X.so.2
+[2:1ED]: b(): ./w.so.1
+[2:1ED]: b(): ./x.so.1</pre><p>The function <code class="codeph">a</code>() defined by <code>W.so.2</code> continues to satisfy the default symbol reference made by <code>X.so.2</code>. However, the function <code class="codeph">b</code>() defined in <code>x.so.1</code> has now been bound to directly from the reference made by <code>X.so.2</code>.
+               </p>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

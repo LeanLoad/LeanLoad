@@ -1,0 +1,136 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Using Interposition">
+      <meta name="DC.subject" content="interposition, symbols, runtime lookup">
+      <meta name="keywords" content="interposition, symbols, runtime lookup">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-3D26D735-A23F-4457-9832-F2D8EAB64C65">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Using Interposition</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="testing-functionality.html" title="Previous" type="text/html">
+      <link rel="next" href="debugging-aids1.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Using Interposition","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="testing-functionality.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="debugging-aids1.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-3D26D735-A23F-4457-9832-F2D8EAB64C65" name="GUID-3D26D735-A23F-4457-9832-F2D8EAB64C65"></a>
+         
+         <h2 id="OSLLG-GUID-3D26D735-A23F-4457-9832-F2D8EAB64C65" class="sect2">Using Interposition</h2>
+         <div class="ind">
+            <div>
+               <p>The special handle <code class="codeph">RTLD_NEXT</code> enables
+                                an application to locate the next symbol in a symbol scope. For
+                                example, the application <code>prog</code> can contain the
+                                following code fragment.
+               </p><pre class="oac_no_warn" dir="ltr">        if ((fptr = (int (*)())dlsym(RTLD_NEXT, "foo")) == NULL) {
+                 (void) printf("dlsym: %s\n", dlerror());
+                 return (1);
+        }
+
+        return ((*fptr)());</pre><p>In this case, <code class="codeph">foo</code> is searched for in the shared objects associated with <code>prog</code>, which in this case is <code>/lib/libc.so.1</code>. If this code fragment was contained in the file <code>B.so.1</code> from the example that is shown in A Single dlopen Request, then <code class="codeph">foo</code> is searched for in <code>C.so.1</code> only.
+               </p>
+               <p>Use of <code class="codeph">RTLD_NEXT</code> provides a means to exploit symbol
+                                interposition. For example, a function within an object can be
+                                interposed upon by a preceding object, which can then augment the
+                                processing of the original function. For example, the following code
+                                fragment can be placed in the shared object
+<code>malloc.so.1</code>.
+               </p><pre class="oac_no_warn" dir="ltr">#include    &lt;sys/types.h&gt;
+#include    &lt;dlfcn.h&gt;
+#include    &lt;stdio.h&gt;
+
+void *
+malloc(size_t size)
+{
+        static void *(*fptr)() = 0;
+        char        buffer[50];
+
+        if (fptr == 0) {
+                fptr = (void *(*)())dlsym(RTLD_NEXT, "malloc");
+                if (fptr == NULL) {
+                        (void) printf("dlopen: %s\n", dlerror());
+                        return (NULL);
+                }
+        }
+
+        (void) sprintf(buffer, "malloc: %#x bytes\n", size);
+        (void) write(1, buffer, strlen(buffer));
+        return ((*fptr)(size));
+}</pre><p><code>malloc.so.1</code> can be interposed before the system library <code>/lib/libc.so.1</code> where <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/malloc-3c.html" target="_blank"><code class="codeph">malloc</code>(3C)</a> usually resides. Any calls to <code class="codeph">malloc</code>() are now interposed upon before the original function is called to complete the allocation.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cc -o malloc.so.1 -G -K pic malloc.c</span>
+$ <span class="bold">cc -o prog file1.o file2.o .... -R. malloc.so.1</span>
+$ <span class="bold">prog</span>
+malloc: 0x32 bytes
+malloc: 0x14 bytes
+....</pre><p>Alternatively, the same interposition can be achieved using the following commands.</p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cc -o malloc.so.1 -G -K pic malloc.c</span>
+$ <span class="bold">cc -o prog main.c</span>
+$ <span class="bold">LD_PRELOAD=./malloc.so.1  prog</span>
+malloc: 0x32 bytes
+malloc: 0x14 bytes
+....</pre><div class="infoboxnote" id="GUID-3D26D735-A23F-4457-9832-F2D8EAB64C65__GUID-0BD06027-4833-4E68-8D31-2491DF2FB1A0">
+                  <p class="notep1">Note:</p>
+         Users of any interposition technique must be careful to handle any possibility of recursion. The previous example formats the diagnostic message using <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/sprintf-3c.html" target="_blank">
+                     <code class="codeph">sprintf</code>(3C)</a>, instead of using <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/printf-3c.html" target="_blank">
+                     <code class="codeph">printf</code>(3C)</a> directly, to avoid any recursion caused by <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/printf-3c.html" target="_blank">
+                     <code class="codeph">printf</code>(3C)</a> possibly using <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/malloc-3c.html" target="_blank">
+                     <code class="codeph">malloc</code>(3C)</a>.
+
+               </div>
+               <p>The use of <code class="codeph">RTLD_NEXT</code> within an executable or
+                                preloaded object, provides a predictable interposition technique. Be
+                                careful when using this technique in a generic object dependency, as
+                                the actual load order of objects is not always predictable.
+               </p>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

@@ -1,0 +1,152 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Directories Searched by the Runtime Linker">
+      <meta name="DC.subject" content="runtime linker, search paths, /lib, /usr/lib, /lib/64, /usr/lib/64, runpath, -z&nbsp;nodefaultlib, -R, LD_RUN_PATH">
+      <meta name="keywords" content="runtime linker, search paths, /lib, /usr/lib, /lib/64, /usr/lib/64, runpath, -z&nbsp;nodefaultlib, -R, LD_RUN_PATH">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-65A60FAF-6B90-4358-9A6B-4919F5312841">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Directories Searched by the Runtime Linker</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="using-environment-variable.html" title="Previous" type="text/html">
+      <link rel="next" href="initialization-termination-sections.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Directories Searched by the Runtime Linker","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="using-environment-variable.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="initialization-termination-sections.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-65A60FAF-6B90-4358-9A6B-4919F5312841" name="GUID-65A60FAF-6B90-4358-9A6B-4919F5312841"></a>
+         
+         <h2 id="OSLLG-GUID-65A60FAF-6B90-4358-9A6B-4919F5312841" class="sect2">Directories Searched by the Runtime Linker</h2>
+         <div class="ind">
+            <div>
+               <p>The runtime linker looks in two default
+                                        locations for dependencies. When processing 32-bit
+                                        objects, the default locations are <code>/lib</code>
+                                        and <code>/usr/lib</code>. When processing
+                                        64-bit objects, the default locations are
+<code>/lib/64</code> and
+<code>/usr/lib/64</code>. All other
+                                        directories to be searched must be added to the runtime
+                                        linker search path explicitly.
+               </p>
+               <p>When a dynamic object is
+                                        linked with additional shared objects, the shared objects
+                                        are recorded as dependencies. These dependencies must be
+                                        located during process execution by the runtime linker. When
+                                        linking a dynamic object, one or more search paths can be
+                                        recorded in the output file. These search paths are referred
+                                        to as a <span>
+                     <span class="italic">runpath</span>
+                     </span>. The
+                                        runtime linker uses the <span>runpath</span> of an
+                                        object to locate the dependencies of that object.
+               </p>
+               <p>Specialized objects can be built with the
+<code class="codeph">-z&nbsp;nodefaultlib</code> option to
+                                        suppress any search of the default location at runtime. Use
+                                        of this option implies that all the dependencies of an
+                                        object can be located using its <span>runpaths</span>.
+                                        Without this option, no matter how you augment the runtime
+                                        linker search path, the last search paths used are always
+                                        the default locations.
+               </p>
+               <div class="infoboxnote" id="GUID-65A60FAF-6B90-4358-9A6B-4919F5312841__GUID-FB2F7E74-57E9-4D40-A248-6766A2B180ED">
+                  <p class="notep1">Note:</p>
+         The default search path can be administrated by using
+                                                a runtime configuration file. See <a href="configuring-default-search-paths.html#GUID-74530C8B-7DD4-423C-8442-9925CA5F3B2A">Configuring the Default Search Paths</a>. However, the creator of a
+                                                dynamic object should not rely on the existence of
+                                                this file. You should always ensure that an object
+                                                can locate its dependencies with only its
+<span>runpaths</span> or the default
+                                                locations.
+
+               </div>
+               <p>You can use the <code class="codeph">-R</code> option, which
+                                        takes a colon-separated list of directories, to record a
+<span>runpath</span> in a
+						dynamic object. The following
+						example records the
+<span>runpath</span>
+                  <code>/home/me/lib:/home/you/lib</code> in the
+                                        dynamic executable <code>prog</code>.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cc -o prog main.c -R/home/me/lib:/home/you/lib -Lpath1  \
+    -Lpath2 file1.c file2.c -lfoo -lbar</span></pre><p>The runtime linker uses these paths, followed by the default
+                                        location, to obtain any shared object dependencies. In this
+                                        case, this <span>runpath</span> is used to locate
+<code>libfoo.so.1</code> and
+<code>libbar.so.1</code>.
+               </p>
+               <p>The link-editor accepts multiple <code class="codeph">-R</code> options.
+                                        These multiple specifications are concatenate together,
+                                        separated by a colon. Thus, the previous example can also be
+                                        expressed as follows.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cc -o prog main.c -R/home/me/lib -Lpath1 -R/home/you/lib  \
+    -Lpath2 file1.c file2.c -lfoo -lbar</span></pre><p>For objects that can be installed in various locations, the
+<code class="codeph">$ORIGIN</code> dynamic string token
+                                        provides a flexible means of recording a
+<span>runpath</span>. See <a href="locating-associated-dependencies.html#GUID-E63C478D-F86C-4C34-8B21-1429A898E44F">Locating Associated Dependencies</a>.
+               </p>
+               <div class="infoboxnote" id="GUID-65A60FAF-6B90-4358-9A6B-4919F5312841__GUID-21CF33D0-7A75-4F3F-B9EA-719A7929DB2B">
+                  <p class="notep1">Note:</p>
+         A historic alternative to specifying the
+<code class="codeph">-R</code> option is to set the
+                                                environment variable <code class="codeph">LD_RUN_PATH</code>, and
+                                                make this available to the link-editor. The scope
+                                                and function of <code class="codeph">LD_RUN_PATH</code> and
+<code class="codeph">-R</code> are identical, but when both
+                                                are specified, <code class="codeph">-R</code> supersedes
+<code class="codeph">LD_RUN_PATH</code>.
+
+               </div>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

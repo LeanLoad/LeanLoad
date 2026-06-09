@@ -1,0 +1,136 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Limitations and Pitfalls of Initialization and Termination Code">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-AEBE0240-FB6D-47DD-83C5-2CAA1EE04EC8">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Limitations and Pitfalls of Initialization and Termination Code</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="initialization-termination-routines.html" title="Previous" type="text/html">
+      <link rel="next" href="initialization-termination-order.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Limitations and Pitfalls of Initialization and Termination Code","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="initialization-termination-routines.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="initialization-termination-order.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-AEBE0240-FB6D-47DD-83C5-2CAA1EE04EC8" name="GUID-AEBE0240-FB6D-47DD-83C5-2CAA1EE04EC8"></a>
+         
+         <h2 id="OSLLG-GUID-AEBE0240-FB6D-47DD-83C5-2CAA1EE04EC8" class="sect2">Limitations and Pitfalls of Initialization and Termination
+                                Code</h2>
+         <div class="ind">
+            <div>
+               <p>
+                  <span>ELF</span> initialization and termination sections and
+                                routines execute at a sensitive point in the life cycle of the
+                                object. During initialization, the object has been loaded into
+                                memory, but is not fully initialized. During finalization, the
+                                object is still loaded in memory, but is no longer safe to use, and
+                                may be partially removed from the process state. In either context,
+                                the process state is not fully consistent, and there are significant
+                                limits on what code can safely do. Common pitfalls include, but are
+                                not limited, to the following.
+               </p>
+               <ul style="list-style-type: disc;">
+                  <li>
+                     
+                     <p>Cyclic dependencies resulting in deadlock, where the
+                                                initialization code for one object triggers the
+                                                loading of another object, which in turn calls back
+                                                into the initial object.</p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>Thread serialization failures when a shared object is
+                                                used in a multithreaded application. Two threads may
+                                                attempt to access a lazily loaded library at the
+                                                same time. The thread that gets there first will
+                                                cause the runtime linker to load the object and
+                                                start to run the initialization code. Programmers
+                                                are often under the mistaken impression that the
+                                                runtime linker can prevent more than one thread from
+                                                accessing a given object when ELF initialization and
+                                                termination code is running, but this is not the
+                                                case. The runtime linker cannot prevent other
+                                                threads from attempting to access the library once
+                                                the initialization code is running. It is therefore
+                                                possible for a second thread to access the object in
+                                                an inconsistent state. It is the responsibility of
+                                                the object to serialize such access, either by
+                                                providing the necessary locks, or my requiring the
+                                                caller to do so.</p>
+                     
+                  </li>
+               </ul>
+               <p>
+                  <span>ELF</span> initialization and termination sections and
+                                routines allow for the execution of arbitrary code, giving the
+                                illusion that they are capable of doing anything that code running
+                                in a normal context might do. In this view, such code seems like
+                                nothing more than a convenient way to do initialization or cleanup
+                                without explicit function calls. This misconception leads to
+                                failures that can be difficult to diagnose.
+               </p>
+               <p>Programmers should be cautious in their use of <span>ELF</span>
+                                initialization and termination code, and limit the scope and
+                                complexity of operations. The link-editor and runtime linker are not
+                                cognizant of the content or purpose of such code, and cannot
+                                diagnose or prevent unsafe code. Small self contained operations are
+                                safe. Operations involving access to other objects or process state
+                                may not be. Rather than attempt complex operations in initialization
+                                and termination code, libraries should provide explicit
+                                initialization and termination functions for their callers to run,
+                                and document the requirement to do so.
+               </p>
+               <p>The following section considers these issues in detail.</p>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

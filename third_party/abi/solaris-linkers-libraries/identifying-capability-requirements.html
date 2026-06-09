@@ -1,0 +1,123 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Identifying Capability Requirements">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-06847AC4-08F3-4C54-9AE7-EF44BBD6680B">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Identifying Capability Requirements</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="capability-processing.html" title="Previous" type="text/html">
+      <link rel="next" href="identifying-platform-machine-capability.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Identifying Capability Requirements","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="capability-processing.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="identifying-platform-machine-capability.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-06847AC4-08F3-4C54-9AE7-EF44BBD6680B" name="GUID-06847AC4-08F3-4C54-9AE7-EF44BBD6680B"></a>
+         
+         <h2 id="OSLLG-GUID-06847AC4-08F3-4C54-9AE7-EF44BBD6680B" class="sect2">Identifying Capability Requirements</h2>
+         <div class="ind">
+            <div>
+               <p>
+                  <span class="italic">System</span> capabilities are the capabilities that describe a running system. The platform name, and machine hardware name can be displayed with <a href="https://docs.oracle.com/cd/E88353_01/html/E37839/uname-1.html" target="_blank">
+                     <code class="codeph">uname</code>(1)</a> using the <code class="codeph">-i</code> option and <code class="codeph">-m</code> option respectively. The system hardware capabilities can be displayed with <a href="https://docs.oracle.com/cd/E88353_01/html/E37839/isainfo-1.html" target="_blank">
+                     <code class="codeph">isainfo</code>(1)</a> using the <code class="codeph">-v</code> option. At runtime, the platform name, machine hardware name, and hardware capability requirements of an object are compared against the system capabilities to determine whether the object can be loaded, or a symbol within the object can be used.
+               </p>
+               <p>
+                  <span class="italic">Object</span> capabilities are capabilities that are associated with an object. These capabilities define the requirements of the entire object. The platform, machine, and hardware capabilities control whether the object can be loaded at runtime. If an object requires capabilities that can not be satisfied by the system, then the object can not be loaded at runtime. Capabilities can be used to provide more than one instance of a given object, each optimized for systems that match the objects requirements. The runtime linker can transparently select the best instance from such a family of object instances by comparing the objects capability requirements to the capabilities provided by the system.
+               </p>
+               <p>
+                  <span class="italic">Symbol</span> capabilities are capabilities that are associated with individual functions, or initialized data items, within an object. The platform, machine, and hardware capabilities define the requirements of one or more symbols within an object, and control whether the symbol can be used at runtime. Symbol capabilities allow for the presence of multiple instances of a function within a single object. Each instance of the function can be optimized for a system with different capabilities. Symbol capabilities also allow for the presence of multiple instances of an initialized data item within an object. Each instance of the data can define system specific data. If a symbol instance requires capabilities that can not be satisfied by the system, then that symbol instance can not be used at runtime. Instead, an alternative instance of the same symbol name must be used. Symbol capabilities offer the ability to construct a single object that can be used on systems of varying abilities. A family of functions can provide optimized instances for systems that can support the capabilities, and more generic instances for other, less capable systems. A family of initialized data items can provide system specific data. The runtime linker transparently selects the best instance from such a family of symbol instances by comparing the symbols capability requirements to the capabilities provided by the system.
+               </p>
+               <p>Object and symbol capabilities provide for selecting the best object, and the best symbol within an object, for the currently running system. Object and symbol capabilities are optional features, both independent of each other. However, an object that defines symbol capabilities may also define object capabilities. In this case, any family of capabilities symbols should be accompanied with one instance of the symbol that satisfies the object capabilities. If no object capabilities exist, any family of capability symbols should be accompanied with one instance of the symbol that requires no capabilities. This symbol instance provides the default implementation, should no capability instance be applicable for a given system.</p>
+               <p>The following x86 example displays the object capabilities of <code>foo.o</code>. These capabilities apply to the entire object. In this example, no symbol capabilities exist.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">elfdump -H foo.o</span>
+
+Capabilities Section:  .SUNW_cap
+
+ Object Capabilities:
+     index  tag               value
+       [0]  CA_SUNW_HW_1      0x840  [ SSE  MMX ]</pre><p>The following x86 example displays the symbol capabilities of <code>bar.o</code>. These capabilities apply to the individual functions <code class="codeph">foo</code>() and <code class="codeph">bar</code>(). Two instances of each symbol exist, each instance being assigned to a different set of capabilities. In this example, no object capabilities exist.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">elfdump -H bar.o</span>
+
+Capabilities Section:  .SUNW_cap
+
+ Symbol Capabilities:
+     index  tag               value
+       [1]  CA_SUNW_HW_1      0x40  [ MMX ]
+
+  Symbols:
+     index    value     size  type bind oth ver shndx    name
+      [25]        0     0x21  FUNC LOCL  D    0 .text    foo%mmx
+      [26]     0x24     0x1e  FUNC LOCL  D    0 .text    bar%mmx
+
+ Symbol Capabilities:
+     index  tag               value
+       [3]  CA_SUNW_HW_1      0x800  [ SSE ]
+
+  Symbols:
+     index    value     size  type bind oth ver shndx    name
+      [33]     0x44     0x21  FUNC LOCL  D    0 .text    foo%sse
+      [34]     0x68     0x1e  FUNC LOCL  D    0 .text    bar%sse</pre><div class="infoboxnote" id="GUID-06847AC4-08F3-4C54-9AE7-EF44BBD6680B__GUID-C7EA2F01-5E1B-4AE2-AC6D-219FE18F35FA">
+                  <p class="notep1">Note:</p>
+         In this example, the capability symbols follow a naming convention that appends a capability identifier to the generic symbol name. This convention can be produced by the link-editor when object capabilities are converted to symbol capabilities, and is discussed later in <a href="converting-object-capabilities-symbol-capabilities.html#GUID-7A57EE70-F156-4CA8-A95C-434500466389">Converting Object Capabilities to Symbol Capabilities</a>.
+
+               </div>
+               <p>Capability definitions provide for many combinations that allow you to identify the requirements of an object, or of individual symbols within an object.</p>
+               <div class="infoboxnote" id="GUID-06847AC4-08F3-4C54-9AE7-EF44BBD6680B__GUID-BE1BBCF1-7B38-4C1B-AC50-4DF9DA9532FD">
+                  <p class="notep1">Note:</p>
+         Platform names and machine hardware names have converged into very few variations. Although these capability names originated to target specific machines, and have the highest precedence, their usefulness is now limited. Targeting code to a specific platform or machine can be useful in some instances, however the development of a hardware capabilities family can provide greater flexibility, and is recommended. Hardware capabilities families can provide for optimized code to be exercised on a broader range of systems.
+
+               </div>
+               <p>The following sections describe how capabilities can be defined, and used by the link-editor.</p>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

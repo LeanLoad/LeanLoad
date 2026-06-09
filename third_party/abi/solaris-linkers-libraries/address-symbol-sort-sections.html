@@ -1,0 +1,242 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="By-Address Symbol Sort Sections">
+      <meta name="DC.subject" content="link-editor options, -z&nbsp;noldynsym, mapfiles, DYNSORT, NODYNSORT">
+      <meta name="keywords" content="link-editor options, -z&nbsp;noldynsym, mapfiles, DYNSORT, NODYNSORT">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-CD417856-70D6-45C5-B30D-D7B52605396D">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>By-Address Symbol Sort Sections</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="symbol-sort-sections.html" title="Previous" type="text/html">
+      <link rel="next" href="name-symbol-sort-sections.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"By-Address Symbol Sort Sections","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="symbol-sort-sections.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="name-symbol-sort-sections.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-CD417856-70D6-45C5-B30D-D7B52605396D" name="GUID-CD417856-70D6-45C5-B30D-D7B52605396D"></a>
+         
+         <h2 id="OSLLG-GUID-CD417856-70D6-45C5-B30D-D7B52605396D" class="sect2">By-Address Symbol Sort Sections</h2>
+         <div class="ind">
+            <div>
+               <p>Regular symbols and thread-local storage symbols can not be sorted together for by-address lookups. While the value of a regular symbol is the address of the function or variable, the value of a thread-local storage symbol is the variable's thread offset. Therefore, regular symbols and thread-local storage symbols use two different sort sections.</p>
+               <p>The link-editor produces the following by-address symbol sort sections.</p>
+               <dl>
+                  <dt class="dlterm"><a name="GUID-CD417856-70D6-45C5-B30D-D7B52605396D__GUID-EAAAF920-0C80-4A3C-855E-BE0AE583F5B3">
+                        <!-- --></a>
+                     <code class="codeph">.SUNW_dynsymsort</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>A section of type <code class="codeph">SHT_SUNW_SYMSORT</code>, containing indexes to regular symbols in the combined <code class="codeph">.SUNW_ldynsym</code> &#x2013; <code class="codeph">.dynsym</code> symbol table, sorted by address. Symbols that do not represent variables or functions are not included.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-CD417856-70D6-45C5-B30D-D7B52605396D__GUID-A84A392B-A6C5-4163-A3A9-3C9FC9419DA9">
+                        <!-- --></a>
+                     <code class="codeph">.SUNW_dyntlssort</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>A section of type <code class="codeph">SHT_SUNW_TLSSORT</code>, containing indexes to
+<span>TLS</span> symbols in the combined <code class="codeph">.SUNW_ldynsym</code>
+              &#x2013; <code class="codeph">.dynsym</code> symbol table, sorted by offset. This section is
+              only produced if the object file contains <span>TLS</span> symbols.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-CD417856-70D6-45C5-B30D-D7B52605396D__GUID-CF133D6A-CC28-4883-8DD3-6CBB3E86F409">
+                        <!-- --></a>
+                     <code class="codeph">.SUNW_symtabsort</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>A section of type <code class="codeph">SHT_SUNW_SYMSORT</code>, containing indexes to
+              regular symbols in the <code class="codeph">.symtab</code> symbol table, sorted by address.
+	      Symbols that do not represent variables or functions are not included.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-CD417856-70D6-45C5-B30D-D7B52605396D__GUID-A50F1C75-0456-4B63-92A6-7B975D390C11">
+                        <!-- --></a>
+                     <code class="codeph">.SUNW_symtlssort</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>A section of type <code class="codeph">SHT_SUNW_TLSSORT</code>, containing indexes to
+<span>TLS</span> symbols in the <code class="codeph">.symtab</code> symbol table,
+		sorted by offset. This section is only produced if the object file contains
+	        <span>TLS</span> symbols.
+                     </p>
+                     
+                  </dd>
+               </dl>
+               <p>The <code class="codeph">.SUNW_dynsymsort</code> section and <code class="codeph">.SUNW_dyntlssort</code>
+        section, require that a <code class="codeph">.SUNW_ldynsym</code> section be present. Therefore, use
+        of the <code class="codeph">-z&nbsp;noldynsym</code> option also prevents the creation of these
+	associated sort sections.
+               </p>
+               <p>The link-editor uses the following rules, in the order that is shown, to select which
+        symbols are referenced by these sort sections.</p>
+               <ul style="list-style-type: disc;">
+                  <li>
+                     
+                     <p>The symbol must have a function or variable type: <code class="codeph">STT_FUNC</code>,
+<code class="codeph">STT_OBJECT</code>, <code class="codeph">STT_COMMON</code>, or
+<code class="codeph">STT_TLS</code>.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>The following symbols are always included, if present: <code class="codeph">_DYNAMIC</code>,
+<code class="codeph">_end</code>, <code class="codeph">_fini</code>,
+<code class="codeph">_GLOBAL_OFFSET_TABLE_</code>, <code class="codeph">_init</code>,
+<code class="codeph">_PROCEDURE_LINKAGE_TABLE_</code>, and <code class="codeph">_start</code>.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>If a global symbol and a weak symbol are found to reference the same item, the weak
+            symbol is included and the global symbol is excluded.</p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>The symbol must not be undefined.</p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>The symbol must have a non-zero size.</p>
+                     
+                  </li>
+               </ul>
+               <p>These rules filter out automatically generated compiler and link-editor generated
+        symbols. The symbols that are selected are of interest to the user. However, two cases exist
+        where manual intervention might be necessary to improve the selection process.</p>
+               <ul style="list-style-type: disc;">
+                  <li>
+                     
+                     <p>The rules did not select a needed special symbol. For example, some special symbols
+            have a zero size.</p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>Unwanted extra symbols are selected. For example, shared objects can define multiple
+            symbols that reference the same address and have the same size. These alias symbols
+            effectively reference the same item. You might prefer to include only one of a multiple
+            symbol family, within the sort section.</p>
+                     
+                  </li>
+               </ul>
+               <p>The <code>mapfile</code> keywords <code class="codeph">DYNSORT</code> and
+<code class="codeph">NODYNSORT</code> provide for additional control over symbol selection
+	  for by-address sort sections. See
+<a href="symbol-scope-symbol-version-directives.html#GUID-38914CB2-D471-4CA3-8BC2-78323D4CD6B9">SYMBOL_SCOPE and SYMBOL_VERSION Directives</a>.
+               </p>
+               <dl>
+                  <dt class="dlterm"><a name="GUID-CD417856-70D6-45C5-B30D-D7B52605396D__GUID-340E5F08-73E8-400D-840D-CC21B15F3232">
+                        <!-- --></a>
+                     <code class="codeph">DYNSORT</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Identifies a symbol that should be included in a sort section. The symbol
+              type must be <code class="codeph">STT_FUNC</code>, <code class="codeph">STT_OBJECT</code>,
+<code class="codeph">STT_COMMON</code>, or <code class="codeph">STT_TLS</code>.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-CD417856-70D6-45C5-B30D-D7B52605396D__GUID-9A7BC195-0E1F-442E-822E-76EB38DC2EBE">
+                        <!-- --></a>
+                     <code class="codeph">NODYNSORT</code>
+                     
+                  </dt>
+                  <dd>
+                     
+                     <p>Identifies a symbol that should not be included in a sort section.</p>
+                     
+                  </dd>
+               </dl>
+               <p>For example, an object might provide the following symbol table definitions.</p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">elfdump -sN.symtab foo.so.1 | egrep "foo$|bar$"</span>
+    [37]    0x4b0   0x1c  FUNC GLOB  D   0 .text      bar
+    [38]    0x4b0   0x1c  FUNC WEAK  D   0 .text      foo</pre><p>The symbols <code class="codeph">foo</code> and <code class="codeph">bar</code> represent an aliases pair.
+        By default, when creating a sorted array, only the symbol <code class="codeph">foo</code> is
+        represented.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cc -o foo.so.1 -G foo.c</span>
+$ <span class="bold">elfdump -S foo.so.1 | egrep "foo$|bar$"</span>
+    [13]    0x4b0   0x1c  FUNC WEAK  D   0 .text      foo</pre><p>In the case where a global and a weak symbol are found by the link-editor to reference
+        the same item, the weak symbol is normally kept. The symbol <code class="codeph">bar</code> is
+        omitted from the sorted array because of the association to the weak symbol
+<code class="codeph">foo</code>.
+               </p>
+               <p>The following <code>mapfile</code> results in the symbol <code class="codeph">bar</code>
+        being represented in the sorted array. The symbol <code class="codeph">foo</code> is omitted.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cat mapfile</span>
+{
+        global:
+                bar = DYNSORT;
+                foo = NODYNSORT;
+};
+$ <span class="bold">cc -M mapfile -o foo.so.2 -Kpic -G foo.c</span>
+$ <span class="bold">elfdump -S foo.so.2 | egrep "foo$|bar$"</span>
+    [13]    0x4b0   0x1c  FUNC GLOB  D   0 .text      bar</pre></div>
+         </div>
+      </article>
+   </body>
+</html>

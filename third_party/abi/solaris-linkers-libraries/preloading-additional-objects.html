@@ -1,0 +1,116 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Preloading Additional Objects">
+      <meta name="DC.subject" content="runtime linker, loading additional objects, LD_PRELOAD, preloading at runtime, preloading objects, interposition, dlsym, RTLD_NEXT">
+      <meta name="keywords" content="runtime linker, loading additional objects, LD_PRELOAD, preloading at runtime, preloading objects, interposition, dlsym, RTLD_NEXT">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-5D4FE5A6-3E76-46A8-B36E-203915287675">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Preloading Additional Objects</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="relocation-errors.html" title="Previous" type="text/html">
+      <link rel="next" href="lazy-loading-dynamic-dependencies.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Preloading Additional Objects","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="relocation-errors.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="lazy-loading-dynamic-dependencies.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-5D4FE5A6-3E76-46A8-B36E-203915287675" name="GUID-5D4FE5A6-3E76-46A8-B36E-203915287675"></a>
+         
+         <h2 id="OSLLG-GUID-5D4FE5A6-3E76-46A8-B36E-203915287675" class="sect2">Preloading Additional Objects</h2>
+         <div class="ind">
+            <div>
+               <p>The runtime linker provides an additional level of flexibility by enabling you
+                        to introduce new objects during process initialization by using the
+                        environment variable <code class="codeph">LD_PRELOAD</code>.  This environment variable can be initialized to a shared object
+                        or relocatable object file name, or a string of file names separated by
+                        white space. These objects are loaded after the executable and
+                        before any dependencies. These objects are assigned
+<span class="italic">world</span> search scope, and
+<span class="italic">global</span> symbol visibility.
+               </p>
+               <p>In the following example, the dynamic executable <code>prog</code> is
+                        loaded, followed by the shared object <code>newstuff.so.1</code>.
+                        The dependencies defined within <code>prog</code> are then
+                        loaded.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">LD_PRELOAD=./newstuff.so.1  prog</span></pre><p>The order in which these objects are processed can be displayed using <a href="https://docs.oracle.com/cd/E88353_01/html/E37839/ldd-1.html" target="_blank">
+                     <code class="codeph">ldd</code>(1)</a>.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">ldd -e LD_PRELOAD=./newstuff.so.1 prog</span>
+        ./newstuff.so.1 =&gt; ./newstuff.so
+        libc.so.1 =&gt;     /lib/libc.so.1</pre><p>In the following example, the preloading is a little more complex and time
+                        consuming.</p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">LD_PRELOAD="./foo.o ./bar.o"  prog</span></pre><p>The runtime linker first link-edits the relocatable objects
+<code>foo.o</code> and <code>bar.o</code> to
+                        generate a shared object that is maintained in memory. This memory image is
+                        then inserted between the dynamic executable and its dependencies in the
+                        same manner as the shared object <code>newstuff.so.1</code> was
+                        preloaded in the previous example. Again, the order in which these objects
+			are processed can be displayed with <a href="https://docs.oracle.com/cd/E88353_01/html/E37839/ldd-1.html" target="_blank">
+                     <code class="codeph">ldd</code>(1)</a>.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">ldd -e LD_PRELOAD="./foo.o ./bar.o" ldd prog</span>
+        ./foo.o =&gt;       ./foo.o
+        ./bar.o =&gt;       ./bar.o
+        libc.so.1 =&gt;     /lib/libc.so.1</pre><p>These mechanisms of inserting an object after an
+                        executable provide for interposition. You can use these mechanisms to
+                        experiment with a new implementation of a function that resides in a
+                        standard shared object. If you preload an object containing this function,
+                        the object interposes on the original. Thus, the original functionality can
+                        be completely hidden with the new preloaded version.</p>
+               <p>Another use of preloading is to augment a function that resides in a standard
+                        shared object. The interposition of the new symbol on the original symbol
+                        enables the new function to carry out additional processing. The new
+                        function can also call through to the original function. This mechanism
+			typically obtains the original symbol's address using <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/dlsym-3c.html" target="_blank">
+                     <code class="codeph">dlsym</code>(3C)</a> with the special handle
+<code class="codeph">RTLD_NEXT</code>.
+               </p>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

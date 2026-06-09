@@ -1,0 +1,184 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Symbol Table Layout and Conventions">
+      <meta name="DC.subject" content=", mapfiles, ELIMINATE, -z&nbsp;redlocsym, -z&nbsp;noldynsym">
+      <meta name="keywords" content=", mapfiles, ELIMINATE, -z&nbsp;redlocsym, -z&nbsp;noldynsym">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-D7991C00-F911-42EF-8526-BCB8E1A588E0">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Symbol Table Layout and Conventions</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="symbol-values.html" title="Previous" type="text/html">
+      <link rel="next" href="symbol-sort-sections.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Symbol Table Layout and Conventions","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="symbol-values.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="symbol-sort-sections.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-D7991C00-F911-42EF-8526-BCB8E1A588E0" name="GUID-D7991C00-F911-42EF-8526-BCB8E1A588E0"></a>
+         
+         <h2 id="OSLLG-GUID-D7991C00-F911-42EF-8526-BCB8E1A588E0" class="sect2">Symbol Table Layout and Conventions</h2>
+         <div class="ind">
+            <div>
+               <p>The symbols in a symbol table are written in the following order.</p>
+               <ul style="list-style-type: disc;">
+                  <li>
+                     
+                     <p>Index <code class="codeph">0</code> in any symbol table is used to represent undefined
+            symbols. This first entry in a symbol table is always completely zeroed. The symbol type
+            is therefore <code class="codeph">STT_NOTYPE</code>.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>If the symbol table contains any local symbols, the second entry of the symbol table
+            is an <code class="codeph">STT_FILE</code> symbol giving the name of the file.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>Section symbols of type <code class="codeph">STT_SECTION</code>.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>Register symbols of type <code class="codeph">STT_REGISTER</code>.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>Global symbols that have been reduced to local scope.</p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>For each input file that supplies local symbols, a <code class="codeph">STT_FILE</code>
+            symbol giving the name of the input file, followed by the symbols in question.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>The global symbols immediately follow the local symbols in the symbol table. The
+            first global symbol is identified by the symbol table <code class="codeph">sh_info</code>
+            value. Local and global symbols are always kept separate in this manner, and cannot be
+            mixed together.
+                     </p>
+                     
+                  </li>
+               </ul>
+               <p>Three symbol tables are of special interest in the Oracle Solaris OS.</p>
+               <dl>
+                  <dt class="dlterm"><a name="GUID-D7991C00-F911-42EF-8526-BCB8E1A588E0__GUID-A70F7847-1AAC-4405-91E9-E7C75C676FA2">
+                        <!-- --></a>
+                     <code class="codeph">.symtab</code> (<code class="codeph">SHT_SYMTAB</code>)
+                  </dt>
+                  <dd>
+                     
+                     <p>This symbol table contains every symbol that describes the associated
+<span>ELF</span> file. This symbol table is typically non-allocable, and is
+              therefore not available in the memory image of the process.
+                     </p>
+                     
+                     <p>Global symbols can be eliminated from the <code class="codeph">.symtab</code> by
+              using a <code>mapfile</code> together with the <code class="codeph">ELIMINATE</code>
+              keyword. See <a href="symbol-elimination.html#GUID-35C53FAB-9159-424B-96BC-FB23B343AF84">Symbol Elimination</a>, and <a href="symbol-scope-symbol-version-directives.html#GUID-38914CB2-D471-4CA3-8BC2-78323D4CD6B9">SYMBOL_SCOPE and SYMBOL_VERSION Directives</a>.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-D7991C00-F911-42EF-8526-BCB8E1A588E0__GUID-D406C8FD-3703-4B2D-B78B-094E89B3EA95">
+                        <!-- --></a>
+                     <code class="codeph">.dynsym</code> (<code class="codeph">SHT_DYNSYM</code>)
+                  </dt>
+                  <dd>
+                     
+                     <p>This table contains a subset of the symbols from the <code class="codeph">.symtab</code>
+              table that are needed to support dynamic linking. This symbol table is allocable, and
+              is therefore available in the memory image of the process.
+                     </p>
+                     
+                     <p>The <code class="codeph">.dynsym</code> table begins with the standard
+<code class="codeph">NULL</code> symbol, followed by the files global symbols.
+<code class="codeph">STT_FILE</code> symbols are typically not present in this symbol table.
+<code class="codeph">STT_SECTION</code> symbols might be present if required by relocation
+              entries.
+                     </p>
+                     
+                  </dd>
+                  <dt class="dlterm"><a name="GUID-D7991C00-F911-42EF-8526-BCB8E1A588E0__GUID-6716CDA2-7BCC-4D63-8835-8A6763A46439">
+                        <!-- --></a>
+                     <code class="codeph">.SUNW_ldynsym</code> (<code class="codeph">SHT_SUNW_LDYNSYM</code>)
+                  </dt>
+                  <dd>
+                     
+                     <p>An optional symbol table that augments the information that is found in the <code class="codeph">.dynsym</code> table. The <code class="codeph">.SUNW_ldynsym</code> table contains local function symbols. This symbol table is allocable, and is therefore available in the memory image of the process. This section allows debuggers to produce accurate stack traces in runtime contexts when the non-allocable <code class="codeph">.symtab</code> is not available, or has been stripped from the file. This section also provides the runtime environment with additional symbolic information for use with <a href="https://docs.oracle.com/cd/E88353_01/html/E37843/dladdr-3c.html" target="_blank">
+                           <code class="codeph">dladdr</code>(3C)</a>.
+                     </p>
+                     
+                  </dd>
+               </dl>
+               <p>A <code class="codeph">.SUNW_ldynsym</code> table only exists when a <code class="codeph">.dynsym</code>
+        table is present. When both a <code class="codeph">.SUNW_ldynsym</code> section and a
+<code class="codeph">.dynsym</code> section exist, the link-editor places their data regions
+        directly adjacent to each other, with the <code class="codeph">.SUNW_ldynsym</code> first. This
+        placement allows the two tables to be viewed as a single larger contiguous symbol table.
+        This symbol table follows the standard layout rules that were enumerated previously.
+               </p>
+               <p>The <code class="codeph">.SUNW_ldynsym</code> table can be eliminated by using the link-editor
+<code class="codeph">-z&nbsp;noldynsym</code> option.
+               </p>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

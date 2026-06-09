@@ -1,0 +1,128 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Position of an Archive on the Command Line">
+      <meta name="DC.subject" content="link-editing, position of files on command line, -z&nbsp;rescan-now, -z&nbsp;rescan-start, -z&nbsp;rescan-end">
+      <meta name="keywords" content="link-editing, position of files on command line, -z&nbsp;rescan-now, -z&nbsp;rescan-start, -z&nbsp;rescan-end">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-1AB7D22E-DF30-4787-B010-7B11FF0072D9">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Position of an Archive on the Command Line</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="linking-mix-shared-objects-archives.html" title="Previous" type="text/html">
+      <link rel="next" href="directories-searched-link-editor.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Position of an Archive on the Command Line","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="linking-mix-shared-objects-archives.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="directories-searched-link-editor.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-1AB7D22E-DF30-4787-B010-7B11FF0072D9" name="GUID-1AB7D22E-DF30-4787-B010-7B11FF0072D9"></a>
+         
+         <h2 id="OSLLG-GUID-1AB7D22E-DF30-4787-B010-7B11FF0072D9" class="sect2">Position of an Archive on the Command Line</h2>
+         <div class="ind">
+            <div>
+               <p>The position of an archive on the command line can affect the
+                                        output file being produced. The link-editor searches an
+                                        archive only to resolve undefined or tentative external
+                                        references that have previously been encountered. After this
+                                        search is completed and any required members have been
+                                        extracted, the link-editor moves onto the next input file on
+                                        the command line.</p>
+               <p>Therefore by default, the archive is not available to resolve
+                                        any new references from the input files that follow the
+                                        archive on the command line. For example, the following
+                                        command directs the link-editor to search
+<code>libfoo.a</code> only to resolve symbol
+                                        references that have been obtained from
+<code>file1.c</code>. The
+<code>libfoo.a</code> archive is not
+                                        available to resolve symbol references from
+<code>file2.c</code> or
+<code>file3.c</code>.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cc -o prog file1.c -B static -lfoo file2.c file3.c -B dynamic</span></pre><p>Interdependencies between archives can exist, such that the
+                                        extraction of members from one archive must be resolved by
+                                        extracting members from another archive. If these
+                                        dependencies are cyclic, the archives must be specified
+                                        repeatedly on the command line to satisfy previous
+                                        references.</p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cc -o prog .... -lA -lB -lC -lA -lB -lC -lA</span></pre><p>The determination, and maintenance, of repeated
+                                        archive specifications can be tedious. The
+<code class="codeph">-z&nbsp;rescan-now</code> option makes this
+                                        process simpler. The <code class="codeph">-z&nbsp;rescan-now</code>
+                                        option is processed by the link-editor immediately when the
+                                        option is encountered on the command line. All archives that
+                                        have been processed from the command line prior to this
+                                        option are immediately reprocessed. This processing attempts
+                                        to locate additional archive members that resolve symbol
+                                        references. This archive rescanning continues until a pass
+                                        over the archive list occurs in which no new members are
+                                        extracted. The previous example can be simplified as
+                                        follows.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cc -o prog .... -lA -lB -lC -z rescan-now</span></pre><p>Alternatively, the <code class="codeph">-z&nbsp;rescan-start</code> and
+<code class="codeph">-z&nbsp;rescan-end</code> options can be
+                                        used to group mutually dependent archives together into an
+                                        archive group. These groups are reprocessed by the
+                                        link-editor immediately when the closing delimiter is
+                                        encountered on the command line. Archives found within the
+                                        group are reprocessed in an attempt to locate additional
+                                        archive members that resolve symbol references. This archive
+                                        rescanning continues until a pass over the archive group
+                                        occurs in which no new members are extracted. Using archive
+                                        groups, the previous example can be written as
+                                        follows.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cc -o prog .... -z rescan-start -lA -lB -lC -z rescan-end</span></pre><div class="infoboxnote" id="GUID-1AB7D22E-DF30-4787-B010-7B11FF0072D9__GUID-E2CFC88E-A562-4477-A580-85840DB25405">
+                  <p class="notep1">Note:</p>
+         You should specify any archives at the end of the
+                                                command line unless multiple-definition conflicts
+                                                require you to do otherwise.
+
+               </div>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

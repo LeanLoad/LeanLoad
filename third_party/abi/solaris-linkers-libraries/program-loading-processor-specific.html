@@ -1,0 +1,978 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Program Loading (Processor-Specific)">
+      <meta name="DC.subject" content="object files, program loading, paging, virtual addressing, implementation, link-editing, dynamic, shared">
+      <meta name="keywords" content="object files, program loading, paging, virtual addressing, implementation, link-editing, dynamic, shared">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-B36F9933-D39A-4E7A-AE26-C09D313A2932">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Program Loading (Processor-Specific)</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="segment-contents.html" title="Previous" type="text/html">
+      <link rel="next" href="program-interpreter.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Program Loading (Processor-Specific)","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="segment-contents.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="program-interpreter.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-B36F9933-D39A-4E7A-AE26-C09D313A2932" name="GUID-B36F9933-D39A-4E7A-AE26-C09D313A2932"></a>
+         
+         <h2 id="OSLLG-GUID-B36F9933-D39A-4E7A-AE26-C09D313A2932" class="sect2">Program Loading (Processor-Specific)</h2>
+         <div class="ind">
+            <div>
+               <p>As the system creates or augments a process image, the system logically copies a file's segment to a virtual memory segment. When, and if, the system physically reads the file depends on the
+program's execution behavior, system load, and so forth.</p>
+               <p>A process does not require a physical page unless the process references the logical page during execution. 
+Processes commonly leave many pages unreferenced. Therefore, delaying physical reads
+can improve system performance. To obtain this efficiency in practice, dynamic objects must have segment images whose file offsets and virtual addresses are congruent, modulo
+the page size.</p>
+               <p>Virtual addresses and file offsets for 32-bit segments are congruent modulo 64K (<code class="codeph">0x10000</code>). 
+Virtual addresses and file offsets for 64-bit segments are congruent modulo 1 Mbyte (<code class="codeph">0x100000</code>). 
+By aligning segments to the maximum page size, the files are suitable for paging regardless of physical page size.
+               </p>
+               <p>By default, 64-bit SPARC programs are linked with a starting address of <code class="codeph">0x100000000</code>. 
+The whole program is located above 4 gigabytes, including its text, data, heap,
+stack, and shared object dependencies. 
+This helps ensure that 64-bit programs are correct because the program will fault in the least significant 4 gigabytes of its address space if the program
+truncates any of its pointers. 
+While 64-bit programs are linked above 4 gigabytes, you can still link programs below 4 gigabytes by using a <code>mapfile</code> and the
+<code class="codeph">-M</code> option to the link-editor. See
+<code>/usr/lib/ld/sparcv9/map.below4G</code>.
+               </p>
+               <p>The following figure presents the SPARC version of the
+	dynamic executable.</p>
+               <div class="figure" id="GUID-B36F9933-D39A-4E7A-AE26-C09D313A2932__GUID-F0266E30-D9A6-487F-A4E8-D66142685D85">
+                  <p>SPARC: Dynamic Executable File (64K alignment)</p><br><img height="666" width="720" src="img/sparcexefile.jpg" alt="SPARC dynamic executable file layout example." title="SPARC dynamic executable file layout example."><br></div>
+               <p>The following table defines the loadable segment elements for the previous
+            figure.</p>
+               <div class="tblformal" id="GUID-B36F9933-D39A-4E7A-AE26-C09D313A2932__CHAPTER6-TBL-42">
+                  <p class="titleintable">Table 15-4 SPARC: <span>ELF</span> Program Header Segments (64K alignment)
+                  </p>
+                  <table cellpadding="4" cellspacing="0" class="Formal" title="SPARC: ELF Program Header Segments (64K alignment)" summary="&#xA;            Table defining ELF SPARC program header segments.&#xA;" frame="hsides" border="1" rules="rows">
+                     <thead>
+                        <tr align="left" valign="top">
+                           <th align="left" valign="bottom" width="20%" id="d92627e102">
+Member
+</th>
+                           <th align="left" valign="bottom" width="20%" id="d92627e107">
+Text
+</th>
+                           <th align="left" valign="bottom" width="20%" id="d92627e112">
+Data
+</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d92627e119" headers="d92627e102 ">
+                              
+                              <p>
+                                 <code class="codeph">p_type</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d92627e119 d92627e107 ">
+                              
+                              <p>
+                                 <code class="codeph">PT_LOAD</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d92627e119 d92627e112 ">
+                              
+                              <p>
+                                 <code class="codeph">PT_LOAD</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d92627e144" headers="d92627e102 ">
+                              
+                              <p>
+                                 <code class="codeph">p_offset</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d92627e144 d92627e107 ">
+                              
+                              <p>
+                                 <code class="codeph">0x0</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d92627e144 d92627e112 ">
+                              
+                              <p>
+                                 <code class="codeph">0x4000</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d92627e169" headers="d92627e102 ">
+                              
+                              <p>
+                                 <code class="codeph">p_vaddr</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d92627e169 d92627e107 ">
+                              
+                              <p>
+                                 <code class="codeph">0x10000</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d92627e169 d92627e112 ">
+                              
+                              <p>
+                                 <code class="codeph">0x24000</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d92627e194" headers="d92627e102 ">
+                              
+                              <p>
+                                 <code class="codeph">p_paddr</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d92627e194 d92627e107 ">
+                              
+                              <p>Unspecified</p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d92627e194 d92627e112 ">
+                              
+                              <p>Unspecified</p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d92627e213" headers="d92627e102 ">
+                              
+                              <p>
+                                 <code class="codeph">p_filesize</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d92627e213 d92627e107 ">
+                              
+                              <p>
+                                 <code class="codeph">0x3a82</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d92627e213 d92627e112 ">
+                              
+                              <p>
+                                 <code class="codeph">0x4f5</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d92627e238" headers="d92627e102 ">
+                              
+                              <p>
+                                 <code class="codeph">p_memsz</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d92627e238 d92627e107 ">
+                              
+                              <p>
+                                 <code class="codeph">0x3a82</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d92627e238 d92627e112 ">
+                              
+                              <p>
+                                 <code class="codeph">0x10a4</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d92627e263" headers="d92627e102 ">
+                              
+                              <p>
+                                 <code class="codeph">p_flags</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d92627e263 d92627e107 ">
+                              
+                              <p>
+                                 <code class="codeph">PF_R + PF_X</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d92627e263 d92627e112 ">
+                              
+                              <p>
+                                 <code class="codeph">PF_R + PF_W + PF_X</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d92627e288" headers="d92627e102 ">
+                              
+                              <p>
+                                 <code class="codeph">p_align</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d92627e288 d92627e107 ">
+                              
+                              <p>
+                                 <code class="codeph">0x10000</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d92627e288 d92627e112 ">
+                              
+                              <p>
+                                 <code class="codeph">0x10000</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                     </tbody>
+                  </table>
+               </div>
+               <p>The following figure presents the x86 version of the dynamic executable.</p>
+               <div class="figure" id="GUID-B36F9933-D39A-4E7A-AE26-C09D313A2932__GUID-E2F62973-C029-454B-B980-AEFB4E82D9DE">
+                  <p>32-bit x86: Dynamic Executable File (64K alignment)</p><br><img height="666" width="720" src="img/iaexefile.jpg" alt="x86 dynamic executable layout example." title="x86 dynamic executable layout example."><br></div>
+               <p>The following table defines the loadable segment elements for the previous
+            figure.</p>
+               <div class="tblformal" id="GUID-B36F9933-D39A-4E7A-AE26-C09D313A2932__CHAPTER6-TBL-44">
+                  <p class="titleintable">Table 15-5 32-bit x86: <span>ELF</span> Program Header Segments (64K alignment)
+                  </p>
+                  <table cellpadding="4" cellspacing="0" class="Formal" title="32-bit x86: ELF Program Header Segments (64K alignment)" summary="&#xA;            Table defining ELF x86 program header segments.&#xA;" frame="hsides" border="1" rules="rows">
+                     <thead>
+                        <tr align="left" valign="top">
+                           <th align="left" valign="bottom" width="20%" id="d92627e337">
+Member
+</th>
+                           <th align="left" valign="bottom" width="20%" id="d92627e342">
+Text
+</th>
+                           <th align="left" valign="bottom" width="20%" id="d92627e347">
+Data
+</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d92627e354" headers="d92627e337 ">
+                              
+                              <p>
+                                 <code class="codeph">p_type</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d92627e354 d92627e342 ">
+                              
+                              <p>
+                                 <code class="codeph">PT_LOAD</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d92627e354 d92627e347 ">
+                              
+                              <p>
+                                 <code class="codeph">PT_LOAD</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d92627e379" headers="d92627e337 ">
+                              
+                              <p>
+                                 <code class="codeph">p_offset</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d92627e379 d92627e342 ">
+                              
+                              <p>
+                                 <code class="codeph">0x0</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d92627e379 d92627e347 ">
+                              
+                              <p>
+                                 <code class="codeph">0x4000</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d92627e404" headers="d92627e337 ">
+                              
+                              <p>
+                                 <code class="codeph">p_vaddr</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d92627e404 d92627e342 ">
+                              
+                              <p>
+                                 <code class="codeph">0x8050000</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d92627e404 d92627e347 ">
+                              
+                              <p>
+                                 <code class="codeph">0x8064000</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d92627e429" headers="d92627e337 ">
+                              
+                              <p>
+                                 <code class="codeph">p_paddr</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d92627e429 d92627e342 ">
+                              
+                              <p>Unspecified</p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d92627e429 d92627e347 ">
+                              
+                              <p>Unspecified</p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d92627e448" headers="d92627e337 ">
+                              
+                              <p>
+                                 <code class="codeph">p_filesize</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d92627e448 d92627e342 ">
+                              
+                              <p>
+                                 <code class="codeph">0x32fd</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d92627e448 d92627e347 ">
+                              
+                              <p>
+                                 <code class="codeph">0x3a0</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d92627e473" headers="d92627e337 ">
+                              
+                              <p>
+                                 <code class="codeph">p_memsz</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d92627e473 d92627e342 ">
+                              
+                              <p>
+                                 <code class="codeph">0x32fd</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d92627e473 d92627e347 ">
+                              
+                              <p>
+                                 <code class="codeph">0xdc4</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d92627e498" headers="d92627e337 ">
+                              
+                              <p>
+                                 <code class="codeph">p_flags</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d92627e498 d92627e342 ">
+                              
+                              <p>
+                                 <code class="codeph">PF_R + PF_X</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d92627e498 d92627e347 ">
+                              
+                              <p>
+                                 <code class="codeph">PF_R + PF_W + PF_X</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d92627e523" headers="d92627e337 ">
+                              
+                              <p>
+                                 <code class="codeph">p_align</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d92627e523 d92627e342 ">
+                              
+                              <p>
+                                 <code class="codeph">0x10000</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d92627e523 d92627e347 ">
+                              
+                              <p>
+                                 <code class="codeph">0x10000</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                     </tbody>
+                  </table>
+               </div>
+               <p>The example's file offsets and virtual addresses are congruent
+        modulo the maximum page size for both text and data. Up to four file
+        pages hold impure text or data depending on page size and file system
+        block size.</p>
+               <ul style="list-style-type: disc;">
+                  <li>
+                     
+                     <p>The first text page contains the <span>ELF</span> header, the program
+                    header table, and other information.
+                     </p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>The last text page holds a copy of the beginning of data.</p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>The first data page has a copy of the end of text.</p>
+                     
+                  </li>
+                  <li>
+                     
+                     <p>The last data page can contain file information not relevant to the running
+                    process. Logically, the system enforces the memory permissions as if each
+                    segment were complete and separate The segments addresses are adjusted to ensure
+                    that each logical page in the address space has a single set of permissions. In
+                    the previous examples, the region of the file holding the end of text and the
+                    beginning of data is mapped twice: at one virtual address for text and at a
+                    different virtual address for data.</p>
+                     
+                  </li>
+               </ul>
+               <div class="infoboxnote" id="GUID-B36F9933-D39A-4E7A-AE26-C09D313A2932__GUID-72166A21-A7A1-4D55-B51C-415F0B866808">
+                  <p class="notep1">Note:</p>
+         The previous examples reflect typical Oracle Solaris OS binaries that have their
+                text segments rounded.
+
+               </div>
+               <p>The end of the data segment requires special handling for uninitialized data, which
+            the system defines to begin with zero values. If a file's last data page includes
+            information not in the logical memory page, the extraneous data must be set to zero, not
+            the unknown contents of the executable file.</p>
+               <p>Impurities in the other three pages are not logically part of the process
+            image. Whether the system expunges these impurities is unspecified. The memory image for
+            this program is shown in the following figures, assuming 4 Kbyte
+                (<code class="codeph">0x1000</code>) pages. For simplicity, these figures illustrate only one
+            page size.
+               </p>
+               <div class="figure" id="GUID-B36F9933-D39A-4E7A-AE26-C09D313A2932__GUID-A9CC2179-803D-497A-AFE3-175C2F309E7B">
+                  <p>32-bit SPARC: Process Image Segments</p><br><img height="999" width="714" src="img/sparcprocimg.jpg" alt="SPARC process image segments example." title="SPARC process image segments example."><br></div>
+               <div class="figure" id="GUID-B36F9933-D39A-4E7A-AE26-C09D313A2932__GUID-1121A4BB-18E7-4CD5-ADE4-C5AEA3066313">
+                  <p>x86: Process Image Segments</p><br><img height="999" width="714" src="img/iaprocimg.jpg" alt="x86 process image segments example." title="x86 process image segments example."><br></div>
+               <p>One aspect of segment loading differs between dynamic executables
+	and position-independent executables and shared objects.
+            Dynamic executable segments typically contain absolute code. For the process to execute
+            correctly, the segments must reside at the virtual addresses used to create the
+            executable file. The system uses the <code class="codeph">p_vaddr</code> values unchanged
+            as virtual addresses.
+               </p>
+               <p>On the other hand, position-independent executables and shared object segments typically contain position-independent code.
+            This code enables a segment's virtual address change between different processes,
+            without invalidating execution behavior.</p>
+               <p>Though the system chooses virtual addresses for individual processes, it maintains the
+            relative positions of the segments. Because position-independent code uses relative
+            addressing between segments, the difference between virtual addresses in memory must
+            match the difference between virtual addresses in the file.</p>
+               <p>The following tables show possible shared object virtual address assignments for
+            several processes, illustrating constant relative positioning. The tables also include
+            the base address computations.</p>
+               <div class="tblformal" id="GUID-B36F9933-D39A-4E7A-AE26-C09D313A2932__CHAPTER6-TBL-50">
+                  <p class="titleintable">Table 15-6 32-bit SPARC: <span>ELF</span> Example Shared Object Segment Addresses
+                  </p>
+                  <table cellpadding="4" cellspacing="0" class="Formal" title="32-bit SPARC: ELF Example Shared Object Segment Addresses" summary="&#xA;            Table providing ELF SPARC shared object segment address examples.&#xA;" frame="hsides" border="1" rules="rows">
+                     <thead>
+                        <tr align="left" valign="top">
+                           <th align="left" valign="bottom" width="20%" id="d92627e621">
+Source
+</th>
+                           <th align="left" valign="bottom" width="20%" id="d92627e626">
+Text
+</th>
+                           <th align="left" valign="bottom" width="20%" id="d92627e631">
+Data
+</th>
+                           <th align="left" valign="bottom" width="20%" id="d92627e636">
+Base Address
+</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d92627e643" headers="d92627e621 ">
+                              
+                              <p>File</p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d92627e643 d92627e626 ">
+                              
+                              <p>
+                                 <code class="codeph">0x0</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d92627e643 d92627e631 ">
+                              
+                              <p>
+                                 <code class="codeph">0x4000</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d92627e643 d92627e636 ">
+                              
+                              <p>
+                                 <code class="codeph">0x0</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d92627e673" headers="d92627e621 ">
+                              
+                              <p>Process 1</p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d92627e673 d92627e626 ">
+                              
+                              <p>
+                                 <code class="codeph">0xc0000000</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d92627e673 d92627e631 ">
+                              
+                              <p>
+                                 <code class="codeph">0xc0024000</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d92627e673 d92627e636 ">
+                              
+                              <p>
+                                 <code class="codeph">0xc0000000</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d92627e703" headers="d92627e621 ">
+                              
+                              <p>Process 2</p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d92627e703 d92627e626 ">
+                              
+                              <p>
+                                 <code class="codeph">0xc0010000</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d92627e703 d92627e631 ">
+                              
+                              <p>
+                                 <code class="codeph">0xc0034000</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d92627e703 d92627e636 ">
+                              
+                              <p>
+                                 <code class="codeph">0xc0010000</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d92627e733" headers="d92627e621 ">
+                              
+                              <p>Process 3</p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d92627e733 d92627e626 ">
+                              
+                              <p>
+                                 <code class="codeph">0xd0020000</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d92627e733 d92627e631 ">
+                              
+                              <p>
+                                 <code class="codeph">0xd0024000</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d92627e733 d92627e636 ">
+                              
+                              <p>
+                                 <code class="codeph">0xd0020000</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d92627e763" headers="d92627e621 ">
+                              
+                              <p>Process 4</p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d92627e763 d92627e626 ">
+                              
+                              <p>
+                                 <code class="codeph">0xd0030000</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d92627e763 d92627e631 ">
+                              
+                              <p>
+                                 <code class="codeph">0xd0034000</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d92627e763 d92627e636 ">
+                              
+                              <p>
+                                 <code class="codeph">0xd0030000</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                     </tbody>
+                  </table>
+               </div>
+               <div class="tblformal" id="GUID-B36F9933-D39A-4E7A-AE26-C09D313A2932__CHAPTER6-TBL-51">
+                  <p class="titleintable">Table 15-7 32-bit x86: <span>ELF</span> Example Shared Object Segment Addresses
+                  </p>
+                  <table cellpadding="4" cellspacing="0" class="Formal" title="32-bit x86: ELF Example Shared Object Segment Addresses" summary="&#xA;            Table providing ELF x86 shared object segment address examples.&#xA;" frame="hsides" border="1" rules="rows">
+                     <thead>
+                        <tr align="left" valign="top">
+                           <th align="left" valign="bottom" width="20%" id="d92627e807">
+Source
+</th>
+                           <th align="left" valign="bottom" width="20%" id="d92627e812">
+Text
+</th>
+                           <th align="left" valign="bottom" width="20%" id="d92627e817">
+Data
+</th>
+                           <th align="left" valign="bottom" width="20%" id="d92627e822">
+Base Address
+</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d92627e829" headers="d92627e807 ">
+                              
+                              <p>File</p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d92627e829 d92627e812 ">
+                              
+                              <p>
+                                 <code class="codeph">0x0</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d92627e829 d92627e817 ">
+                              
+                              <p>
+                                 <code class="codeph">0x4000</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d92627e829 d92627e822 ">
+                              
+                              <p>
+                                 <code class="codeph">0x0</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d92627e859" headers="d92627e807 ">
+                              
+                              <p>Process 1</p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d92627e859 d92627e812 ">
+                              
+                              <p>
+                                 <code class="codeph">0x8000000</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d92627e859 d92627e817 ">
+                              
+                              <p>
+                                 <code class="codeph">0x8004000</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d92627e859 d92627e822 ">
+                              
+                              <p>
+                                 <code class="codeph">0x80000000</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d92627e889" headers="d92627e807 ">
+                              
+                              <p>Process 2</p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d92627e889 d92627e812 ">
+                              
+                              <p>
+                                 <code class="codeph">0x80081000</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d92627e889 d92627e817 ">
+                              
+                              <p>
+                                 <code class="codeph">0x80085000</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d92627e889 d92627e822 ">
+                              
+                              <p>
+                                 <code class="codeph">0x80081000</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d92627e919" headers="d92627e807 ">
+                              
+                              <p>Process 3</p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d92627e919 d92627e812 ">
+                              
+                              <p>
+                                 <code class="codeph">0x900c0000</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d92627e919 d92627e817 ">
+                              
+                              <p>
+                                 <code class="codeph">0x900c4000</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d92627e919 d92627e822 ">
+                              
+                              <p>
+                                 <code class="codeph">0x900c0000</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                        <tr align="left" valign="top">
+                           <td align="left" valign="top" width="20%" id="d92627e949" headers="d92627e807 ">
+                              
+                              <p>Process 4</p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d92627e949 d92627e812 ">
+                              
+                              <p>
+                                 <code class="codeph">0x900c6000</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d92627e949 d92627e817 ">
+                              
+                              <p>
+                                 <code class="codeph">0x900ca000</code>
+                                 
+                              </p>
+                              
+                           </td>
+                           <td align="left" valign="top" width="20%" headers="d92627e949 d92627e822 ">
+                              
+                              <p>
+                                 <code class="codeph">0x900c6000</code>
+                                 
+                              </p>
+                              
+                           </td>
+                        </tr>
+                     </tbody>
+                  </table>
+               </div>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

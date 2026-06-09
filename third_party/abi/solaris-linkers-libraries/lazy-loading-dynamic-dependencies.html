@@ -1,0 +1,183 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Lazy Loading of Dynamic Dependencies">
+      <meta name="DC.subject" content="link-editor options, -z&nbsp;lazyload, -z&nbsp;nolazyload, LD_NOLAZYLOAD">
+      <meta name="keywords" content="link-editor options, -z&nbsp;lazyload, -z&nbsp;nolazyload, LD_NOLAZYLOAD">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Creator" content="Ali Bahrami, Cathleen Reiher, Sharon Veach, Rod Evans">
+      <meta name="DC.Publisher" content="January2026">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-A5882D59-5F75-4EDD-BB1D-590DFB538D71">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Lazy Loading of Dynamic Dependencies</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="preloading-additional-objects.html" title="Previous" type="text/html">
+      <link rel="next" href="providing-alternative-dlopen.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Lazy Loading of Dynamic Dependencies","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="preloading-additional-objects.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="providing-alternative-dlopen.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-A5882D59-5F75-4EDD-BB1D-590DFB538D71" name="GUID-A5882D59-5F75-4EDD-BB1D-590DFB538D71"></a>
+         
+         <h2 id="OSLLG-GUID-A5882D59-5F75-4EDD-BB1D-590DFB538D71" class="sect2">Lazy Loading of Dynamic Dependencies</h2>
+         <div class="ind">
+            <div>
+               <p>When a dynamic object is loaded into memory, the object is examined for any
+                        additional dependencies. By default, any dependencies that exist are
+                        immediately loaded. This cycle continues until the full dependency tree is
+                        exhausted. Finally, all inter-object data references that are specified by
+                        relocations, are resolved. These operations are performed regardless of
+                        whether the code in these dependencies is referenced by the application
+                        during its execution.</p>
+               <p>Under a lazy loading model, any dependencies that are labeled for lazy loading
+                        are loaded only when explicitly referenced. By taking advantage of the lazy
+                        binding of a function call, the loading of a dependency is delayed until the
+                        function is first referenced. As a result, objects that are never referenced
+                        are never loaded.</p>
+               <p>A relocation reference can be immediate or lazy. Because immediate references
+                        must be resolved when an object is initialized, any dependency that
+                        satisfies this reference must be immediately loaded. Therefore, identifying
+                        such a dependency as lazy loadable has little effect. See <a href="when-relocations-are-performed1.html#GUID-AD323A98-334D-436C-BCBC-D5CA87DCABCF">When Relocations Are Performed</a>.
+                        Immediate references between dynamic objects are generally
+                        discouraged.
+               </p>
+               <p>Lazy loading is used by the link-editors reference to a debugging library,
+<code>liblddbg</code>. As debugging is only called upon
+                        infrequently, loading this library every time that the link-editor is
+                        invoked is unnecessary and expensive. By indicating that this library can be
+                        lazily loaded, the expense of processing the library is moved to those
+                        invocations that ask for debugging output.
+               </p>
+               <p>The alternate method of achieving a lazy loading model is to use
+<code class="codeph">dlopen()</code> and <code class="codeph">dlsym()</code> to load
+                        and bind to a dependency when needed. This model is ideal if the number of
+<code class="codeph">dlsym()</code> references is small. This model also
+                        works well if the dependency name or location is not known at link-edit
+                        time. For more complex interactions with known dependencies, coding to
+                        normal symbol references and designating the dependency to be lazily loaded
+                        is simpler.
+               </p>
+               <p>An object is designated as lazily or normally loaded through the
+                        link-editor options <code class="codeph">-z&nbsp;lazyload</code> and
+<code class="codeph">-z&nbsp;nolazyload</code> respectively. These options are
+                        position-dependent on the link-edit command line. Any dependency that
+                        follows the option takes on the loading attribute specified by the option.
+                        By default, the <code class="codeph">-z&nbsp;nolazyload</code> option is in
+                        effect.
+               </p>
+               <p>The following simple program has a dependency on
+<code>libdebug.so.1</code>. The dynamic section,
+<code class="codeph">.dynamic</code>, shows
+<code>libdebug.so.1</code> is marked for lazy loading. The
+                        symbol information section, <code class="codeph">.SUNW_syminfo</code>, shows the
+                        symbol reference that triggers <code>libdebug.so.1</code>
+                        loading.
+               </p><pre class="oac_no_warn" dir="ltr">$ <span class="bold">cc -o prog prog.c -L. -z lazyload -ldebug -z nolazyload -lelf -R'$ORIGIN'</span>
+$ <span class="bold">elfdump -d prog</span>
+
+Dynamic Section:  .dynamic
+   index  tag           value
+     [0]  POSFLAG_1       0x1         [ LAZY ]
+     [1]  NEEDED        0x123         libdebug.so.1
+     [2]  NEEDED        0x131         libelf.so.1
+     [3]  NEEDED        0x13d         libc.so.1
+     [4]  RUNPATH       0x147         $ORIGIN
+     ...
+$ <span class="bold">elfdump -y prog</span>
+
+Syminfo section: .SUNW_syminfo
+   index  flgs                     bound to        symbol
+    ....
+    [52]  [ DEPEND LAZY ]      [1] libdebug.so.1   debug</pre><p>The <code class="codeph">POSFLAG_1</code> with the value of <code class="codeph">LAZY</code>
+                        designates that the following <code class="codeph">NEEDED</code> entry,
+<code>libdebug.so.1</code>, should be lazily loaded. As
+<code>libelf.so.1</code> has no preceding
+<code class="codeph">LAZY</code> flag, this library is loaded at the initial
+                        startup of the program.
+               </p>
+               <div class="infoboxnote" id="GUID-A5882D59-5F75-4EDD-BB1D-590DFB538D71__GUID-629FA766-FC6E-49D2-B27B-313C534E01F0">
+                  <p class="notep1">Note:</p>
+                  <code>libc.so.1</code> has special system requirements, that
+                                require the file not be lazy loaded. If
+<code class="codeph">-z&nbsp;lazyload</code> is in effect when
+<code>libc.so.1</code> is processed, the flag is
+                                effectively ignored.
+
+               </div>
+               <p>The use of lazy loading can require a precise declaration of dependencies and
+<span>runpaths</span> through out the objects used by an
+                        application. For example, suppose two objects, <code>libA.so</code>
+                        and <code>libB.so</code>, both make reference to symbols in
+<code>libX.so</code>. <code>libA.so</code> declares
+<code>libX.so</code> as a dependency, but
+<code>libB.so</code> does not. Typically, when
+<code>libA.so</code> and <code>libB.so</code> are
+                        used together, <code>libB.so</code> can reference
+<code>libX.so</code> because <code>libA.so</code>
+                        made this dependency available. But, if <code>libA.so</code>
+                        declares <code>libX.so</code> to be lazy loaded, it is possible that
+<code>libX.so</code> might not be loaded when
+<code>libB.so</code> makes reference to this dependency. A
+                        similar failure can occur if <code>libB.so</code> declares
+<code>libX.so</code> as a dependency but fails to provide a
+<span>runpath</span> necessary to locate the dependency.
+               </p>
+               <p>Regardless of lazy loading, dynamic objects should declare all their
+                        dependencies and how to locate the dependencies. With lazy loading, this
+                        dependency information becomes even more important.</p>
+               <div class="infoboxnote" id="GUID-A5882D59-5F75-4EDD-BB1D-590DFB538D71__GUID-6B13CE52-770D-4315-8978-A302213AA6EB">
+                  <p class="notep1">Note:</p>
+         Lazy loading can be disabled at runtime by setting the
+                                environment variable <code class="codeph">LD_NOLAZYLOAD</code> to a non-null
+                                value.
+
+               </div>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>

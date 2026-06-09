@@ -1,0 +1,94 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Segment Contents">
+      <meta name="DC.subject" content="object files, segment contents, SHT_NOBITS, p_memsz">
+      <meta name="keywords" content="object files, segment contents, SHT_NOBITS, p_memsz">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="GUID-567E8AB9-F05B-4248-8B77-5048F2533DCA">
+      <meta name="DC.Language" content="en-US">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Segment Contents</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="oracle-solaris-11.4-linkers-and-libraries-guide.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2026-01-15T08:03:19-08:00">
+      <meta name="dcterms.title" content="Oracle Solaris 11.4 Linkers and Libraries Guide">
+      <meta name="dcterms.dateCopyrighted" content="1993, 2026">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E36783-05">
+      
+      <meta name="dcterms.product" content="en/operating-systems/solaris/oracle-solaris/11.4">
+      <meta name="dcterms.release" content="11.4">
+      <link rel="prev" href="segment-permissions.html" title="Previous" type="text/html">
+      <link rel="next" href="program-loading-processor-specific.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"solaris","element_name":"Oracle Solaris","display_in_url":true},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-solaris","element_name":"Oracle Solaris","display_in_url":true},"release":{"short_name":"11.4","element_name":"11.4","display_in_url":true}}}</script>
+      
+    <meta name="dcterms.isVersionOf" content="OSLLG">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Segment Contents","datePublished":"2026-01-16 CST","dateModified":"2026-01-16 CST"}</script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="segment-permissions.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="program-loading-processor-specific.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article class>
+         <a id="GUID-567E8AB9-F05B-4248-8B77-5048F2533DCA" name="GUID-567E8AB9-F05B-4248-8B77-5048F2533DCA"></a>
+         
+         <h2 id="OSLLG-GUID-567E8AB9-F05B-4248-8B77-5048F2533DCA" class="sect2">Segment Contents</h2>
+         <div class="ind">
+            <div>
+               <p>An object file segment consists of one or more sections, though this fact is
+                transparent to the program header. Whether the file segment holds one section or
+                many sections, is also immaterial to program loading. Nonetheless, various data must
+                be present for program execution, dynamic linking, and so on. The following diagrams
+                illustrate segment contents in general terms. The order and membership of sections
+                within a segment can vary.</p>
+               <p>Text segments contain read-only instructions and data. Data segments contain
+                                writable-data and instructions. See <span>ELF Special Sections</span> for a list of all special sections.
+               </p>
+               <p>A <code class="codeph">PT_DYNAMIC</code> program header element points at the
+<code class="codeph">.dynamic</code> section. The <code class="codeph">.got</code> and
+<code class="codeph">.plt</code> sections also hold information related to
+                position-independent code and dynamic linking.
+               </p>
+               <p>The <code class="codeph">.plt</code> can reside in a text or a data segment, depending on
+                the processor. See <a href="global-offset-table-processor-specific.html#GUID-6702A8AA-D2EA-4C68-AD83-F04C4EF94410">Global Offset Table (Processor-Specific)</a> and <a href="procedure-linkage-table-processor-specific.html#GUID-1BF2785C-FDE5-4799-ACE2-D6F1B633A7BC">Procedure Linkage Table (Processor-Specific)</a> for details.
+               </p>
+               <p>Sections of type <code class="codeph">SHT_NOBITS</code> occupy no space in the
+                file, but contribute to the segment's memory image. Normally, these uninitialized
+                data reside at the end of the segment, thereby making
+<code class="codeph">p_memsz</code> larger than
+<code class="codeph">p_filesz</code> in the associated program header
+                element.
+               </p>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>
