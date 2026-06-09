@@ -37,8 +37,21 @@ work from program headers).
 ### PN_XNUM (program-header analogue)
 
 The analogous program-header escape `PN_XNUM` (`e_phnum = 0xffff`, real count in
-`section[0].sh_info`) is **not** in the core gABI text in this repo — it is a
-GNU convention. This is why support for it differs from the section escapes.
+`section[0].sh_info`) is **not** in the core gABI RST in this repo, but it **is**
+specified in the x86-64 psABI — `abi/x86-64-abi/x86-64-ABI/object-files.tex:31-42`
+("Number of Program Headers"):
+
+> If the number of program headers is greater than or equal to `PN_XNUM`
+> (0xffff), this member has the value `PN_XNUM` (0xffff). The actual number of
+> program header table entries is contained in the `sh_info` field of the
+> section header at index 0.
+
+The constant (`PN_XNUM = 0xffff`) is defined in every impl header — glibc
+`elf/elf.h:713`, Linux `include/uapi/linux/elf.h:69`, FreeBSD
+`sys/sys/elf_common.h:587`, NetBSD `sys/sys/exec_elf.h:471`, OpenBSD
+`sys/sys/exec_elf.h:206`, illumos `usr/src/uts/common/sys/elf.h:555` — but glibc,
+Linux, and the BSDs only use it on the core-dump *write* path; none honor it when
+loading (illumos is the only one here that reads it back at load time).
 
 ### Other items absent from the core gABI text here
 
