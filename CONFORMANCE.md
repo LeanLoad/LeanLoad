@@ -34,6 +34,14 @@ Only components that read the section header table can implement this (excludes
 the rtlds, which never read section headers, and the program loaders, which
 work from program headers).
 
+This read-asymmetry is also the basis of a well-known anti-analysis trick:
+because the kernel and rtlds ignore the section table entirely, the section
+fields (`e_shoff`, `e_shnum`, `e_shstrndx`) can be filled with garbage to crash
+debuggers and parsers while the binary still runs. The adversarial counterpart
+to this matrix — the malformed-ELF technique articles, mapped to concrete
+generator cases — is collected under "Prior art / references" in
+[`WhatTheElf/README.md`](WhatTheElf/README.md).
+
 ### PN_XNUM (program-header analogue)
 
 The analogous program-header escape `PN_XNUM` (`e_phnum = 0xffff`, real count in
