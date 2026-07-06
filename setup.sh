@@ -33,4 +33,4 @@ else
 fi
 
 # Top-level project repos plus musl libc for ElfLoader example fixtures.
-git submodule update --init ElfLoader ELFine ElfZoo LeanOnWasm WhatTheElf
+git submodule update --init ElfLoader archive/ELFine ElfZoo archive/LeanOnWasm WhatTheElf

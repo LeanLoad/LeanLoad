@@ -8,12 +8,13 @@ as top-level submodules.
 
 ```text
 ElfLoader/      # verified ELF loader Lean package
-ELFine/         # Lean ELF format modeling, including ELFine.WhatTheElf
-ElfSpec/        # Lean ELF specification experiments
 ElfZoo/         # related ELF corpus/tools repo
-LeanOnWasm/     # Lean-on-WebAssembly demo repo
 WhatTheElf/     # Python malformed-ELF generator/checker
 third_party/    # shared specs, references, and fixture build deps
+archive/
+  ELFine/       # Lean ELF format modeling, including ELFine.WhatTheElf
+  ElfSpec/      # Lean ELF specification experiments
+  LeanOnWasm/   # Lean-on-WebAssembly demo repo
 ```
 
 ## Quick start
