@@ -68,10 +68,8 @@ impl-linker/      linker implementations
 impl-re/          reverse engineering, decompilation, and symbolic execution tools
 impl-rtld/        dynamic linkers / runtime loaders (ld.so): glibc, musl, bionic, uClibc-ng
 impl-tool/        binary inspection, parsing, rewriting, and packaging tools
-lean-ref/         Lean tooling, books, and reference libraries
-related-elf/      related verified-loader / ELF work
-related-lean/     related Lean verification work
-related-parser/   related parser / binary-format work
+lean/             Lean tooling, books, and reference libraries
+related/          related ELF, verification, and parser/binary-format work
 ```
 
 ### Where to look
@@ -358,16 +356,18 @@ specification references. Use `abi/gabi/docsrc/elf/*.rst` for generic ELF and
 dynamic-linking rules, and `abi/x86-64-abi` for x86-64 psABI relocation and
 processor-specific details.
 
-`third_party/related-elf/elfsage`, `third_party/related-elf/linksem`,
-`third_party/related-elf/minimal-elf`, and `third_party/related-elf/veriload`
-are adjacent ELF analysis, semantics, and verified loading references.
+`third_party/related/elfsage` and `third_party/related/linksem` are adjacent
+ELF analysis and semantics references.
 
-`third_party/related-parser/daedalus`, `third_party/related-parser/everparse`,
-and `third_party/related-parser/vest` are parser DSL / verified parser framework
+`third_party/related/melkor-elf-fuzzer` is an ELF-mutation fuzzer for
+generating malformed ELF inputs.
+
+`third_party/related/daedalus`, `third_party/related/everparse`,
+and `third_party/related/vest` are parser DSL / verified parser framework
 references.
 
-`third_party/related-parser/formatfuzzer` is a binary-format fuzzing and parsing
+`third_party/related/formatfuzzer` is a binary-format fuzzing and parsing
 framework that can generate high-coverage inputs from format specifications.
 
-`third_party/related-parser/kaitai-struct-formats` contains
+`third_party/related/kaitai-struct-formats` contains
 `executable/elf.ksy`, a practical declarative ELF format spec.
